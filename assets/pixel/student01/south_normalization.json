@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source": "south_source.png",
+  "output": "south.png",
+  "editable": "student01.aseprite",
+  "canvas": { "width": 32, "height": 48 },
+  "source_bbox": [6, 3, 26, 47],
+  "normalized_bbox": [6, 4, 26, 44],
+  "bbox_convention": "left_top_inclusive_right_bottom_exclusive",
+  "visible_width": 20,
+  "visible_height": 40,
+  "foot_anchor": { "x": 16, "y": 44 },
+  "removed_source_rows_zero_based": [23, 27, 36, 39],
+  "removed_region_counts": { "shirt": 2, "trousers": 2 },
+  "method": "copy_source_pixels_after_removing_rows_no_resampling",
+  "original_preserved": true,
+  "head_and_shoes_preserved": true,
+  "layers": ["PixelLab原始_44px_保留", "规范化南向_40px"]
+}

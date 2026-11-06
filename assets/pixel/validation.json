@@ -1,0 +1,389 @@
+{
+  "version": "0.1.0",
+  "date": "2026-11-06",
+  "bbox_convention": "left_top_inclusive_right_bottom_exclusive",
+  "directions_checked": [
+    "south",
+    "east",
+    "north",
+    "west"
+  ],
+  "student_foot_anchor": [
+    16,
+    44
+  ],
+  "classroom_student_desks": 4,
+  "preview_character_count": 1,
+  "preview_resampling": "nearest_neighbor_integer_scale",
+  "files": [
+    {
+      "file": "student01/south.png",
+      "size": [
+        32,
+        48
+      ],
+      "visible_bbox": [
+        6,
+        4,
+        26,
+        44
+      ],
+      "rgba_colors": 25,
+      "sha256": "6980ee983b653dbf2e8f700421cc234c06248186adec51456bf62d549901e140",
+      "source_file": "student01/pixellab_raw/Idle/rotations/south.png",
+      "source_offset": [
+        0,
+        0
+      ],
+      "pixel_copy_verified": true
+    },
+    {
+      "file": "student01/east.png",
+      "size": [
+        32,
+        48
+      ],
+      "visible_bbox": [
+        7,
+        5,
+        25,
+        44
+      ],
+      "rgba_colors": 37,
+      "sha256": "f283606892c79b49dd3e2651e469fea0c4a95c94353d1e1340ee817819bde8c2",
+      "source_file": "student01/pixellab_raw/Idle/rotations/east.png",
+      "source_offset": [
+        0,
+        0
+      ],
+      "pixel_copy_verified": true
+    },
+    {
+      "file": "student01/north.png",
+      "size": [
+        32,
+        48
+      ],
+      "visible_bbox": [
+        6,
+        6,
+        26,
+        44
+      ],
+      "rgba_colors": 35,
+      "sha256": "37db1ed7ef4bb54821c811fb5872ead8432f8c589ba1f8971e50ef6c6a3bf6dc",
+      "source_file": "student01/pixellab_raw/Idle/rotations/north.png",
+      "source_offset": [
+        0,
+        1
+      ],
+      "pixel_copy_verified": true
+    },
+    {
+      "file": "student01/west.png",
+      "size": [
+        32,
+        48
+      ],
+      "visible_bbox": [
+        7,
+        5,
+        24,
+        44
+      ],
+      "rgba_colors": 37,
+      "sha256": "87e256d24b5fc5db78bc360ef24eec972e47f6367edef8a45e403780b8fdaa5f",
+      "source_file": "student01/pixellab_raw/Idle/rotations/west.png",
+      "source_offset": [
+        0,
+        0
+      ],
+      "pixel_copy_verified": true
+    },
+    {
+      "file": "classroom/classroom.png",
+      "size": [
+        384,
+        256
+      ],
+      "visible_bbox": [
+        0,
+        0,
+        384,
+        256
+      ],
+      "rgba_colors": 34,
+      "sha256": "71c31a28101b9e4b7d89bfe93ce38f040135077968f2ed8dfa21d96034a9f74b"
+    },
+    {
+      "file": "classroom/classroom_background.png",
+      "size": [
+        384,
+        256
+      ],
+      "visible_bbox": [
+        0,
+        0,
+        384,
+        256
+      ],
+      "rgba_colors": 32,
+      "sha256": "2a95aadcad6ce548ed2da15d32f80f1e371740aef5ef177f56f62f32db7af7f0"
+    },
+    {
+      "file": "classroom/classroom_foreground.png",
+      "size": [
+        384,
+        256
+      ],
+      "visible_bbox": [
+        89,
+        111,
+        295,
+        200
+      ],
+      "rgba_colors": 7,
+      "sha256": "859ded41e42e5875f170ace8c9bf48618459f6f6abe59b88cf990da804157294"
+    },
+    {
+      "file": "classroom/desk_01.png",
+      "size": [
+        384,
+        256
+      ],
+      "visible_bbox": [
+        88,
+        96,
+        136,
+        144
+      ],
+      "rgba_colors": 14,
+      "sha256": "a4f59e7005349948fe4667b08ef23c3b077a1699627d0c53bec9f920e0563a66"
+    },
+    {
+      "file": "classroom/desk_01_body.png",
+      "size": [
+        384,
+        256
+      ],
+      "visible_bbox": [
+        88,
+        96,
+        136,
+        123
+      ],
+      "rgba_colors": 10,
+      "sha256": "3e42edc5f97867f43d91d956d890024f7291683af4564ed8abeeb40de226fb91"
+    },
+    {
+      "file": "classroom/desk_01_chair.png",
+      "size": [
+        384,
+        256
+      ],
+      "visible_bbox": [
+        99,
+        125,
+        128,
+        144
+      ],
+      "rgba_colors": 10,
+      "sha256": "de3fd0822f147ef69e03d167984666cf24433a5b6ccfc9c77e7c0e085e97ed76"
+    },
+    {
+      "file": "classroom/desk_01_foreground.png",
+      "size": [
+        384,
+        256
+      ],
+      "visible_bbox": [
+        89,
+        111,
+        135,
+        120
+      ],
+      "rgba_colors": 7,
+      "sha256": "342bf727af27aed0d95284e17627b752819c162970a4e4842828d2e22d536da1"
+    },
+    {
+      "file": "classroom/desk_02.png",
+      "size": [
+        384,
+        256
+      ],
+      "visible_bbox": [
+        248,
+        96,
+        296,
+        144
+      ],
+      "rgba_colors": 14,
+      "sha256": "37a2058b06e7ce3f49f9cbe032d548679b866d644426cd84c63f71c2266f408e"
+    },
+    {
+      "file": "classroom/desk_02_body.png",
+      "size": [
+        384,
+        256
+      ],
+      "visible_bbox": [
+        248,
+        96,
+        296,
+        123
+      ],
+      "rgba_colors": 10,
+      "sha256": "2784be27257693a104cca456d200487530691ff7af3c729b00994ac63b9331ed"
+    },
+    {
+      "file": "classroom/desk_02_chair.png",
+      "size": [
+        384,
+        256
+      ],
+      "visible_bbox": [
+        259,
+        125,
+        288,
+        144
+      ],
+      "rgba_colors": 10,
+      "sha256": "2f133371c888529ec369d439763909f310978734c3bb88263c3eb3f4f4176d9b"
+    },
+    {
+      "file": "classroom/desk_02_foreground.png",
+      "size": [
+        384,
+        256
+      ],
+      "visible_bbox": [
+        249,
+        111,
+        295,
+        120
+      ],
+      "rgba_colors": 7,
+      "sha256": "77949b0a9d9da178a5ba31462d4bd830424486b7a0ddf3b6571a2449486a3101"
+    },
+    {
+      "file": "classroom/desk_03.png",
+      "size": [
+        384,
+        256
+      ],
+      "visible_bbox": [
+        88,
+        176,
+        136,
+        224
+      ],
+      "rgba_colors": 14,
+      "sha256": "4127ae9972ce6c9bccfd6be31c9a554bfdee3fbb8896eed7e1e44b82ec9a25c5"
+    },
+    {
+      "file": "classroom/desk_03_body.png",
+      "size": [
+        384,
+        256
+      ],
+      "visible_bbox": [
+        88,
+        176,
+        136,
+        203
+      ],
+      "rgba_colors": 10,
+      "sha256": "240713fe1401b22654b80576accd1b50e8dd47155c3c2b2787ec9eef7ae15451"
+    },
+    {
+      "file": "classroom/desk_03_chair.png",
+      "size": [
+        384,
+        256
+      ],
+      "visible_bbox": [
+        99,
+        205,
+        128,
+        224
+      ],
+      "rgba_colors": 10,
+      "sha256": "aa25578d5af95b51a0624d1f14fc8f9d89fd145a6deb8e20ea702864246cc37e"
+    },
+    {
+      "file": "classroom/desk_03_foreground.png",
+      "size": [
+        384,
+        256
+      ],
+      "visible_bbox": [
+        89,
+        191,
+        135,
+        200
+      ],
+      "rgba_colors": 7,
+      "sha256": "6a5a73eae8c42d7b2ef46d359c73df4d84b9e0088a7375a5c62c67f6492b4960"
+    },
+    {
+      "file": "classroom/desk_04.png",
+      "size": [
+        384,
+        256
+      ],
+      "visible_bbox": [
+        248,
+        176,
+        296,
+        224
+      ],
+      "rgba_colors": 13,
+      "sha256": "b6922d1e78323ff951ffa33ed804d7e39424fbe01deb8457aa336586ae36fd34"
+    },
+    {
+      "file": "classroom/desk_04_body.png",
+      "size": [
+        384,
+        256
+      ],
+      "visible_bbox": [
+        248,
+        176,
+        296,
+        203
+      ],
+      "rgba_colors": 9,
+      "sha256": "e2b3dab48971b664221c7908741935325031cb855edecbd7d2ede776470d1f5e"
+    },
+    {
+      "file": "classroom/desk_04_chair.png",
+      "size": [
+        384,
+        256
+      ],
+      "visible_bbox": [
+        259,
+        205,
+        288,
+        224
+      ],
+      "rgba_colors": 10,
+      "sha256": "0334652c46c48af0f594f3ebc41939e9590771dbc52aa40706efbdb1165a0269"
+    },
+    {
+      "file": "classroom/desk_04_foreground.png",
+      "size": [
+        384,
+        256
+      ],
+      "visible_bbox": [
+        249,
+        191,
+        295,
+        200
+      ],
+      "rgba_colors": 7,
+      "sha256": "8eec94f357a230107468dd7f88faa8f87e6ba3de0f7077a2fe90a4f2cb6aa66a"
+    }
+  ]
+}

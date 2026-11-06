@@ -1,0 +1,572 @@
+{
+  "version": "0.2.0",
+  "tables": [
+    {
+      "key": "actions",
+      "sheet": "动作",
+      "header_row": 4,
+      "columns": [
+        {
+          "key": "id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "name",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "kind",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "source",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "target",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "scene",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "duration_min_s",
+          "type": "number",
+          "nullable": true
+        },
+        {
+          "key": "duration_max_s",
+          "type": "number",
+          "nullable": true
+        },
+        {
+          "key": "knowledge_multiplier",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "key": "violation",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "completion_route",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "interrupt_policy_id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "enabled",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "key": "description",
+          "type": "string",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "key": "effects",
+      "sheet": "动作效果",
+      "header_row": 4,
+      "columns": [
+        {
+          "key": "id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "action_id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "phase",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "recipient",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "type",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "resource",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "key": "mode",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "key": "value",
+          "type": "number",
+          "nullable": true
+        },
+        {
+          "key": "period_s",
+          "type": "number",
+          "nullable": true
+        },
+        {
+          "key": "max_basis",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "key": "buff_id",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "key": "item_id",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "key": "next_action_id",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "key": "event",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "key": "condition",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "sequence",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "key": "description",
+          "type": "string",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "key": "buffs",
+      "sheet": "临时状态",
+      "header_row": 4,
+      "columns": [
+        {
+          "key": "id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "name",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "lifecycle",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "duration_s",
+          "type": "number",
+          "nullable": true
+        },
+        {
+          "key": "stacking",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "stack_group",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "focus_delta",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "key": "discipline_delta",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "key": "health_delta",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "key": "intelligence_delta",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "key": "knowledge_multiplier",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "key": "knowledge_redirect",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "description",
+          "type": "string",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "key": "items",
+      "sheet": "物品",
+      "header_row": 4,
+      "columns": [
+        {
+          "key": "id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "name",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "description",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "consumable",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "key": "carry_between_days",
+          "type": "boolean",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "key": "drop_pool",
+      "sheet": "每日物品奖池",
+      "header_row": 4,
+      "columns": [
+        {
+          "key": "id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "item_id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "weight",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "key": "quantity",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "key": "enabled",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "key": "description",
+          "type": "string",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "key": "auto_pool",
+      "sheet": "自主开小差池",
+      "header_row": 4,
+      "columns": [
+        {
+          "key": "id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "action_id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "weight",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "key": "eligible_period",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "requires_same_scene_target",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "key": "requires_affordable_start",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "key": "enabled",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "key": "description",
+          "type": "string",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "key": "interrupt_policies",
+      "sheet": "动作打断规则",
+      "header_row": 4,
+      "columns": [
+        {
+          "key": "id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "name",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "keep_accrued",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "key": "refund_start_resource",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "key": "refund_consumed_items",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "key": "keep_progress",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "key": "cancel_pending_effects",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "key": "new_action_priority",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "key": "remaining_participants_route",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "description",
+          "type": "string",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "key": "subjects",
+      "sheet": "科目",
+      "header_row": 4,
+      "columns": [
+        {
+          "key": "id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "name",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "kind",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "base_rate_per_min",
+          "type": "number",
+          "nullable": true
+        },
+        {
+          "key": "max_score",
+          "type": "number",
+          "nullable": true
+        },
+        {
+          "key": "score_scale",
+          "type": "number",
+          "nullable": true
+        },
+        {
+          "key": "default_action_id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "knowledge_subject_id",
+          "type": "string",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "key": "schedule",
+      "sheet": "课程表",
+      "header_row": 4,
+      "columns": [
+        {
+          "key": "id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "day",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "key": "slot",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "key": "subject_id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "period_id",
+          "type": "string",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "key": "periods",
+      "sheet": "时段",
+      "header_row": 4,
+      "columns": [
+        {
+          "key": "id",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "name",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "start_time",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "key": "end_time",
+          "type": "number",
+          "nullable": false
+        },
+        {
+          "key": "kind",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "default_action_id",
+          "type": "string",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "key": "globals",
+      "sheet": "参数",
+      "header_row": 4,
+      "columns": [
+        {
+          "key": "key",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "name",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "type",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "value",
+          "type": "any",
+          "nullable": false
+        },
+        {
+          "key": "unit",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "description",
+          "type": "string",
+          "nullable": false
+        }
+      ]
+    }
+  ]
+}

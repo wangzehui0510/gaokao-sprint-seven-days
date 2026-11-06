@@ -1,0 +1,13 @@
+# Excel生成工具、运行时链接与临时校验副本。
+.artifacts/
+
+# Godot 导入缓存由本机引擎重新生成。
+.godot/
+
+# Python执行缓存。
+__pycache__/
+
+# 工作簿的可视化检查与导出诊断文件。
+outputs/**/preview_*.png
+outputs/**/preview_*.png.import
+*.xlsx.inspect.ndjson

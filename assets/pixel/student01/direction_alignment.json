@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "pixellab_character_id": "a8e45275-522e-4afa-ac11-e00c05c684a8",
+  "editable": "student01.aseprite",
+  "canvas": { "width": 32, "height": 48 },
+  "bbox_convention": "left_top_inclusive_right_bottom_exclusive",
+  "method": "copy_source_pixels_north_shift_down_one_pixel_no_resampling",
+  "south_png_rewritten": false,
+  "original_south_layer_preserved": true,
+  "directions": [
+    { "direction": "south", "frame": 1, "source": "pixellab_raw/Idle/rotations/south.png", "output": "south.png", "source_bbox": [6,4,26,44], "output_bbox": [6,4,26,44], "offset": [0,0], "foot_anchor": [16,44], "visible_height": 40 },
+    { "direction": "east", "frame": 2, "source": "pixellab_raw/Idle/rotations/east.png", "output": "east.png", "source_bbox": [7,5,25,44], "output_bbox": [7,5,25,44], "offset": [0,0], "foot_anchor": [16,44], "visible_height": 39 },
+    { "direction": "north", "frame": 3, "source": "pixellab_raw/Idle/rotations/north.png", "output": "north.png", "source_bbox": [6,5,26,43], "output_bbox": [6,6,26,44], "offset": [0,1], "foot_anchor": [16,44], "visible_height": 38 },
+    { "direction": "west", "frame": 4, "source": "pixellab_raw/Idle/rotations/west.png", "output": "west.png", "source_bbox": [7,5,24,44], "output_bbox": [7,5,24,44], "offset": [0,0], "foot_anchor": [16,44], "visible_height": 39 }
+  ]
+}

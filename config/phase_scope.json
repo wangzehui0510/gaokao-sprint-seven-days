@@ -1,0 +1,16 @@
+{
+  "version": "phase_1_2",
+  "description": "用户确认的阶段1和2范围。只限定当前开放内容，不修改正式数值、权重与消耗。",
+  "enabled_actions": [
+    "study", "physical_study", "music_class", "art_class", "break_rest",
+    "eye_exercise", "morning_exercise", "rest", "daydream", "sleep",
+    "eat_meal", "dorm_rest", "exam", "focus_command", "playground_play"
+  ],
+  "auto_actions": ["daydream", "sleep"],
+  "subject_auto_actions": {"physical": ["playground_play"]},
+  "deferred_auto_actions": ["read_comic", "bathroom", "send_note"],
+  "deferred_reason": "阶段2先验证发呆和睡觉；体育课额外开放既有去操场玩；漫画、厕所及双人互动后续开放。",
+  "clock": "local_computer_time",
+  "offline_progress": false,
+  "config_reload": "new_rates_immediately_preserve_sampled_duration"
+}

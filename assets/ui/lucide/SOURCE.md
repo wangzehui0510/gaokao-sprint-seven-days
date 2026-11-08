@@ -7,4 +7,4 @@
 - 许可证：保留官方`LICENSE`，其中包含Lucide的ISC及继承的Feather MIT声明。
 - 引入日期：2026年11月6日。
 
-本地修改仅把SVG根节点的`stroke="currentColor"`设为`stroke="#ffffff"`，便于Godot通过控件颜色调制统一显示；路径形状未修改。图标目前只是已下载的素材，尚未接入主界面。
+本地修改仅把SVG根节点的`stroke="currentColor"`设为`stroke="#ffffff"`，便于Godot通过控件颜色调制统一显示；路径形状未修改。主界面已将图标接入工具栏和本人行动按钮，并按普通、悬停、按下和禁用状态统一调制颜色。

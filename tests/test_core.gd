@@ -25,6 +25,7 @@ func _run() -> void:
 	_test_course_boundary()
 	_test_config_reload_and_save()
 	_test_snapshot_rejection()
+	_test_inventory_and_buff_reload()
 	_test_system_clock_resume()
 	_test_config_entry_rejection()
 	_test_evening_and_exercise()
@@ -282,6 +283,21 @@ func _test_snapshot_rejection() -> void:
 	var invalid_log: Dictionary = original.duplicate(true)
 	invalid_log.logs = ["损坏日志"]
 	cases.append(invalid_log)
+	var invalid_timed_buff: Dictionary = original.duplicate(true)
+	invalid_timed_buff.students[0].buffs = [{
+		"buff_id": "stretched", "expires_at": null,
+		"action_instance_id": original.students[0].current_action.instance_id,
+	}]
+	cases.append(invalid_timed_buff)
+	var invalid_action_buff: Dictionary = original.duplicate(true)
+	invalid_action_buff.students[0].buffs = [{
+		"buff_id": "sprinting", "expires_at": original.elapsed_s + 60.0, "action_instance_id": null,
+	}]
+	cases.append(invalid_action_buff)
+	var duplicate_buff_group: Dictionary = original.duplicate(true)
+	var timed_instance: Dictionary = {"buff_id": "stretched", "expires_at": original.elapsed_s + 60.0, "action_instance_id": null}
+	duplicate_buff_group.students[0].buffs = [timed_instance, timed_instance.duplicate(true)]
+	cases.append(duplicate_buff_group)
 	var original_instance: int = simulation.students[0].current_action.instance_id
 	for snapshot in cases:
 		var file := FileAccess.open(save_path, FileAccess.WRITE)
@@ -290,6 +306,45 @@ func _test_snapshot_rejection() -> void:
 		_check(simulation.load_file(save_path, false) != OK, "损坏存档必须明确拒绝")
 		_check(simulation.students[0].current_action.instance_id == original_instance, "校验失败不覆盖有效状态")
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(save_path))
+
+
+## 调表拒绝破坏现有背包和状态关联，失败时不能先改资源或留下下次无法读取的局。
+func _test_inventory_and_buff_reload() -> void:
+	var simulation := _new_simulation(9.0 * 3600.0 + 40.0 * 60.0)
+	_check(simulation.advance(1200.0) == OK, "调表测试真实完成课间操并获得身体舒展")
+	# 库存和预习状态是边界校验夹具，不冒充已开放的发奖或预习玩法。
+	simulation.students[0].inventory = {"eraser": 2}
+	simulation._apply_buff(0, "prepared")
+	var original_config: RefCounted = simulation.config
+	var before: Array = simulation.students.duplicate(true)
+	var before_rng: int = simulation.rng.state
+	var before_log_count: int = simulation.logs.size()
+	var config_path: String = "user://core_test_inventory_buff_config.json"
+	for scenario in ["missing_item", "changed_lifecycle", "merged_group"]:
+		var source: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://config/game_config.json"))
+		if scenario == "missing_item":
+			# 一并删除该物品在完整表中的引用，证明拒绝来自现有背包而非坏配置结构。
+			for table_key in source.tables:
+				for row_index in range(source.tables[table_key].size() - 1, -1, -1):
+					var row: Dictionary = source.tables[table_key][row_index]
+					if (table_key == "items" and row.id == "eraser") or (row.has("item_id") and row.item_id == "eraser"):
+						source.tables[table_key].remove_at(row_index)
+		else:
+			for definition in source.tables.buffs:
+				if scenario == "changed_lifecycle" and definition.id == "stretched":
+					definition.lifecycle = "action"
+					definition.duration_s = null
+				elif scenario == "merged_group" and definition.id == "prepared":
+					definition.stack_group = "stretched"
+		var file := FileAccess.open(config_path, FileAccess.WRITE)
+		file.store_string(JSON.stringify(source))
+		file.close()
+		var replacement := CONFIG.new()
+		_check(replacement.load_file(config_path) == OK, "边界调表副本通过真实配置入口：%s" % scenario)
+		_check(simulation.apply_config(replacement) != OK and not simulation.error_message.is_empty(), "不兼容背包或状态变更明确拒绝：%s" % scenario)
+		_check(simulation.config == original_config and simulation.students == before, "调表拒绝保留原配置与四人真实状态：%s" % scenario)
+		_check(simulation.rng.state == before_rng and simulation.logs.size() == before_log_count, "调表拒绝不抽随机数或产生假成功记录：%s" % scenario)
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(config_path))
 
 
 ## 关闭期间只对齐电脑课表；跨课打断旧动作，不奖励未执行的资源和知识。

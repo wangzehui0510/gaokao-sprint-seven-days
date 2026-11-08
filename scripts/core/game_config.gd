@@ -48,7 +48,11 @@ const REQUIRED_NUMBER_GLOBALS: Array[String] = [
 	"stamina_base", "stamina_per_health", "initial_attribute_points",
 	"learning_focus_coefficient", "distraction_focus_threshold",
 	"sleep_stamina_threshold", "tired_knowledge_multiplier",
+	"exam_intelligence_coefficient", "score_decimal_places",
+	"session_days",
 ]
+# 成绩以整数刻度相加；这里只校验实际表示范围，不设置人为分数或小数位上限。
+const MAX_SCORE_INTEGER: int = 9223372036854775807
 
 
 ## 读取并校验完整配置；不使用默认配置或旧缓存覆盖读取失败。
@@ -209,6 +213,116 @@ func _validate_relations() -> Error:
 		for row in tables[pool_key]:
 			if row.weight < 0.0:
 				return _fail("%s的权重不能为负：%s" % [pool_key, row.id])
+	var scoring_result: Error = _validate_exam_scoring()
+	if scoring_result != OK:
+		return scoring_result
+	var round_result: Error = _validate_round_schedule()
+	if round_result != OK:
+		return round_result
+	return _validate_daily_rewards()
+
+
+## 计分输入必须在配置入口完整校验，不能以默认满分、曲线或科目替代缺失字段。
+func _validate_exam_scoring() -> Error:
+	if indexes.globals.exam_intelligence_coefficient.value < 0.0:
+		return _fail("考试参数exam_intelligence_coefficient必须为非负数")
+	var decimal_places: Variant = indexes.globals.score_decimal_places.value
+	if decimal_places < 0.0 or decimal_places != int(decimal_places):
+		return _fail("考试参数score_decimal_places必须为非负整数")
+	var score_factor: float = pow(10.0, float(decimal_places))
+	if not is_finite(score_factor):
+		return _fail("考试参数score_decimal_places导致计分刻度超出浮点表示范围")
+	var total_max_units: int = 0
+	for subject in tables.subjects:
+		if subject.kind == "knowledge":
+			if not _positive_number(subject.max_score) or not _positive_number(subject.score_scale):
+				return _fail("知识科目%s的max_score与score_scale必须为正有限数" % subject.id)
+			var rounded_units: float = roundf(float(subject.max_score) * score_factor)
+			# 浮点数不能精确表示int64最大值，使用严格小于2^63避免转换时绕回负数。
+			if not is_finite(rounded_units) or rounded_units >= 9223372036854775808.0:
+				return _fail("知识科目%s的满分刻度超出整数表示范围" % subject.id)
+			var max_units: int = int(rounded_units)
+			if max_units > MAX_SCORE_INTEGER - total_max_units:
+				return _fail("各科舍入满分相加超出总分整数表示范围")
+			total_max_units += max_units
+		elif subject.kind == "exam":
+			if subject.knowledge_subject_id == null or indexes.subjects[subject.knowledge_subject_id].kind != "knowledge":
+				return _fail("考试科目%s的knowledge_subject_id必须引用知识科目" % subject.id)
+	return OK
+
+
+## 七天事件依赖唯一完整课表，歧义与缺课在入口拒绝，核心不猜测出榜或考试时刻。
+func _validate_round_schedule() -> Error:
+	var session_days: Variant = indexes.globals.session_days.value
+	if not _positive_integer(session_days):
+		return _fail("session_days必须为正整数")
+	if not indexes.subjects.has("physical") or indexes.subjects.physical.kind != "knowledge":
+		return _fail("七天结算必须有physical体育知识科目")
+	var ordered_periods: Array = tables.periods.duplicate(true)
+	ordered_periods.sort_custom(func(left: Dictionary, right: Dictionary) -> bool: return left.start_time < right.start_time)
+	var previous_end: float = 0.0
+	var lessons: Array[String] = []
+	for period: Dictionary in ordered_periods:
+		var start: float = roundf(period.start_time * 86400.0)
+		var finish: float = roundf(period.end_time * 86400.0)
+		if start < previous_end or finish <= start:
+			return _fail("课表时段重叠或秒级边界无效：%s" % period.id)
+		previous_end = finish
+		if period.kind == "lesson":
+			lessons.append(period.id)
+	if lessons.is_empty():
+		return _fail("七天结算课表不能没有课程")
+	var scheduled: Dictionary = {}
+	var slots: Dictionary = {}
+	var examined: Dictionary = {}
+	for row: Dictionary in tables.schedule:
+		if not _positive_integer(row.day) or row.day > session_days or not _positive_integer(row.slot):
+			return _fail("课程行%s的局内日或课时序号无效" % row.id)
+		if row.period_id not in lessons:
+			return _fail("课程行%s必须引用上课时段" % row.id)
+		var identity: String = "%s/%s" % [int(row.day), row.period_id]
+		var slot_identity: String = "%s/%s" % [int(row.day), int(row.slot)]
+		if scheduled.has(identity) or slots.has(slot_identity):
+			return _fail("课程表同日时段或课时序号重复：%s" % row.id)
+		scheduled[identity] = true
+		slots[slot_identity] = true
+		var subject: Dictionary = indexes.subjects[row.subject_id]
+		if subject.kind == "exam":
+			if row.day != session_days or examined.has(subject.knowledge_subject_id) or subject.knowledge_subject_id == "physical":
+				return _fail("考试课程必须在最后一天且各科仅一次：%s" % row.id)
+			examined[subject.knowledge_subject_id] = true
+	for round_day: int in range(1, int(session_days) + 1):
+		for period_id: String in lessons:
+			if not scheduled.has("%s/%s" % [round_day, period_id]):
+				return _fail("课程表缺少第%s天的%s" % [round_day, period_id])
+	for subject: Dictionary in tables.subjects:
+		if subject.kind == "knowledge" and subject.id != "physical" and not examined.has(subject.id):
+			return _fail("知识科目%s缺少最后一天的考试课程" % subject.id)
+	return OK
+
+
+## 每日奖励只接受完整且可执行的配表，零权重和停用行不参与抽取。
+func _validate_daily_rewards() -> Error:
+	if not indexes.globals.has("daily_item_draw_count") or indexes.globals.daily_item_draw_count.type != "number":
+		return _fail("每日奖励全局参数daily_item_draw_count缺失或未声明为数字")
+	var draw_count: Variant = indexes.globals.daily_item_draw_count.value
+	if not _positive_integer(draw_count):
+		return _fail("每日奖励daily_item_draw_count必须为正整数")
+	if not indexes.globals.has("daily_item_with_replacement") or indexes.globals.daily_item_with_replacement.type != "boolean":
+		return _fail("每日奖励全局参数daily_item_with_replacement缺失或未声明为boolean")
+	# 逐行数字类型已由字段契约验证；仍需阻止数量小数和总权重累加溢出。
+	var total_weight: float = 0.0
+	var enabled_row_count: int = 0
+	for row in tables.drop_pool:
+		if not _positive_integer(row.quantity):
+			return _fail("每日物品奖池%s的quantity必须为正整数" % row.id)
+		if row.enabled and row.weight > 0.0:
+			total_weight += row.weight
+			enabled_row_count += 1
+	if not is_finite(total_weight) or total_weight <= 0.0:
+		return _fail("每日物品奖池启用且正权重项的权重总和必须为正有限数")
+	if not indexes.globals.daily_item_with_replacement.value and enabled_row_count < draw_count:
+		return _fail("每日物品奖池无放回抽取需要%s条启用且正权重项，当前仅%s条" % [draw_count, enabled_row_count])
 	return OK
 
 
@@ -225,6 +339,11 @@ func _matches_type(value: Variant, expected: String) -> bool:
 ## 业务持续时间与周期必须是正的有限数字。
 func _positive_number(value: Variant) -> bool:
 	return _matches_type(value, "number") and float(value) > 0.0
+
+
+## 数量必须可原样表示为正整数，不截断小数或把布尔值转换成数量。
+func _positive_integer(value: Variant) -> bool:
+	return _positive_number(value) and value == int(value)
 
 
 ## 将入口失败保存在可展示字段中，调用方必须中止本次加载。

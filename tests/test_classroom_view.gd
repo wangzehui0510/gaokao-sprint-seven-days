@@ -4,6 +4,8 @@ extends SceneTree
 var checks: int = 0
 var failures: Array[String] = []
 var selected_events: Array[int] = []
+# 右键只记录真实入口传出的对象与控件局部坐标。
+var context_events: Array[Dictionary] = []
 var blackboard_events: int = 0
 
 
@@ -40,6 +42,7 @@ func _run() -> void:
 	room.size = Vector2(384, 256)
 	room._update_geometry()
 	room.student_selected.connect(func(index: int): selected_events.append(index))
+	room.student_context_requested.connect(func(index: int, local_position: Vector2): context_events.append({"index": index, "position": local_position}))
 	room.blackboard_selected.connect(func(): blackboard_events += 1)
 	var event := InputEventMouseButton.new()
 	event.button_index = MOUSE_BUTTON_LEFT
@@ -52,6 +55,40 @@ func _run() -> void:
 	_check(blackboard_events == 1, "黑板真实边界发出课表入口")
 	_check(room._get_tooltip(Vector2(170, 20)) == "查看当天课表", "黑板提示准确")
 	_check(room._get_tooltip(Vector2(272, 220)).contains("小周"), "角色提示保留完整姓名")
+	_check(room._get_tooltip(Vector2(272, 220)).contains("右键互动"), "其他同学提示提供右键互动入口")
+	_check(not room._get_tooltip(Vector2(112, 140)).contains("右键互动"), "自己不显示右键互动提示")
+	event.button_index = MOUSE_BUTTON_RIGHT
+	event.position = Vector2(272, 120)
+	room._gui_input(event)
+	_check(context_events == [{"index": 1, "position": Vector2(272, 120)}], "右键其他同学人物发出准确目标和局部坐标")
+	_check(room.selected_index == 3 and selected_events == [3] and blackboard_events == 1, "右键互动不改变详情选中或触发左键入口")
+	event.position = Vector2(112, 248)
+	room._gui_input(event)
+	_check(context_events.size() == 2 and context_events[1] == {"index": 2, "position": Vector2(112, 248)}, "右键其他同学下方姓名座位区域可互动")
+	for ignored_position in [Vector2(112, 120), Vector2(30, 210), Vector2(170, 20)]:
+		event.position = ignored_position
+		room._gui_input(event)
+	_check(context_events.size() == 2 and blackboard_events == 1, "右键自己空地与黑板不请求互动或课表")
+	event.position = Vector2(272, 120)
+	event.pressed = false
+	room._gui_input(event)
+	_check(context_events.size() == 2, "右键松开不重复请求互动")
+	room.size = Vector2(800, 560)
+	room._update_geometry()
+	event.position = Vector2(560, 304)
+	event.pressed = true
+	room._gui_input(event)
+	_check(room.pixel_scale == 2 and room.room_origin == Vector2(16, 24), "两倍居中画面采用真实缩放偏移")
+	_check(context_events.size() == 3 and context_events[2] == {"index": 1, "position": Vector2(560, 304)}, "两倍画面右键传出原始控件局部坐标")
+	_check(room.selected_index == 3 and selected_events == [3], "两倍右键同样不切换角色详情")
+	room.size = Vector2(384, 256)
+	event.button_index = MOUSE_BUTTON_LEFT
+	event.position = Vector2(112, 220)
+	room._gui_input(event)
+	_check(selected_events == [3, 2] and room.selected_index == 2 and context_events.size() == 3, "右键请求后左键仍能正常查看其他同学")
+	event.position = Vector2(170, 20)
+	room._gui_input(event)
+	_check(blackboard_events == 2 and context_events.size() == 3, "右键请求后左键黑板仍只打开课表")
 	var first_frames: PackedInt32Array = room.rendered_frames.duplicate()
 	room._process(0.1)
 	_check(room.rendered_frames == first_frames, "未跨动画帧时保留帧缓存")

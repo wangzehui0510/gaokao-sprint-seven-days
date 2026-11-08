@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     # 明确指定本机Godot可执行文件；安装位置变化时由调用方传入新路径。
-    [string]$GodotPath = 'D:\Godot_v4.7.2-stable_win64\Godot_v4.7.2-stable_win64_console.exe',
+    [string]$GodotPath = (Join-Path (Split-Path -Parent (Split-Path -Parent $PSScriptRoot)) 'godot\Godot_v4.7.2-stable_win64_console.exe'),
 
     # 开启后进入工程编辑器；省略时直接运行游戏主场景。
     [switch]$Editor
@@ -18,6 +18,9 @@ if (-not (Test-Path -LiteralPath $GodotPath -PathType Leaf)) {
 if (-not (Test-Path -LiteralPath $projectFile -PathType Leaf)) {
     throw "未找到Godot工程文件：$projectFile。请将脚本放在本项目的tools目录中。"
 }
+
+# 原生桥接与游戏一起从源码构建，缺失编译器或构建失败时明确停止启动。
+& (Join-Path $PSScriptRoot 'native\build_bridge.ps1')
 
 # 直接传递参数并保留引擎输出，非零退出码明确暴露启动或运行失败。
 $godotArguments = @('--path', $projectRoot)

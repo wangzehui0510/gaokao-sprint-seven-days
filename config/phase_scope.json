@@ -1,15 +1,23 @@
 {
-  "version": "phase_1_2",
-  "description": "用户确认的阶段1和2范围。只限定当前开放内容，不修改正式数值、权重与消耗。",
+  "version": "phase_6_pair_expansion",
+  "description": "保留个人动作、四场景与七天结算，开放14项规则明确的玩家双人扩展；抢答公式、每日点与NPC自主策略仍待确认。",
   "enabled_actions": [
     "study", "physical_study", "music_class", "art_class", "break_rest",
     "eye_exercise", "morning_exercise", "rest", "daydream", "sleep",
-    "eat_meal", "dorm_rest", "exam", "focus_command", "playground_play"
+    "eat_meal", "dorm_rest", "exam", "focus_command", "playground_play",
+    "send_note", "eraser_prank", "report",
+    "snack_self", "lunch_rest", "read_comic", "bathroom", "linger_break",
+    "sprint_study", "preview", "notes", "self_test", "standing_study",
+    "chores", "exercise_slack", "remind_self", "wake_self", "recall_classroom",
+    "read_comic_item", "eat_candy_item",
+    "remind_friend", "solve_together", "invite_playground", "invite_canteen",
+    "borrow_notes", "encourage", "pillow_fight", "feed_snack", "use_eraser",
+    "give_comic_item", "give_candy_item", "swap_book", "swap_book_boost", "arm_wrestle"
   ],
   "auto_actions": ["daydream", "sleep"],
   "subject_auto_actions": {"physical": ["playground_play"]},
   "deferred_auto_actions": ["read_comic", "bathroom", "send_note"],
-  "deferred_reason": "阶段2先验证发呆和睡觉；体育课额外开放既有去操场玩；漫画、厕所及双人互动后续开放。",
+  "deferred_reason": "漫画、厕所现可主动执行，自主候选仍待确认；纸条仅开放主动执行，同学自主发起互动的候选、目标与频率仍待确认。课间磨蹭仅支持规则执行，未加入自主池和玩家入口。",
   "clock": "local_computer_time",
   "offline_progress": false,
   "config_reload": "new_rates_immediately_preserve_sampled_duration"

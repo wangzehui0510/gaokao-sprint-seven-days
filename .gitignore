@@ -4,6 +4,9 @@
 # Godot 导入缓存由本机引擎重新生成。
 .godot/
 
+# 原生辅助程序由随项目提交的源码和构建脚本生成。
+tools/native/bin/
+
 # Python执行缓存。
 __pycache__/
 

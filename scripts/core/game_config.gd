@@ -222,6 +222,9 @@ func _validate_relations() -> Error:
 	for key in REQUIRED_NUMBER_GLOBALS:
 		if not indexes.globals.has(key) or indexes.globals[key].type != "number":
 			return _fail("核心所需全局参数%s缺失或未声明为数字" % key)
+	var ai_result: Error = _validate_ai_parameters()
+	if ai_result != OK:
+		return ai_result
 	for row in tables.periods:
 		if row.start_time < 0.0 or row.end_time > 1.0 or row.start_time >= row.end_time:
 			return _fail("时段%s的起止时间无效" % row.id)
@@ -241,10 +244,69 @@ func _validate_relations() -> Error:
 	var dorm_result: Error = _validate_dorm_pool()
 	if dorm_result != OK:
 		return dorm_result
+	var builds_result: Error = _validate_npc_builds()
+	if builds_result != OK:
+		return builds_result
 	return _validate_daily_rewards()
 
 
-## 宿舍候选必须与课堂池隔离，完整保留用户确认的六项等概率活动。
+## 初始占位加点只读权威Excel导出的表，读档和每日成长不重新套用预设。
+func _validate_npc_builds() -> Error:
+	if tables.npc_attributes.size() != 3:
+		return _fail("占位加点表必须完整包含三名本地同学")
+	var initial_points: float = indexes.globals.initial_attribute_points.value
+	for identity: String in ["student_1", "student_2", "student_3"]:
+		if not indexes.npc_attributes.has(identity):
+			return _fail("占位加点表缺少角色：%s" % identity)
+		var total: float = 0.0
+		for attribute: String in ["attention", "discipline", "health", "intelligence"]:
+			var value: float = indexes.npc_attributes[identity][attribute]
+			if value < 0.0 or value != int(value):
+				return _fail("占位属性%s/%s必须为非负整数" % [identity, attribute])
+			total += value
+		if total != initial_points:
+			return _fail("占位角色%s必须恰好消耗初始属性点" % identity)
+	return OK
+
+
+## AI概率与属性加权在配置入口统一校验，运行中不截断非法概率或回退默认系数。
+func _validate_ai_parameters() -> Error:
+	if indexes.globals.personality_ref_attr.value <= 0.0:
+		return _fail("AI参数personality_ref_attr必须为正有限数")
+	var floor_probability: float = indexes.globals.dorm_weight_floor.value
+	if floor_probability < 0.0 or floor_probability > 1.0 / 6.0:
+		return _fail("AI参数dorm_weight_floor必须在0至1/6之间，才能为六项活动同时保底")
+	for key: String in ["g_study", "g_game", "g_workout", "g_playful", "g_weak", "g_lead"]:
+		if indexes.globals[key].value < 0.0:
+			return _fail("AI增益参数%s必须为非负有限数" % key)
+	var threshold_factor: float = indexes.globals.k_threshold.value
+	if threshold_factor < 0.0 or threshold_factor > 1.0:
+		return _fail("AI参数k_threshold必须在0至1之间")
+	var social_base: float = indexes.globals.social_auto_base.value
+	var social_probability: float = social_base * (1.0 + indexes.globals.g_game.value)
+	if social_base < 0.0 or not is_finite(social_probability) or social_probability > 1.0:
+		return _fail("AI参数social_auto_base必须非负，且与g_game组合后的发起概率不得超过1")
+	# 提前验证加权与求和的实际表示范围，不以运行时静默丢弃候选掩盖溢出。
+	var totals: Dictionary = {"dorm_free": 0.0, "knowledge_course": 0.0}
+	var gains: Dictionary = {
+		"dorm_study": "g_study", "dorm_practice": "g_study",
+		"dorm_game": "g_game", "dorm_workout": "g_workout",
+		"playground_play": "g_workout", "daydream": "g_playful", "read_comic": "g_playful",
+	}
+	for row: Dictionary in tables.auto_pool:
+		if not row.enabled:
+			continue
+		var gain: float = indexes.globals[gains[row.action_id]].value if gains.has(row.action_id) else 0.0
+		var maximum_weight: float = row.weight * (1.0 + gain)
+		totals[row.eligible_period] += maximum_weight
+		if not is_finite(maximum_weight) or not is_finite(totals[row.eligible_period]):
+			return _fail("AI候选%s的属性加权或权重合计超出有限数字范围" % row.id)
+	if not is_finite(3.0 * (1.0 + indexes.globals.g_weak.value)) or not is_finite(18.0 * (1.0 + indexes.globals.g_lead.value)):
+		return _fail("AI参数g_weak或g_lead导致选科或竞争目标权重合计超出有限数字范围")
+	return OK
+
+
+## 宿舍候选必须与课堂池隔离，六项活动使用相同基础权重，再由AI按属性加权。
 func _validate_dorm_pool() -> Error:
 	var expected: Array[String] = ["dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash", "dorm_rest"]
 	var candidates: Dictionary = {}

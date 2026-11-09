@@ -53,6 +53,9 @@ func _launch_isolated_project() -> void:
 			push_error("复制原生验收工程失败：%s，错误码%d。" % [folder, copy_result])
 			quit(1)
 			return
+	if not _disable_isolated_social(isolated_root):
+		quit(1)
+		return
 	var settings := ConfigFile.new()
 	if settings.load("res://project.godot") != OK:
 		quit(1)
@@ -101,6 +104,23 @@ func _launch_isolated_project() -> void:
 			checks += int(data.checks)
 	print("DESKTOP_NATIVE_TEST_PROJECT=%s" % isolated_root)
 	_finish()
+
+
+## 只关闭本次隔离副本的自主竞争，专门验收后台纸条、窗口和保存生命周期。
+func _disable_isolated_social(isolated_root: String) -> bool:
+	var path: String = isolated_root.path_join("config/phase_scope.json")
+	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	if not data is Dictionary:
+		push_error("原生验收隔离副本的阶段配置无效：" + path)
+		return false
+	data.social_auto_actions = []
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		push_error("无法写入原生验收的隔离阶段配置：" + path)
+		return false
+	file.store_string(JSON.stringify(data, "\t", true, true))
+	file.close()
+	return true
 
 
 ## 测试准备遇到任何真实复制失败都中止，不跳过缺失的源码或素材。

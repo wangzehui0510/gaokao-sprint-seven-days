@@ -123,6 +123,8 @@ func _new_simulation() -> ClassroomSimulation:
 	_check(configuration.load_file() == OK, "互动夹具加载正式配置")
 	var simulation := SIMULATION.new()
 	_check(simulation.setup(configuration, 261107) == OK, "互动夹具建立真实模拟器")
+	# 本组逐项验证显式互动，自主竞争由真实四人AI集成验收覆盖。
+	simulation.phase_scope.social_auto_actions = []
 	_check(simulation.set_debug_time(1, 28800.0) == OK, "互动夹具使用第一天早课")
 	var controller := CONTROLLER.new()
 	root.add_child(controller)

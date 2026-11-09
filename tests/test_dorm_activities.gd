@@ -20,7 +20,7 @@ func _run() -> void:
 	_check(_test_precise_depletion(), "真实消耗至零和候选过滤完整执行")
 	_check(_test_recovery_persistence(), "在途恢复保存及再次选择完整执行")
 	_check(_test_interrupt_and_boundaries(), "主动打断、午夜、上课与终局完整执行")
-	_check(_test_uniform_ai(), "四人等概率活动及语数英选科完整执行")
+	_check(_test_weighted_ai(), "四人属性加权活动及并列弱科对称选科完整执行")
 	_check(_test_step_equivalence(), "真实耗尽、午夜和上课的大步小步一致性完整执行")
 	_check(_test_wrong_book_independence(), "真实错误课本不重定向宿舍显式选科完整执行")
 	_check(_test_tiny_physical_snapshot(), "一秒健身产生的真实微小成绩可保存重读")
@@ -245,8 +245,8 @@ func _test_interrupt_and_boundaries() -> bool:
 	return true
 
 
-## 固定多份种子独立重放等概率整数抽样，覆盖四名角色各自的六活动和三科选择。
-func _test_uniform_ai() -> bool:
+## 固定种子独立重放属性权重CDF，保留四人六活动、三科选科及随机流完整覆盖。
+func _test_weighted_ai() -> bool:
 	var activity_seen: Array[Dictionary] = [{}, {}, {}, {}]
 	var subject_seen: Array[Dictionary] = [{}, {}, {}, {}]
 	for sample in 96:
@@ -262,14 +262,27 @@ func _test_uniform_ai() -> bool:
 		expected_rng.state = simulation.rng.state
 		var expected: Array[Dictionary] = []
 		for index in 4:
-			var candidates: Array[String] = _candidate_ids(simulation, index)
-			if not _check(_same_members(candidates, DORM_IDS), "四人初始均可执行六项宿舍活动"):
+			var candidates: Array[Dictionary] = simulation.get_dorm_candidates(index)
+			if not _check(_same_members(_candidate_ids(simulation, index), DORM_IDS), "四人初始均可执行六项宿舍活动"):
 				return false
-			var action_id: String = candidates[expected_rng.randi_range(0, candidates.size() - 1)]
+			var total_weight: float = 0.0
+			for candidate: Dictionary in candidates:
+				total_weight += float(candidate.weight)
+			var choice: float = float(expected_rng.randi()) / 4294967296.0 * total_weight
+			var cursor: float = 0.0
+			var action_id: String = ""
+			for candidate: Dictionary in candidates:
+				cursor += float(candidate.weight)
+				if choice < cursor:
+					action_id = candidate.action_id
+					break
+			if not _check(not action_id.is_empty(), "独立CDF抽样实际命中正式候选"):
+				return false
 			var definition: Dictionary = configuration.actions[action_id]
 			var subject_id: String = ""
 			if action_id in ["dorm_study", "dorm_practice"]:
-				subject_id = CULTURAL_IDS[expected_rng.randi_range(0, CULTURAL_IDS.size() - 1)]
+				# 新局三科同为零，所有并列弱科应对称，仅用一次共享随机数选科。
+				subject_id = CULTURAL_IDS[int(float(expected_rng.randi()) / 4294967296.0 * 3.0)]
 			elif action_id == "dorm_workout":
 				subject_id = "physical"
 			expected_rng.randf_range(definition.duration_min_s, definition.duration_max_s)
@@ -278,7 +291,7 @@ func _test_uniform_ai() -> bool:
 			return false
 		for index in 4:
 			var action: Dictionary = simulation.students[index].current_action
-			_check(action.action_id == expected[index].action and action.subject_id == expected[index].subject, "角色%d的活动和科目符合独立等概率重放" % index)
+			_check(action.action_id == expected[index].action and action.subject_id == expected[index].subject, "角色%d的活动和科目符合独立属性权重重放" % index)
 			_check(not action.dorm_recovery, "随机选中休息也保持普通活动身份")
 			activity_seen[index][action.action_id] = true
 			if action.action_id in ["dorm_study", "dorm_practice"]:
@@ -312,10 +325,10 @@ func _test_step_equivalence() -> bool:
 	_check(large.day == small.day and large.day == 2, "大步小步抵达相同次日")
 	_close(large.clock_seconds, small.clock_seconds, "大步小步游戏时钟一致")
 	_close(large.elapsed_s, small.elapsed_s, "大步小步在线时长一致")
-	_check(_same(large.students, small.students), "大步小步四人资源、知识、库存、状态与在途实例一致")
+	_check(_same(large.students, small.students), "大步小步四人资源、知识、库存、状态与在途实例一致：" + _first_difference(large.students, small.students))
 	_check(str(large.rng.state) == str(small.rng.state) and large.next_action_number == small.next_action_number, "大步小步动作序列和随机流一致")
-	_check(_same(large.round_progression.data, small.round_progression.data), "大步小步在校及宿舍权威账本一致")
-	_check(_same(_action_history(large), _action_history(small)), "大步小步完成与打断时刻和实际收益一致")
+	_check(_same(large.round_progression.data, small.round_progression.data), "大步小步在校及宿舍权威账本一致：" + _first_difference(large.round_progression.data, small.round_progression.data))
+	_check(_same(_action_history(large), _action_history(small)), "大步小步完成与打断时刻和实际收益一致：" + _first_difference(_action_history(large), _action_history(small)))
 	return true
 
 
@@ -334,12 +347,12 @@ func _test_wrong_book_independence() -> bool:
 	var before: Dictionary = simulation.students[1].knowledge.duplicate(true)
 	if not _play(simulation, 1, "dorm_study", 60.0, "english"):
 		return false
-	_close(simulation.students[1].knowledge.english - before.english, 0.2, "宿舍显式英语获得真实英语收益")
+	_close(simulation.students[1].knowledge.english - before.english, 0.21, "同学一点专注属性下宿舍显式英语获得真实收益")
 	_close(simulation.students[1].knowledge.chinese, before.chinese, "错误课本不能重定向宿舍英语")
 	_close(simulation.students[1].knowledge.math, before.math, "原数学课程也不接收宿舍英语")
 	_check(_find_buff(simulation, 1, "wrong_book").expires_at == wrong_book.expires_at, "宿舍活动不清除或刷新错误课本到期时间")
 	var summary: Dictionary = simulation.get_dorm_summary(1, 1)
-	_check(_has_row(summary.rows, "dorm_study", "english", 0.2), "真实宿舍来源行归英语")
+	_check(_has_row(summary.rows, "dorm_study", "english", 0.21), "真实宿舍来源行归英语")
 	if not _result(simulation.advance(wrong_book.expires_at - simulation.elapsed_s), "推进至真实错误课本到期", simulation.error_message):
 		return false
 	_check(_find_buff(simulation, 1, "wrong_book").is_empty() and simulation.students[1].current_action.subject_id == "english", "错误课本按原时刻到期且不改宿舍选科")
@@ -412,6 +425,26 @@ func _ended(simulation: ClassroomSimulation, index: int, instance_id: int) -> Di
 ## 提取四人真实动作历史，分段积分的资源日志数量不属于业务动作序列。
 func _action_history(simulation: ClassroomSimulation) -> Array:
 	return simulation.logs.filter(func(entry: Dictionary) -> bool: return entry.type in ["complete", "interrupt", "dorm_recovery"])
+
+
+## 比较失败时报告首个具体字段与数值，不能仅留下无法定位的不一致提示。
+func _first_difference(left: Variant, right: Variant, path: String = "$") -> String:
+	if _same(left, right):
+		return ""
+	if left is Dictionary and right is Dictionary:
+		for key: Variant in left:
+			if not right.has(key):
+				return path + "." + str(key) + "缺少字段"
+			if not _same(left[key], right[key]):
+				return _first_difference(left[key], right[key], path + "." + str(key))
+		return path + "字段数量不同"
+	if left is Array and right is Array:
+		if left.size() != right.size():
+			return "%s数组长度%d/%d" % [path, left.size(), right.size()]
+		for index: int in left.size():
+			if not _same(left[index], right[index]):
+				return _first_difference(left[index], right[index], "%s[%d]" % [path, index])
+	return "%s实际%s/%s" % [path, str(left), str(right)]
 
 
 ## 查询真实状态并返回副本，测试不借此制造或刷新效果。

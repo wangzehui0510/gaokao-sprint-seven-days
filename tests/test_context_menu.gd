@@ -40,6 +40,9 @@ func _launch_isolated_project() -> void:
 			push_error("复制右键面板隔离工程失败：%s，错误码%s。" % [folder, result])
 			quit(1)
 			return
+	if not _disable_isolated_social(isolated_root):
+		quit(1)
+		return
 	var project := ConfigFile.new()
 	if project.load("res://project.godot") != OK:
 		push_error("无法读取右键面板测试所需的真实工程设置。")
@@ -65,6 +68,23 @@ func _launch_isolated_project() -> void:
 		print(line)
 	print("CONTEXT_MENU_TEST_PROJECT=%s" % isolated_root)
 	quit(exit_code)
+
+
+## 只修改本次隔离副本，避免自主竞争随机打断右键菜单的主动互动验收。
+func _disable_isolated_social(isolated_root: String) -> bool:
+	var path: String = isolated_root.path_join("config/phase_scope.json")
+	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	if not data is Dictionary:
+		push_error("右键验收隔离副本的阶段配置无效：" + path)
+		return false
+	data.social_auto_actions = []
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		push_error("无法写入右键验收的隔离阶段配置：" + path)
+		return false
+	file.store_string(JSON.stringify(data, "\t", true, true))
+	file.close()
+	return true
 
 
 ## 必要资源逐项复制，任何缺失或写入失败都返回真实错误。

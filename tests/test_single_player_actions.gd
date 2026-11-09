@@ -46,6 +46,8 @@ func _simulation(seed_value: int = 1, at_day: int = 1, seconds: float = 28800.0,
 	var loaded: GameConfig = configuration if game_config == null else game_config
 	if not _result(simulation.setup(loaded, seed_value), "建立四人真实新局", simulation.error_message):
 		return null
+	# 个人动作算例隔离自主竞争，保留真实NPC属性与课程奖励。
+	simulation.phase_scope.social_auto_actions = []
 	if not _result(simulation.set_debug_time(at_day, seconds), "定位真实课表", simulation.error_message):
 		return null
 	var controller := ClassroomBehaviorController.new()
@@ -153,9 +155,11 @@ func _test_all_actions() -> bool:
 
 ## 整组前置失败发生在结束旧动作、抽时长、扣费、扣物和写日志之前。
 func _test_unavailable_atomicity() -> bool:
-	var simulation := _simulation(8)
-	if simulation == null:
+	# 在首次课程奖励之前先真实休息，形成有旧动作且确实缺物的输入。
+	var simulation := _simulation(8, 1, 28800.0, null, false)
+	if simulation == null or not _result(simulation.start_action(0, "rest"), "缺物夹具先开始真实休息", simulation.error_message):
 		return false
+	_check(simulation.students[0].inventory.is_empty() and simulation.students[0].daily_item_claim_days.is_empty(), "尚未开始课程的玩家确实没有领取任何物品")
 	for action_id: String in ["snack_self", "read_comic_item", "eat_candy_item"]:
 		var before: Dictionary = _authority(simulation)
 		var reason: String = simulation.action_unavailable_reason(0, action_id)
@@ -235,9 +239,11 @@ func _test_interruption() -> bool:
 
 ## 双人动作中也先验证完整消费条件，成功换动作才整体结束旧互动并恢复旧搭档。
 func _test_pair_replacement() -> bool:
-	var unavailable := _simulation(8)
+	# 尚未开始课程便进入纸条，缺物来自真实未领取状态，不依赖随机奖品身份。
+	var unavailable := _simulation(8, 1, 28800.0, null, false)
 	if unavailable == null or not _result(unavailable.start_interaction(0, 1, "send_note", "缺物时保留真实在途纸条"), "建立缺物拒绝时的双人动作", unavailable.error_message):
 		return false
+	_check(unavailable.students[0].inventory.is_empty() and unavailable.students[0].daily_item_claim_days.is_empty(), "纸条不会让尚未开始课程的发起者提前领物")
 	var before: Dictionary = _authority(unavailable)
 	_check(unavailable.action_unavailable_reason(0, "snack_self").contains("不足"), "双人动作中明确报告零食不足")
 	_check(unavailable.start_action(0, "snack_self") == ERR_UNAVAILABLE, "双人动作中真实拒绝缺物指令")

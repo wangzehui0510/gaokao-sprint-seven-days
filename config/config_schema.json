@@ -552,6 +552,18 @@
       ]
     },
     {
+      "key": "npc_attributes",
+      "sheet": "占位加点",
+      "header_row": 4,
+      "columns": [
+        {"key": "id", "type": "string", "nullable": false},
+        {"key": "attention", "type": "number", "nullable": false},
+        {"key": "discipline", "type": "number", "nullable": false},
+        {"key": "health", "type": "number", "nullable": false},
+        {"key": "intelligence", "type": "number", "nullable": false}
+      ]
+    },
+    {
       "key": "globals",
       "sheet": "参数",
       "header_row": 4,

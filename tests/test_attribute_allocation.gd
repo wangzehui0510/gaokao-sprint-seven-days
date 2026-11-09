@@ -1,5 +1,5 @@
 extends SceneTree
-## 属性分配使用配置已有点数与真实学习、互动、考试及保存执行链，不制造每日点数或NPC策略。
+## 属性分配使用配置已有点数与真实学习、互动、考试及保存执行链，不制造每日新增点数。
 
 # 所有文件仅位于本进程独占缓存，正式玩家存档和权威配置不参与写入。
 var fixture_root: String = ""
@@ -33,7 +33,7 @@ func _run() -> void:
 	_check(_test_save_roundtrip(), "已分配属性和剩余点数与在途纸条实际往返")
 	_check(_test_exam_history(), "后续智力影响未来取值但不重算既有考试")
 	_check(_test_terminal_rejection(), "终局拒绝所有新分配并保留保存和查询")
-	_check(_test_no_daily_or_npc_allocation(), "真实跨日不会新增点数或代替NPC自动分配")
+	_check(_test_no_daily_or_npc_allocation(), "真实跨日不新增点数，也不重复分配同学初始预设")
 	_finish()
 
 
@@ -42,6 +42,8 @@ func _simulation(at_day: int, seconds: float) -> ClassroomSimulation:
 	var simulation := ClassroomSimulation.new()
 	if not _result(simulation.setup(configuration, 261107), "建立真实四人局", simulation.error_message):
 		return null
+	# 本组隔离属性分配及积分效果，自主竞争的接管与概率由AI集成组单独验收。
+	simulation.phase_scope.social_auto_actions = []
 	var controller := ClassroomBehaviorController.new()
 	root.add_child(controller)
 	controller.setup(simulation)
@@ -60,6 +62,7 @@ func _test_learning_immediately() -> bool:
 	if simulation == null or not _result(simulation.advance(60.0), "先真实学习一分钟", simulation.error_message):
 		return false
 	var baseline_gain: float = simulation.students[0].knowledge.chinese
+	var classmate_gain: float = simulation.students[1].knowledge.chinese
 	var before: Dictionary = _authority(simulation)
 	if not _result(simulation.allocate_attribute("attention", 2), "分配已有两点专注力", simulation.error_message):
 		return false
@@ -79,7 +82,7 @@ func _test_learning_immediately() -> bool:
 		return false
 	var expected: float = baseline_gain * (1.0 + 2.0 * configuration.global_value("learning_focus_coefficient"))
 	_close(simulation.students[0].knowledge.chinese - baseline_gain, expected, "新专注力立即影响后续一分钟知识")
-	_close(simulation.students[1].knowledge.chinese, baseline_gain * 2.0, "未分配同学仍按原效率学习")
+	_close(simulation.students[1].knowledge.chinese, classmate_gain * 2.0, "同学继续按自己的初始专注属性学习，不受本人分配影响")
 	_close(simulation.get_daily_board(1, "chinese").rows.size(), 0.0, "学习后尚未到日榜时刻不提前公布")
 	_close(simulation.round_progression.data.daily_days["1"].gains.student_0.chinese, baseline_gain + expected, "日榜账本只累计真实分配前后知识增量")
 	return true
@@ -275,20 +278,21 @@ func _test_terminal_rejection() -> bool:
 	return true
 
 
-## 日点与NPC分配仍未开放，不能因配置存在相应字段就自动发点或改变NPC养成。
+## 每日发点仍未开放；同学已分配的初始预设不能在跨日时再次赠送或重置。
 func _test_no_daily_or_npc_allocation() -> bool:
 	var simulation := _simulation(1, 28800.0)
 	if simulation == null or not _result(simulation.allocate_attribute("attention", 3), "跨日前先真实花三点", simulation.error_message):
 		return false
 	var remaining: int = simulation.students[0].unspent_points
+	var initial_students: Array = simulation.students.duplicate(true)
 	if not _result(simulation.advance(86400.0), "四人真实执行整整一天到次日08:00", simulation.error_message):
 		return false
 	_check(simulation.day == 2 and simulation.clock_seconds == 28800.0, "实际跨过配置中的次日发点时刻")
 	_check(simulation.students[0].unspent_points == remaining, "当前范围不凭daily_attribute_points字段新增点数")
 	for index: int in range(1, simulation.students.size()):
-		_check(simulation.students[index].unspent_points == int(configuration.global_value("initial_attribute_points")), "NPC保留原有未分配点数：" + str(index))
+		_check(simulation.students[index].unspent_points == initial_students[index].unspent_points, "同学跨日不新增或重复消费待分配点数：" + str(index))
 		for attribute: String in ["attention", "discipline", "health", "intelligence"]:
-			_close(simulation.students[index].attributes[attribute], 0.0, "NPC不自动分配属性：" + str(index) + "/" + attribute)
+			_close(simulation.students[index].attributes[attribute], initial_students[index].attributes[attribute], "同学跨日保留实际初始加点：" + str(index) + "/" + attribute)
 	return true
 
 

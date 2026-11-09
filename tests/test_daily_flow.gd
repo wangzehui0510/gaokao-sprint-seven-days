@@ -1,7 +1,7 @@
 extends SceneTree
 ## 用真实配置、四人共享行为树和生产存档验证全天规则，首次课程沿用真实每日发奖。
 
-# 低资源夹具不触及上下限，独立预期按六项已批准活动的每分钟绝对变化核对。
+# 低资源夹具不触及上下限，恢复费率按百分比乘真实上限，消耗保持每分钟绝对值。
 const DORM_RATES: Dictionary = {
 	"dorm_study": {"focus": -0.6, "stamina": -0.2, "knowledge": 0.2},
 	"dorm_practice": {"focus": -1.5, "stamina": -0.3, "knowledge": 0.35},
@@ -69,6 +69,8 @@ func _empty_simulation() -> ClassroomSimulation:
 	var simulation := ClassroomSimulation.new()
 	if not _result(simulation.setup(configuration, 261107), "创建四人独立局", simulation.error_message):
 		return null
+	# 全天算例专门核对课表、费率与状态，自主竞争另由四人AI集成验收覆盖。
+	simulation.phase_scope.social_auto_actions = []
 	var controller := ClassroomBehaviorController.new()
 	root.add_child(controller)
 	controller.setup(simulation)
@@ -96,7 +98,7 @@ func _test_music() -> bool:
 	for index in simulation.students.size():
 		var student: Dictionary = simulation.students[index]
 		_check(student.current_action.action_id == "music_class" and simulation.student_location(index) == "classroom", "音乐课四人留在真实教室课程")
-		_close(student.focus, 43.0 + index * 3.0, "音乐两分钟恢复3专注：角色%d" % index)
+		_close(student.focus, 40.0 + index * 3.0 + 0.03 * simulation.get_resource_max(index, "focus"), "音乐两分钟按上限恢复3%%专注：角色%d" % index)
 		_close(student.stamina, 69.8 + index * 3.0, "音乐两分钟消耗0.2体力：角色%d" % index)
 		_check(student.knowledge == knowledge_before[index] and not student.knowledge.has("music"), "音乐不创建或增加任何知识：角色%d" % index)
 	return true
@@ -114,7 +116,7 @@ func _test_art() -> bool:
 	for index in simulation.students.size():
 		var student: Dictionary = simulation.students[index]
 		_check(student.current_action.action_id == "art_class" and simulation.student_location(index) == "classroom", "美术课四人留在真实教室课程")
-		_close(student.stamina, 43.0 + index * 3.0, "美术两分钟恢复3体力：角色%d" % index)
+		_close(student.stamina, 40.0 + index * 3.0 + 0.03 * simulation.get_resource_max(index, "stamina"), "美术两分钟按上限恢复3%%体力：角色%d" % index)
 		_close(student.focus, 69.6 + index * 3.0, "美术两分钟消耗0.4专注：角色%d" % index)
 		_check(student.knowledge == knowledge_before[index] and not student.knowledge.has("art"), "美术不创建或增加任何知识：角色%d" % index)
 	return true
@@ -144,12 +146,12 @@ func _test_support_periods() -> bool:
 				_check(action.action_id in DORM_RATES and student.current_action.instance_id == action.instance_id and simulation.student_location(index) == scenario.location, "%s继续真实自主活动与地点：角色%d" % [scenario.label, index])
 				for resource: String in ["focus", "stamina"]:
 					var initial: float = (40.0 if resource == "focus" else 50.0) + index * 3.0
-					_close(student[resource], initial + DORM_RATES[action.action_id][resource] * scenario.duration / 60.0, "%s按%s实际费率变化：角色%d" % [scenario.label, resource, index])
-				_check_dorm_knowledge(student, action, scenario.duration / 60.0, "%s角色%d" % [scenario.label, index])
+					_close(student[resource], initial + _dorm_resource_rate(simulation, index, action.action_id, resource) * scenario.duration / 60.0, "%s按%s实际费率变化：角色%d" % [scenario.label, resource, index])
+				_check_dorm_knowledge(simulation, index, action, scenario.duration / 60.0, "%s角色%d" % [scenario.label, index])
 			else:
 				_check(student.current_action.action_id == scenario.action and simulation.student_location(index) == scenario.location, "%s选择正确动作与地点：角色%d" % [scenario.label, index])
-				_close(student.focus, 40.0 + index * 3.0 + scenario.focus, "%s专注真实恢复：角色%d" % [scenario.label, index])
-				_close(student.stamina, 50.0 + index * 3.0 + scenario.stamina, "%s体力真实恢复：角色%d" % [scenario.label, index])
+				_close(student.focus, 40.0 + index * 3.0 + scenario.focus * simulation.get_resource_max(index, "focus") / 100.0, "%s专注按真实上限恢复：角色%d" % [scenario.label, index])
+				_close(student.stamina, 50.0 + index * 3.0 + scenario.stamina * simulation.get_resource_max(index, "stamina") / 100.0, "%s体力按真实上限恢复：角色%d" % [scenario.label, index])
 				_check(student.knowledge.values().all(func(value): return value == 0.0), "%s不增长课堂知识：角色%d" % [scenario.label, index])
 	return true
 
@@ -170,10 +172,10 @@ func _test_midnight() -> bool:
 		var student: Dictionary = simulation.students[index]
 		var action: Dictionary = original_actions[index]
 		# 午夜前只执行原活动三十秒，午夜后真实休息六十秒，不能把整段当作休息。
-		_close(student.focus, 40.0 + index * 3.0 + DORM_RATES[action.action_id].focus * 0.5 + 1.0, "跨日专注分段结算九十秒：角色%d" % index)
-		_close(student.stamina, 50.0 + index * 3.0 + DORM_RATES[action.action_id].stamina * 0.5 + 4.0, "跨日体力分段结算九十秒：角色%d" % index)
+		_close(student.focus, 40.0 + index * 3.0 + _dorm_resource_rate(simulation, index, action.action_id, "focus") * 0.5 + 0.01 * simulation.get_resource_max(index, "focus"), "跨日专注分段结算九十秒：角色%d" % index)
+		_close(student.stamina, 50.0 + index * 3.0 + _dorm_resource_rate(simulation, index, action.action_id, "stamina") * 0.5 + 0.04 * simulation.get_resource_max(index, "stamina"), "跨日体力分段结算九十秒：角色%d" % index)
 		_check(student.current_action.action_id == "dorm_rest" and student.current_action.dorm_recovery and student.current_action.instance_id != action.instance_id, "午夜为角色%d结束旧日动作并开始十分钟休息" % index)
-		_check_dorm_knowledge(student, action, 0.5, "跨午夜角色%d" % index)
+		_check_dorm_knowledge(simulation, index, action, 0.5, "跨午夜角色%d" % index)
 		_check(simulation.get_dorm_summary(2, index).totals.values().all(func(value): return value == 0.0), "新日真实休息不新增宿舍知识")
 		_check(simulation.logs.any(func(entry: Dictionary): return entry.student_index == index and entry.type == "interrupt" and entry.day == 2 and entry.clock_seconds == 0.0), "角色%d午夜打断有实际日志" % index)
 	return true
@@ -190,9 +192,11 @@ func _test_exercise_completion() -> bool:
 	var music_instances: Array = simulation.students.map(func(student: Dictionary): return student.current_action.instance_id)
 	for index in simulation.students.size():
 		_check(_stretched(simulation, index).size() == 3 and simulation.students[index].buffs.size() == 1, "完整课间操只产生一份真实身体舒展：角色%d" % index)
-		_close(simulation.get_resource_max(index, "stamina"), 110.0, "舒展使角色%d体力上限提高10" % index)
+		var base_max: float = simulation.config.global_value("stamina_base") + simulation.config.global_value("stamina_per_health") * simulation.students[index].attributes.health
+		_close(simulation.get_resource_max(index, "stamina"), base_max + 10.0, "舒展使角色%d体力上限提高10" % index)
 		_close(simulation.students[index].stamina, 40.0 + index * 3.0, "舒展只改上限、不补满已消耗体力：角色%d" % index)
-		simulation.students[index].stamina = 105.0 + index
+		# 各自放到旧上限以上，真实验证状态到期对所有NPC的超额裁切。
+		simulation.students[index].stamina = base_max + 5.0
 	if not _result(simulation.advance(599.75), "推进到状态到期前四分之一秒", simulation.error_message):
 		return false
 	_check(simulation.students.all(func(student: Dictionary): return student.buffs.size() == 1), "到期之前四人状态仍真实存在")
@@ -200,8 +204,9 @@ func _test_exercise_completion() -> bool:
 		return false
 	for index in simulation.students.size():
 		_check(simulation.students[index].buffs.is_empty(), "舒展到期从角色%d状态列表移除" % index)
-		_close(simulation.get_resource_max(index, "stamina"), 100.0, "到期恢复角色%d原体力上限" % index)
-		_close(simulation.students[index].stamina, 100.0, "到期只裁去角色%d超额体力" % index)
+		var base_max: float = simulation.config.global_value("stamina_base") + simulation.config.global_value("stamina_per_health") * simulation.students[index].attributes.health
+		_close(simulation.get_resource_max(index, "stamina"), base_max, "到期恢复角色%d原体力上限" % index)
+		_close(simulation.students[index].stamina, base_max, "到期只裁去角色%d超额体力" % index)
 		_check(simulation.students[index].current_action.instance_id == music_instances[index], "状态到期不重开角色%d在途音乐课" % index)
 		_check(simulation.logs.any(func(entry: Dictionary): return entry.student_index == index and entry.type == "buff" and entry.message.begins_with("状态结束")), "角色%d到期留下实际状态结束日志" % index)
 	return true
@@ -310,14 +315,22 @@ func _test_whole_day() -> bool:
 	simulation.students[0].knowledge.chinese += 1.0
 	for index in range(1, simulation.students.size()):
 		_check(simulation.students[index].knowledge == other_knowledge[index - 1], "角色%d知识字典不与玩家共享" % index)
-	_check(simulation.interactions.is_empty(), "全天循环不擅自激活未批准的NPC互动策略")
+	_check(simulation.interactions.is_empty(), "本组专门关闭竞争后，全天课表循环不产生自主互动")
 	return true
 
 
+## 独立费率表区分按上限恢复和固定消耗，不读取生产结算结果作为预期。
+func _dorm_resource_rate(simulation: ClassroomSimulation, index: int, action_id: String, resource: String) -> float:
+	var rate: float = DORM_RATES[action_id][resource]
+	return rate * simulation.get_resource_max(index, resource) / 100.0 if rate > 0.0 else rate
+
+
 ## 短区间知识从零开始，只允许所选文化课或固定体育科目按独立费率增长。
-func _check_dorm_knowledge(student: Dictionary, action: Dictionary, minutes: float, label: String) -> void:
+func _check_dorm_knowledge(simulation: ClassroomSimulation, index: int, action: Dictionary, minutes: float, label: String) -> void:
+	var student: Dictionary = simulation.students[index]
+	var multiplier: float = 1.0 + simulation.effective_attribute(index, "attention") * simulation.config.global_value("learning_focus_coefficient")
 	for subject: String in student.knowledge:
-		var expected: float = DORM_RATES[action.action_id].knowledge * minutes if subject == action.subject_id else 0.0
+		var expected: float = DORM_RATES[action.action_id].knowledge * minutes * multiplier if subject == action.subject_id else 0.0
 		_close(student.knowledge[subject], expected, "%s只增加真实动作的%s知识" % [label, subject])
 
 

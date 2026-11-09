@@ -47,6 +47,8 @@ func _new_simulation(seconds: float) -> ClassroomSimulation:
 	_check(game_config.load_file() == OK, "正式JSON配置应完整通过校验：%s" % game_config.error_message)
 	var simulation := SIMULATION.new()
 	_check(simulation.setup(game_config, 261106) == OK, "模拟器初始化成功：%s" % simulation.error_message)
+	# 本组专门核对核心动作；自主竞争由真实四人AI集成验收覆盖。
+	simulation.phase_scope.social_auto_actions = []
 	_check(simulation.set_debug_time(1, seconds) == OK, "开发时钟设置成功")
 	var controller := CONTROLLER.new()
 	root.add_child(controller)

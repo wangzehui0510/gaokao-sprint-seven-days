@@ -5493,6 +5493,29 @@
         "default_action_id": "current_course"
       }
     ],
+    "npc_attributes": [
+      {
+        "id": "student_1",
+        "attention": 1,
+        "discipline": 4,
+        "health": 1,
+        "intelligence": 2
+      },
+      {
+        "id": "student_2",
+        "attention": 2,
+        "discipline": 1,
+        "health": 3,
+        "intelligence": 2
+      },
+      {
+        "id": "student_3",
+        "attention": 2,
+        "discipline": 1,
+        "health": 5,
+        "intelligence": 0
+      }
+    ],
     "globals": [
       {
         "key": "session_days",

@@ -54,6 +54,8 @@ func _simulation(seed_value: int = 1, at_day: int = 1, seconds: float = 28800.0,
 	var loaded: GameConfig = configuration if game_config == null else game_config
 	if not _result(simulation.setup(loaded, seed_value), "建立真实四人局", simulation.error_message):
 		return null
+	# 本组独立验收玩家双人动作，显式关闭自主竞争；完整自主池由AI集成组覆盖。
+	simulation.phase_scope.social_auto_actions = []
 	if not _result(simulation.set_debug_time(at_day, seconds), "定位真实课表", simulation.error_message):
 		return null
 	var controller := ClassroomBehaviorController.new()
@@ -80,19 +82,20 @@ func _item_simulation(item_id: String, at_day: int = 1, seconds: float = 28800.0
 
 
 ## 显式列出正式表对应的整段净变化，避免用同一效果循环制造测试期望。
+# 目标为初始自律4、健康1的小林，比例恢复分别以140专注和110体力上限计算。
 func _cases() -> Array[Dictionary]:
 	return [
 		{"id": "remind_friend", "own": [-3.0, 0.0], "target": [3.0, 0.0], "knowledge": 0.0},
 		{"id": "solve_together", "own": [-11.0, -1.5], "target": [-6.0, -1.5], "knowledge": 6.5},
-		{"id": "invite_playground", "own": [13.0, -6.0], "target": [18.0, -6.0], "knowledge": 0.0, "location": "playground"},
-		{"id": "invite_canteen", "own": [0.0, 30.0], "target": [3.0, 30.0], "knowledge": 0.0, "location": "canteen"},
+		{"id": "invite_playground", "own": [13.0, -6.0], "target": [25.2, -6.0], "knowledge": 0.0, "location": "playground"},
+		{"id": "invite_canteen", "own": [0.0, 30.0], "target": [4.2, 33.0], "knowledge": 0.0, "location": "canteen"},
 		{"id": "borrow_notes", "own": [-6.4, -0.6], "target": [-2.4, -0.6], "knowledge": 1.5, "own_buff": "note_borrowed"},
-		{"id": "encourage", "own": [-3.0, 0.0], "target": [8.0, 0.0], "knowledge": 0.0, "target_buff": "encouraged"},
-		{"id": "pillow_fight", "own": [6.0, -10.0], "target": [10.0, -10.0], "knowledge": 0.0, "seconds": 72000.0, "own_buff": "tired", "target_buff": "tired"},
-		{"id": "feed_snack", "item": "snack", "own": [-2.0, 0.0], "target": [0.0, 15.0], "knowledge": 0.0},
+		{"id": "encourage", "own": [-3.0, 0.0], "target": [11.2, 0.0], "knowledge": 0.0, "target_buff": "encouraged"},
+		{"id": "pillow_fight", "own": [6.0, -10.0], "target": [14.0, -10.0], "knowledge": 0.0, "seconds": 72000.0, "own_buff": "tired", "target_buff": "tired"},
+		{"id": "feed_snack", "item": "snack", "own": [-2.0, 0.0], "target": [0.0, 16.5], "knowledge": 0.0},
 		{"id": "use_eraser", "item": "eraser", "own": [-2.0, 0.0], "target": [-10.0, 0.0], "knowledge": 0.0},
-		{"id": "give_comic_item", "item": "comic", "own": [13.0, -0.5], "target": [15.0, -0.5], "knowledge": 0.0, "own_buff": "comic_afterglow", "target_buff": "comic_afterglow"},
-		{"id": "give_candy_item", "item": "candy", "own": [-2.0, 0.0], "target": [10.0, 0.0], "knowledge": 0.0},
+		{"id": "give_comic_item", "item": "comic", "own": [13.0, -0.5], "target": [21.0, -0.5], "knowledge": 0.0, "own_buff": "comic_afterglow", "target_buff": "comic_afterglow"},
+		{"id": "give_candy_item", "item": "candy", "own": [-2.0, 0.0], "target": [14.0, 0.0], "knowledge": 0.0},
 		{"id": "swap_book", "subject": "math", "own": [-6.0, 0.0], "target": [0.0, 0.0], "knowledge": 0.0, "target_buff": "wrong_book"},
 		{"id": "swap_book_boost", "subject": "math", "item": "book_cover", "own": [-6.0, 0.0], "target": [0.0, 0.0], "knowledge": 0.0, "target_buff": "wrong_book_boost"},
 		{"id": "arm_wrestle", "own": [-1.0, -8.0], "target": [3.0, -8.0], "knowledge": 0.0},
@@ -151,9 +154,10 @@ func _test_all_actions() -> bool:
 			for resource_index: int in 2:
 				var resource: String = ["focus", "stamina"][resource_index]
 				_close(ended[0].details.resource_changes.get(resource, {}).get("actual", 0.0), expected[resource_index], "%s角色%d的%s整段实际变化" % [scenario.id, index, resource])
-			_close(ended[0].details.knowledge_gain, scenario.knowledge, "%s角色%d真实知识倍率" % [scenario.id, index])
+			var expected_knowledge: float = scenario.knowledge * (1.0 + simulation.effective_attribute(index, "attention") * configuration.global_value("learning_focus_coefficient"))
+			_close(ended[0].details.knowledge_gain, expected_knowledge, "%s角色%d按实际初始专注属性获得知识" % [scenario.id, index])
 			for knowledge_id: String in simulation.students[index].knowledge:
-				_close(simulation.students[index].knowledge[knowledge_id] - before_knowledge[index][knowledge_id], scenario.knowledge if knowledge_id == "chinese" else 0.0, "各科知识只增实际所得")
+				_close(simulation.students[index].knowledge[knowledge_id] - before_knowledge[index][knowledge_id], expected_knowledge if knowledge_id == "chinese" else 0.0, "各科知识只增实际所得")
 			_check(not simulation.students[index].current_action.has("interaction_id"), "完成后没有遗留双人占用")
 		if scenario.has("own_buff"):
 			_check(not _buff(simulation, 0, scenario.own_buff).is_empty(), "发起者获得真实完成状态：" + scenario.id)
@@ -168,7 +172,7 @@ func _test_all_actions() -> bool:
 	if simulation == null:
 		return false
 	_check(simulation.phase_scope.enabled_actions.size() == 54 and "answer_challenge" not in simulation.phase_scope.enabled_actions, "执行范围54项，宿舍新增五项且未确认抢答仍关闭")
-	_check(simulation.phase_scope.auto_actions == ["daydream", "sleep"] and simulation.phase_scope.subject_auto_actions == {"physical": ["playground_play"]}, "新增玩家互动不暗中改变NPC自主池")
+	_check(simulation.phase_scope.auto_actions == ["daydream", "sleep", "read_comic", "bathroom"] and simulation.phase_scope.subject_auto_actions == {"physical": ["playground_play"]}, "双人扩展保留第7阶段已批准课堂自主候选")
 	return true
 
 
@@ -343,7 +347,7 @@ func _test_redirect_knowledge() -> bool:
 	var status: Dictionary = _buff(simulation, 1, "wrong_book")
 	if not _check(not status.is_empty() and status.selected_subject_id == "math", "真实目标状态携带数学选择"):
 		return false
-	_close(simulation.effective_attribute(1, "intelligence"), -1.0, "课本状态真实降低有效智力一次")
+	_close(simulation.effective_attribute(1, "intelligence"), simulation.students[1].attributes.intelligence - 1.0, "课本状态在同学真实基础智力上降低一次")
 	var chinese_before: float = simulation.students[1].knowledge.chinese
 	var math_before: float = simulation.students[1].knowledge.math
 	if not _result(simulation.start_action(1, "study", false), "目标按当前课程真实学习", simulation.error_message):
@@ -351,7 +355,7 @@ func _test_redirect_knowledge() -> bool:
 	if not _result(simulation.advance(60.0), "拿错课本真实学习一分钟", simulation.error_message):
 		return false
 	_close(simulation.students[1].knowledge.chinese, chinese_before, "拿错课本时不额外增加源课知识")
-	_close(simulation.students[1].knowledge.math - math_before, 1.0, "按当前语文基速记入实际数学")
+	_close(simulation.students[1].knowledge.math - math_before, 1.05, "按当前语文基速及同学一点专注属性记入实际数学")
 	_close(simulation.round_progression.data.daily_days["1"].gains.student_1.math, simulation.students[1].knowledge.math, "日榜账本记真实所得数学")
 	_close(simulation.round_progression.data.daily_days["1"].gains.student_1.chinese, simulation.students[1].knowledge.chinese, "源科日榜没有重复入账")
 	var expired_at: float = status.expires_at
@@ -363,7 +367,7 @@ func _test_redirect_knowledge() -> bool:
 	if not _result(simulation.start_action(1, "study", false), "状态到期后真实回源科", simulation.error_message) or not _result(simulation.advance(60.0), "到期后真实学习一分钟", simulation.error_message):
 		return false
 	_close(simulation.students[1].knowledge.math, math_at_expiry, "到期后保留过去已获数学且不再继续重定向")
-	_close(simulation.students[1].knowledge.chinese - chinese_before, 1.0, "到期后恢复当前课程知识归属")
+	_close(simulation.students[1].knowledge.chinese - chinese_before, 1.05, "到期后按同学真实专注属性恢复当前课程知识归属")
 	# 音乐课中仍可完成选科动作，但恢复课程没有知识，不能凭空产生重定向收益。
 	var recovery := _simulation(1, 1, 50400.0)
 	if recovery == null:
@@ -397,7 +401,7 @@ func _test_redirect_replacement() -> bool:
 		return false
 	var status: Dictionary = _buff(simulation, 1, "wrong_book_boost")
 	_check(_buff(simulation, 1, "wrong_book").is_empty() and not status.is_empty() and status.selected_subject_id == "english", "强化替换普通版并保留最后一次科目")
-	_close(simulation.effective_attribute(1, "intelligence"), -1.0, "同组替换不会叠加两次智力惩罚")
+	_close(simulation.effective_attribute(1, "intelligence"), simulation.students[1].attributes.intelligence - 1.0, "同组替换只对同学真实初始智力施加一次惩罚")
 	_close(status.expires_at, simulation.elapsed_s + 720.0, "强化实际到期读取十二分钟配置")
 	if not _result(simulation.start_interaction(0, 1, "swap_book", "", "math"), "普通课本再覆盖强化版", simulation.error_message) or not _result(simulation.advance(120.0), "替换动作真实完成", simulation.error_message):
 		return false
@@ -580,7 +584,7 @@ func _test_hot_reload() -> bool:
 	if not _result(simulation.start_interaction(0, 1, "give_comic_item"), "热改前真实看漫画", simulation.error_message) or not _result(simulation.advance(60.0), "旧费率真实运行一分钟", simulation.error_message):
 		return false
 	_close(simulation.students[0].focus, 31.0, "发起者先付二再按正式3%恢复")
-	_close(simulation.students[1].focus, 33.0, "目标按正式3%恢复")
+	_close(simulation.students[1].focus, 34.2, "目标按真实140专注上限的3%恢复")
 	var old_action: Array = [simulation.students[0].current_action.duplicate(true), simulation.students[1].current_action.duplicate(true)]
 	var inventory: Dictionary = simulation.students[0].inventory.duplicate()
 	var random_state: int = simulation.rng.state
@@ -597,7 +601,7 @@ func _test_hot_reload() -> bool:
 	if not _result(simulation.advance(60.0), "双人按新费率真实运行一分钟", simulation.error_message):
 		return false
 	_close(simulation.students[0].focus, 37.0, "发起者后续采用6%")
-	_close(simulation.students[1].focus, 39.0, "目标后续采用6%且不重复执行")
+	_close(simulation.students[1].focus, 42.6, "目标后续按真实140上限采用6%且不重复执行")
 	_check(_events(simulation, "consume_item", 0).size() == 1, "热改不重复消费漫画")
 	var invalid_data: Dictionary = _config_data()
 	_effect(invalid_data, "give_comic_item_start_2").phase = "complete"

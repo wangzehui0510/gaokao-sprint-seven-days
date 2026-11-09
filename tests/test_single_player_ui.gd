@@ -44,6 +44,9 @@ func _launch_isolated_project() -> void:
 			push_error("复制单机界面隔离工程失败：%s，错误码%s。" % [folder, result])
 			quit(1)
 			return
+	if not _disable_isolated_social(isolated_root):
+		quit(1)
+		return
 	var project := ConfigFile.new()
 	if project.load("res://project.godot") != OK:
 		push_error("无法读取单机界面测试所需真实工程设置。")
@@ -69,6 +72,23 @@ func _launch_isolated_project() -> void:
 		print(line)
 	print("SINGLE_PLAYER_UI_TEST_PROJECT=%s" % isolated_root)
 	quit(exit_code)
+
+
+## 仅修改本次隔离工程，避免竞争AI随机打断个人动作或双人扩展的专属界面验收。
+func _disable_isolated_social(isolated_root: String) -> bool:
+	var path: String = isolated_root.path_join("config/phase_scope.json")
+	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	if not data is Dictionary:
+		push_error("单机界面隔离副本的阶段配置无效：" + path)
+		return false
+	data.social_auto_actions = []
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		push_error("无法写入单机界面的隔离阶段配置：" + path)
+		return false
+	file.store_string(JSON.stringify(data, "\t", true, true))
+	file.close()
+	return true
 
 
 ## 每个文件都检查复制错误，不在缺失源码时继续验收。
@@ -164,6 +184,21 @@ func _reset_session(ui: Control, seed_value: int, at_day: int = 1, seconds: floa
 		return false
 	ui._attach_behavior()
 	return _check(not ui.fatal_error and ui.simulation != null, "生产界面绑定共享行为树成功")
+
+
+## 固定种子集合只用于寻找真实缺物前置，不依赖AI升级之前的随机消耗次数或伪造库存。
+func _reset_without_items(ui: Control, item_ids: Array) -> bool:
+	for seed_value in range(1, 65):
+		if not _reset_session(ui, seed_value):
+			return false
+		var missing: bool = true
+		for item_id: String in item_ids:
+			if int(ui.simulation.students[0].inventory.get(item_id, 0)) != 0:
+				missing = false
+				break
+		if missing:
+			return _check(_events(ui, "daily_items", 0).size() == 1, "缺物前置来自一次真实课程奖励")
+	return _check(false, "固定种子集合未得到所需真实缺物前置：" + str(item_ids))
 
 
 ## 真实加点只消费现有初始点，上限增加不能赠资源或改变其他同学。
@@ -323,7 +358,7 @@ func _test_real_item_use(ui: Control) -> bool:
 
 ## 缺物拒绝在真实入口重新核验，不能先打断旧动作或使有效局进入致命停止。
 func _test_rejection(ui: Control) -> bool:
-	if not _reset_session(ui, 8):
+	if not _reset_without_items(ui, ITEM_ACTIONS.keys()):
 		return false
 	ui._select_student(0)
 	ui.inventory_entry_button.pressed.emit()

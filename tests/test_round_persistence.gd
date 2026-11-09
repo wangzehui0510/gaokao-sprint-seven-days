@@ -44,6 +44,8 @@ func _empty_simulation(game_config: GameConfig = null, seed_value: int = 261107)
 	var source: GameConfig = configuration if game_config == null else game_config
 	if not _result(simulation.setup(source, seed_value), "建立隔离四人局", simulation.error_message):
 		return null
+	# 旧版本迁移夹具只生成当时支持的显式互动，自主竞争另由AI集成验收覆盖。
+	simulation.phase_scope.social_auto_actions = []
 	var controller := ClassroomBehaviorController.new()
 	root.add_child(controller)
 	controller.setup(simulation)

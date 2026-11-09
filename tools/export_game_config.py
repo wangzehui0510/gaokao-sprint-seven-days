@@ -393,6 +393,64 @@ def validate_tables(tables: dict[str, Table]) -> None:
         for record in table.records:
             expected = record.values["type"]
             record.values["value"] = typed_value(record.values["value"], {"key": "value", "type": expected, "nullable": False}, table.sheet, record.row)
+        # 与运行时使用同一概率契约；非法配表必须在导出边界明确失败。
+        ai_keys = (
+            "personality_ref_attr", "dorm_weight_floor", "social_auto_base",
+            "g_study", "g_game", "g_workout", "g_playful", "g_weak", "g_lead",
+            "k_threshold",
+        )
+        ai: dict[str, float] = {}
+        for key in ai_keys:
+            record = indexes["globals"]["key"].get(key)
+            if record is None:
+                raise ConfigError(f'工作表“{table.sheet}”缺少AI必需参数“{key}”')
+            if record.values["type"] != "number":
+                table.fail(record, "type", f"AI参数{key}必须声明为number")
+            ai[key] = number(table, record, "value")
+        if ai["personality_ref_attr"] <= 0:
+            table.fail(indexes["globals"]["key"]["personality_ref_attr"], "value", "AI加权参考值必须大于零")
+        if not 0 <= ai["dorm_weight_floor"] <= 1 / 6:
+            table.fail(indexes["globals"]["key"]["dorm_weight_floor"], "value", "六项活动的保底概率必须在0至1/6之间")
+        for key in ("g_study", "g_game", "g_workout", "g_playful", "g_weak", "g_lead"):
+            if ai[key] < 0:
+                table.fail(indexes["globals"]["key"][key], "value", "AI增益必须是非负有限数")
+        if not 0 <= ai["k_threshold"] <= 1:
+            table.fail(indexes["globals"]["key"]["k_threshold"], "value", "开小差阈值调节必须在0至1之间")
+        social_probability = ai["social_auto_base"] * (1 + ai["g_game"])
+        if ai["social_auto_base"] < 0 or not math.isfinite(social_probability) or social_probability > 1:
+            table.fail(indexes["globals"]["key"]["social_auto_base"], "value", "必须非负，且与g_game组合后的发起概率不得超过1")
+        if not math.isfinite(3 * (1 + ai["g_weak"])) or not math.isfinite(18 * (1 + ai["g_lead"])):
+            raise ConfigError(f'工作表“{table.sheet}”的AI选科或竞争目标权重合计超出有限数字范围')
+        gains = {
+            "dorm_study": "g_study", "dorm_practice": "g_study",
+            "dorm_game": "g_game", "dorm_workout": "g_workout",
+            "playground_play": "g_workout", "daydream": "g_playful", "read_comic": "g_playful",
+        }
+        totals = {"dorm_free": 0.0, "knowledge_course": 0.0}
+        for record in tables["auto_pool"].records:
+            row = record.values
+            if not row["enabled"]:
+                continue
+            gain = ai[gains[row["action_id"]]] if row["action_id"] in gains else 0
+            maximum_weight = number(tables["auto_pool"], record, "weight") * (1 + gain)
+            totals[row["eligible_period"]] += maximum_weight
+            if not math.isfinite(maximum_weight) or not math.isfinite(totals[row["eligible_period"]]):
+                tables["auto_pool"].fail(record, "weight", "AI属性加权或权重合计超出有限数字范围")
+
+    if "npc_attributes" in tables:
+        table = tables["npc_attributes"]
+        if set(indexes["npc_attributes"]["id"]) != {"student_1", "student_2", "student_3"}:
+            raise ConfigError("占位加点表必须完整包含student_1、student_2、student_3")
+        initial = number(tables["globals"], indexes["globals"]["key"]["initial_attribute_points"], "value")
+        for record in table.records:
+            total = 0
+            for attribute in ("attention", "discipline", "health", "intelligence"):
+                value = integer(table, record, attribute)
+                if value < 0:
+                    table.fail(record, attribute, "占位初始属性必须为非负整数")
+                total += value
+            if total != initial:
+                table.fail(record, "id", "每名占位角色必须恰好消耗初始属性点")
 
     if "actions" in tables:
         table = tables["actions"]
@@ -503,7 +561,7 @@ def validate_tables(tables: dict[str, Table]) -> None:
         if total_weight <= 0:
             raise ConfigError(f'工作表“{table.sheet}”的启用项权重总和必须大于零')
 
-    # 宿舍与课堂候选按时段隔离，六项等权来自用户已确认的自主活动规则。
+    # 宿舍与课堂候选按时段隔离，六项使用等权基线，再由运行时按属性修正。
     if "auto_pool" in tables:
         table = tables["auto_pool"]
         expected = {"dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash", "dorm_rest"}

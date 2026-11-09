@@ -24,8 +24,8 @@ func tick(actor: Node, _blackboard: Blackboard) -> int:
 		"sleep":
 			matches = knowledge_course and tired
 		"social":
-			# 竞争互动只在知识课、非疲劳且已分心时发起：专注的学生学习，只有无聊/分心者才去干扰对手，避免开局全员逃课。
-			matches = knowledge_course and not tired and distracted
+			# 被新互动释放的旧搭档本次回课表；其他知识课决策点均可按属性概率发起竞争。
+			matches = knowledge_course and not tired and student_actor.student_index not in simulation.schedule_returns
 		"distraction":
 			matches = knowledge_course and not tired and distracted
 		"study":

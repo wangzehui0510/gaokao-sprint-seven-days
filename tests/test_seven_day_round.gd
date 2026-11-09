@@ -131,7 +131,9 @@ func _test_whole_round() -> bool:
 		_check(row.subject_scores.size() == 4, "最终榜展示四科来源：" + row.student_id)
 	_check_ranking(totals.rows, "score_units", "真实最终榜")
 	_check(simulation.students.all(func(student: Dictionary): return student.current_action.is_empty()), "终局四人均不残留可执行动作")
-	_check(simulation.interactions.is_empty(), "真实七天不擅自开启NPC主动互动")
+	_check(not simulation.interactions.is_empty(), "第7阶段真实七天确实发生已批准的自主竞争互动")
+	for interaction: Dictionary in simulation.interactions:
+		_check(interaction.action_id in simulation.phase_scope.social_auto_actions and interaction.status != "active", "自主互动仅来自已批准竞争池，终局不残留双人占用")
 	return _check_terminal_read_only(simulation, "完整七天局")
 
 
@@ -140,9 +142,13 @@ func _test_daily_raw_order() -> bool:
 	var simulation := _new_at(1, 59999.0)
 	if simulation == null:
 		return false
+	# 本算例只比较一秒学习的真实原始精度，排除其他角色自主竞争对该输入的接管。
+	simulation.phase_scope.social_auto_actions = []
 	var attentions: Array[float] = [0.0, 0.0001, 0.0002, 0.0001]
 	for index in simulation.students.size():
 		simulation.students[index].attributes.attention = attentions[index]
+		if not _result(simulation.start_action(index, "study", false), "微小差异角色真实进入末秒学习", simulation.error_message):
+			return false
 	if not _result(simulation.advance(1.0), "16:39:59实际学习一秒后发布当日榜", simulation.error_message):
 		return false
 	var board: Dictionary = simulation.get_daily_board(1, "math")
@@ -168,6 +174,10 @@ func _test_snapshot_and_hot_reload() -> bool:
 		student.attributes.intelligence = 2.0
 		for subject: String in SUBJECTS:
 			student.knowledge[subject] = 100.0 if index < 2 else 200.0 + index
+	# 同分算例的两人等待最后一秒，不让不同初始专注属性或自主宿舍选科改变明确相同的知识前置。
+	for index: int in [0, 1]:
+		if not _result(simulation.start_action(index, "rest"), "同分角色开考前真实休息一秒", simulation.error_message):
+			return false
 	_check(simulation.get_exam_board("chinese").status == "pending", "13:59:59语文尚未开考")
 	if not _result(simulation.advance(1.0), "真实跨过14:00边界", simulation.error_message):
 		return false

@@ -24,6 +24,10 @@ var config: RefCounted
 var phase_scope: Dictionary = {}
 var rng := RandomNumberGenerator.new()
 var decision_handler: Callable
+# 接管过程中只登记旧搭档；统一填充时按原策略回课表，不递归发起新一轮竞争。
+var schedule_returns: Array[int] = []
+# 填充期间提交新互动只登记后续空位，防止再次递归进入同一棵行为树。
+var filling_actions: bool = false
 var logs: Array[Dictionary] = []
 var error_message: String = ""
 var day: int = 1
@@ -73,6 +77,8 @@ func setup(game_config: RefCounted, random_seed: int = 0, scope_path: String = "
 	next_interaction_number = 1
 	next_violation_number = 1
 	students.clear()
+	schedule_returns.clear()
+	filling_actions = false
 	logs.clear()
 	interactions.clear()
 	notes.clear()
@@ -106,12 +112,8 @@ func setup(game_config: RefCounted, random_seed: int = 0, scope_path: String = "
 
 ## AI升级：把占位假人的预设加点写入属性并清零其待分配点；已在边界校验过合法性。
 func _apply_npc_builds() -> Error:
-	var npc_builds: Variant = phase_scope.get("npc_attributes")
-	if npc_builds == null:
-		return OK
-	for slot: int in npc_builds.size():
-		var index: int = slot + 1  # 玩家“我”是0号，占位假人从1号起
-		var build: Dictionary = npc_builds[slot]
+	for index: int in range(1, students.size()):
+		var build: Dictionary = config.indexes.npc_attributes[students[index].id]
 		for attribute_id: String in ATTRIBUTE_KEYS:
 			students[index].attributes[attribute_id] = float(build[attribute_id])
 		students[index].unspent_points = 0
@@ -381,21 +383,24 @@ func persona_factor(student_index: int, action_id: String) -> float:
 ## AI升级：返回归一化到[0,1]的权威属性比例，防止状态加成使倾向系数变负或失控。
 func _attr_ratio(student_index: int, attribute: String) -> float:
 	var reference: float = config.global_value("personality_ref_attr")
-	if reference <= 0.0:
-		return 0.0
 	return clampf(effective_attribute(student_index, attribute) / reference, 0.0, 1.0)
 
 
-## AI升级：返回知识量最低的文化课；并列最小值取遍历序首个，不消耗随机数。
-func weak_subject(student_index: int) -> String:
-	var worst: String = ""
+## 并列最低科目全部返回，查询不抽随机数，选科时给予相同倾向。
+func weak_subjects(student_index: int) -> Array[String]:
+	var weakest: Array[String] = []
 	var worst_value: float = INF
+	# 先找真实最小值，再统一判断并列，避免遍历顺序放大连续积分末位误差。
 	for subject_id: String in ["chinese", "math", "english"]:
-		var value: float = float(students[student_index].knowledge.get(subject_id, 0.0))
-		if value < worst_value:
-			worst_value = value
-			worst = subject_id
-	return worst
+		var value: float = float(students[student_index].knowledge[subject_id])
+		worst_value = minf(worst_value, value)
+	for subject_id: String in ["chinese", "math", "english"]:
+		var value: float = float(students[student_index].knowledge[subject_id])
+		# 只合并浮点累加的机器舍入误差；真实知识差仍决定弱科，不按显示精度比较。
+		var rounding_error: float = 32.0 * 2.220446049250313e-16 * maxf(absf(value), absf(worst_value))
+		if absf(value - worst_value) <= rounding_error:
+			weakest.append(subject_id)
+	return weakest
 
 
 ## AI升级：返回角色的当前累计总知识，用于竞争互动的“领先”度量。
@@ -414,29 +419,53 @@ func distraction_threshold(student_index: int) -> float:
 
 ## AI升级：按正权重做加权随机抽取，返回命中下标；总权重非正返回-1由调用方显式失败。
 func _weighted_index(weights: Array[float]) -> int:
+	var largest: float = 0.0
+	for weight: float in weights:
+		largest = maxf(largest, weight)
+	if largest <= 0.0:
+		return -1
 	var total: float = 0.0
 	for weight: float in weights:
-		total += weight
-	if total <= 0.0:
-		return -1
-	var choice: float = float(rng.randi()) / 4294967296.0 * total
+		total += weight / largest
+	var choice: float = float(rng.randi()) / 4294967296.0
 	var cursor: float = 0.0
 	for index: int in weights.size():
-		cursor += weights[index]
-		if choice < cursor:
+		cursor += weights[index] / largest
+		if choice < cursor / total:
 			return index
-	return weights.size() - 1
+	_fail("加权随机抽取未命中合法候选，请检查权重数值")
+	return -1
 
 
-## AI升级：倾向加权后应用保底，任一项权重不低于 floor_prob 比例，避免其概率消失。
+## 固定低于下限的项，再按原权重分配剩余概率；最终归一后仍满足保底。
 func _weighted_with_floor(weights: Array[float], floor_prob: float) -> Array[float]:
-	var total: float = 0.0
+	var largest: float = 0.0
 	for weight: float in weights:
-		total += weight
-	var floor_weight: float = floor_prob * total
+		largest = maxf(largest, weight)
 	var adjusted: Array[float] = []
+	var pending: Array[int] = []
 	for weight: float in weights:
-		adjusted.append(maxf(weight, floor_weight))
+		adjusted.append(weight / largest)
+		pending.append(pending.size())
+	var remaining: float = 1.0
+	while not pending.is_empty():
+		var total: float = 0.0
+		for index: int in pending:
+			total += weights[index] / largest
+		var fixed: Array[int] = []
+		for index: int in pending:
+			var probability: float = remaining * (weights[index] / largest) / total
+			if probability < floor_prob:
+				fixed.append(index)
+		if fixed.is_empty():
+			for index: int in pending:
+				adjusted[index] = remaining * (weights[index] / largest) / total
+			break
+		# 每次固定至少一项，因此迭代由候选数量自然结束，不加人为轮数限制。
+		for index: int in fixed:
+			adjusted[index] = floor_prob
+			remaining -= floor_prob
+			pending.erase(index)
 	return adjusted
 
 
@@ -468,10 +497,10 @@ func select_auto_action(student_index: int) -> String:
 ## AI升级：自习/刷题选科——补弱科倾向加权+保底，弱科按当前累计知识量最低判定。
 func select_cultural_subject(student_index: int) -> String:
 	var subjects: Array[String] = ["chinese", "math", "english"]
-	var weak: String = weak_subject(student_index)
+	var weakest: Array[String] = weak_subjects(student_index)
 	var weights: Array[float] = []
 	for subject_id: String in subjects:
-		weights.append((1.0 + config.global_value("g_weak")) if subject_id == weak else 1.0)
+		weights.append((1.0 + config.global_value("g_weak")) if subject_id in weakest else 1.0)
 	var adjusted: Array[float] = _weighted_with_floor(weights, float(config.global_value("dorm_weight_floor")))
 	var picked: int = _weighted_index(adjusted)
 	return "" if picked < 0 else subjects[picked]
@@ -487,16 +516,16 @@ func get_social_candidates(student_index: int) -> Array[Dictionary]:
 		for target_index: int in students.size():
 			if target_index == student_index:
 				continue
-			# 已在双人互动中的目标跳过：自主社交不连锁打断同一对手，避免递归填充反复扣费直至体力不足。
-			if not students[target_index].current_action.is_empty() and students[target_index].current_action.get("interaction_id", null) != null:
-				continue
-			var selected_subject: String = ""
+			var subjects: Array[String] = [""]
 			if action_id == "swap_book":
-				selected_subject = _pick_swap_subject()
-				if selected_subject.is_empty():
-					continue
-			if can_start_interaction(student_index, target_index, String(action_id), selected_subject):
-				result.append({"action_id": String(action_id), "target_index": target_index, "selected_subject_id": selected_subject})
+				subjects = _swap_subjects()
+			# 枚举合法选科而不提前抽取；同一个动作/目标仍只占一个候选权重。
+			var available_subjects: Array[String] = []
+			for subject_id: String in subjects:
+				if can_start_interaction(student_index, target_index, String(action_id), subject_id):
+					available_subjects.append(subject_id)
+			if not available_subjects.is_empty():
+				result.append({"action_id": String(action_id), "target_index": target_index, "selected_subject_id": available_subjects[0], "subject_options": available_subjects})
 	return result
 
 
@@ -515,7 +544,14 @@ func select_social_action(student_index: int) -> Dictionary:
 			ratio = _total_knowledge(int(option["target_index"])) / max_knowledge
 		weights.append(1.0 + config.global_value("g_lead") * ratio)
 	var picked: int = _weighted_index(weights)
-	return {} if picked < 0 else options[picked]
+	if picked < 0:
+		return {}
+	var selected: Dictionary = options[picked].duplicate(true)
+	if selected.action_id == "swap_book":
+		var subjects: Array = selected.subject_options
+		selected.selected_subject_id = subjects[rng.randi_range(0, subjects.size() - 1)]
+	selected.erase("subject_options")
+	return selected
 
 
 ## AI升级：竞争互动发起概率——自律越低越爱干扰；决策点用共享随机流做一次性判定。
@@ -526,16 +562,14 @@ func should_initiate_social(student_index: int) -> bool:
 	return float(rng.randi()) / 4294967296.0 < probability
 
 
-## AI升级：偷换课本的自主选科——随机选一个不同于当前授课科目的文化课。
-func _pick_swap_subject() -> String:
+## 偷换课本只枚举不同于当前授课科目的文化课，抽取留给最终选择入口。
+func _swap_subjects() -> Array[String]:
 	var current: String = course_context().subject_id
 	var options: Array[String] = []
 	for subject_id: String in ["chinese", "math", "english"]:
 		if subject_id != current:
 			options.append(subject_id)
-	if options.is_empty():
-		return ""
-	return options[rng.randi_range(0, options.size() - 1)]
+	return options
 
 
 ## 查询实际发动前置条件，不扣物、不消耗随机流，也不结束角色已有动作。
@@ -600,6 +634,8 @@ func start_action(student_index: int, action_id: String, natural_entry: bool = t
 		return _reject(unavailable, ERR_UNAVAILABLE)
 	var definition: Dictionary = config.actions[action_id]
 	var leaves_pair: bool = students[student_index].current_action.has("interaction_id")
+	if leaves_pair:
+		_queue_remaining_participants(student_index, [student_index])
 	if not students[student_index].current_action.is_empty():
 		var interrupted: Error = _end_action(student_index, false, reason, interrupted_by)
 		if interrupted != OK:
@@ -749,7 +785,7 @@ func _is_cultural_subject(subject_id: String) -> bool:
 
 
 ## 原子接管新参与者，所有旧互动先整体结束，之后才建立新动作及恢复旧搭档。
-func start_interaction(initiator_index: int, target_index: int, action_id: String, note_text: String = "", selected_subject_id: String = "") -> Error:
+func start_interaction(initiator_index: int, target_index: int, action_id: String, note_text: String = "", selected_subject_id: String = "", reason: String = "主动互动") -> Error:
 	var unavailable: String = interaction_unavailable_reason(initiator_index, target_index, action_id, selected_subject_id)
 	if not unavailable.is_empty():
 		return _reject(unavailable, ERR_UNAVAILABLE)
@@ -759,6 +795,8 @@ func start_interaction(initiator_index: int, target_index: int, action_id: Strin
 	var stamina_snapshot: Dictionary = {}
 	if action_id == "arm_wrestle":
 		stamina_snapshot = {"initiator": students[initiator_index].stamina, "target": students[target_index].stamina}
+	for index: int in [initiator_index, target_index]:
+		_queue_remaining_participants(index, [initiator_index, target_index])
 	for index in [initiator_index, target_index]:
 		if not students[index].current_action.is_empty():
 			var ended: Error = _end_action(index, false, "新互动打断", initiator_index)
@@ -787,8 +825,21 @@ func start_interaction(initiator_index: int, target_index: int, action_id: Strin
 	var result: Error = _apply_targeted_phase(initiator_index, target_index, action_id, "start", interaction)
 	if result != OK:
 		return result
-	_log(initiator_index, "interaction_start", "%s → %s：%s%s" % [students[initiator_index].name, students[target_index].name, definition.name, "（尚未送达）" if action_id == "send_note" else ""], interaction.duplicate(true))
+	var log_details: Dictionary = interaction.duplicate(true)
+	log_details["reason"] = reason
+	_log(initiator_index, "interaction_start", "%s → %s：%s%s" % [students[initiator_index].name, students[target_index].name, definition.name, "（尚未送达）" if action_id == "send_note" else ""], log_details)
 	return _fill_missing_actions()
+
+
+## 新动作只接管指定参与者，其余旧搭档按既有schedule打断策略接续。
+func _queue_remaining_participants(index: int, incoming: Array) -> void:
+	var action: Dictionary = students[index].current_action
+	if not action.has("interaction_id"):
+		return
+	var interaction: Dictionary = _interaction_by_id(action.interaction_id)
+	for participant: int in [interaction.initiator_index, interaction.target_index]:
+		if participant not in incoming and participant not in schedule_returns:
+			schedule_returns.append(participant)
 
 
 ## 地点使用动作和当前课表，供场景前置条件与可视化共用。
@@ -1315,28 +1366,15 @@ func _validate_scope() -> Error:
 					resolve_sequence = effect.sequence
 				elif effect.condition in ["winner", "loser", "tie"] and (resolve_sequence < 0.0 or effect.sequence <= resolve_sequence):
 					return _fail("掰手腕必须先确定快照胜负再结算胜负效果")
-	# AI升级：占位假人预设加点必须完整合法；联机后由真人自己加点并移除此校验。
-	var npc_builds: Variant = phase_scope.get("npc_attributes")
-	if npc_builds != null:
-		if not npc_builds is Array or npc_builds.size() != 3:
-			return _fail("npc_attributes必须为三名占位假人的预设加点数组")
-		var initial_points: float = config.global_value("initial_attribute_points")
-		for build: Variant in npc_builds:
-			if not build is Dictionary:
-				return _fail("占位假人加点必须是对象")
-			var total: float = 0.0
-			for attribute_id: String in ATTRIBUTE_KEYS:
-				var amount: Variant = build.get(attribute_id)
-				if not _is_number(amount) or float(amount) < 0.0 or amount != int(amount):
-					return _fail("占位假人属性%s必须是非负整数" % attribute_id)
-				total += float(amount)
-			if total != initial_points:
-				return _fail("占位假人加点必须恰好消耗%d点初始属性点" % int(initial_points))
 	# 竞争社交候选必须是已开放的双人持续互动，不能把个人动作混入自主干扰池。
-	var social_ids: Array = phase_scope.get("social_auto_actions", [])
+	if not phase_scope.get("social_auto_actions") is Array:
+		return _fail("阶段范围必须声明social_auto_actions数组")
+	var social_ids: Array = phase_scope.social_auto_actions
+	var seen_social: Array = []
 	for action_id: Variant in social_ids:
-		if not action_id is String or action_id not in phase_scope.enabled_actions or action_id not in PAIR_ACTIONS:
-			return _fail("竞争社交候选未开放或不是双人互动：%s" % action_id)
+		if not action_id is String or action_id not in phase_scope.enabled_actions or action_id in seen_social or action_id not in ["borrow_notes", "swap_book", "invite_playground", "invite_canteen", "arm_wrestle", "eraser_prank"]:
+			return _fail("竞争社交候选重复、未开放或不属于竞争动作池：%s" % action_id)
+		seen_social.append(action_id)
 	return OK
 
 
@@ -1634,15 +1672,28 @@ func _is_integer(value: Variant) -> bool:
 
 ## 只有待决策角色才请求共享行为树；执行中的动作不会被每帧重选。
 func _fill_missing_actions() -> Error:
-	if is_round_finished():
+	if is_round_finished() or filling_actions:
 		return OK
-	for index in students.size():
-		if students[index].current_action.is_empty():
-			if not decision_handler.is_valid():
-				return _fail("共享行为树尚未接入，不能开始自主活动")
-			decision_handler.call(index)
+	filling_actions = true
+	# 互动提交可能释放已经遍历过的旧搭档；每次重新找空位，避免嵌套tick同一棵树。
+	while true:
+		var missing: int = -1
+		for index: int in students.size():
 			if students[index].current_action.is_empty():
-				return _fail("行为树没有为%s选择有效动作：%s" % [students[index].name, error_message])
+				missing = index
+				break
+		if missing < 0:
+			break
+		if not decision_handler.is_valid():
+			filling_actions = false
+			return _fail("共享行为树尚未接入，不能开始自主活动")
+		decision_handler.call(missing)
+		schedule_returns.erase(missing)
+		if students[missing].current_action.is_empty():
+			filling_actions = false
+			return _fail("行为树没有为%s选择有效动作：%s" % [students[missing].name, error_message])
+	filling_actions = false
+	schedule_returns.clear()
 	for index in students.size():
 		_sync_violation(index)
 	return OK

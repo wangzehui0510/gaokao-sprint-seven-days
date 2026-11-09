@@ -11,7 +11,7 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 		result = student_actor.simulation.start_interaction(
 			student_actor.student_index,
 			int(blackboard.get_value("social_target_index")),
-			action_id, "", subject_id,
+			action_id, "", subject_id, "自主干扰",
 		)
 	else:
 		result = student_actor.simulation.start_action(student_actor.student_index, action_id, true, -1, "自主选择", subject_id)

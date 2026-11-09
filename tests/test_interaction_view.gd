@@ -39,6 +39,8 @@ func _make_fixture() -> Dictionary:
 	var simulation := ClassroomSimulation.new()
 	if not _check_result(simulation.setup(configuration, 517), "建立互动场景独立局", simulation.error_message):
 		return {}
+	# 本组隔离主动互动的视觉生命周期；竞争AI另有真实集成覆盖，不在此随机打断纸条或橡皮。
+	simulation.phase_scope.social_auto_actions = []
 	var behavior := ClassroomBehaviorController.new()
 	root.add_child(behavior)
 	behavior.setup(simulation)

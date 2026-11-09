@@ -55,6 +55,8 @@ func _empty_simulation(game_config: GameConfig = null, seed_value: int = 261107)
 	var loaded: GameConfig = configuration if game_config == null else game_config
 	if not _result(simulation.setup(loaded, seed_value), "创建真实四人新局", simulation.error_message):
 		return null
+	# 奖励算例隔离自主竞争，保留真实NPC属性、课程及奖池。
+	simulation.phase_scope.social_auto_actions = []
 	for student in simulation.students:
 		if not student.has("daily_item_claim_days") or not student.daily_item_claim_days is Array:
 			_check(false, "新局必须显式建立每日领取日数组")
@@ -142,12 +144,12 @@ func _test_sleep_and_distraction() -> bool:
 		return false
 	simulation.students[0].focus = 80.0
 	simulation.students[0].stamina = 5.0
-	simulation.students[1].focus = 40.0
+	simulation.students[1].focus = simulation.distraction_threshold(1) - 1.0
 	simulation.students[2].focus = 50.0
 	if not _result(simulation.advance(0.0), "四人按各自资源正常决策", simulation.error_message):
 		return false
 	_check(simulation.students[0].current_action.action_id == "sleep" and simulation.students[0].daily_item_claim_days.is_empty(), "低体力先睡觉的玩家没有领取")
-	_check(simulation.students[1].current_action.action_id == "daydream" and simulation.students[1].daily_item_claim_days.is_empty(), "低专注先发呆的同学没有领取")
+	_check(simulation.students[1].current_action.action_id in ["daydream", "read_comic", "bathroom"] and simulation.students[1].daily_item_claim_days.is_empty(), "低于本人阈值先开小差的同学没有领取")
 	_check(simulation.students[2].focus == 49.0 and simulation.students[2].daily_item_claim_days == [1], "成功支付启动费后专注低于阈值仍属于真实课程领取")
 	_check(simulation.students[3].daily_item_claim_days == [1] and _daily_logs(simulation).size() == 2, "只有实际开始课程的两人先领取")
 	if not _result(simulation.focus_command(), "玩家从睡觉真实切回课程", simulation.error_message):

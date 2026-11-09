@@ -43,6 +43,8 @@ func _simulation(at_day: int, seconds: float, source: GameConfig = null) -> Clas
 	var simulation := ClassroomSimulation.new()
 	if not _result(simulation.setup(configuration if source == null else source, 261107), "建立真实四人局", simulation.error_message):
 		return null
+	# 热改算例隔离自主竞争，确保被核对的课程段由本场景显式控制。
+	simulation.phase_scope.social_auto_actions = []
 	var controller := ClassroomBehaviorController.new()
 	root.add_child(controller)
 	controller.setup(simulation)

@@ -39,6 +39,8 @@ func _fixture(seconds: float, seed_value: int = 261107) -> Dictionary:
 	var simulation := ClassroomSimulation.new()
 	if not _result(simulation.setup(configuration, seed_value), "建立独立真实校园局"):
 		return {}
+	# 本组独立核对镜头与主动动作表现；自主竞争由AI集成组验收，避免随机邀请改变预设场景。
+	simulation.phase_scope.social_auto_actions = []
 	var behavior := ClassroomBehaviorController.new()
 	root.add_child(behavior)
 	behavior.setup(simulation)

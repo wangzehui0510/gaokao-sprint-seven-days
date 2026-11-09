@@ -115,7 +115,7 @@ func _test_pair_buttons(ui: Control) -> bool:
 
 ## 窗口先显示明确原因，过期点击重新校验，失败保留原动作和真实草稿。
 func _test_pair_rejection(ui: Control) -> bool:
-	if not _reset_session(ui, 8):
+	if not _reset_without_items(ui, ["snack"]):
 		return false
 	ui._show_pair_actions(1)
 	if not _choose(ui.pair_action_picker, "feed_snack", "缺零食投喂"):

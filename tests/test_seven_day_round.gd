@@ -62,7 +62,7 @@ func _new_at(test_day: int, seconds: float, game_config: GameConfig = null) -> C
 	return simulation
 
 
-## 连续推进不跨越任何纯事件，逐日用实际知识差值核对四科新增及历史。
+## 连续推进覆盖全部纯事件，总知识扣除真实宿舍动作收益后核对在校榜与历史。
 func _test_whole_round() -> bool:
 	var simulation := _new_at(1, 0.0)
 	if simulation == null:
@@ -72,6 +72,7 @@ func _test_whole_round() -> bool:
 	var published: Dictionary = {}
 	for test_day in range(1, 8):
 		var baseline: Dictionary = _knowledge_by_student(simulation)
+		var dorm_baseline: Dictionary = _dorm_knowledge_by_student(simulation)
 		for subject: String in SUBJECTS:
 			var pending: Dictionary = simulation.get_daily_board(test_day, subject)
 			_check(pending.status == "pending", "第%d天%s尚未到统计边界" % [test_day, subject])
@@ -79,18 +80,23 @@ func _test_whole_round() -> bool:
 			return false
 		_check(simulation.day == test_day, "日榜在实际第%d天形成" % test_day)
 		_close(simulation.clock_seconds, DAILY_END, "第%d天落在精确16:40" % test_day)
+		var dorm_gains: Dictionary = _dorm_knowledge_by_student(simulation)
 		for subject: String in SUBJECTS:
 			var board: Dictionary = simulation.get_daily_board(test_day, subject)
 			if not _check(board.status == "published" and board.rows.size() == 4, "第%d天%s真实发布四人知识榜" % [test_day, subject]):
 				return false
 			_check(board.source == "online", "连续在线日榜保留真实在线来源")
+			_check(board.knowledge_scope == "school", "新局日榜明确只统计在校来源")
 			_close(board.start_seconds, 0.0, "完整日从00:00统计新增知识")
 			_close(board.end_seconds, DAILY_END, "完整日统计止于16:40")
 			var rows: Dictionary = _index_rows(board.rows)
 			if rows.size() != 4:
 				return false
-			for student: Dictionary in simulation.students:
-				_close(rows[student.id].knowledge, student.knowledge[subject] - baseline[student.id][subject], "第%d天%s按角色%s真实新增知识计榜" % [test_day, subject, student.id])
+			for index in simulation.students.size():
+				var student: Dictionary = simulation.students[index]
+				var dorm_gain: float = dorm_gains[student.id][subject] - dorm_baseline[student.id][subject]
+				_close(rows[student.id].knowledge, student.knowledge[subject] - baseline[student.id][subject] - dorm_gain, "第%d天%s按角色%s真实在校新增知识计榜" % [test_day, subject, student.id])
+				_close(simulation.get_dorm_summary(test_day, index).totals[subject], dorm_gain, "第%d天%s宿舍独立明细与真实动作记录一致" % [test_day, subject])
 			_check_ranking(board.rows, "knowledge", "真实每日知识榜")
 			published["%d/%s" % [test_day, subject]] = board.duplicate(true)
 		for previous_key: String in published:
@@ -341,6 +347,21 @@ func _knowledge_by_student(simulation: ClassroomSimulation) -> Dictionary:
 	var result: Dictionary = {}
 	for student: Dictionary in simulation.students:
 		result[student.id] = student.knowledge.duplicate(true)
+	return result
+
+
+## 从已结束日志和唯一在途实例独立汇总宿舍知识，不用被测日榜或宿舍账本生成预期。
+func _dorm_knowledge_by_student(simulation: ClassroomSimulation) -> Dictionary:
+	var result: Dictionary = {}
+	for index in simulation.students.size():
+		var student: Dictionary = simulation.students[index]
+		result[student.id] = {"chinese": 0.0, "math": 0.0, "english": 0.0, "physical": 0.0}
+		for entry: Dictionary in simulation.logs:
+			if entry.student_index == index and entry.type in ["complete", "interrupt"] and entry.details.knowledge_source == "dorm":
+				result[student.id][entry.details.subject_id] += entry.details.knowledge_gain
+		var action: Dictionary = student.current_action
+		if not action.is_empty() and simulation.config.actions[action.action_id].knowledge_source == "dorm":
+			result[student.id][action.subject_id] += action.knowledge_gain
 	return result
 
 

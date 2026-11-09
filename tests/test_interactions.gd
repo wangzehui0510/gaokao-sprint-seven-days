@@ -329,7 +329,7 @@ func _test_report_current_partner() -> void:
 		_check(simulation.students[1].current_action.action_id == "study", "被举报搭档强制进入当前知识课学习")
 		_close(simulation.students[1].focus, target_before - 5.0, "同组被举报者只减五且不另收自然入段费")
 		if initial_focus < 50.0:
-			_check(simulation.students[0].current_action.action_id == "daydream", "低专注举报者按课表正常选择开小差")
+			_check(simulation.students[0].current_action.action_id in ["daydream", "read_comic", "bathroom"], "低专注举报者按课表正常选择开小差")
 			_close(simulation.students[0].focus, reporter_before + 3.0, "低专注举报者获得三点且基础发呆不收费")
 		else:
 			_check(simulation.students[0].current_action.action_id == "study", "高专注举报者按课表正常回学习")
@@ -346,7 +346,8 @@ func _test_report_outside_classroom() -> void:
 	_check(not violation.is_empty(), "非教室举报夹具保留准确事件身份")
 	if violation.is_empty():
 		return
-	_check(simulation.start_action(0, "dorm_rest") == OK and simulation.student_location(0) == "dorm", "举报者真实离开教室进入宿舍动作")
+	# 宿舍活动已限定自由时段，使用已开放邀请真实离开课堂，继续验证举报的地点契约。
+	_check(simulation.start_interaction(0, 2, "invite_playground") == OK and simulation.student_location(0) == "playground", "举报者真实离开教室进入操场互动")
 	var before: Array = simulation.students.duplicate(true)
 	_check(simulation.report_violation(1, violation.violation_id) != OK, "不在教室的举报者不能处罚仍在课堂的同学")
 	_check(simulation.students == before and simulation.get_open_violation(1).violation_id == violation.violation_id, "非教室举报拒绝不改变双方动作、资源或事件身份")
@@ -563,7 +564,8 @@ func _test_config_reload() -> void:
 	_close(simulation.students[0].current_action.ends_at, original_end, "当前纸条保留原二十秒结束时间")
 	_check(simulation.advance(5.0) == OK, "调表后继续执行五秒")
 	_close(simulation.students[0].focus, own_before + 0.5, "发起者后续按新费率恢复")
-	_close(simulation.students[1].focus, target_before + 0.5, "目标后续按新费率恢复且不重复")
+	# 恢复按当前专注上限比例，占位假人的自律性会抬高上限并放大恢复量。
+	_close(simulation.students[1].focus, target_before + 0.5 * simulation.get_resource_max(1, "focus") / simulation.config.global_value("focus_base"), "目标后续按新费率恢复且不重复")
 	_check(simulation.start_interaction(0, 2, "send_note", "新时长纸条") == OK, "调表后的新互动可以正常发动")
 	_close(simulation.students[0].current_action.duration_s, 40.0, "新互动才使用新四十秒时长")
 

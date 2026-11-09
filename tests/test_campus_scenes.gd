@@ -85,7 +85,12 @@ func _test_timetable_locations() -> void:
 				var anchor: Vector2 = CampusSceneRenderer.student_anchor(location, index)
 				_check(room._student_at(anchor) == (index if here else -1), "脚点命中与真实可见性一致")
 				if here:
-					_check(room.visual_students[index].status == String(configuration.actions[String(simulation.students[index].current_action.action_id)].name), "可见角色显示真实动作名")
+					var action: Dictionary = simulation.students[index].current_action
+					var expected_status: String = String(configuration.actions[action.action_id].name)
+					# 产知识宿舍活动必须显示权威实例科目，其他活动仍只显示真实动作名。
+					if configuration.actions[action.action_id].knowledge_source == "dorm":
+						expected_status += " · " + String(configuration.subjects[action.subject_id].name)
+					_check(room.visual_students[index].status == expected_status, "可见角色显示真实动作名及宿舍知识科目")
 			_check(room._get_tooltip(Vector2(170, 20)) == ("查看当天课表" if location == "classroom" else ""), "只有教室保留黑板入口提示")
 			for scale_value in [1, 2]:
 				room.size = Vector2(384, 256) * scale_value

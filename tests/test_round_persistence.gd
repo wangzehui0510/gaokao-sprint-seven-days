@@ -331,15 +331,19 @@ func _test_legacy_migration() -> bool:
 		_check(partial.status == "pending" and not partial.reason.is_empty(), "迁移当天有显式部分统计原因")
 		_close(partial.start_seconds, source.clock_seconds, "迁移当天从接入时刻统计")
 		var knowledge_before: Array = restored.students.map(func(student: Dictionary): return student.knowledge.duplicate(true))
+		var dorm_before: Dictionary = _dorm_knowledge_by_student(restored)
 		if not _result(restored.advance(60000.0 - restored.clock_seconds), "迁移当天实际执行至日榜边界", restored.error_message):
 			return false
+		var dorm_after: Dictionary = _dorm_knowledge_by_student(restored)
 		for subject: String in SUBJECTS:
 			var board: Dictionary = restored.get_daily_board(2, subject)
-			if not _check(board.status == "published" and board.rows.size() == 4 and not board.reason.is_empty(), "旧档接入当天发布实际部分日榜"):
+			if not _check(board.status == "published" and board.knowledge_scope == "school" and board.rows.size() == 4 and not board.reason.is_empty(), "旧档接入当天发布实际部分在校日榜"):
 				return false
 			for row: Dictionary in board.rows:
 				var index: int = int(row.student_id.trim_prefix("student_"))
-				_close(row.knowledge, restored.students[index].knowledge[subject] - knowledge_before[index][subject], "部分日榜只统计接入后真实新增")
+				var dorm_gain: float = dorm_after[row.student_id][subject] - dorm_before[row.student_id][subject]
+				_close(row.knowledge, restored.students[index].knowledge[subject] - knowledge_before[index][subject] - dorm_gain, "部分日榜只统计接入后真实在校新增")
+				_close(restored.get_dorm_summary(2, index).totals[subject], dorm_gain, "迁移后宿舍收益独立记录且不反推旧档")
 		var upgraded: Dictionary = _snapshot(restored, "legacy_upgraded_v%d.json" % version)
 		if not _check(not upgraded.is_empty() and upgraded.save_version == 4, "旧档下次保存明确升级v4"):
 			return false
@@ -347,6 +351,21 @@ func _test_legacy_migration() -> bool:
 		if verified == null or not _result(verified.load_file(_path("legacy_upgraded_v%d.json" % version), false), "迁移后v4部分日榜能完整重读", verified.error_message):
 			return false
 	return true
+
+
+## 从动作日志和在途实例统计真实宿舍来源，保持对日榜与新账本的独立校验。
+func _dorm_knowledge_by_student(simulation: ClassroomSimulation) -> Dictionary:
+	var result: Dictionary = {}
+	for index in simulation.students.size():
+		var student: Dictionary = simulation.students[index]
+		result[student.id] = {"chinese": 0.0, "math": 0.0, "english": 0.0, "physical": 0.0}
+		for entry: Dictionary in simulation.logs:
+			if entry.student_index == index and entry.type in ["complete", "interrupt"] and entry.details.knowledge_source == "dorm":
+				result[student.id][entry.details.subject_id] += entry.details.knowledge_gain
+		var action: Dictionary = student.current_action
+		if not action.is_empty() and simulation.config.actions[action.action_id].knowledge_source == "dorm":
+			result[student.id][action.subject_id] += action.knowledge_gain
+	return result
 
 
 ## 旧版已真实保存的双人关系与五秒执行结果不能因增加榜单字段被重开或丢失。

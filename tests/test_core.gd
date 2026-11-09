@@ -94,7 +94,11 @@ func _test_distraction_and_sleep() -> void:
 	_check(simulation.students[0].current_action.action_id == "study", "执行中不会每帧切成发呆")
 	simulation.students[0].current_action = {}
 	_check(simulation.advance(0.0) == OK, "下一自主决策点重新判断专注")
-	_check(simulation.students[0].current_action.action_id == "daydream", "本阶段仅从原权重池选择已开放发呆")
+	_check(simulation.students[0].current_action.action_id in ["daydream", "read_comic", "bathroom"], "低专注从已开放的开小差候选自主选择")
+	var candidates: Array[Dictionary] = simulation.get_auto_candidates(0)
+	_check(candidates.size() == 3, "文化课开小差自主池开放发呆、漫画与上厕所三项")
+	# 直接发动发呆验证其恢复与旁听效果，不依赖三候选随机抽中的具体动作。
+	_check(simulation.start_action(0, "daydream") == OK, "显式发动发呆")
 	var initial_focus: float = simulation.students[0].focus
 	var knowledge: float = simulation.students[0].knowledge.chinese
 	_check(simulation.advance(60.0) == OK, "发呆恢复一分钟")
@@ -404,12 +408,32 @@ func _test_config_entry_rejection() -> void:
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(scope_path))
 
 
-## 晚间与课间操使用配表中的真实规则，不假装在晚上听课。
+## 晚间按六项宿舍活动自主选择并记录真实科目；课间操仍使用原完成状态。
 func _test_evening_and_exercise() -> void:
 	var evening := _new_simulation(20.0 * 3600.0)
-	_check(evening.students[0].current_action.action_id == "dorm_rest", "晚间默认宿舍休息")
+	var initial_actions: Array[Dictionary] = []
+	var initial_knowledge: Array[Dictionary] = []
+	for index: int in evening.students.size():
+		var student: Dictionary = evening.students[index]
+		var action: Dictionary = student.current_action
+		initial_actions.append(action.duplicate(true))
+		initial_knowledge.append(student.knowledge.duplicate(true))
+		_check(action.action_id in evening.phase_scope.dorm_auto_actions and evening.student_location(index) == "dorm", "晚间角色%d从六项真实宿舍活动中自主选择" % index)
+		var definition: Dictionary = evening.config.actions[action.action_id]
+		if definition.knowledge_mode == "selected_subject":
+			_check(action.subject_id in ["chinese", "math", "english"], "宿舍自习与刷题保存真实语数英选科")
+		elif definition.knowledge_mode == "fixed_subject":
+			_check(action.subject_id == definition.knowledge_subject_id, "宿舍固定知识动作保存配表科目")
 	_check(evening.advance(60.0) == OK, "晚间可以持续活动")
-	_close(evening.students[0].knowledge.chinese, 0.0, "晚间不伪造课堂知识")
+	# 一分钟小于任一宿舍活动时长，初始满资源不会耗尽，收益由实际所选动作精确决定。
+	for index: int in evening.students.size():
+		var action: Dictionary = initial_actions[index]
+		var definition: Dictionary = evening.config.actions[action.action_id]
+		for subject_id: String in evening.students[index].knowledge:
+			# 注意力通过效率倍率放大知识收益，占位假人的预设加点会改变实际数值。
+			var attention_multiplier: float = 1.0 + evening.config.global_value("learning_focus_coefficient") * evening.effective_attribute(index, "attention")
+			var gain: float = evening.config.subjects[subject_id].base_rate_per_min * definition.knowledge_multiplier * attention_multiplier if definition.knowledge_source == "dorm" and action.subject_id == subject_id else 0.0
+			_close(evening.students[index].knowledge[subject_id], initial_knowledge[index][subject_id] + gain, "晚间角色%d的%s仅记录真实宿舍动作知识" % [index, subject_id])
 	var exercise := _new_simulation(9.0 * 3600.0 + 40.0 * 60.0)
 	_check(exercise.students[0].current_action.action_id == "morning_exercise", "课间操时段执行真实课间操")
 	_check(exercise.advance(1200.0) == OK, "完整课间操正常完成")

@@ -4,35 +4,41 @@ extends ActionLeaf
 var decision_kind: String
 
 
-# 仅选出动作ID写入本角色黑板，尚不扣费或改变当前动作。
+# 选择动作、选科或竞争互动目标写入本角色黑板；所有抽取都走唯一执行器的随机流。
 func tick(actor: Node, blackboard: Blackboard) -> int:
 	var student_actor := actor as StudentBehaviorActor
 	var simulation := student_actor.simulation
 	var context: Dictionary = simulation.course_context()
-	var action_id: String
+	var action_id: String = ""
+	var selected_subject: String = ""
+	var social_target: int = -1
 	match decision_kind:
+		"dorm":
+			action_id = simulation.select_dorm_action(student_actor.student_index)
+			if action_id.is_empty():
+				return FAILURE
+			if simulation.config.actions[action_id].knowledge_mode == "selected_subject":
+				selected_subject = simulation.select_cultural_subject(student_actor.student_index)
 		"sleep":
 			action_id = "sleep"
+		"social":
+			# 竞争互动：自律越低越爱发起；roll未通过或无合法目标则失败，落到后续学习/开小差分支。
+			if not simulation.should_initiate_social(student_actor.student_index):
+				return FAILURE
+			var option: Dictionary = simulation.select_social_action(student_actor.student_index)
+			if option.is_empty():
+				return FAILURE
+			action_id = String(option["action_id"])
+			social_target = int(option["target_index"])
+			selected_subject = String(option["selected_subject_id"])
 		"distraction":
-			var candidates: Array[Dictionary] = simulation.get_auto_candidates(student_actor.student_index)
-			if candidates.is_empty():
+			action_id = simulation.select_auto_action(student_actor.student_index)
+			if action_id.is_empty():
 				return FAILURE
-			# 使用执行器保存的同一随机流，读档不会为树额外重抽动作或时长。
-			var total_weight := 0.0
-			for candidate in candidates:
-				total_weight += float(candidate["weight"])
-			if total_weight <= 0.0:
-				return FAILURE
-			# 将原生32位随机整数映射到左闭右开区间，避免端点恰等于总权重而漏选。
-			var choice: float = float(simulation.rng.randi()) / 4294967296.0 * total_weight
-			var cursor := 0.0
-			for candidate in candidates:
-				cursor += float(candidate["weight"])
-				if choice < cursor:
-					action_id = String(candidate["action_id"])
-					break
 		"scheduled", "study":
 			action_id = String(context["default_action_id"])
 	blackboard.set_value("requested_action_id", action_id)
+	blackboard.set_value("requested_subject_id", selected_subject)
+	blackboard.set_value("social_target_index", social_target)
 	blackboard.set_value("decision_kind", decision_kind)
 	return SUCCESS

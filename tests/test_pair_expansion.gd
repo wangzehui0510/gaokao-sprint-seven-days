@@ -167,7 +167,7 @@ func _test_all_actions() -> bool:
 	var simulation := _simulation()
 	if simulation == null:
 		return false
-	_check(simulation.phase_scope.enabled_actions.size() == 49 and "answer_challenge" not in simulation.phase_scope.enabled_actions, "执行范围49项，未确认抢答仍关闭")
+	_check(simulation.phase_scope.enabled_actions.size() == 54 and "answer_challenge" not in simulation.phase_scope.enabled_actions, "执行范围54项，宿舍新增五项且未确认抢答仍关闭")
 	_check(simulation.phase_scope.auto_actions == ["daydream", "sleep"] and simulation.phase_scope.subject_auto_actions == {"physical": ["playground_play"]}, "新增玩家互动不暗中改变NPC自主池")
 	return true
 

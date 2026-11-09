@@ -1,6 +1,6 @@
 {
-  "version": "phase_6_pair_expansion",
-  "description": "保留个人动作、四场景与七天结算，开放14项规则明确的玩家双人扩展；抢答公式、每日点与NPC自主策略仍待确认。",
+  "version": "phase_7_ai_upgrade",
+  "description": "属性驱动挂机行为加权与竞争自主社交：宿舍活动改为倾向+保底，课堂开小差开放漫画/厕所，挂机角色可自主发起竞争互动干扰对手。抢答、每日点与特殊事件继续后置。",
   "enabled_actions": [
     "study", "physical_study", "music_class", "art_class", "break_rest",
     "eye_exercise", "morning_exercise", "rest", "daydream", "sleep",
@@ -12,12 +12,20 @@
     "read_comic_item", "eat_candy_item",
     "remind_friend", "solve_together", "invite_playground", "invite_canteen",
     "borrow_notes", "encourage", "pillow_fight", "feed_snack", "use_eraser",
-    "give_comic_item", "give_candy_item", "swap_book", "swap_book_boost", "arm_wrestle"
+    "give_comic_item", "give_candy_item", "swap_book", "swap_book_boost", "arm_wrestle",
+    "dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash"
   ],
-  "auto_actions": ["daydream", "sleep"],
+  "auto_actions": ["daydream", "sleep", "read_comic", "bathroom"],
+  "dorm_auto_actions": ["dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash", "dorm_rest"],
   "subject_auto_actions": {"physical": ["playground_play"]},
-  "deferred_auto_actions": ["read_comic", "bathroom", "send_note"],
-  "deferred_reason": "漫画、厕所现可主动执行，自主候选仍待确认；纸条仅开放主动执行，同学自主发起互动的候选、目标与频率仍待确认。课间磨蹭仅支持规则执行，未加入自主池和玩家入口。",
+  "social_auto_actions": ["borrow_notes", "swap_book", "invite_playground", "invite_canteen", "arm_wrestle", "eraser_prank"],
+  "npc_attributes": [
+    {"attention": 1, "discipline": 4, "health": 1, "intelligence": 2},
+    {"attention": 2, "discipline": 1, "health": 3, "intelligence": 2},
+    {"attention": 2, "discipline": 1, "health": 5, "intelligence": 0}
+  ],
+  "deferred_auto_actions": ["send_note"],
+  "deferred_reason": "纸条涉及目标与文字来源，仍仅开放主动执行。课间磨蹭仅支持规则执行，未加入自主池和玩家入口。抢答、每日点与特殊事件继续后置。",
   "clock": "local_computer_time",
   "offline_progress": false,
   "config_reload": "new_rates_immediately_preserve_sampled_duration"

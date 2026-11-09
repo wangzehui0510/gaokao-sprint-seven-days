@@ -17,7 +17,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "自然入段扣1专注；强制入段不扣启动专注，按当前知识课程学习。"
+        "description": "自然入段扣1专注；强制入段不扣启动专注，按当前知识课程学习。",
+        "knowledge_source": "school",
+        "knowledge_mode": "course",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "physical_study",
@@ -33,7 +37,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "积累体育知识；强制入段不扣启动专注。"
+        "description": "积累体育知识；强制入段不扣启动专注。",
+        "knowledge_source": "school",
+        "knowledge_mode": "course",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "music_class",
@@ -49,7 +57,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "恢复专注，不产生音乐知识；换课时按实际执行时间结算。"
+        "description": "恢复专注，不产生音乐知识；换课时按实际执行时间结算。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "art_class",
@@ -65,7 +77,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "恢复体力，不产生美术知识；换课时按实际执行时间结算。"
+        "description": "恢复体力，不产生美术知识；换课时按实际执行时间结算。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "break_rest",
@@ -81,7 +97,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "按课间实际时长恢复资源，不获得课堂知识。"
+        "description": "按课间实际时长恢复资源，不获得课堂知识。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "eye_exercise",
@@ -97,7 +117,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "按执行时间恢复专注与少量体力。"
+        "description": "按执行时间恢复专注与少量体力。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "morning_exercise",
@@ -113,7 +137,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "消耗体力并恢复专注，完成后获得身体舒展。"
+        "description": "消耗体力并恢复专注，完成后获得身体舒展。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "rest",
@@ -129,7 +157,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "免费发动的基础恢复动作，零专注时也能执行。"
+        "description": "免费发动的基础恢复动作，零专注时也能执行。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "daydream",
@@ -145,7 +177,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "随机开小差，缓慢恢复专注，保留20%的听课知识效率。"
+        "description": "随机开小差，缓慢恢复专注，保留20%的听课知识效率。",
+        "knowledge_source": "school",
+        "knowledge_mode": "course",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "sleep",
@@ -161,7 +197,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "免费发动，恢复体力和少量专注，期间停止学习。"
+        "description": "免费发动，恢复体力和少量专注，期间停止学习。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "snack_self",
@@ -177,7 +217,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "消耗1份零食，完成时恢复体力；没有零食不能发动。"
+        "description": "消耗1份零食，完成时恢复体力；没有零食不能发动。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "eat_meal",
@@ -193,7 +237,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "免费发动的正常用餐，不消耗每日随机零食；午休由课表切换为宿舍休息。"
+        "description": "免费发动的正常用餐，不消耗每日随机零食；午休由课表切换为宿舍休息。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "lunch_rest",
@@ -209,7 +257,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "免费发动，按午间实际休息时间恢复资源。"
+        "description": "免费发动，按午间实际休息时间恢复资源。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "dorm_rest",
@@ -225,7 +277,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "免费发动，持续恢复体力与专注。"
+        "description": "免费发动，持续恢复体力与专注。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "dorm_free"
       },
       {
         "id": "read_comic",
@@ -241,7 +297,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "基础漫画行为无需每日物品；结束时短暂分心。"
+        "description": "基础漫画行为无需每日物品；结束时短暂分心。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "bathroom",
@@ -257,7 +317,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "免费发动，离开课堂恢复专注，不获得知识。"
+        "description": "免费发动，离开课堂恢复专注，不获得知识。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "playground_play",
@@ -273,7 +337,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "发动扣专注，执行时恢复专注并消耗体力，结束后回课表。"
+        "description": "发动扣专注，执行时恢复专注并消耗体力，结束后回课表。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "linger_break",
@@ -289,7 +357,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "继续摸鱼并缓慢恢复资源，错过的学习时间没有知识。"
+        "description": "继续摸鱼并缓慢恢复资源，错过的学习时间没有知识。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "sprint_study",
@@ -305,7 +377,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "付出更多专注，在动作持续期间提高专注力。"
+        "description": "付出更多专注，在动作持续期间提高专注力。",
+        "knowledge_source": "school",
+        "knowledge_mode": "course",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "preview",
@@ -321,7 +397,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "不直接获得课堂知识，完成后获得准备状态。"
+        "description": "不直接获得课堂知识，完成后获得准备状态。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "notes",
@@ -337,7 +417,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "整理期间以一半效率学习，完成后改善后续学习效率。"
+        "description": "整理期间以一半效率学习，完成后改善后续学习效率。",
+        "knowledge_source": "school",
+        "knowledge_mode": "course",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "self_test",
@@ -353,7 +437,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "按当前科目积累知识，完成后短暂提高智力。"
+        "description": "按当前科目积累知识，完成后短暂提高智力。",
+        "knowledge_source": "school",
+        "knowledge_mode": "course",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "standing_study",
@@ -369,7 +457,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "保持正常知识效率，以更多体力消耗换取站立听课。"
+        "description": "保持正常知识效率，以更多体力消耗换取站立听课。",
+        "knowledge_source": "school",
+        "knowledge_mode": "course",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "chores",
@@ -385,7 +477,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "免费发动，消耗体力并恢复专注。"
+        "description": "免费发动，消耗体力并恢复专注。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "exercise_slack",
@@ -401,7 +497,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "免费发动，少量恢复资源，不获得正常做操的完成加成。"
+        "description": "免费发动，少量恢复资源，不获得正常做操的完成加成。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "remind_self",
@@ -417,7 +517,11 @@
         "completion_route": "study",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "短暂整理状态后进入当前课程，强制入段不再扣学习启动专注。"
+        "description": "短暂整理状态后进入当前课程，强制入段不再扣学习启动专注。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "wake_self",
@@ -433,7 +537,11 @@
         "completion_route": "study",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "结束当前睡觉，完成后进入当前课程。"
+        "description": "结束当前睡觉，完成后进入当前课程。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "recall_classroom",
@@ -449,7 +557,11 @@
         "completion_route": "study",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "返回当前课表活动，不追补途中错过的课堂收益。"
+        "description": "返回当前课表活动，不追补途中错过的课堂收益。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "focus_command",
@@ -465,7 +577,11 @@
         "completion_route": "study",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "每次点击瞬时增加5专注并重开当前课程学习段，无费用和冷却。"
+        "description": "每次点击瞬时增加5专注并重开当前课程学习段，无费用和冷却。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "report",
@@ -481,7 +597,11 @@
         "completion_route": "previous",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "对一次尚未处理的违纪结算一次；举报者继续原动作，目标结束违纪回课堂。"
+        "description": "对一次尚未处理的违纪结算一次；举报者继续原动作，目标结束违纪回课堂。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "remind_friend",
@@ -497,7 +617,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "双方占用行动时间，完成时给目标少量专注并回当前课表。"
+        "description": "双方占用行动时间，完成时给目标少量专注并回当前课表。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "solve_together",
@@ -513,7 +637,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "双方按当前知识课程以130%效率学习。"
+        "description": "双方按当前知识课程以130%效率学习。",
+        "knowledge_source": "school",
+        "knowledge_mode": "course",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "send_note",
@@ -529,7 +657,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "双方短暂聊天；完成才送达文字，被打断保留未送达记录。"
+        "description": "双方短暂聊天；完成才送达文字，被打断保留未送达记录。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "invite_playground",
@@ -545,7 +677,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "双方离开课堂摸鱼，恢复专注并消耗体力，结束后回课表。"
+        "description": "双方离开课堂摸鱼，恢复专注并消耗体力，结束后回课表。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "invite_canteen",
@@ -561,7 +697,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "双方到食堂吃饭，占用时间并恢复资源。"
+        "description": "双方到食堂吃饭，占用时间并恢复资源。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "borrow_notes",
@@ -577,7 +717,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "双方暂时以一半效率学习，完成后借阅者获得笔记加成。"
+        "description": "双方暂时以一半效率学习，完成后借阅者获得笔记加成。",
+        "knowledge_source": "school",
+        "knowledge_mode": "course",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "feed_snack",
@@ -593,7 +737,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "必须消耗发起者的1份零食，完成时恢复目标体力。"
+        "description": "必须消耗发起者的1份零食，完成时恢复目标体力。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "encourage",
@@ -609,7 +757,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "完成时恢复目标专注并暂时提高自律性。"
+        "description": "完成时恢复目标专注并暂时提高自律性。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "answer_challenge",
@@ -625,7 +777,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "完成时按当前科目知识与智力判定胜负，胜者恢复专注。"
+        "description": "完成时按当前科目知识与智力判定胜负，胜者恢复专注。",
+        "knowledge_source": "school",
+        "knowledge_mode": "course",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "eraser_prank",
@@ -641,7 +797,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "基础动作无需物品；新互动先打断目标，完成才扣目标专注。"
+        "description": "基础动作无需物品；新互动先打断目标，完成才扣目标专注。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "swap_book",
@@ -657,7 +817,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "基础动作无需物品，完成后错误科目状态持续8分钟，智力临时降低1。"
+        "description": "基础动作无需物品，完成后错误科目状态持续8分钟，智力临时降低1。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "arm_wrestle",
@@ -673,7 +837,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "双方发动时各消耗8体力，以发动时当前体力比较结果。"
+        "description": "双方发动时各消耗8体力，以发动时当前体力比较结果。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "pillow_fight",
@@ -689,7 +857,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "双方暂停休息，消耗体力并恢复专注，完成后短暂疲惫。"
+        "description": "双方暂停休息，消耗体力并恢复专注，完成后短暂疲惫。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "use_eraser",
@@ -705,7 +877,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "消耗1块橡皮，完成时目标损失10专注，不能无物品降级执行。"
+        "description": "消耗1块橡皮，完成时目标损失10专注，不能无物品降级执行。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "swap_book_boost",
@@ -721,7 +897,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "消耗1个恶作剧书套，错误科目状态持续12分钟，智力临时降低1。"
+        "description": "消耗1个恶作剧书套，错误科目状态持续12分钟，智力临时降低1。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "read_comic_item",
@@ -737,7 +917,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "消耗1本漫画杂志，获得高于基础漫画行为的专注恢复。"
+        "description": "消耗1本漫画杂志，获得高于基础漫画行为的专注恢复。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "give_comic_item",
@@ -753,7 +937,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "消耗1本漫画杂志，双方一起看漫画，停止课堂学习。"
+        "description": "消耗1本漫画杂志，双方一起看漫画，停止课堂学习。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "eat_candy_item",
@@ -769,7 +957,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "消耗1颗清凉糖，完成时恢复自身专注。"
+        "description": "消耗1颗清凉糖，完成时恢复自身专注。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "give_candy_item",
@@ -785,7 +977,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "消耗1颗清凉糖，完成时恢复目标专注。"
+        "description": "消耗1颗清凉糖，完成时恢复目标专注。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "prank_together",
@@ -801,7 +997,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": false,
-        "description": "候选未启用：发起者和盟友一起捣乱第三人，等待确认多人参与规则。"
+        "description": "候选未启用：发起者和盟友一起捣乱第三人，等待确认多人参与规则。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "take_comic",
@@ -817,7 +1017,11 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": false,
-        "description": "候选未启用：打断目标看漫画，等待确认漫画归属与后续动作。"
+        "description": "候选未启用：打断目标看漫画，等待确认漫画归属与后续动作。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
       },
       {
         "id": "exam",
@@ -833,7 +1037,111 @@
         "completion_route": "schedule",
         "interrupt_policy_id": "standard",
         "enabled": true,
-        "description": "开考时快照知识与智力，课程结束发布成绩；互动不重算已快照科目。"
+        "description": "开考时快照知识与智力，课程结束发布成绩；互动不重算已快照科目。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "any"
+      },
+      {
+        "id": "dorm_study",
+        "name": "宿舍自习",
+        "kind": "duration",
+        "source": "both",
+        "target": "self",
+        "scene": "dorm",
+        "duration_min_s": 1200,
+        "duration_max_s": 1200,
+        "knowledge_multiplier": 0.2,
+        "violation": "none",
+        "completion_route": "schedule",
+        "interrupt_policy_id": "standard",
+        "enabled": true,
+        "description": "显式选择语数英，按基础速度20%学习；完成或耗尽后休息10分钟。",
+        "knowledge_source": "dorm",
+        "knowledge_mode": "selected_subject",
+        "knowledge_subject_id": null,
+        "eligible_period": "dorm_free"
+      },
+      {
+        "id": "dorm_practice",
+        "name": "专项刷题",
+        "kind": "duration",
+        "source": "both",
+        "target": "self",
+        "scene": "dorm",
+        "duration_min_s": 600,
+        "duration_max_s": 600,
+        "knowledge_multiplier": 0.35,
+        "violation": "none",
+        "completion_route": "schedule",
+        "interrupt_policy_id": "standard",
+        "enabled": true,
+        "description": "显式选择语数英，按基础速度35%学习；完成或耗尽后休息10分钟。",
+        "knowledge_source": "dorm",
+        "knowledge_mode": "selected_subject",
+        "knowledge_subject_id": null,
+        "eligible_period": "dorm_free"
+      },
+      {
+        "id": "dorm_game",
+        "name": "打游戏",
+        "kind": "duration",
+        "source": "both",
+        "target": "self",
+        "scene": "dorm",
+        "duration_min_s": 900,
+        "duration_max_s": 900,
+        "knowledge_multiplier": 0,
+        "violation": "none",
+        "completion_route": "schedule",
+        "interrupt_policy_id": "standard",
+        "enabled": true,
+        "description": "恢复专注并消耗体力；不产生知识，完成或耗尽后休息10分钟。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "dorm_free"
+      },
+      {
+        "id": "dorm_workout",
+        "name": "宿舍健身",
+        "kind": "duration",
+        "source": "both",
+        "target": "self",
+        "scene": "dorm",
+        "duration_min_s": 600,
+        "duration_max_s": 600,
+        "knowledge_multiplier": 0.1,
+        "violation": "none",
+        "completion_route": "schedule",
+        "interrupt_policy_id": "standard",
+        "enabled": true,
+        "description": "按体育基础速度10%积累体育知识，恢复专注并消耗体力；不增加永久属性。",
+        "knowledge_source": "dorm",
+        "knowledge_mode": "fixed_subject",
+        "knowledge_subject_id": "physical",
+        "eligible_period": "dorm_free"
+      },
+      {
+        "id": "dorm_wash",
+        "name": "洗漱放松",
+        "kind": "duration",
+        "source": "both",
+        "target": "self",
+        "scene": "dorm",
+        "duration_min_s": 300,
+        "duration_max_s": 300,
+        "knowledge_multiplier": 0,
+        "violation": "none",
+        "completion_route": "schedule",
+        "interrupt_policy_id": "standard",
+        "enabled": true,
+        "description": "恢复专注和体力，不产生知识；完成后休息10分钟。",
+        "knowledge_source": "none",
+        "knowledge_mode": "none",
+        "knowledge_subject_id": null,
+        "eligible_period": "dorm_free"
       }
     ],
     "effects": [
@@ -4047,6 +4355,196 @@
         "condition": "always",
         "sequence": 2,
         "description": "进入当前课表对应活动；知识学习重新抽取5至10分钟，恢复课按剩余课程执行。"
+      },
+      {
+        "id": "dorm_study_tick_1",
+        "action_id": "dorm_study",
+        "phase": "tick",
+        "recipient": "self",
+        "type": "resource",
+        "resource": "focus",
+        "mode": "flat",
+        "value": -0.6,
+        "period_s": 60,
+        "max_basis": null,
+        "buff_id": null,
+        "item_id": null,
+        "next_action_id": null,
+        "event": null,
+        "condition": "always",
+        "sequence": 1,
+        "description": "宿舍活动每分钟消耗专注，只记录真实执行量。"
+      },
+      {
+        "id": "dorm_study_tick_2",
+        "action_id": "dorm_study",
+        "phase": "tick",
+        "recipient": "self",
+        "type": "resource",
+        "resource": "stamina",
+        "mode": "flat",
+        "value": -0.2,
+        "period_s": 60,
+        "max_basis": null,
+        "buff_id": null,
+        "item_id": null,
+        "next_action_id": null,
+        "event": null,
+        "condition": "always",
+        "sequence": 2,
+        "description": "宿舍活动每分钟消耗体力，只记录真实执行量。"
+      },
+      {
+        "id": "dorm_practice_tick_1",
+        "action_id": "dorm_practice",
+        "phase": "tick",
+        "recipient": "self",
+        "type": "resource",
+        "resource": "focus",
+        "mode": "flat",
+        "value": -1.5,
+        "period_s": 60,
+        "max_basis": null,
+        "buff_id": null,
+        "item_id": null,
+        "next_action_id": null,
+        "event": null,
+        "condition": "always",
+        "sequence": 1,
+        "description": "宿舍活动每分钟消耗专注，只记录真实执行量。"
+      },
+      {
+        "id": "dorm_practice_tick_2",
+        "action_id": "dorm_practice",
+        "phase": "tick",
+        "recipient": "self",
+        "type": "resource",
+        "resource": "stamina",
+        "mode": "flat",
+        "value": -0.3,
+        "period_s": 60,
+        "max_basis": null,
+        "buff_id": null,
+        "item_id": null,
+        "next_action_id": null,
+        "event": null,
+        "condition": "always",
+        "sequence": 2,
+        "description": "宿舍活动每分钟消耗体力，只记录真实执行量。"
+      },
+      {
+        "id": "dorm_game_tick_1",
+        "action_id": "dorm_game",
+        "phase": "tick",
+        "recipient": "self",
+        "type": "resource",
+        "resource": "focus",
+        "mode": "max_ratio",
+        "value": 0.03,
+        "period_s": 60,
+        "max_basis": "current",
+        "buff_id": null,
+        "item_id": null,
+        "next_action_id": null,
+        "event": null,
+        "condition": "always",
+        "sequence": 1,
+        "description": "宿舍活动每分钟恢复专注，只记录真实执行量。"
+      },
+      {
+        "id": "dorm_game_tick_2",
+        "action_id": "dorm_game",
+        "phase": "tick",
+        "recipient": "self",
+        "type": "resource",
+        "resource": "stamina",
+        "mode": "flat",
+        "value": -0.3,
+        "period_s": 60,
+        "max_basis": null,
+        "buff_id": null,
+        "item_id": null,
+        "next_action_id": null,
+        "event": null,
+        "condition": "always",
+        "sequence": 2,
+        "description": "宿舍活动每分钟消耗体力，只记录真实执行量。"
+      },
+      {
+        "id": "dorm_workout_tick_1",
+        "action_id": "dorm_workout",
+        "phase": "tick",
+        "recipient": "self",
+        "type": "resource",
+        "resource": "focus",
+        "mode": "max_ratio",
+        "value": 0.005,
+        "period_s": 60,
+        "max_basis": "current",
+        "buff_id": null,
+        "item_id": null,
+        "next_action_id": null,
+        "event": null,
+        "condition": "always",
+        "sequence": 1,
+        "description": "宿舍活动每分钟恢复专注，只记录真实执行量。"
+      },
+      {
+        "id": "dorm_workout_tick_2",
+        "action_id": "dorm_workout",
+        "phase": "tick",
+        "recipient": "self",
+        "type": "resource",
+        "resource": "stamina",
+        "mode": "flat",
+        "value": -2,
+        "period_s": 60,
+        "max_basis": null,
+        "buff_id": null,
+        "item_id": null,
+        "next_action_id": null,
+        "event": null,
+        "condition": "always",
+        "sequence": 2,
+        "description": "宿舍活动每分钟消耗体力，只记录真实执行量。"
+      },
+      {
+        "id": "dorm_wash_tick_1",
+        "action_id": "dorm_wash",
+        "phase": "tick",
+        "recipient": "self",
+        "type": "resource",
+        "resource": "focus",
+        "mode": "max_ratio",
+        "value": 0.02,
+        "period_s": 60,
+        "max_basis": "current",
+        "buff_id": null,
+        "item_id": null,
+        "next_action_id": null,
+        "event": null,
+        "condition": "always",
+        "sequence": 1,
+        "description": "宿舍活动每分钟恢复专注，只记录真实执行量。"
+      },
+      {
+        "id": "dorm_wash_tick_2",
+        "action_id": "dorm_wash",
+        "phase": "tick",
+        "recipient": "self",
+        "type": "resource",
+        "resource": "stamina",
+        "mode": "max_ratio",
+        "value": 0.01,
+        "period_s": 60,
+        "max_basis": "current",
+        "buff_id": null,
+        "item_id": null,
+        "next_action_id": null,
+        "event": null,
+        "condition": "always",
+        "sequence": 2,
+        "description": "宿舍活动每分钟恢复体力，只记录真实执行量。"
       }
     ],
     "buffs": [
@@ -4360,6 +4858,66 @@
         "requires_affordable_start": true,
         "enabled": true,
         "description": "需要同场景同班目标及足够启动专注；不可执行时只移出本次候选集。"
+      },
+      {
+        "id": "auto_dorm_study",
+        "action_id": "dorm_study",
+        "weight": 1,
+        "eligible_period": "dorm_free",
+        "requires_same_scene_target": false,
+        "requires_affordable_start": true,
+        "enabled": true,
+        "description": "真实宿舍自由时段，从当前可执行的六项活动中等概率选择；自习与刷题再等概率选语数英。"
+      },
+      {
+        "id": "auto_dorm_practice",
+        "action_id": "dorm_practice",
+        "weight": 1,
+        "eligible_period": "dorm_free",
+        "requires_same_scene_target": false,
+        "requires_affordable_start": true,
+        "enabled": true,
+        "description": "真实宿舍自由时段，从当前可执行的六项活动中等概率选择；自习与刷题再等概率选语数英。"
+      },
+      {
+        "id": "auto_dorm_game",
+        "action_id": "dorm_game",
+        "weight": 1,
+        "eligible_period": "dorm_free",
+        "requires_same_scene_target": false,
+        "requires_affordable_start": true,
+        "enabled": true,
+        "description": "真实宿舍自由时段，从当前可执行的六项活动中等概率选择；自习与刷题再等概率选语数英。"
+      },
+      {
+        "id": "auto_dorm_workout",
+        "action_id": "dorm_workout",
+        "weight": 1,
+        "eligible_period": "dorm_free",
+        "requires_same_scene_target": false,
+        "requires_affordable_start": true,
+        "enabled": true,
+        "description": "真实宿舍自由时段，从当前可执行的六项活动中等概率选择；自习与刷题再等概率选语数英。"
+      },
+      {
+        "id": "auto_dorm_wash",
+        "action_id": "dorm_wash",
+        "weight": 1,
+        "eligible_period": "dorm_free",
+        "requires_same_scene_target": false,
+        "requires_affordable_start": true,
+        "enabled": true,
+        "description": "真实宿舍自由时段，从当前可执行的六项活动中等概率选择；自习与刷题再等概率选语数英。"
+      },
+      {
+        "id": "auto_dorm_rest",
+        "action_id": "dorm_rest",
+        "weight": 1,
+        "eligible_period": "dorm_free",
+        "requires_same_scene_target": false,
+        "requires_affordable_start": true,
+        "enabled": true,
+        "description": "真实宿舍自由时段，从当前可执行的六项活动中等概率选择；自习与刷题再等概率选语数英。"
       }
     ],
     "interrupt_policies": [
@@ -5111,6 +5669,86 @@
         "value": false,
         "unit": "开关",
         "description": "用户确认后置；本版不触发特殊事件或事件属性修正。"
+      },
+      {
+        "key": "personality_ref_attr",
+        "name": "AI加权参考属性",
+        "type": "number",
+        "value": 8,
+        "unit": "点",
+        "description": "属性驱动行为加权的归一化参考值，默认取初始点上限。"
+      },
+      {
+        "key": "dorm_weight_floor",
+        "name": "宿舍活动保底概率",
+        "type": "number",
+        "value": 0.05,
+        "unit": "概率",
+        "description": "宿舍活动倾向加权后每项的最小概率下限，防止某项完全消失。"
+      },
+      {
+        "key": "social_auto_base",
+        "name": "自主互动基础概率",
+        "type": "number",
+        "value": 0.08,
+        "unit": "概率",
+        "description": "挂机角色在知识课决策点自主发起竞争互动的基础概率。"
+      },
+      {
+        "key": "g_study",
+        "name": "自律学习增益",
+        "type": "number",
+        "value": 0.5,
+        "unit": "系数",
+        "description": "自律性每点对自习、刷题、学习类候选权重的增益。"
+      },
+      {
+        "key": "g_game",
+        "name": "贪玩游戏增益",
+        "type": "number",
+        "value": 0.5,
+        "unit": "系数",
+        "description": "反向自律每点对宿舍打游戏候选权重的增益。"
+      },
+      {
+        "key": "g_workout",
+        "name": "好动健身增益",
+        "type": "number",
+        "value": 0.5,
+        "unit": "系数",
+        "description": "健康每点对健身、操场类候选权重的增益。"
+      },
+      {
+        "key": "g_playful",
+        "name": "贪玩开小差增益",
+        "type": "number",
+        "value": 0.5,
+        "unit": "系数",
+        "description": "反向自律每点对发呆、漫画等课堂开小差候选权重的增益。"
+      },
+      {
+        "key": "g_weak",
+        "name": "补弱科增益",
+        "type": "number",
+        "value": 1,
+        "unit": "系数",
+        "description": "选科时对知识量最低文化科的权重增益。"
+      },
+      {
+        "key": "g_lead",
+        "name": "领先目标增益",
+        "type": "number",
+        "value": 1,
+        "unit": "系数",
+        "description": "竞争互动选目标时对领先对手的权重增益。"
+      },
+      {
+        "key": "k_threshold",
+        "name": "开小差阈值调节",
+        "type": "number",
+        "value": 0.4,
+        "unit": "系数",
+        "description": "自律性对开小差专注阈值的下调幅度。"
       }
     ]
   }

@@ -92,6 +92,10 @@ func setup(game_config: RefCounted, random_seed: int = 0, scope_path: String = "
 			# 保存全部已领日期，开发时钟回退后仍能识别曾领过的日子。
 			"daily_item_claim_days": [],
 		})
+	# AI升级：本地占位假人用预设加点模拟未来真人，联机后由真人自己加点。玩家“我”保留待分配点。
+	result = _apply_npc_builds()
+	if result != OK:
+		return result
 	_log(-1, "session", "新班级开始，四名同学自主活动", {"config_version": config.version})
 	round_progression = ROUND.new()
 	result = round_progression.setup(config, _round_participants(), day, clock_seconds)
@@ -100,7 +104,21 @@ func setup(game_config: RefCounted, random_seed: int = 0, scope_path: String = "
 	return OK
 
 
-## 按实际经过秒数推进，并在动作、课表和状态边界分段结算。
+## AI升级：把占位假人的预设加点写入属性并清零其待分配点；已在边界校验过合法性。
+func _apply_npc_builds() -> Error:
+	var npc_builds: Variant = phase_scope.get("npc_attributes")
+	if npc_builds == null:
+		return OK
+	for slot: int in npc_builds.size():
+		var index: int = slot + 1  # 玩家“我”是0号，占位假人从1号起
+		var build: Dictionary = npc_builds[slot]
+		for attribute_id: String in ATTRIBUTE_KEYS:
+			students[index].attributes[attribute_id] = float(build[attribute_id])
+		students[index].unspent_points = 0
+	return OK
+
+
+## 按实际经过秒数推进，并在动作、资源耗尽、课表和状态边界分段结算。
 func advance(delta_s: float) -> Error:
 	if not is_finite(delta_s) or delta_s < 0.0:
 		return _fail("推进时间必须是非负有限秒数")
@@ -108,6 +126,14 @@ func advance(delta_s: float) -> Error:
 		return OK
 	var result: Error = _process_round_position()
 	if result != OK or is_round_finished():
+		return result
+	# 读档或调表后资源可能已耗尽，先显式结束旧活动，再接续已确认的宿舍休息。
+	var initial_recovery: Array[int] = []
+	result = _end_exhausted_dorm_actions(initial_recovery)
+	if result != OK:
+		return result
+	result = _start_dorm_recovery(initial_recovery)
+	if result != OK:
 		return result
 	result = _fill_missing_actions()
 	if result != OK:
@@ -117,8 +143,10 @@ func advance(delta_s: float) -> Error:
 		var old_context: Dictionary = course_context()
 		var interval: float = minf(remaining, old_context.end_seconds - clock_seconds)
 		interval = minf(interval, round_progression.next_boundary(day, clock_seconds) - clock_seconds)
-		for student in students:
+		for index in students.size():
+			var student: Dictionary = students[index]
 			interval = minf(interval, student.current_action.ends_at - elapsed_s)
+			interval = minf(interval, _dorm_depletion_seconds(index))
 			for buff in student.buffs:
 				if buff.expires_at != null:
 					interval = minf(interval, buff.expires_at - elapsed_s)
@@ -134,17 +162,27 @@ func advance(delta_s: float) -> Error:
 			day += 1
 		# 完成效果先于下一段决策发生，只有完整执行到结束的动作才能获得。
 		var completion_routes: Array = []
+		var dorm_recovery: Array[int] = []
 		for index in students.size():
 			if not students[index].current_action.is_empty() and students[index].current_action.ends_at <= elapsed_s:
+				var completed_action: Dictionary = students[index].current_action
+				if config.actions[completed_action.action_id].eligible_period == "dorm_free" and not completed_action.dorm_recovery:
+					dorm_recovery.append(index)
 				result = _end_action(index, true, "动作完成", -1, completion_routes)
 				if result != OK:
 					return result
 			_expire_buffs(index)
+		result = _end_exhausted_dorm_actions(dorm_recovery)
+		if result != OK:
+			return result
 		var new_context: Dictionary = course_context()
 		if new_context.context_key != old_context.context_key:
 			_log(-1, "course", "时段切换：%s" % _context_label(new_context), {"period_id": new_context.period_id})
 			for index in students.size():
 				if not students[index].current_action.is_empty():
+					# 午夜仍在宿舍时按方案结束旧实例并休息，不把前一日活动暗中续到次日。
+					if config.actions[students[index].current_action.action_id].eligible_period == "dorm_free" and new_context.kind in ["outside", "rest"] and index not in dorm_recovery:
+						dorm_recovery.append(index)
 					result = _end_action(index, false, "课表切换")
 					if result != OK:
 						return result
@@ -158,6 +196,9 @@ func advance(delta_s: float) -> Error:
 			result = start_action(route.student_index, next_id, effect.event == "natural_entry", route.student_index, "后续动作")
 			if result != OK:
 				return result
+		result = _start_dorm_recovery(dorm_recovery)
+		if result != OK:
+			return result
 		result = _fill_missing_actions()
 		if result != OK:
 			return result
@@ -172,6 +213,11 @@ func is_round_finished() -> bool:
 ## 日榜查询只返回独立副本，不结算、不发奖也不消耗随机流。
 func get_daily_board(at_day: int, subject_id: String) -> Dictionary:
 	return round_progression.daily_board(at_day, subject_id)
+
+
+## 宿舍记录是总知识的来源明细，查询只返回副本，不再次发放收益。
+func get_dorm_summary(at_day: int, student_index: int = 0) -> Dictionary:
+	return round_progression.dorm_summary(at_day, students[student_index].id)
 
 
 ## 考试查询按知识科目或考试课程别名读取已经存在的权威记录。
@@ -276,22 +322,224 @@ func _context_at(at_day: int, at_seconds: float) -> Dictionary:
 	return result
 
 
-## 行为树使用当前阶段允许且符合真实条件的开小差候选，权重保持配表原值。
+## 行为树使用当前阶段允许且符合真实条件的开小差候选，权重按属性倾向修正后返回。
 func get_auto_candidates(student_index: int) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	var context: Dictionary = course_context()
 	if context.subject_kind != "knowledge":
 		return result
-	# 单科覆盖只替换本阶段候选名单，原配表权重和动作场景保持不变。
+	# 单科覆盖只替换本阶段候选名单；返回副本并叠加属性倾向权重，不改动权威配表。
 	var allowed: Array = phase_scope.subject_auto_actions.get(context.subject_id, phase_scope.auto_actions)
 	for row in config.tables.auto_pool:
-		if row.enabled and row.action_id in allowed and can_start_action(student_index, row.action_id):
-			result.append(row)
+		if row.enabled and row.eligible_period == "knowledge_course" and row.action_id in allowed and can_start_action(student_index, row.action_id):
+			var candidate: Dictionary = row.duplicate()
+			candidate["weight"] = float(candidate["weight"]) * persona_factor(student_index, String(candidate["action_id"]))
+			result.append(candidate)
 	return result
 
 
+## 自由时段和真实地点同时满足才允许宿舍活动，切镜头不会改变资格。
+func is_dorm_free_time(student_index: int) -> bool:
+	return not is_round_finished() and course_context().kind in ["outside", "rest"] and student_location(student_index) == "dorm"
+
+
+## 宿舍六项只过滤真实前置条件；返回副本并叠加属性倾向权重，抽取与保底由选择入口处理。
+func get_dorm_candidates(student_index: int) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	if not is_dorm_free_time(student_index):
+		return result
+	for row: Dictionary in config.tables.auto_pool:
+		if row.eligible_period != "dorm_free" or not row.enabled or row.action_id not in phase_scope.dorm_auto_actions:
+			continue
+		# 此处仅验证选科动作是否能执行；实际科目在候选抽中后由弱科选科决定。
+		var subject_id: String = "chinese" if config.actions[row.action_id].knowledge_mode == "selected_subject" else ""
+		if can_start_action(student_index, row.action_id, true, subject_id):
+			var candidate: Dictionary = row.duplicate()
+			candidate["weight"] = float(candidate["weight"]) * persona_factor(student_index, String(candidate["action_id"]))
+			result.append(candidate)
+	return result
+
+
+## AI升级：返回某动作的属性倾向修正系数，全部取自已保存的权威属性与配表增益。
+func persona_factor(student_index: int, action_id: String) -> float:
+	var discipline: float = _attr_ratio(student_index, "discipline")
+	var health: float = _attr_ratio(student_index, "health")
+	var playful: float = 1.0 - discipline  # 贪玩 = 反向自律
+	match action_id:
+		"dorm_study", "dorm_practice":
+			return 1.0 + config.global_value("g_study") * discipline
+		"dorm_game":
+			return 1.0 + config.global_value("g_game") * playful
+		"dorm_workout", "playground_play":
+			return 1.0 + config.global_value("g_workout") * health
+		"daydream", "read_comic":
+			return 1.0 + config.global_value("g_playful") * playful
+		_:
+			return 1.0
+
+
+## AI升级：返回归一化到[0,1]的权威属性比例，防止状态加成使倾向系数变负或失控。
+func _attr_ratio(student_index: int, attribute: String) -> float:
+	var reference: float = config.global_value("personality_ref_attr")
+	if reference <= 0.0:
+		return 0.0
+	return clampf(effective_attribute(student_index, attribute) / reference, 0.0, 1.0)
+
+
+## AI升级：返回知识量最低的文化课；并列最小值取遍历序首个，不消耗随机数。
+func weak_subject(student_index: int) -> String:
+	var worst: String = ""
+	var worst_value: float = INF
+	for subject_id: String in ["chinese", "math", "english"]:
+		var value: float = float(students[student_index].knowledge.get(subject_id, 0.0))
+		if value < worst_value:
+			worst_value = value
+			worst = subject_id
+	return worst
+
+
+## AI升级：返回角色的当前累计总知识，用于竞争互动的“领先”度量。
+func _total_knowledge(student_index: int) -> float:
+	var total: float = 0.0
+	for subject_id: Variant in students[student_index].knowledge:
+		total += float(students[student_index].knowledge[subject_id])
+	return total
+
+
+## AI升级：自律性对开小差专注阈值的个性化下调；自律越高阈值越低，更晚走神。
+func distraction_threshold(student_index: int) -> float:
+	var base: float = config.global_value("distraction_focus_threshold")
+	return base * (1.0 - config.global_value("k_threshold") * _attr_ratio(student_index, "discipline"))
+
+
+## AI升级：按正权重做加权随机抽取，返回命中下标；总权重非正返回-1由调用方显式失败。
+func _weighted_index(weights: Array[float]) -> int:
+	var total: float = 0.0
+	for weight: float in weights:
+		total += weight
+	if total <= 0.0:
+		return -1
+	var choice: float = float(rng.randi()) / 4294967296.0 * total
+	var cursor: float = 0.0
+	for index: int in weights.size():
+		cursor += weights[index]
+		if choice < cursor:
+			return index
+	return weights.size() - 1
+
+
+## AI升级：倾向加权后应用保底，任一项权重不低于 floor_prob 比例，避免其概率消失。
+func _weighted_with_floor(weights: Array[float], floor_prob: float) -> Array[float]:
+	var total: float = 0.0
+	for weight: float in weights:
+		total += weight
+	var floor_weight: float = floor_prob * total
+	var adjusted: Array[float] = []
+	for weight: float in weights:
+		adjusted.append(maxf(weight, floor_weight))
+	return adjusted
+
+
+## AI升级：宿舍活动选择——过滤可执行候选后做倾向加权+保底抽取。
+func select_dorm_action(student_index: int) -> String:
+	var candidates: Array[Dictionary] = get_dorm_candidates(student_index)
+	if candidates.is_empty():
+		return ""
+	var weights: Array[float] = []
+	for candidate: Dictionary in candidates:
+		weights.append(float(candidate["weight"]))
+	var adjusted: Array[float] = _weighted_with_floor(weights, float(config.global_value("dorm_weight_floor")))
+	var picked: int = _weighted_index(adjusted)
+	return "" if picked < 0 else String(candidates[picked]["action_id"])
+
+
+## AI升级：课堂开小差选择——按属性倾向加权后的候选抽取。
+func select_auto_action(student_index: int) -> String:
+	var candidates: Array[Dictionary] = get_auto_candidates(student_index)
+	if candidates.is_empty():
+		return ""
+	var weights: Array[float] = []
+	for candidate: Dictionary in candidates:
+		weights.append(float(candidate["weight"]))
+	var picked: int = _weighted_index(weights)
+	return "" if picked < 0 else String(candidates[picked]["action_id"])
+
+
+## AI升级：自习/刷题选科——补弱科倾向加权+保底，弱科按当前累计知识量最低判定。
+func select_cultural_subject(student_index: int) -> String:
+	var subjects: Array[String] = ["chinese", "math", "english"]
+	var weak: String = weak_subject(student_index)
+	var weights: Array[float] = []
+	for subject_id: String in subjects:
+		weights.append((1.0 + config.global_value("g_weak")) if subject_id == weak else 1.0)
+	var adjusted: Array[float] = _weighted_with_floor(weights, float(config.global_value("dorm_weight_floor")))
+	var picked: int = _weighted_index(adjusted)
+	return "" if picked < 0 else subjects[picked]
+
+
+## AI升级：竞争互动候选——挂机角色在知识课可发起的目标与动作，供领先加权选择。
+func get_social_candidates(student_index: int) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	var context: Dictionary = course_context()
+	if context.subject_kind != "knowledge":
+		return result
+	for action_id: Variant in phase_scope.get("social_auto_actions", []):
+		for target_index: int in students.size():
+			if target_index == student_index:
+				continue
+			# 已在双人互动中的目标跳过：自主社交不连锁打断同一对手，避免递归填充反复扣费直至体力不足。
+			if not students[target_index].current_action.is_empty() and students[target_index].current_action.get("interaction_id", null) != null:
+				continue
+			var selected_subject: String = ""
+			if action_id == "swap_book":
+				selected_subject = _pick_swap_subject()
+				if selected_subject.is_empty():
+					continue
+			if can_start_interaction(student_index, target_index, String(action_id), selected_subject):
+				result.append({"action_id": String(action_id), "target_index": target_index, "selected_subject_id": selected_subject})
+	return result
+
+
+## AI升级：竞争互动选择——按目标领先程度（总知识）加权随机，领先者更易被干扰。
+func select_social_action(student_index: int) -> Dictionary:
+	var options: Array[Dictionary] = get_social_candidates(student_index)
+	if options.is_empty():
+		return {}
+	var max_knowledge: float = 0.0
+	for option: Dictionary in options:
+		max_knowledge = maxf(max_knowledge, _total_knowledge(int(option["target_index"])))
+	var weights: Array[float] = []
+	for option: Dictionary in options:
+		var ratio: float = 0.0
+		if max_knowledge > 0.0:
+			ratio = _total_knowledge(int(option["target_index"])) / max_knowledge
+		weights.append(1.0 + config.global_value("g_lead") * ratio)
+	var picked: int = _weighted_index(weights)
+	return {} if picked < 0 else options[picked]
+
+
+## AI升级：竞争互动发起概率——自律越低越爱干扰；决策点用共享随机流做一次性判定。
+func should_initiate_social(student_index: int) -> bool:
+	var base: float = config.global_value("social_auto_base")
+	var playful: float = 1.0 - _attr_ratio(student_index, "discipline")
+	var probability: float = base * (1.0 + config.global_value("g_game") * playful)
+	return float(rng.randi()) / 4294967296.0 < probability
+
+
+## AI升级：偷换课本的自主选科——随机选一个不同于当前授课科目的文化课。
+func _pick_swap_subject() -> String:
+	var current: String = course_context().subject_id
+	var options: Array[String] = []
+	for subject_id: String in ["chinese", "math", "english"]:
+		if subject_id != current:
+			options.append(subject_id)
+	if options.is_empty():
+		return ""
+	return options[rng.randi_range(0, options.size() - 1)]
+
+
 ## 查询实际发动前置条件，不扣物、不消耗随机流，也不结束角色已有动作。
-func action_unavailable_reason(student_index: int, action_id: String, natural_entry: bool = true) -> String:
+func action_unavailable_reason(student_index: int, action_id: String, natural_entry: bool = true, selected_subject_id: String = "") -> String:
 	if is_round_finished():
 		return "本局已结束，不能开始新动作"
 	if student_index < 0 or student_index >= students.size():
@@ -304,6 +552,17 @@ func action_unavailable_reason(student_index: int, action_id: String, natural_en
 	if definition.kind != "duration":
 		return "这个动作需要使用对应的瞬时指令入口"
 	var context: Dictionary = course_context()
+	if definition.eligible_period == "dorm_free" and not is_dorm_free_time(student_index):
+		return "需要本人真实位于宿舍，且当前为宿舍自由活动时段"
+	if definition.knowledge_mode == "selected_subject":
+		if not _is_cultural_subject(selected_subject_id):
+			return "请选择语文、数学或英语"
+	elif not selected_subject_id.is_empty():
+		return "这个动作不需要选择科目"
+	if definition.eligible_period == "dorm_free":
+		for effect: Dictionary in config.phase_effects(action_id, "tick"):
+			if effect.type == "resource" and effect.value < 0.0 and _condition_matches(effect.condition, natural_entry, context) and students[student_index][effect.resource] <= 0.0:
+				return "%s耗尽，不能开始%s" % ["专注" if effect.resource == "focus" else "体力", definition.name]
 	if action_id in ["study", "physical_study"] and context.subject_kind != "knowledge":
 		return "当前时段没有可学习的知识课程"
 	if action_id in ["music_class", "art_class", "exam"] and context.default_action_id != action_id:
@@ -330,13 +589,13 @@ func action_unavailable_reason(student_index: int, action_id: String, natural_en
 
 
 ## 行为树和界面复用同一无副作用边界，不另建一套可用性规则。
-func can_start_action(student_index: int, action_id: String, natural_entry: bool = true) -> bool:
-	return action_unavailable_reason(student_index, action_id, natural_entry).is_empty()
+func can_start_action(student_index: int, action_id: String, natural_entry: bool = true, selected_subject_id: String = "") -> bool:
+	return action_unavailable_reason(student_index, action_id, natural_entry, selected_subject_id).is_empty()
 
 
 ## 创建持续动作实例；只在这里抽时长，手动指令和行为树都复用这一入口。
-func start_action(student_index: int, action_id: String, natural_entry: bool = true, interrupted_by: int = -1, reason: String = "主动切换") -> Error:
-	var unavailable: String = action_unavailable_reason(student_index, action_id, natural_entry)
+func start_action(student_index: int, action_id: String, natural_entry: bool = true, interrupted_by: int = -1, reason: String = "主动切换", selected_subject_id: String = "") -> Error:
+	var unavailable: String = action_unavailable_reason(student_index, action_id, natural_entry, selected_subject_id)
 	if not unavailable.is_empty():
 		return _reject(unavailable, ERR_UNAVAILABLE)
 	var definition: Dictionary = config.actions[action_id]
@@ -352,12 +611,22 @@ func start_action(student_index: int, action_id: String, natural_entry: bool = t
 		"ends_at": elapsed_s + duration, "duration_s": duration, "last_settled_at": elapsed_s,
 		"subject_id": context.subject_id, "natural_entry": natural_entry, "resource_changes": {}, "knowledge_gain": 0.0,
 	}
+	# 科目是动作实例的权威选择；读档和后续积分直接使用，不从当前课程或UI猜测。
+	if definition.knowledge_mode == "selected_subject":
+		instance.subject_id = selected_subject_id
+	elif definition.knowledge_mode == "fixed_subject":
+		instance.subject_id = definition.knowledge_subject_id
+	elif definition.eligible_period == "dorm_free":
+		instance.subject_id = ""
+	if definition.eligible_period == "dorm_free":
+		# 必须休息和随机选中的休息使用同一动作，标记用于避免恢复结束后重复安排恢复。
+		instance.dorm_recovery = false
 	next_action_number += 1
 	students[student_index].current_action = instance
 	var result: Error = _apply_phase(student_index, action_id, "start", natural_entry)
 	if result != OK:
 		return result
-	_log(student_index, "start", "开始%s" % definition.name, {"action_id": action_id, "duration_s": duration, "natural_entry": natural_entry})
+	_log(student_index, "start", "开始%s" % definition.name, {"action_id": action_id, "duration_s": duration, "natural_entry": natural_entry, "subject_id": instance.subject_id})
 	_sync_violation(student_index)
 	result = _grant_daily_items(student_index, action_id, context)
 	if result != OK:
@@ -616,7 +885,7 @@ func get_resource_max(student_index: int, resource: String) -> float:
 	return config.global_value("stamina_base") + config.global_value("stamina_per_health") * effective_attribute(student_index, "health")
 
 
-## 新配置通过完整入口校验后立即接管费率，不重收启动费或改写在途时长。
+## 新配置接管费率并中止已离开自由时段的宿舍动作；仍合条件的在途时长保持不变。
 func apply_config(new_config: RefCounted) -> Error:
 	var previous_version: String = config.version
 	var previous_config: RefCounted = config
@@ -627,6 +896,15 @@ func apply_config(new_config: RefCounted) -> Error:
 		config = previous_config
 		return result
 	for index in students.size():
+		var active: Dictionary = students[index].current_action
+		if not active.is_empty():
+			# 在途选科和来源已固定；改费率可以即时生效，改语义会使同一实例无法正确续算。
+			var before: Dictionary = previous_config.actions[active.action_id]
+			var after: Dictionary = config.actions[active.action_id]
+			for field: String in ["knowledge_source", "knowledge_mode", "knowledge_subject_id", "eligible_period"]:
+				if before[field] != after[field]:
+					config = previous_config
+					return _fail("新配置改变了在途动作的知识来源、选科或时段契约：%s" % active.action_id)
 		# 背包是权威存档的一部分，调表不能删除已持有的物品并留下无法恢复的局。
 		for item_id in students[index].inventory:
 			if not config.items.has(item_id):
@@ -657,6 +935,9 @@ func apply_config(new_config: RefCounted) -> Error:
 	if result != OK:
 		config = previous_config
 		return _fail(round_progression.error_message)
+	result = _end_unavailable_dorm_actions("课表更新后已离开宿舍自由活动时段")
+	if result != OK:
+		return result
 	for index in students.size():
 		_clamp_resources_after_max_change(index)
 		_sync_violation(index)
@@ -818,6 +1099,9 @@ func _load_file(path: String, align_system_time: bool, explicit_day: int = -1, e
 			for claim_day in student.daily_item_claim_days:
 				claim_days.append(int(claim_day))
 			student.daily_item_claim_days = claim_days
+		# 旧版只有普通宿舍休息，明确迁移为非强制恢复；不为新自习或刷题猜测状态。
+		if not student.current_action.is_empty() and student.current_action.action_id == "dorm_rest" and not student.current_action.has("dorm_recovery"):
+			student.current_action.dorm_recovery = false
 		students.append(student)
 	logs.clear()
 	for entry in data.logs:
@@ -865,6 +1149,10 @@ func _load_file(path: String, align_system_time: bool, explicit_day: int = -1, e
 					return result
 		for index in students.size():
 			_sync_violation(index)
+	# 跨配置时可能沿用同一时段键但已改为上课，必须按真实新课表检查宿舍活动资格。
+	var dorm_result: Error = _end_unavailable_dorm_actions("读档后课表已离开宿舍自由活动时段")
+	if dorm_result != OK:
+		return dorm_result
 	var committed: Error = _commit_round_events(candidate_events)
 	if committed != OK:
 		return committed
@@ -912,6 +1200,13 @@ func _validate_scope() -> Error:
 	var redirect_group: String = ""
 	if not phase_scope.get("subject_auto_actions") is Dictionary:
 		return _fail("阶段范围必须声明subject_auto_actions对象")
+	if not phase_scope.get("dorm_auto_actions") is Array or phase_scope.dorm_auto_actions.size() != 6:
+		return _fail("阶段范围必须明确声明六项宿舍自主活动")
+	var dorm_ids: Array = []
+	for action_id: Variant in phase_scope.dorm_auto_actions:
+		if not action_id is String or action_id in dorm_ids or action_id not in phase_scope.enabled_actions or not config.actions.has(action_id) or config.actions[action_id].eligible_period != "dorm_free":
+			return _fail("宿舍自主候选重复、未开放或时段契约错误：%s" % action_id)
+		dorm_ids.append(action_id)
 	for action_id in phase_scope.auto_actions:
 		if not action_id is String or action_id not in phase_scope.enabled_actions:
 			return _fail("默认自主候选未在本阶段开放：%s" % action_id)
@@ -1020,6 +1315,28 @@ func _validate_scope() -> Error:
 					resolve_sequence = effect.sequence
 				elif effect.condition in ["winner", "loser", "tie"] and (resolve_sequence < 0.0 or effect.sequence <= resolve_sequence):
 					return _fail("掰手腕必须先确定快照胜负再结算胜负效果")
+	# AI升级：占位假人预设加点必须完整合法；联机后由真人自己加点并移除此校验。
+	var npc_builds: Variant = phase_scope.get("npc_attributes")
+	if npc_builds != null:
+		if not npc_builds is Array or npc_builds.size() != 3:
+			return _fail("npc_attributes必须为三名占位假人的预设加点数组")
+		var initial_points: float = config.global_value("initial_attribute_points")
+		for build: Variant in npc_builds:
+			if not build is Dictionary:
+				return _fail("占位假人加点必须是对象")
+			var total: float = 0.0
+			for attribute_id: String in ATTRIBUTE_KEYS:
+				var amount: Variant = build.get(attribute_id)
+				if not _is_number(amount) or float(amount) < 0.0 or amount != int(amount):
+					return _fail("占位假人属性%s必须是非负整数" % attribute_id)
+				total += float(amount)
+			if total != initial_points:
+				return _fail("占位假人加点必须恰好消耗%d点初始属性点" % int(initial_points))
+	# 竞争社交候选必须是已开放的双人持续互动，不能把个人动作混入自主干扰池。
+	var social_ids: Array = phase_scope.get("social_auto_actions", [])
+	for action_id: Variant in social_ids:
+		if not action_id is String or action_id not in phase_scope.enabled_actions or action_id not in PAIR_ACTIONS:
+			return _fail("竞争社交候选未开放或不是双人互动：%s" % action_id)
 	return OK
 
 
@@ -1089,6 +1406,24 @@ func _validate_snapshot(data: Dictionary) -> Error:
 				return _fail("存档动作类型或引用无效")
 			if (config.actions[action.action_id].target == "pair") != action.has("interaction_id") or (data.save_version == 1 and action.has("interaction_id")):
 				return _fail("存档动作的双人关联缺失或版本不符")
+			var definition: Dictionary = config.actions[action.action_id]
+			if definition.knowledge_mode == "selected_subject" and not _is_cultural_subject(action.subject_id):
+				return _fail("宿舍选科动作必须保存真实文化课科目")
+			if definition.knowledge_mode == "fixed_subject" and action.subject_id != definition.knowledge_subject_id:
+				return _fail("宿舍固定科目与配置不一致")
+			if definition.eligible_period == "dorm_free":
+				if data.config_fingerprint == config.fingerprint and _context_at(int(data.day), data.clock_seconds).kind not in ["outside", "rest"]:
+					return _fail("存档宿舍动作不属于保存时刻的宿舍自由活动时段")
+				if definition.knowledge_mode == "none" and not action.subject_id.is_empty():
+					return _fail("无知识收益的宿舍动作不能保存虚构科目")
+				if not action.has("dorm_recovery"):
+					var legacy_dorm: bool = data.save_version < SAVE_VERSION or (data.get("round_progression") is Dictionary and data.round_progression.get("schema_version") == 1)
+					if action.action_id != "dorm_rest" or not legacy_dorm:
+						return _fail("宿舍动作缺少已保存的休息接续状态")
+				elif not action.dorm_recovery is bool or (action.dorm_recovery and action.action_id != "dorm_rest"):
+					return _fail("宿舍休息接续状态无效")
+			elif action.has("dorm_recovery"):
+				return _fail("非宿舍动作包含无法归属的休息接续状态")
 			if not _is_integer(action.instance_id) or action.instance_id < 1 or action.instance_id >= data.next_action_number or instance_ids.has(action.instance_id):
 				return _fail("存档动作实例编号无效")
 			instance_ids[action.instance_id] = true
@@ -1313,10 +1648,83 @@ func _fill_missing_actions() -> Error:
 	return OK
 
 
+## 调表和跨配置读档重新核验真实自由时段，保留已得收益并明确记录中断原因。
+func _end_unavailable_dorm_actions(reason: String) -> Error:
+	for index in students.size():
+		var action: Dictionary = students[index].current_action
+		if not action.is_empty() and config.actions[action.action_id].eligible_period == "dorm_free" and not is_dorm_free_time(index):
+			var result: Error = _end_action(index, false, reason)
+			if result != OK:
+				return result
+	return OK
+
+
+## 计算当前宿舍活动每秒净资源变化，费率始终读取当前配置和有效资源上限。
+func _dorm_resource_rates(index: int) -> Dictionary:
+	var rates: Dictionary = {"focus": 0.0, "stamina": 0.0}
+	var action: Dictionary = students[index].current_action
+	var context: Dictionary = course_context()
+	for effect: Dictionary in config.phase_effects(action.action_id, "tick"):
+		if _condition_matches(effect.condition, action.natural_entry, context):
+			rates[effect.resource] += _resource_effect_value(index, effect) / effect.period_s
+	return rates
+
+
+## 耗尽时刻和动作到期同为真实边界，不能把零资源后的时间继续算成学习收益。
+func _dorm_depletion_seconds(index: int) -> float:
+	var action: Dictionary = students[index].current_action
+	if config.actions[action.action_id].eligible_period != "dorm_free":
+		return INF
+	var next_seconds: float = INF
+	var rates: Dictionary = _dorm_resource_rates(index)
+	for resource: String in rates:
+		if rates[resource] < 0.0:
+			next_seconds = minf(next_seconds, students[index][resource] / -rates[resource])
+	return next_seconds
+
+
+## 资源真实耗尽时中断旧实例并保留已得知识，后续休息留到换课与终局判定之后。
+func _end_exhausted_dorm_actions(recovery: Array[int]) -> Error:
+	for index in students.size():
+		var action: Dictionary = students[index].current_action
+		if action.is_empty() or config.actions[action.action_id].eligible_period != "dorm_free":
+			continue
+		var exhausted: PackedStringArray = []
+		for effect: Dictionary in config.phase_effects(action.action_id, "tick"):
+			if effect.value < 0.0 and _condition_matches(effect.condition, action.natural_entry, course_context()) and students[index][effect.resource] <= 0.0:
+				var resource_name: String = "专注" if effect.resource == "focus" else "体力"
+				if resource_name not in exhausted:
+					exhausted.append(resource_name)
+		if not exhausted.is_empty():
+			var result: Error = _end_action(index, false, "、".join(exhausted) + "耗尽")
+			if result != OK:
+				return result
+			if index not in recovery:
+				recovery.append(index)
+	return OK
+
+
+## 已批准的恢复是可见的真实十分钟宿舍休息，上课或终局同刻不会再启动它。
+func _start_dorm_recovery(indices: Array[int]) -> Error:
+	for index: int in indices:
+		if students[index].current_action.is_empty() and is_dorm_free_time(index):
+			var result: Error = start_action(index, "dorm_rest", true, -1, "宿舍活动后休息")
+			if result != OK:
+				return result
+			students[index].current_action.dorm_recovery = true
+			_log(index, "dorm_recovery", "宿舍活动结束，休息后再次自主选择", {
+				"instance_id": students[index].current_action.instance_id,
+				"duration_s": students[index].current_action.duration_s,
+			})
+	return OK
+
+
 ## 在状态及课表保持不变的区间，按真实秒数计算资源与知识。
 func _settle_student(index: int, seconds: float, context: Dictionary) -> void:
 	var student: Dictionary = students[index]
 	var action: Dictionary = student.current_action
+	var definition: Dictionary = config.actions[action.action_id]
+	var resources_before: Dictionary = {"focus": student.focus, "stamina": student.stamina}
 	var stamina_before: float = student.stamina
 	var stamina_rate: float = 0.0
 	for effect in config.phase_effects(action.action_id, "tick"):
@@ -1329,8 +1737,18 @@ func _settle_student(index: int, seconds: float, context: Dictionary) -> void:
 			if effect.resource == "stamina":
 				stamina_rate += amount / seconds
 			_change_resource(index, effect.resource, amount, true)
-	var definition: Dictionary = config.actions[action.action_id]
-	if context.subject_kind == "knowledge" and action.subject_id == context.subject_id and definition.knowledge_multiplier > 0.0:
+	if definition.eligible_period == "dorm_free":
+		var rates: Dictionary = _dorm_resource_rates(index)
+		for resource: String in rates:
+			if rates[resource] < 0.0 and seconds >= resources_before[resource] / -rates[resource] and student[resource] != 0.0:
+				# 边界已按真实耗尽时刻截断；消除浮点减法余量，避免产生零时长循环。
+				_change_resource(index, resource, -student[resource], true)
+	var knowledge_subject: String = ""
+	if definition.knowledge_mode == "course" and context.subject_kind == "knowledge" and action.subject_id == context.subject_id:
+		knowledge_subject = context.subject_id
+	elif definition.knowledge_source == "dorm":
+		knowledge_subject = action.subject_id
+	if not knowledge_subject.is_empty():
 		var threshold: float = config.global_value("sleep_stamina_threshold")
 		var tired_seconds: float = seconds if stamina_before < threshold else 0.0
 		if stamina_rate < 0.0 and stamina_before >= threshold and stamina_before + stamina_rate * seconds < threshold:
@@ -1339,15 +1757,19 @@ func _settle_student(index: int, seconds: float, context: Dictionary) -> void:
 			tired_seconds = (threshold - stamina_before) / stamina_rate
 		var effective_seconds: float = seconds - tired_seconds * (1.0 - config.global_value("tired_knowledge_multiplier"))
 		var multiplier: float = 1.0 + config.global_value("learning_focus_coefficient") * effective_attribute(index, "attention")
-		var gained_subject: String = context.subject_id
+		var gained_subject: String = knowledge_subject
 		for buff in student.buffs:
 			multiplier *= config.buffs[buff.buff_id].knowledge_multiplier
-			if config.buffs[buff.buff_id].knowledge_redirect == "selected_subject":
+			# 课外选科始终按动作中的真实选择到账，错误课本只重定向在校课程来源。
+			if definition.knowledge_source == "school" and config.buffs[buff.buff_id].knowledge_redirect == "selected_subject":
 				gained_subject = buff.selected_subject_id
-		var gain: float = config.subjects[context.subject_id].base_rate_per_min * multiplier * definition.knowledge_multiplier * effective_seconds / 60.0
+		var gain: float = config.subjects[knowledge_subject].base_rate_per_min * multiplier * definition.knowledge_multiplier * effective_seconds / 60.0
 		student.knowledge[gained_subject] += gain
 		action.knowledge_gain += gain
-		round_progression.add_knowledge(day, gained_subject, student.id, gain)
+		if definition.knowledge_source == "dorm":
+			round_progression.add_dorm_knowledge(day, gained_subject, student.id, action.action_id, gain)
+		else:
+			round_progression.add_knowledge(day, gained_subject, student.id, gain)
 	action.last_settled_at = elapsed_s + seconds
 
 
@@ -1406,6 +1828,7 @@ func _finish_action_instance(index: int, instance: Dictionary, completed: bool, 
 		"action_id": instance.action_id, "executed_s": elapsed_s - instance.started_at,
 		"resource_changes": instance.resource_changes.duplicate(true), "knowledge_gain": instance.knowledge_gain,
 		"instance_id": instance.instance_id, "interrupted_by": interrupted_by,
+		"subject_id": instance.subject_id, "knowledge_source": config.actions[instance.action_id].knowledge_source,
 	}
 	if instance.has("interaction_id"):
 		details.interaction_id = instance.interaction_id

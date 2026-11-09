@@ -34,6 +34,7 @@ func _run() -> void:
 	_check(_test_rewound_frontier(), "开发时钟回退不把已观察时段当作未来")
 	_check(_test_cross_config_load(), "跨配置读档预检失败保护有效局，合法未来可继续")
 	_check(_test_offline_original_plan(), "离线先按保存课表补纯事件，再规划新课表")
+	_check(_test_dorm_timetable_change(), "调表和跨配置恢复后只在真实自由时段保留宿舍活动")
 	_finish()
 
 
@@ -247,8 +248,53 @@ func _test_offline_original_plan() -> bool:
 	return true
 
 
-## 每个变体经完整配置入口读取，仅调整明确标注的课表、费率与后续计分参数。
-func _config(filename: String, timings: Dictionary) -> GameConfig:
+## 调表可以提前下午课程；旧宿舍动作必须在首次继续积分之前真实中断。
+func _test_dorm_timetable_change() -> bool:
+	var source := _simulation(1, 45000.0)
+	if source == null or not _result(source.start_action(0, "dorm_study", false, -1, "课表更新前自习", "math"), "开始实际宿舍自习", source.error_message):
+		return false
+	if not _result(source.advance(60.0), "宿舍自习真实执行一分钟", source.error_message) or not _save(source, "dorm_timetable_source.json"):
+		return false
+	var knowledge: Dictionary = source.students[0].knowledge.duplicate(true)
+	var dorm: Dictionary = source.get_dorm_summary(1)
+	var rng_state: String = str(source.rng.state)
+	var instance_id: int = source.students[0].current_action.instance_id
+	var timings: Dictionary = {"lunch_rest": {"end": 44900.0}, "lesson_5": {"start": 44900.0}}
+	var changed := _config("dorm_to_lesson.json", timings)
+	if changed == null or not _result(source.apply_config(changed), "合法调表把当前时刻纳入下午课程", source.error_message):
+		return false
+	_check(source.course_context().kind == "lesson" and source.students[0].current_action.is_empty(), "热改提交时即结束不再符合时段的宿舍动作")
+	_check(source.students[0].knowledge == knowledge and source.get_dorm_summary(1) == dorm, "调表当刻保留已得宿舍知识，不额外结算")
+	_check(str(source.rng.state) == rng_state, "中止宿舍动作不提前抽取新课堂动作")
+	_check(_has_dorm_interruption(source, instance_id), "课表变更留下真实宿舍中断原因")
+	if not _result(source.advance(0.0), "行为树接续更新后的下午课程", source.error_message):
+		return false
+	_check(source.config.actions[source.students[0].current_action.action_id].eligible_period != "dorm_free", "上课后不继续选择宿舍活动")
+	# 特意保留相同的时段键，证明读档资格不能只靠context_key是否变化。
+	var same_key := _config("dorm_same_key_lesson.json", timings, true)
+	var target := _simulation(2, 28800.0, same_key) if same_key != null else null
+	if target == null or not _result(target.load_file(_path("dorm_timetable_source.json"), false), "跨配置恢复到同键但已上课的时刻", target.error_message):
+		return false
+	_check(target.course_context().context_key == "1/lunch_rest" and target.course_context().kind == "lesson", "真实新课表复用原时段键且课程已生效")
+	_check(target.students[0].current_action.is_empty(), "同键跨配置读档也明确中止宿舍活动")
+	_check(_same(target.students[0].knowledge, knowledge) and _same(target.get_dorm_summary(1), dorm), "跨配置中止不新增知识或改写宿舍历史")
+	_check(str(target.rng.state) == rng_state and _has_dorm_interruption(target, instance_id), "恢复不抽随机数且中断日志可见")
+	if not _result(target.advance(0.0), "跨配置恢复后接续真实课堂", target.error_message):
+		return false
+	_check(target.config.actions[target.students[0].current_action.action_id].eligible_period != "dorm_free", "恢复后的课堂动作不再获得宿舍来源收益")
+	return true
+
+
+## 只接受真实旧实例的中断记录，不用当前UI标签推断课表切换已经发生。
+func _has_dorm_interruption(simulation: ClassroomSimulation, instance_id: int) -> bool:
+	for entry: Dictionary in simulation.logs:
+		if entry.student_index == 0 and entry.type == "interrupt" and entry.details.instance_id == instance_id:
+			return entry.message.contains("课表") and entry.details.knowledge_source == "dorm"
+	return false
+
+
+## 每个变体经完整配置入口读取，改名变体专门验证时段键不变时的宿舍资格。
+func _config(filename: String, timings: Dictionary, reuse_dorm_period_id: bool = false) -> GameConfig:
 	var source: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://config/game_config.json"))
 	for period: Dictionary in source.tables.periods:
 		if timings.has(period.id):
@@ -257,6 +303,15 @@ func _config(filename: String, timings: Dictionary) -> GameConfig:
 				period.start_time = timing.start / 86400.0
 			if timing.has("end"):
 				period.end_time = timing.end / 86400.0
+		if reuse_dorm_period_id:
+			if period.id == "lunch_rest":
+				period.id = "midday_rest"
+			elif period.id == "lesson_5":
+				period.id = "lunch_rest"
+	if reuse_dorm_period_id:
+		for row: Dictionary in source.tables.schedule:
+			if row.period_id == "lesson_5":
+				row.period_id = "lunch_rest"
 	for row: Dictionary in source.tables.globals:
 		if row.key == "exam_intelligence_coefficient":
 			row.value = 0.06

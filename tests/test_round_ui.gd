@@ -182,7 +182,7 @@ func _test_daily_publication(ui: Control) -> bool:
 	ui._show_round_boards()
 	var board: Dictionary = ui.simulation.get_daily_board(1, "chinese")
 	_check(board.status == "published" and board.rows.size() == 4, "真实第1天产生四人语文知识榜")
-	_check(ui.round_board_text.text.contains("语文知识榜") and ui.round_board_text.text.contains("在线实际状态"), "日榜显示真实科目与在线来源")
+	_check(board.knowledge_scope == "school" and ui.round_board_text.text.contains("语文在校知识榜") and ui.round_board_text.text.contains("在线实际状态"), "日榜显示真实科目、在校统计口径与在线来源")
 	_check(ui.round_board_text.text.contains("统计") and ui.round_board_text.text.contains("16:40:00"), "日榜显示实际统计起止")
 	var positive_knowledge: bool = false
 	for row: Dictionary in board.rows:

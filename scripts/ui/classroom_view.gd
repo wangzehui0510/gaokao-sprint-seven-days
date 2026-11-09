@@ -132,6 +132,8 @@ func refresh_state() -> void:
 		var interaction: Dictionary = _active_interaction_for_student(index)
 		var relationship: String = _interaction_relationship(interaction)
 		var short_status: String = action_name
+		if not action.is_empty() and simulation.config.actions[action_id].knowledge_source == "dorm":
+			short_status += " · " + String(simulation.config.subjects[action.subject_id].name)
 		if not interaction.is_empty():
 			var other_index: int = int(interaction.target_index) if int(interaction.initiator_index) == index else int(interaction.initiator_index)
 			short_status += (" → " if int(interaction.initiator_index) == index else " ← ") + String(simulation.students[other_index].name)
@@ -536,11 +538,11 @@ func _create_seat_label(font_size: int, color: Color) -> Label:
 
 # 真实动作只复用已有坐姿或静态站姿，动作名称始终读取权威配表。
 func _pose_name(action_id: String) -> String:
-	if action_id in ["standing_study", "chores"]:
+	if action_id in ["standing_study", "chores", "dorm_workout", "dorm_wash"]:
 		return "standing"
 	if action_id in ["sleep", "rest", "dorm_rest", "lunch_rest"]:
 		return "sleep"
-	if action_id in ["daydream", "break_rest", "music_class", "eye_exercise"]:
+	if action_id in ["daydream", "break_rest", "music_class", "eye_exercise", "dorm_game"]:
 		return "daydream"
 	return "study"
 
@@ -650,6 +652,9 @@ func _get_tooltip(at_position: Vector2) -> String:
 	if index >= 0 and not visual_students.is_empty():
 		var student: Dictionary = visual_students[index]
 		var tooltip: String = "%s\n%s · %s" % [student.name, student.location, student.action]
+		var action: Dictionary = simulation.students[index].current_action
+		if not action.is_empty() and simulation.config.actions[action.action_id].knowledge_source == "dorm":
+			tooltip += "\n%s · 已获%.2f知识" % [simulation.config.subjects[action.subject_id].name, action.knowledge_gain]
 		if not String(student.interaction).is_empty():
 			tooltip += "\n" + String(student.interaction)
 		var recent: Dictionary = _recent_interaction_for_student(index)

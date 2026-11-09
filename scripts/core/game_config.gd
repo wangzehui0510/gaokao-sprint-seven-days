@@ -23,6 +23,8 @@ const ENUMS: Dictionary = {
 		"kind": ["instant", "duration"], "source": ["player", "auto", "both"],
 		"target": ["self", "pair", "group"], "scene": ["any", "classroom", "playground", "canteen", "dorm", "course"],
 		"violation": ["none", "distraction"], "completion_route": ["schedule", "study", "previous"],
+		"knowledge_source": ["school", "dorm", "none"], "knowledge_mode": ["course", "selected_subject", "fixed_subject", "none"],
+		"eligible_period": ["any", "dorm_free"],
 	},
 	"effects": {
 		"phase": ["start", "tick", "complete", "instant"], "recipient": ["self", "target", "both", "ally", "winner", "loser"],
@@ -35,7 +37,7 @@ const ENUMS: Dictionary = {
 	"globals": {"type": ["string", "number", "boolean"]},
 	"subjects": {"kind": ["knowledge", "recovery", "exam"]},
 	"periods": {"kind": ["lesson", "break", "exercise", "eye_exercise", "lunch", "rest"]},
-	"auto_pool": {"eligible_period": ["knowledge_course"]},
+	"auto_pool": {"eligible_period": ["knowledge_course", "dorm_free"]},
 	"interrupt_policies": {"remaining_participants_route": ["schedule"]},
 }
 const REFERENCES: Dictionary = {
@@ -50,6 +52,10 @@ const REQUIRED_NUMBER_GLOBALS: Array[String] = [
 	"sleep_stamina_threshold", "tired_knowledge_multiplier",
 	"exam_intelligence_coefficient", "score_decimal_places",
 	"session_days",
+	# AI升级：属性驱动行为加权与竞争自主社交所需的数值系数。
+	"personality_ref_attr", "dorm_weight_floor", "social_auto_base",
+	"g_study", "g_game", "g_workout", "g_playful", "g_weak", "g_lead",
+	"k_threshold",
 ]
 # 成绩以整数刻度相加；这里只校验实际表示范围，不设置人为分数或小数位上限。
 const MAX_SCORE_INTEGER: int = 9223372036854775807
@@ -175,6 +181,19 @@ func _validate_relations() -> Error:
 				return _fail("瞬时动作%s的持续时长必须留空" % row.id)
 		elif not _positive_number(row.duration_min_s) or not _positive_number(row.duration_max_s) or row.duration_min_s > row.duration_max_s:
 			return _fail("持续动作%s的时长范围无效" % row.id)
+		if row.knowledge_multiplier < 0.0 or (row.knowledge_source == "none") != (row.knowledge_mode == "none") or (row.knowledge_mode == "none") != (row.knowledge_multiplier == 0.0):
+			return _fail("动作%s的知识来源、方式与倍率不一致" % row.id)
+		if row.knowledge_mode == "fixed_subject":
+			if row.knowledge_subject_id == null or indexes.subjects[row.knowledge_subject_id].kind != "knowledge":
+				return _fail("动作%s的固定知识归属必须引用知识科目" % row.id)
+		elif row.knowledge_subject_id != null:
+			return _fail("动作%s不使用固定知识科目，knowledge_subject_id必须留空" % row.id)
+		if row.knowledge_source == "school" and row.knowledge_mode != "course":
+			return _fail("动作%s的在校知识必须来自当前知识课程" % row.id)
+		if row.knowledge_source == "dorm" and (row.knowledge_mode not in ["selected_subject", "fixed_subject"] or row.eligible_period != "dorm_free"):
+			return _fail("动作%s的宿舍知识必须明确科目来源并限定宿舍自由时段" % row.id)
+		if row.eligible_period == "dorm_free" and (row.scene != "dorm" or row.target != "self" or row.kind != "duration"):
+			return _fail("动作%s的宿舍自由活动必须是宿舍内个人持续动作" % row.id)
 	for row in tables.effects:
 		var identity: String = "%s/%s/%s" % [row.action_id, row.phase, row.sequence]
 		if effect_sequences.has(identity):
@@ -219,7 +238,32 @@ func _validate_relations() -> Error:
 	var round_result: Error = _validate_round_schedule()
 	if round_result != OK:
 		return round_result
+	var dorm_result: Error = _validate_dorm_pool()
+	if dorm_result != OK:
+		return dorm_result
 	return _validate_daily_rewards()
+
+
+## 宿舍候选必须与课堂池隔离，完整保留用户确认的六项等概率活动。
+func _validate_dorm_pool() -> Error:
+	var expected: Array[String] = ["dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash", "dorm_rest"]
+	var candidates: Dictionary = {}
+	var weight: float = -1.0
+	for row: Dictionary in tables.auto_pool:
+		if row.eligible_period != "dorm_free":
+			continue
+		var action: Dictionary = indexes.actions[row.action_id]
+		if action.eligible_period != "dorm_free" or not action.enabled or not row.enabled or row.requires_same_scene_target or not row.requires_affordable_start:
+			return _fail("宿舍候选%s必须启用、可支付且无需同伴" % row.id)
+		if row.action_id not in expected or candidates.has(row.action_id):
+			return _fail("宿舍候选%s不是六项活动之一或存在重复" % row.id)
+		if row.weight <= 0.0 or (weight > 0.0 and row.weight != weight):
+			return _fail("宿舍候选%s必须使用相等的正权重" % row.id)
+		weight = row.weight
+		candidates[row.action_id] = true
+	if candidates.size() != expected.size():
+		return _fail("宿舍自主候选必须完整包含六项活动")
+	return OK
 
 
 ## 计分输入必须在配置入口完整校验，不能以默认满分、曲线或科目替代缺失字段。

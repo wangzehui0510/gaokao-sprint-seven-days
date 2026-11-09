@@ -75,6 +75,26 @@
           "key": "description",
           "type": "string",
           "nullable": false
+        },
+        {
+          "key": "knowledge_source",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "knowledge_mode",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "key": "knowledge_subject_id",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "key": "eligible_period",
+          "type": "string",
+          "nullable": false
         }
       ]
     },

@@ -127,10 +127,26 @@ func _test_all_actions() -> bool:
 	var simulation := _simulation()
 	if simulation == null:
 		return false
-	_check(simulation.phase_scope.enabled_actions.size() == 49, "范围保留既有18项、17项个人动作和14项双人扩展")
-	_check(simulation.phase_scope.auto_actions == ["daydream", "sleep"] and simulation.phase_scope.subject_auto_actions == {"physical": ["playground_play"]}, "自主候选保留已批准范围")
+	_check(simulation.phase_scope.enabled_actions.size() == 54, "范围保留既有49项并增加五项宿舍动作")
+	var expected_actions: Array[String] = [
+		"study", "physical_study", "music_class", "art_class", "break_rest", "eye_exercise",
+		"morning_exercise", "rest", "daydream", "sleep", "eat_meal", "dorm_rest", "exam",
+		"focus_command", "playground_play", "send_note", "eraser_prank", "report",
+		"remind_friend", "solve_together", "invite_playground", "invite_canteen", "borrow_notes",
+		"encourage", "pillow_fight", "feed_snack", "use_eraser", "give_comic_item",
+		"give_candy_item", "swap_book", "swap_book_boost", "arm_wrestle",
+		"dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash",
+	]
+	for scenario: Dictionary in cases:
+		expected_actions.append(scenario.id)
+	expected_actions.sort()
+	var actual_actions: Array = simulation.phase_scope.enabled_actions.duplicate()
+	actual_actions.sort()
+	_check(actual_actions == expected_actions, "既有动作身份完整保留，新增宿舍范围没有多开或漏开")
+	_check(simulation.phase_scope.dorm_auto_actions == ["dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash", "dorm_rest"], "宿舍自主池恰为已批准六项")
+	_check(simulation.phase_scope.auto_actions == ["daydream", "sleep", "read_comic", "bathroom"] and simulation.phase_scope.subject_auto_actions == {"physical": ["playground_play"]}, "自主候选按批准范围开放发呆、睡觉、漫画与上厕所")
 	for candidate: Dictionary in simulation.get_auto_candidates(0):
-		_check(candidate.action_id not in ["read_comic", "bathroom", "linger_break"], "开放执行不等于擅自加入自主池")
+		_check(candidate.action_id not in ["send_note", "linger_break"], "仅开放执行的动作不擅自加入自主池")
 	_check(configuration.actions.bathroom.scene == "any" and configuration.actions.playground_play.scene == "any", "权威地点配置保持原值")
 	return true
 

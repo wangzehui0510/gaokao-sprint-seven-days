@@ -254,7 +254,11 @@ func _test_layout(ui: Control, scale: int, expected_size: Vector2i) -> void:
 		_check_control_bounds(ui, bounds, "%d倍第%d页" % [scale, index])
 		if index == 0:
 			_check(ui.status_effects_text.is_visible_in_tree() and ui.status_effects_text.size.y >= 40.0, "%d倍人物页保留至少40像素的状态滚动区域" % scale)
-			_check(ui.status_effects_text.get_content_height() <= ui.status_effects_text.size.y + 1.0, "%d倍人物页可直接看到有效属性两行与空态第三行" % scale)
+			# 新增宿舍附加内容允许滚动，但原有效属性和空态必须仍是首屏完整的前三行。
+			var status_lines: PackedStringArray = ui.status_effects_text.get_parsed_text().split("\n")
+			var required_order: bool = status_lines.size() >= 3 and status_lines[0].begins_with("有效 ") and status_lines[1].begins_with("健康 ") and status_lines[2] == "暂无生效状态"
+			var third_line_bottom: float = ui.status_effects_text.get_line_offset(2) + ui.status_effects_text.get_line_height(2)
+			_check(required_order and ui.status_effects_text.get_character_line(ui.status_effects_text.get_parsed_text().find("暂无生效状态")) == 2 and third_line_bottom <= ui.status_effects_text.size.y + 1.0 and ui.status_effects_text.get_v_scroll_bar().value == 0.0, "%d倍人物页可直接看到有效属性两行与空态第三行" % scale)
 			# 按真实字体测量人数文字，防止控件虽在窗口内却被姓名挤成不可读的窄条。
 			var caption: Label = ui.scene_caption
 			var text_width: float = caption.get_theme_font("font").get_string_size(caption.text, HORIZONTAL_ALIGNMENT_LEFT, -1, caption.get_theme_font_size("font_size")).x

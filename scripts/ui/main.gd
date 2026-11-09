@@ -19,6 +19,9 @@ const PERSONAL_ACTION_IDS: Array[String] = [
 	"chores", "exercise_slack", "remind_self", "wake_self", "recall_classroom",
 	"read_comic_item", "eat_candy_item",
 ]
+# 宿舍自由时段优先呈现六项活动，课程中保留原个人动作入口。
+const DORM_ACTION_IDS: Array[String] = ["dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash", "dorm_rest"]
+const CULTURAL_SUBJECT_IDS: Array[String] = ["chinese", "math", "english"]
 # 只展示本阶段规则已明确的玩家双人动作，抢答仍等待胜负公式确认。
 const PAIR_ACTION_IDS: Array[String] = [
 	"remind_friend", "solve_together", "invite_playground", "invite_canteen",
@@ -120,6 +123,10 @@ var attribute_value_labels: Dictionary = {}
 var personal_action_entry_button: Button
 var personal_action_dialog: AcceptDialog
 var personal_action_picker: OptionButton
+# 科目只保存于当前操作窗口，实际选定值由权威动作实例持有。
+var personal_subject_picker: OptionButton
+# 弹窗绑定打开时的真实时段，切课后旧点击不能改为发动另一项行动。
+var personal_action_context_key: String = ""
 var personal_action_button: Button
 var personal_action_text: RichTextLabel
 var personal_action_reason: Label
@@ -552,7 +559,7 @@ func _build_round_page() -> void:
 	round_type_picker = OptionButton.new()
 	round_type_picker.name = "RoundType"
 	round_type_picker.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	for title: String in ["知识榜", "考试", "总榜"]:
+	for title: String in ["知识榜", "考试", "总榜", "宿舍记录"]:
 		round_type_picker.add_item(title)
 	round_type_picker.item_selected.connect(_on_round_type_selected)
 	filters.add_child(round_type_picker)
@@ -986,6 +993,10 @@ func _show_personal_actions() -> void:
 		return
 	_close_student_context()
 	_refresh_personal_action_interface()
+	# 每次重新打开都要求明确选科，不沿用上次窗口的隐含选择。
+	personal_subject_picker.select(0)
+	_refresh_personal_action_interface()
+	personal_action_context_key = simulation.course_context().context_key
 	personal_action_dialog.popup_centered()
 
 
@@ -994,25 +1005,52 @@ func _on_personal_action_selected(_index: int) -> void:
 	_refresh_personal_action_interface()
 
 
+# 科目选项仅改变预览，尚未启动前不修改角色、知识或随机流。
+func _on_personal_subject_selected(_index: int) -> void:
+	_refresh_personal_action_interface()
+
+
+# 弹窗关闭即撤销旧操作时段，之后排队点击不能重新发动。
+func _on_personal_dialog_hidden() -> void:
+	if not personal_action_dialog.visible:
+		personal_action_context_key = ""
+
+
 # 发动前重新经过同一权威入口；失败保留原动作和选择，成功后收起窗口。
 func _start_personal_action() -> void:
 	if simulation == null or fatal_error or personal_action_picker.selected < 0:
 		return
+	if not personal_action_dialog.visible:
+		return
+	if personal_action_context_key != simulation.course_context().context_key:
+		personal_action_dialog.hide()
+		return
 	var action_id: String = personal_action_picker.get_item_metadata(personal_action_picker.selected)
-	if _manual_action(action_id):
+	var subject_id: String = _selected_personal_subject(action_id)
+	if _manual_action(action_id, subject_id):
 		personal_action_dialog.hide()
 
 
 # 行动列表依据当前开放范围和来源；自主专用项不会被玩家按钮间接开放。
 func _personal_action_ids() -> Array[String]:
 	var result: Array[String] = []
-	for action_id: String in PERSONAL_ACTION_IDS:
+	var action_ids: Array[String] = PERSONAL_ACTION_IDS.duplicate()
+	if simulation.is_dorm_free_time(0):
+		action_ids = DORM_ACTION_IDS + action_ids
+	for action_id: String in action_ids:
 		if action_id not in simulation.phase_scope.enabled_actions:
 			continue
 		var definition: Dictionary = configuration.actions[action_id]
 		if definition.enabled and definition.target == "self" and definition.source in ["player", "both"]:
 			result.append(action_id)
 	return result
+
+
+# 只在需要选科的宿舍动作上读取明确选择，其他动作不携带过期选科。
+func _selected_personal_subject(action_id: String) -> String:
+	if configuration.actions[action_id].knowledge_mode != "selected_subject" or personal_subject_picker.selected < 0:
+		return ""
+	return String(personal_subject_picker.get_item_metadata(personal_subject_picker.selected))
 
 
 # 只有消费物品的已开放个人动作进入背包自用入口，不暴露尚未实现的双人强化。
@@ -1055,7 +1093,16 @@ func _personal_action_description(action_id: String) -> String:
 	var definition: Dictionary = configuration.actions[action_id]
 	var lines: Array[String] = [_interaction_cost_summary(action_id), String(definition.description)]
 	if float(definition.knowledge_multiplier) > 0.0:
-		lines.append("知识倍率 ×%s，仅在知识课程内累计" % _interaction_number(float(definition.knowledge_multiplier)))
+		if definition.knowledge_source == "dorm":
+			var subject_id: String = _selected_personal_subject(action_id) if definition.knowledge_mode == "selected_subject" else String(definition.knowledge_subject_id)
+			if not subject_id.is_empty():
+				var base_rate: float = configuration.subjects[subject_id].base_rate_per_min * definition.knowledge_multiplier
+				lines.append("%s基础速度 %s知识/分钟；实际收益叠加专注力、状态和疲劳" % [configuration.subjects[subject_id].name, _interaction_number(base_rate)])
+			else:
+				lines.append("请选择语文、数学或英语")
+			lines.append("收益单列宿舍记录，并计入总知识和之后尚未开考的科目")
+		else:
+			lines.append("知识倍率 ×%s，仅在知识课程内累计" % _interaction_number(float(definition.knowledge_multiplier)))
 	for phase: String in ["start", "tick", "complete"]:
 		for effect: Dictionary in configuration.phase_effects(action_id, phase):
 			var detail: String = ""
@@ -1073,17 +1120,31 @@ func _personal_action_description(action_id: String) -> String:
 					detail = "回到当前课表对应活动"
 			if not detail.is_empty():
 				lines.append("%s：%s" % [{"start": "启动", "tick": "持续", "complete": "完成"}[phase], detail])
+	if action_id in DORM_ACTION_IDS:
+		var rest: Dictionary = configuration.actions.dorm_rest
+		var rest_duration: String = _interaction_number(float(rest.duration_min_s) / 60.0)
+		if rest.duration_min_s != rest.duration_max_s:
+			rest_duration += "～" + _interaction_number(float(rest.duration_max_s) / 60.0)
+		lines.append("完成或资源耗尽后休息%s分钟，再自主选择活动；上课接续课表" % rest_duration)
 	return "\n".join(lines)
 
 
 # 刷新可用性只做查询，费用不足不暂停健康的挂机局。
 func _refresh_personal_action_interface() -> void:
+	if personal_action_dialog.visible and personal_action_context_key != simulation.course_context().context_key:
+		personal_action_dialog.hide()
 	_sync_action_picker(personal_action_picker, _personal_action_ids())
 	personal_action_entry_button.disabled = simulation.is_round_finished()
+	personal_action_dialog.title = "我的行动 · " + ClassroomView.LOCATION_NAMES[simulation.student_location(0)]
+	personal_subject_picker.set_item_text(0, "选择科目…")
+	for index: int in CULTURAL_SUBJECT_IDS.size():
+		personal_subject_picker.set_item_text(index + 1, String(configuration.subjects[CULTURAL_SUBJECT_IDS[index]].name))
+	personal_subject_picker.visible = false
 	var reason: String = "当前没有已开放的个人动作"
 	if personal_action_picker.selected >= 0:
 		var action_id: String = personal_action_picker.get_item_metadata(personal_action_picker.selected)
-		reason = simulation.action_unavailable_reason(0, action_id)
+		personal_subject_picker.visible = configuration.actions[action_id].knowledge_mode == "selected_subject"
+		reason = simulation.action_unavailable_reason(0, action_id, true, _selected_personal_subject(action_id))
 		_update_readonly_text(personal_action_text, _personal_action_description(action_id))
 	else:
 		_update_readonly_text(personal_action_text, "")
@@ -1328,13 +1389,15 @@ func _refresh_round_interface() -> void:
 		round_subject_picker.select(ROUND_SUBJECT_IDS.find(round_view_subject))
 	for index in ROUND_SUBJECT_IDS.size():
 		round_subject_picker.set_item_text(index, String(configuration.subjects[ROUND_SUBJECT_IDS[index]].name))
-	round_day_picker.visible = round_view_type == 0
+	round_day_picker.visible = round_view_type in [0, 3]
 	round_subject_picker.visible = round_view_type != 2
 	var lines := PackedStringArray()
 	match round_view_type:
 		0:
 			var board: Dictionary = simulation.get_daily_board(round_view_day, round_view_subject)
-			lines.append("第%d天 · %s知识榜" % [round_view_day, configuration.subjects[round_view_subject].name])
+			var scope_name: String = "在校知识榜" if board.knowledge_scope == "school" else "知识榜（原口径）"
+			lines.append("第%d天 · %s%s" % [round_view_day, configuration.subjects[round_view_subject].name, scope_name])
+			lines.append("仅统计在校来源；宿舍收益另列记录。" if board.knowledge_scope == "school" else "保留原统计口径，历史来源不重新拆分。")
 			if board.status == "published":
 				lines.append("统计 %s—%s" % [_clock(board.start_seconds), _clock(board.end_seconds)])
 				lines.append("来源：" + _round_source_text(String(board.source)))
@@ -1394,6 +1457,18 @@ func _refresh_round_interface() -> void:
 				lines.append("缺失科目不猜分，不生成完整总分。")
 			else:
 				lines.append("总榜尚未发布，第%d天%s结算。" % [round_summary.final_day, _clock(round_summary.final_seconds)])
+		3:
+			var summary: Dictionary = simulation.get_dorm_summary(round_view_day, selected_index)
+			lines.append("第%d天 · %s宿舍记录" % [round_view_day, simulation.students[selected_index].name])
+			lines.append("科目：" + String(configuration.subjects[round_view_subject].name))
+			if not String(summary.reason).is_empty():
+				lines.append(String(summary.reason))
+			if summary.status != "unrecorded":
+				lines.append("已记录课外新增知识 %s" % _interaction_number(float(summary.totals[round_view_subject])))
+				for row: Dictionary in summary.rows:
+					if row.subject_id == round_view_subject:
+						lines.append("\n%s：+%s知识" % [configuration.actions[row.action_id].name, _interaction_number(float(row.knowledge))])
+			lines.append("\n宿舍收益已计入人物总知识；不加入在校日榜，不回写已保存考试成绩。")
 	if simulation.is_round_finished():
 		lines.append("\n本局已结束，可查阅、保存或在设置中手动重新开始。")
 	_update_readonly_text(round_board_text, "\n".join(lines))
@@ -1578,6 +1653,12 @@ func _student_activity_summary(student_index: int) -> String:
 			direction = "←"
 		if partner_index >= 0:
 			return "%s %s %s" % [configuration.actions[String(interaction.action_id)].name, direction, simulation.students[partner_index].name]
+	var action: Dictionary = simulation.students[student_index].current_action
+	if not action.is_empty() and configuration.actions[action.action_id].knowledge_source == "dorm":
+		return "%s · %s · 已获%s知识" % [
+			_action_name(simulation.students[student_index]), configuration.subjects[action.subject_id].name,
+			_interaction_number(float(action.knowledge_gain)),
+		]
 	return _action_name(simulation.students[student_index])
 
 
@@ -1919,7 +2000,8 @@ func _build_personal_action_dialog() -> void:
 	personal_action_dialog.name = "PersonalActionDialog"
 	personal_action_dialog.title = "我的行动"
 	personal_action_dialog.ok_button_text = "关闭"
-	personal_action_dialog.min_size = Vector2i(300, 258)
+	personal_action_dialog.min_size = Vector2i(300, 276)
+	personal_action_dialog.visibility_changed.connect(_on_personal_dialog_hidden)
 	add_child(personal_action_dialog)
 	var content = VBoxContainer.new()
 	content.add_theme_constant_override("separation", 4)
@@ -1930,8 +2012,20 @@ func _build_personal_action_dialog() -> void:
 	personal_action_picker.custom_minimum_size.y = 26
 	personal_action_picker.item_selected.connect(_on_personal_action_selected)
 	content.add_child(personal_action_picker)
+	personal_subject_picker = OptionButton.new()
+	personal_subject_picker.name = "PersonalSubjectPicker"
+	personal_subject_picker.fit_to_longest_item = false
+	personal_subject_picker.custom_minimum_size.y = 24
+	personal_subject_picker.add_item("选择科目…")
+	personal_subject_picker.set_item_metadata(0, "")
+	for subject_id: String in CULTURAL_SUBJECT_IDS:
+		personal_subject_picker.add_item(subject_id)
+		personal_subject_picker.set_item_metadata(personal_subject_picker.item_count - 1, subject_id)
+	personal_subject_picker.item_selected.connect(_on_personal_subject_selected)
+	personal_subject_picker.hide()
+	content.add_child(personal_subject_picker)
 	personal_action_text = _text_area("PersonalActionDescription")
-	personal_action_text.custom_minimum_size = Vector2(0, 96)
+	personal_action_text.custom_minimum_size = Vector2(0, 84)
 	personal_action_text.add_theme_font_size_override("normal_font_size", 11)
 	content.add_child(personal_action_text)
 	personal_action_reason = _label("", 11, MUTED)
@@ -2109,10 +2203,10 @@ func _focus_player() -> void:
 
 
 # 自己的持续动作复用统一执行入口，与自主动作保持同一费用和结算语义。
-func _manual_action(action_id: String) -> bool:
+func _manual_action(action_id: String, selected_subject_id: String = "") -> bool:
 	if simulation == null or fatal_error:
 		return false
-	var result: Error = simulation.start_action(0, action_id, true)
+	var result: Error = simulation.start_action(0, action_id, true, -1, "主动切换", selected_subject_id)
 	if result == ERR_UNAVAILABLE:
 		_queue_error(simulation.error_message)
 		_refresh_interface()
@@ -2157,6 +2251,8 @@ func _refresh_interface() -> void:
 	var action: Dictionary = student.current_action
 	selected_action.text = _action_name(student)
 	if not action.is_empty():
+		if configuration.actions[action.action_id].knowledge_source == "dorm":
+			selected_action.text += " · " + String(configuration.subjects[action.subject_id].name)
 		var remaining = maxf(0.0, float(action.ends_at) - simulation.elapsed_s)
 		selected_action.text += "   剩余 " + _duration(remaining)
 		action_progress.value = 100.0 * (1.0 - remaining / float(action.duration_s))
@@ -2223,6 +2319,20 @@ func _refresh_status_effects() -> void:
 		if not corrections.is_empty():
 			lines.append(" · ".join(corrections))
 		lines.append(String(definition.description))
+	# 先保留有效属性与真实状态的首屏顺序，宿舍附加明细继续在同一区域滚动查看。
+	var action: Dictionary = student.current_action
+	if not action.is_empty() and configuration.actions[action.action_id].knowledge_source == "dorm":
+		lines.append("%s · 本段已获%s知识" % [configuration.subjects[action.subject_id].name, _interaction_number(float(action.knowledge_gain))])
+	var dorm_summary: Dictionary = simulation.get_dorm_summary(simulation.day, selected_index)
+	lines.append("第%d天宿舍新增知识" % simulation.day)
+	if not String(dorm_summary.reason).is_empty():
+		lines.append(String(dorm_summary.reason))
+	if dorm_summary.status != "unrecorded":
+		var gains := PackedStringArray()
+		for subject_id: String in ROUND_SUBJECT_IDS:
+			gains.append("%s %s" % [configuration.subjects[subject_id].name, _interaction_number(float(dorm_summary.totals[subject_id]))])
+		lines.append(" · ".join(gains.slice(0, 2)))
+		lines.append(" · ".join(gains.slice(2)))
 	_update_readonly_text(status_effects_text, "\n".join(lines))
 
 

@@ -61,7 +61,7 @@ func _create_shared_tree(actor: StudentBehaviorActor) -> BeehaveTree:
 	var priorities := SelectorComposite.new()
 	priorities.name = "ScheduleAndResources"
 	decision.add_child(priorities)
-	for kind in ["scheduled", "sleep", "distraction", "study"]:
+	for kind in ["dorm", "scheduled", "sleep", "social", "distraction", "study"]:
 		var branch := SequenceComposite.new()
 		branch.name = String(kind).capitalize()
 		priorities.add_child(branch)

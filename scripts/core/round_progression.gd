@@ -15,8 +15,10 @@ var scoring: RefCounted = SCORING.new()
 func setup(config: RefCounted, participants: Array, at_day: int, seconds: float, legacy: bool = false) -> Error:
 	configuration = config
 	data = {
-		"schema_version": 1, "session_days": int(config.global_value("session_days")),
+		"schema_version": 2, "session_days": int(config.global_value("session_days")),
 		"subject_ids": [], "daily_days": {}, "exams": {},
+		# 宿舍账本仅保存真实增量来源；人物总知识仍由唯一模拟器结算一次。
+		"dorm_days": {}, "dorm_tracking_start": {"day": at_day, "clock_seconds": seconds, "source": "legacy" if legacy else "new"},
 		"final": {"status": "pending", "reason": "", "rows": [], "missing_subjects": []},
 		"finished": false, "observed": false, "last_position": {"day": at_day, "clock_seconds": seconds},
 		"recorded_through": {"day": 0, "clock_seconds": 0.0},
@@ -28,6 +30,7 @@ func setup(config: RefCounted, participants: Array, at_day: int, seconds: float,
 	var plan: Dictionary = _plan(config)
 	for round_day: int in range(1, data.session_days + 1):
 		data.daily_days[str(round_day)] = _new_daily(round_day, plan.cutoffs[str(round_day)], participants)
+		data.dorm_days[str(round_day)] = {"day": round_day, "rows": []}
 	for subject_id: String in plan.exams:
 		data.exams[subject_id] = _new_exam(subject_id, plan.exams[subject_id])
 	data.final_day = data.session_days
@@ -37,7 +40,7 @@ func setup(config: RefCounted, participants: Array, at_day: int, seconds: float,
 	return OK
 
 
-## 课表变化只更新尚未发生事件的时刻，已快照与已公布记录保持原参数和原结果。
+## 热改先统一校验历史来源与未来事件兼容性，成功后才接管配置和未发生事件时刻。
 func apply_config(config: RefCounted, participants: Array) -> Error:
 	var plan: Dictionary = _plan(config)
 	var new_subjects: Array = []
@@ -51,6 +54,15 @@ func apply_config(config: RefCounted, participants: Array) -> Error:
 	for subject_id: String in data.exams:
 		if not plan.exams.has(subject_id):
 			return _fail("新配置删除了本局考试科目：%s" % subject_id)
+	# 已记录的来源需要在下次读档时仍可验证，倍率和费率可变，来源身份与选科语义不能追溯改变。
+	for daily: Dictionary in data.dorm_days.values():
+		for row: Dictionary in daily.rows:
+			if not config.actions.has(row.action_id):
+				return _fail("新配置删除了已有宿舍收益记录的动作：%s" % row.action_id)
+			var previous: Dictionary = configuration.actions[row.action_id]
+			var next: Dictionary = config.actions[row.action_id]
+			if previous.knowledge_source != next.knowledge_source or previous.knowledge_mode != next.knowledge_mode or previous.knowledge_subject_id != next.knowledge_subject_id:
+				return _fail("新配置改变了已有宿舍收益动作的来源或选科语义：%s" % row.action_id)
 	# 所有新边界先整体校验，失败不得部分改写账本或切换其配置引用。
 	var observed_day: int = int(data.last_position.day)
 	var observed_seconds: float = data.last_position.clock_seconds
@@ -81,13 +93,56 @@ func apply_config(config: RefCounted, participants: Array) -> Error:
 	return OK
 
 
-## 真实积分完成后累计当前日新增知识；查看榜单和离线补事件均不会调用此入口。
+## 真实在校积分完成后累计日榜增量；宿舍收益由独立入口记录，不混入已发布榜单。
 func add_knowledge(at_day: int, subject_id: String, student_id: String, amount: float) -> void:
 	if data.finished or not data.daily_days.has(str(at_day)):
 		return
 	var daily: Dictionary = data.daily_days[str(at_day)]
 	if daily.status == "pending":
 		daily.gains[student_id][subject_id] += amount
+
+
+## 仅接收模拟器已实际到账的宿舍知识，按日期、角色、动作和科目合并来源明细。
+func add_dorm_knowledge(at_day: int, subject_id: String, student_id: String, action_id: String, amount: float) -> void:
+	if data.finished or amount == 0.0:
+		return
+	var rows: Array = data.dorm_days[str(at_day)].rows
+	for row: Dictionary in rows:
+		if row.student_id == student_id and row.action_id == action_id and row.subject_id == subject_id:
+			row.knowledge += amount
+			return
+	rows.append({"student_id": student_id, "action_id": action_id, "subject_id": subject_id, "knowledge": amount})
+
+
+## 宿舍查询返回角色当天来源明细和四科合计，旧版缺史不被显示成真实零收益。
+func dorm_summary(at_day: int, student_id: String) -> Dictionary:
+	var result: Dictionary = {
+		"day": at_day, "student_id": student_id, "status": "unrecorded",
+		"source": "dorm", "reason": "", "start_seconds": 0.0, "totals": {}, "rows": [],
+	}
+	for subject_id: String in data.subject_ids:
+		result.totals[subject_id] = 0.0
+	if not data.dorm_days.has(str(at_day)) or not data.daily_days[str(at_day)].gains.has(student_id):
+		result.reason = "请求的日期或角色不属于本局"
+		return result
+	if at_day > maxi(int(data.last_position.day), int(data.recorded_through.day)):
+		result.reason = "尚未到达该日期，没有真实宿舍收益记录"
+		return result
+	for row: Dictionary in data.dorm_days[str(at_day)].rows:
+		if row.student_id == student_id:
+			result.rows.append({"action_id": row.action_id, "subject_id": row.subject_id, "knowledge": row.knowledge})
+			result.totals[row.subject_id] += row.knowledge
+	var start: Dictionary = data.dorm_tracking_start
+	if at_day < int(start.day):
+		result.status = "partial" if not result.rows.is_empty() else "unrecorded"
+		result.reason = "接入宿舍记录前的历史未记录；仅展示之后真实执行的来源明细"
+	elif at_day == int(start.day) and start.clock_seconds > 0.0:
+		result.status = "partial"
+		result.start_seconds = start.clock_seconds
+		result.reason = "当天从接入宿舍记录时起统计，之前的历史未记录"
+	else:
+		result.status = "recorded"
+	return result
 
 
 ## 返回下一尚未处理的纯事件边界，供唯一模拟器与动作、课表和状态共同分段。
@@ -117,6 +172,9 @@ func relocate(at_day: int, seconds: float, participants: Array, legacy: bool = f
 	if data.finished:
 		return OK
 	var first_position: bool = not data.observed
+	# 开发局首次定位尚未产生收益，可重新确定记录起点；后续回退不重写已存在历史。
+	if first_position and not legacy:
+		data.dorm_tracking_start = {"day": at_day, "clock_seconds": seconds, "source": "new"}
 	for daily: Dictionary in data.daily_days.values():
 		if daily.status != "pending":
 			continue
@@ -195,12 +253,13 @@ func process_position(at_day: int, seconds: float, participants: Array, source: 
 ## 查询返回深拷贝，缺历史有明确状态和原因，不修改随机流或事件日志。
 func daily_board(at_day: int, subject_id: String) -> Dictionary:
 	if not data.daily_days.has(str(at_day)) or subject_id not in data.subject_ids:
-		return {"status": "unrecorded", "day": at_day, "subject_id": subject_id, "start_seconds": 0.0, "end_seconds": 0.0, "source": "unrecorded", "reason": "请求的日期或知识科目不属于本局", "rows": []}
+		return {"status": "unrecorded", "day": at_day, "subject_id": subject_id, "start_seconds": 0.0, "end_seconds": 0.0, "source": "unrecorded", "reason": "请求的日期或知识科目不属于本局", "knowledge_scope": "school", "rows": []}
 	var daily: Dictionary = data.daily_days[str(at_day)]
 	return {
 		"status": daily.status, "day": daily.day, "subject_id": subject_id,
 		"start_seconds": daily.start_seconds, "end_seconds": daily.end_seconds,
 		"source": daily.source, "reason": daily.reason,
+		"knowledge_scope": daily.knowledge_scope,
 		"rows": daily.boards[subject_id].duplicate(true) if daily.boards.has(subject_id) else [],
 	}
 
@@ -249,7 +308,12 @@ func restore(encoded_data: Variant, config: RefCounted, participants: Array, at_
 	if not decoded is Dictionary:
 		return _fail("七天结算账本格式错误")
 	data = decoded
-	return _validate(participants, at_day, seconds, fingerprint)
+	var result: Error = _validate(participants, at_day, seconds, fingerprint)
+	if result != OK:
+		return result
+	if data.schema_version == 1:
+		_migrate_dorm_ledger(at_day, seconds)
+	return OK
 
 
 ## 从真实课表生成出榜与考试边界，体育与第一场考试共同取值并立即公布。
@@ -279,7 +343,7 @@ func _new_daily(at_day: int, cutoff: float, participants: Array) -> Dictionary:
 		gains[student.id] = {}
 		for subject_id: String in data.subject_ids:
 			gains[student.id][subject_id] = 0.0
-	return {"day": at_day, "status": "pending", "start_seconds": 0.0, "end_seconds": cutoff, "source": "online", "reason": "", "gains": gains, "boards": {}}
+	return {"day": at_day, "status": "pending", "start_seconds": 0.0, "end_seconds": cutoff, "source": "online", "reason": "", "knowledge_scope": "school", "gains": gains, "boards": {}}
 
 
 ## 每门考试初始没有成绩，避免把待开考展示成默认零分。
@@ -429,12 +493,32 @@ func _rank(rows: Array[Dictionary], field: String) -> Array[Dictionary]:
 	return rows
 
 
+## 原版v4先按原契约验证，再显式建立宿舍空账本，绝不重新拆分已存在的知识历史。
+func _migrate_dorm_ledger(at_day: int, seconds: float) -> void:
+	data.schema_version = 2
+	data.dorm_days = {}
+	data.dorm_tracking_start = {"day": at_day, "clock_seconds": seconds, "source": "legacy"}
+	for key: String in data.daily_days:
+		var daily: Dictionary = data.daily_days[key]
+		var contains_history: bool = daily.status != "pending"
+		for subject_gains: Dictionary in daily.gains.values():
+			for amount: float in subject_gains.values():
+				contains_history = contains_history or amount != 0.0
+		# 空白待处理日可从新口径开始；有真实历史的日期保留原混合口径说明。
+		daily.knowledge_scope = "legacy_mixed" if contains_history else "school"
+		data.dorm_days[key] = {"day": int(daily.day), "rows": []}
+
+
 ## 账本格式与交叉关联统一在不可信文件边界校验。
 func _validate(participants: Array, at_day: int, seconds: float, fingerprint: String) -> Error:
 	if not data.has_all(["schema_version", "session_days", "subject_ids", "daily_days", "exams", "final", "finished", "observed", "last_position", "recorded_through", "frozen", "final_day", "final_seconds"]):
 		return _fail("七天结算账本字段缺失")
-	if not _integer(data.schema_version) or data.schema_version != 1 or not data.finished is bool or not data.observed is bool or not _integer(data.session_days) or data.session_days < 1:
+	if not _integer(data.schema_version) or (data.schema_version != 1 and data.schema_version != 2) or not data.finished is bool or not data.observed is bool or not _integer(data.session_days) or data.session_days < 1:
 		return _fail("七天结算账本版本、状态或天数无效")
+	if data.schema_version == 1 and (data.has("dorm_days") or data.has("dorm_tracking_start")):
+		return _fail("原版账本含有无法归属的宿舍字段，不能降级迁移")
+	if data.schema_version == 2 and not data.has_all(["dorm_days", "dorm_tracking_start"]):
+		return _fail("新版账本缺少宿舍来源记录或接入起点")
 	if not data.subject_ids is Array or not data.daily_days is Dictionary or not data.exams is Dictionary or not data.final is Dictionary or not data.last_position is Dictionary:
 		return _fail("七天结算账本容器类型无效")
 	var expected_subjects: Array = []
@@ -458,6 +542,10 @@ func _validate(participants: Array, at_day: int, seconds: float, fingerprint: St
 		var daily: Variant = data.daily_days[str(round_day)]
 		if not daily is Dictionary or not daily.has_all(["day", "status", "start_seconds", "end_seconds", "source", "reason", "gains", "boards"]):
 			return _fail("每日知识账本字段缺失")
+		if data.schema_version == 2 and (not daily.has("knowledge_scope") or daily.knowledge_scope not in ["school", "legacy_mixed"]):
+			return _fail("新版每日知识账本缺少有效的知识来源口径")
+		if data.schema_version == 1 and daily.has("knowledge_scope"):
+			return _fail("原版每日知识账本含有无法归属的来源口径，不能降级迁移")
 		if daily.day != round_day or daily.status not in ["pending", "published", "unrecorded"] or not daily.source is String or not daily.reason is String or not daily.gains is Dictionary or not daily.boards is Dictionary:
 			return _fail("每日知识账本状态或类型无效")
 		if daily.source not in ["online", "offline_frozen", "partial", "unrecorded"] or (daily.status == "published" and (daily.source == "unrecorded" or not data.observed)):
@@ -531,7 +619,63 @@ func _validate(participants: Array, at_day: int, seconds: float, fingerprint: St
 		return _fail("未结束局含有伪造的最终榜")
 	elif data.observed and _before(int(data.final_day), data.final_seconds, at_day, seconds):
 		return _fail("已过终局边界的新版账本不能仍为进行中")
+	if data.schema_version == 2:
+		var dorm_result: Error = _validate_dorm_ledger(participants)
+		if dorm_result != OK:
+			return dorm_result
 	return _validate_frozen(participants, at_day, seconds, fingerprint)
+
+
+## 宿舍来源是权威保存数据，按全部日期交叉检查真实角色、选科与累计知识，不以空账本替代损坏记录。
+func _validate_dorm_ledger(participants: Array) -> Error:
+	if not data.dorm_days is Dictionary or data.dorm_days.size() != data.session_days or not data.dorm_tracking_start is Dictionary:
+		return _fail("宿舍账本日期数量或接入起点类型无效")
+	var start: Dictionary = data.dorm_tracking_start
+	if not start.has_all(["day", "clock_seconds", "source"]) or not _integer(start.day) or start.day < 1 or not _number(start.clock_seconds) or start.clock_seconds < 0.0 or start.clock_seconds >= 86400.0 or start.source not in ["new", "legacy"]:
+		return _fail("宿舍账本接入起点无效")
+	var observed: Dictionary = data.recorded_through
+	if _before(int(observed.day), observed.clock_seconds, int(data.last_position.day), data.last_position.clock_seconds):
+		observed = data.last_position
+	if _before(int(observed.day), observed.clock_seconds, int(start.day), start.clock_seconds):
+		return _fail("宿舍账本接入起点晚于已观察时刻")
+	var totals: Dictionary = {}
+	for student: Dictionary in participants:
+		totals[student.id] = {}
+		for subject_id: String in data.subject_ids:
+			totals[student.id][subject_id] = 0.0
+	for round_day: int in range(1, data.session_days + 1):
+		var key: String = str(round_day)
+		if not data.dorm_days.has(key) or not data.dorm_days[key] is Dictionary:
+			return _fail("宿舍账本缺少第%s天" % round_day)
+		var daily: Dictionary = data.dorm_days[key]
+		if not daily.has_all(["day", "rows"]) or not _integer(daily.day) or daily.day != round_day or not daily.rows is Array:
+			return _fail("宿舍账本日期或明细格式无效")
+		if not daily.rows.is_empty() and (not data.observed or round_day > int(data.recorded_through.day)):
+			return _fail("宿舍账本含有晚于真实观察日期的收益")
+		var identities: Dictionary = {}
+		for row: Variant in daily.rows:
+			if not row is Dictionary or not row.has_all(["student_id", "action_id", "subject_id", "knowledge"]) or not row.student_id is String or not row.action_id is String or not row.subject_id is String or not totals.has(row.student_id) or not totals[row.student_id].has(row.subject_id) or not _number(row.knowledge) or row.knowledge <= 0.0:
+				return _fail("宿舍收益明细的角色、科目或数值无效")
+			if not configuration.actions.has(row.action_id):
+				return _fail("宿舍收益明细引用了不存在的动作")
+			var definition: Dictionary = configuration.actions[row.action_id]
+			if definition.knowledge_source != "dorm" or definition.knowledge_mode not in ["selected_subject", "fixed_subject"]:
+				return _fail("宿舍收益明细引用的动作没有宿舍学习来源")
+			if (definition.knowledge_mode == "selected_subject" and row.subject_id not in ["chinese", "math", "english"]) or (definition.knowledge_mode == "fixed_subject" and row.subject_id != definition.knowledge_subject_id):
+				return _fail("宿舍收益明细的选科与动作不一致")
+			var identity: String = "%s/%s/%s" % [row.student_id, row.action_id, row.subject_id]
+			if identities.has(identity):
+				return _fail("宿舍收益明细含有未合并的重复来源")
+			identities[identity] = true
+			totals[row.student_id][row.subject_id] += row.knowledge
+			if not _number(totals[row.student_id][row.subject_id]):
+				return _fail("宿舍累计知识超出可表示范围")
+	for student: Dictionary in participants:
+		for subject_id: String in data.subject_ids:
+			var amount: float = totals[student.id][subject_id]
+			if amount > student.knowledge[subject_id] and not _same(amount, student.knowledge[subject_id]):
+				return _fail("宿舍来源合计超出人物真实累计知识")
+	return OK
 
 
 ## 单独保留已处理事件的最远边界，开发回退时钟不会使真实历史变成未来伪造记录。
@@ -616,12 +760,14 @@ func _validate_frozen(participants: Array, at_day: int, seconds: float, fingerpr
 	return OK
 
 
-## JSON数字解析可能产生数个机器精度的误差，浮点仅容许表示误差，成绩整数始终精确比较。
+## Godot JSON 浮点输出约保留15位有效数字，往返会引入最高约2e-14的相对量化误差；
+## 只容许这种量化误差，成绩整数仍用精确比较，极小分数再给绝对下限避免相对项下溢。
 func _same(left: Variant, right: Variant) -> bool:
 	if _number(left) and _number(right):
 		if left is int and right is int:
 			return left == right
-		return absf(float(left) - float(right)) <= maxf(absf(float(left)), absf(float(right))) * 8.881784197001252e-16
+		var representation_error: float = maxf(5.0e-18, maxf(absf(float(left)), absf(float(right))) * 1.0e-13)
+		return absf(float(left) - float(right)) <= representation_error
 	if left is Dictionary and right is Dictionary:
 		if left.size() != right.size():
 			return false

@@ -1,0 +1,1030 @@
+{
+  "date": "2026-11-09",
+  "source_service": "PixelLab MCP",
+  "characters": [
+    {
+      "key": "director01",
+      "label": "教导主任",
+      "character_id": "6a8a7c4b-3b5d-4d45-8833-db273be3eb3b",
+      "files": [
+        {
+          "path": "director01/south.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            6,
+            6,
+            26,
+            44
+          ],
+          "visible_height": 38,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "8d48c858c5385a4e5a15417fcee546506fe8d96d2e81f6c9411619125ab51cee",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "south",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "director01/pixellab_raw/Idle/rotations/south.png",
+          "source_sha256": "bfb7554256e24f9cbece833fd4c357d3312990f5378f7377f0c442c55efaac4e"
+        },
+        {
+          "path": "director01/south-west.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            7,
+            5,
+            25,
+            44
+          ],
+          "visible_height": 39,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "2079782e3faf0a971e0bd91e1d26475a498f8e33e4e29eee462767603b001699",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "south-west",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "director01/pixellab_raw/Idle/rotations/south-west.png",
+          "source_sha256": "93938f53a2fd58a8dd70d32b0ce87f3783652e2d898600c18849378589cb9895"
+        },
+        {
+          "path": "director01/west.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            8,
+            4,
+            24,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "832e7ae5946f76d636c70a03502c1600ce8dacf7c06a124da63fc51fa51cb7eb",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "west",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "director01/pixellab_raw/Idle/rotations/west.png",
+          "source_sha256": "8c297311dda4636692b0d26791f8243b2bfc3279b6f7951b856efbe06e5c8e5f"
+        },
+        {
+          "path": "director01/north-west.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            8,
+            4,
+            24,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "77b591c18eaac5660a77b4116d1e33315e797672b8a2f6ba7e3953e6e59d47e0",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "north-west",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "director01/pixellab_raw/Idle/rotations/north-west.png",
+          "source_sha256": "a4b402a6f58f71c95ef3fcafe7a8b1b984eb70507d8ec1e37b5abdc57c5071d8"
+        },
+        {
+          "path": "director01/north.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            6,
+            5,
+            26,
+            44
+          ],
+          "visible_height": 39,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "6871ea9c2e776e5d9ef15af610290540b672fe6f7389127c450423feab48a23f",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "north",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "director01/pixellab_raw/Idle/rotations/north.png",
+          "source_sha256": "966320b395f91a15a6103528773e4d7f5c91954b8b1a4e621ab5192cd1e1d0d1"
+        },
+        {
+          "path": "director01/north-east.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            8,
+            4,
+            24,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "156055dd8e835050dffa5e927203b743162bb4a85ec8d2365f270f3cca31234d",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "north-east",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "director01/pixellab_raw/Idle/rotations/north-east.png",
+          "source_sha256": "95eb7c721127dd6235f1f50429d431029d21863bf606ed51f0c147d6092031f1"
+        },
+        {
+          "path": "director01/east.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            8,
+            4,
+            24,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "2554c660d148418ce23a02c7ddb4667a0dc8f4c8ef1c1d23b66b4189ff1e46f7",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "east",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "director01/pixellab_raw/Idle/rotations/east.png",
+          "source_sha256": "2969b856380e8577b3af8c087f562d716a2122fe75867a75bedfecd0364139e8"
+        },
+        {
+          "path": "director01/south-east.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            7,
+            5,
+            24,
+            44
+          ],
+          "visible_height": 39,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "8c6c588868ea138aeb94f61cd2ff2fe865276947730edc417ac69f00571c033c",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "south-east",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "director01/pixellab_raw/Idle/rotations/south-east.png",
+          "source_sha256": "de047422b6fb25fb97dce4f9b60b2019cb57eb6f00e98966fba95daab6776954"
+        }
+      ]
+    },
+    {
+      "key": "math_teacher01",
+      "label": "班主任兼数学老师",
+      "character_id": "b76c01b7-7358-4782-8800-ee02e2d32273",
+      "files": [
+        {
+          "path": "math_teacher01/south.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            6,
+            4,
+            26,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "b61ecd58425f4b937bdca6ac0769cf97fb8e1d76297ed755e867c963dc49090d",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "south",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "math_teacher01/pixellab_raw/Idle/rotations/south.png",
+          "source_sha256": "860f44676dd06009a82fcaf9f9088eb09ae93d47aaac03e2cb3749718d4f79b9"
+        },
+        {
+          "path": "math_teacher01/south-west.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            8,
+            4,
+            24,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "e57afd8d199237c570d43a443b86ca32ee3dc021bdb579a7beddef6a70b8c8bf",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "south-west",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "math_teacher01/pixellab_raw/Idle/rotations/south-west.png",
+          "source_sha256": "e9dfb98fb205b62bdd2215f9c8579eb45d2a169898af64e80c647b4e8001e6b6"
+        },
+        {
+          "path": "math_teacher01/west.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            9,
+            4,
+            24,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "53a5d9a90bd379d15f5a58bc0dce209f3cd0536cca10175f4621ee34843131e0",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "west",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "math_teacher01/pixellab_raw/Idle/rotations/west.png",
+          "source_sha256": "37cc26cb62baeee900b45e1dda664bcbe909276e5fe71708717bdd993f096a66"
+        },
+        {
+          "path": "math_teacher01/north-west.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            8,
+            4,
+            24,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "4996751352e1ead4cf01052b4061ebfbbfe203352e9659a5706bdd95c2be8404",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "north-west",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "math_teacher01/pixellab_raw/Idle/rotations/north-west.png",
+          "source_sha256": "c71ea6601f66edded585b69894b0db28af8410938ff6f8a66661ea8a7bb2534b"
+        },
+        {
+          "path": "math_teacher01/north.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            6,
+            4,
+            26,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "5c3a95024ea8b527031e6eab2d5eb778ccfa8a3f80158bd3d52fcd0a32a6f612",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "north",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "math_teacher01/pixellab_raw/Idle/rotations/north.png",
+          "source_sha256": "cbcbba46714dd67dafd2294ad5aec34aca48e009d6a5d95d850b0c93c5e200fb"
+        },
+        {
+          "path": "math_teacher01/north-east.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            8,
+            4,
+            24,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "cc8e119f4d3fec5686753902b389128c1eaa391761e3745f23941d8f634aa88c",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "north-east",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "math_teacher01/pixellab_raw/Idle/rotations/north-east.png",
+          "source_sha256": "e462a9de0fdcf1318367af36cf01cfa60b07611dff5d3c62f6f2b93b1847a197"
+        },
+        {
+          "path": "math_teacher01/east.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            8,
+            4,
+            23,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "4914eaaddd6e46d26ac08c3042348434ab90d8fd34c8c06454ef8f544fa1f230",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "east",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "math_teacher01/pixellab_raw/Idle/rotations/east.png",
+          "source_sha256": "80c8815637bc29ccc49502ff40dd7579abb8910d0ad960d01426c0977d4553ec"
+        },
+        {
+          "path": "math_teacher01/south-east.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            8,
+            4,
+            24,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "206fd246f9060dff07ffd35a9e0b7e8c56d81551284ddf274e9ba3cdf841d763",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "south-east",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "math_teacher01/pixellab_raw/Idle/rotations/south-east.png",
+          "source_sha256": "044af5cbdaa7ffd44c68489f31a0394852056b0fefad2ef2ea2de477ca6d6824"
+        }
+      ]
+    },
+    {
+      "key": "chinese_teacher01",
+      "label": "语文老师",
+      "character_id": "62a3c652-7aa8-4599-8f83-042d50e2d73d",
+      "files": [
+        {
+          "path": "chinese_teacher01/south.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            6,
+            4,
+            26,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "20a9dd0fdfb57a2f16013b34a1afc297d1f907eb3e02a5c5683eb72376ca0eff",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "south",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "chinese_teacher01/edits/white_knit_v2/raw/south.png",
+          "source_sha256": "c0a62ceef3abc6eff168bb2aa89f005730d35d77efe2b0cc961616e3b7749068"
+        },
+        {
+          "path": "chinese_teacher01/south-west.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            10,
+            4,
+            27,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "c59539cd876fb38302e1622e12dbe32ab158aedd1236135e8870622db5174aad",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "south-west",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "chinese_teacher01/edits/white_knit_v2/raw/south-west.png",
+          "source_sha256": "7f0b7a7ac6a9829e7f437f737d635b15416f16a7deeeb36873736ef04e2dc01e"
+        },
+        {
+          "path": "chinese_teacher01/west.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            10,
+            4,
+            27,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "bb7fc0d45e8920ec805e721f887300bd128972bcce1e3592609c1c699bd94da0",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "west",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "chinese_teacher01/edits/white_knit_v2/raw/west.png",
+          "source_sha256": "1d4ac23df46e00a522540e9c41043f019922b25bdf30996408a53ef368af6f1e"
+        },
+        {
+          "path": "chinese_teacher01/north-west.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            10,
+            4,
+            27,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "3a8621b4070e24ada804e919b247cb6cb9acc08634c860c4a7edba6d515a9998",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "north-west",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "chinese_teacher01/edits/white_knit_v2/raw/north-west.png",
+          "source_sha256": "746ec4524990ce5e78270f40ad535fb309efc5e18c43be190e4d13bb05148796"
+        },
+        {
+          "path": "chinese_teacher01/north.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            6,
+            4,
+            26,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "797abd35f67f032588493b2b8c5397bbcf4f2b4adfef97a38bc45b899eb14d9a",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "north",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "chinese_teacher01/edits/white_knit_v2/raw/north.png",
+          "source_sha256": "0591edbf40d6d69c052e862805db70087ab68794c0d98783d5c437a16558cb15"
+        },
+        {
+          "path": "chinese_teacher01/north-east.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            8,
+            4,
+            25,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "57e549afe06dc511d56c7c71c243ad91926257eccce0b39c8fd18f68ed7e5208",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "north-east",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "chinese_teacher01/edits/white_knit_v2/raw/north-east.png",
+          "source_sha256": "f5ba96009e269827d4025e34d4fc8f8733286629895183111a3441ac20823312"
+        },
+        {
+          "path": "chinese_teacher01/east.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            8,
+            4,
+            25,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "71d8908392912d9e307319ecfa8c3ed1340d300133982c143c45cb270eaeebda",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "east",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "chinese_teacher01/edits/white_knit_v2/raw/east.png",
+          "source_sha256": "07ee3493d5b79a38fd13c00d316cbdc32c26597df35af323023e2d13f4e80d60"
+        },
+        {
+          "path": "chinese_teacher01/south-east.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            8,
+            4,
+            25,
+            44
+          ],
+          "visible_height": 40,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "4ec7be9e9452c133efbbb2b7f4461bd46660804d71c782a2a158b172eff2d65c",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "south-east",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "chinese_teacher01/edits/white_knit_v2/raw/south-east.png",
+          "source_sha256": "3b197211476724d6e2bfee6bbfc8bddc9f8b1d45ad1b7aa4e9631ef7bcb87f7c"
+        }
+      ],
+      "current_edit": {
+        "revision": "white_knit_v2",
+        "generator": "PixelLab MCP edit_image",
+        "job_id": "ad3f6c35-761f-4f8d-a34c-68038e8f56cf",
+        "asset_id": "8be2c5fd-d7ca-5f51-b198-83f30564592f",
+        "raw_directory": "edits/white_knit_v2/raw",
+        "request_file": "edits/white_knit_v2/request.json",
+        "change": "上衣由浅蓝色衬衫改为白色长袖针织衫，保留金发、白色百褶裙及棕色靴子"
+      }
+    },
+    {
+      "key": "english_teacher01",
+      "label": "英语老师",
+      "character_id": "cbc77b38-a827-42a2-8ded-c616f68b0ae7",
+      "files": [
+        {
+          "path": "english_teacher01/south.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            7,
+            5,
+            25,
+            44
+          ],
+          "visible_height": 39,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "3eb6bcfeec2f4c61bd8f255510564f117f3f97f2f036a0abe0dccd8aa15693ce",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "south",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "english_teacher01/pixellab_raw/Idle/rotations/south.png",
+          "source_sha256": "b365de2be151bed33bd57d08ca11ec259a5f35d8421cf856f488d363fe867f44"
+        },
+        {
+          "path": "english_teacher01/south-west.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            9,
+            5,
+            25,
+            44
+          ],
+          "visible_height": 39,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "7a5ebb80b78b2fcad5b508c711b7e3ec253f5da049036cd771cbd0762807532b",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "south-west",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "english_teacher01/pixellab_raw/Idle/rotations/south-west.png",
+          "source_sha256": "fb2adad6c3b26fdbc00f4955d63092bef9f882267ac5517997f130d7839bfbe2"
+        },
+        {
+          "path": "english_teacher01/west.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            9,
+            4,
+            25,
+            43
+          ],
+          "visible_height": 39,
+          "foot_bottom_y": 43,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "b7fe25d173b7ca990d381d2f2a8708f1ae861edd2bad311a891e3be5d5c1255b",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": false,
+          "direction": "west",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "english_teacher01/pixellab_raw/Idle/rotations/west.png",
+          "source_sha256": "3d99c7f249820b7bd79e6efcc18b951ecba6f356515ecdc2fd158fcaf578261a"
+        },
+        {
+          "path": "english_teacher01/north-west.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            9,
+            5,
+            24,
+            44
+          ],
+          "visible_height": 39,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "0571698567cda553ed51561a9103f578512f76c9926d1a8d0288b33e92206358",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "north-west",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "english_teacher01/pixellab_raw/Idle/rotations/north-west.png",
+          "source_sha256": "a3a739fb4930b0b8c8ca1af40aced2e795a59aff99dfa56727db4fc24262e9b0"
+        },
+        {
+          "path": "english_teacher01/north.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            8,
+            5,
+            25,
+            44
+          ],
+          "visible_height": 39,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "e2da92dd81cacca1df7eaf9e9562cb10a42e8a057398e4a59fb5cf221e283012",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "north",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "english_teacher01/pixellab_raw/Idle/rotations/north.png",
+          "source_sha256": "d03014953063a8b22d89e0511622b41fe693302b145d676c312b0e95ebce4842"
+        },
+        {
+          "path": "english_teacher01/north-east.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            8,
+            5,
+            24,
+            44
+          ],
+          "visible_height": 39,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "a74f5ee0ba587a91ff233bec32503aca52bd8429fb88998de0bcb5a1250545c0",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "north-east",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "english_teacher01/pixellab_raw/Idle/rotations/north-east.png",
+          "source_sha256": "ad6bc48f41545d1ff978ba3f7ccfeda6e34923460dfbb82ad3cbb4a20ffad070"
+        },
+        {
+          "path": "english_teacher01/east.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            8,
+            4,
+            23,
+            43
+          ],
+          "visible_height": 39,
+          "foot_bottom_y": 43,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "e492eb391172eab7b5bb7274239e8888f04565f4ee6e0ccdbd05eff341d5934f",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": false,
+          "direction": "east",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "english_teacher01/pixellab_raw/Idle/rotations/east.png",
+          "source_sha256": "1e5eb37ffe78958bd91477f2a4c9a6dc3583bd83dfcffae9d7a538db1e2589cf"
+        },
+        {
+          "path": "english_teacher01/south-east.png",
+          "size": [
+            32,
+            48
+          ],
+          "visible_bbox": [
+            8,
+            5,
+            24,
+            44
+          ],
+          "visible_height": 39,
+          "foot_bottom_y": 44,
+          "alpha_values": [
+            0,
+            255
+          ],
+          "sha256": "5e0d4eab80ded64bcbbc30e798de5f6a10d143de3a26aa5882bac74454bdf0d7",
+          "normalized": true,
+          "normalization": "仅去掉左右各8像素透明边缘，不缩放、不修改可见像素",
+          "matches_existing_foot_anchor_y": true,
+          "direction": "south-east",
+          "source_size": [
+            48,
+            48
+          ],
+          "source_path": "english_teacher01/pixellab_raw/Idle/rotations/south-east.png",
+          "source_sha256": "34942b86129ca4c189d4a97b68163e84b0b0e91a88180b21f2fba93c9b9e2485"
+        }
+      ]
+    }
+  ],
+  "character_count": 4,
+  "direction_count_per_character": 8,
+  "total_direction_pngs": 32,
+  "bbox_convention": "left_top_inclusive_right_bottom_exclusive",
+  "source_canvas": [
+    48,
+    48
+  ],
+  "working_canvas": [
+    32,
+    48
+  ],
+  "transparent_crop_box": [
+    8,
+    0,
+    40,
+    48
+  ],
+  "working_pixels_equal_original_crop": true,
+  "preview_resampling": "integer_nearest_neighbor",
+  "standing_only": true,
+  "animations_delivered": [],
+  "existing_project_foot_anchor": [
+    16,
+    44
+  ],
+  "normalization_status": "仅去掉原件左右各8像素透明留白；未缩放、未修改可见像素、未做垂直脚底对齐，各方向轮廓见files"
+}

@@ -1,0 +1,36 @@
+{
+  "group_id": "72f1d2f6-a05e-416f-8256-6c308ad7fb6b",
+  "states": [
+    {
+      "character": {
+        "id": "cbc77b38-a827-42a2-8ded-c616f68b0ae7",
+        "name": "Idle",
+        "prompt": "Full-body standing idle sprite of an ADULT female English teacher, polished professional school-teacher appearance. Neat dark brown chin-length bob hairstyle, composed friendly face. Wearing a dark teal tailored blazer over a crisp white collared blouse, coordinated professional above-knee straight skirt and black low-heeled closed-toe shoes. The professional teacher skirt suit must be clearly recognizable and visually distinct from the blonde teacher's white pleated skirt and boots. Neutral standing pose with empty hands by her sides. Match the supplied student's retro pixel-art style, restrained small palette, crisp single-pixel outlines and simple shading, same pixel density and in-game scale. Slight overhead low top-down orthographic view showing a little of the head top, no perspective shrinking. Centered south-facing full-body neutral standing pose, both feet grounded at the same level. Native 32 by 48 transparent canvas, aim for visible height 40 pixels, leave about 4 pixels under the feet and headroom above. No scenery, no floor, no lettering, no watermark, no blurry antialiasing, no cast shadow.",
+        "size": {
+          "width": 48,
+          "height": 48
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-09T08:52:59.810715+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-09T08:58:16.246816"
+}

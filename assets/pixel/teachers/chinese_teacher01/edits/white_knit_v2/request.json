@@ -1,0 +1,33 @@
+{
+  "created_date": "2026-11-09",
+  "generator": "PixelLab MCP edit_image",
+  "job_id": "ad3f6c35-761f-4f8d-a34c-68038e8f56cf",
+  "asset_id": "8be2c5fd-d7ca-5f51-b198-83f30564592f",
+  "result_status": "completed",
+  "asset_status": "saved",
+  "source_character_id": "62a3c652-7aa8-4599-8f83-042d50e2d73d",
+  "width": 48,
+  "height": 48,
+  "no_background": true,
+  "direction_order": [
+    "south",
+    "south-west",
+    "west",
+    "north-west",
+    "north",
+    "north-east",
+    "east",
+    "south-east"
+  ],
+  "image_urls": [
+    "https://backblaze.pixellab.ai/file/pixellab-characters/d9cdc2e1-c19c-4121-b1eb-669bc7ee92d3/62a3c652-7aa8-4599-8f83-042d50e2d73d/rotations/south.png?t=1794214560",
+    "https://backblaze.pixellab.ai/file/pixellab-characters/d9cdc2e1-c19c-4121-b1eb-669bc7ee92d3/62a3c652-7aa8-4599-8f83-042d50e2d73d/rotations/south-west.png?t=1794214560",
+    "https://backblaze.pixellab.ai/file/pixellab-characters/d9cdc2e1-c19c-4121-b1eb-669bc7ee92d3/62a3c652-7aa8-4599-8f83-042d50e2d73d/rotations/west.png?t=1794214560",
+    "https://backblaze.pixellab.ai/file/pixellab-characters/d9cdc2e1-c19c-4121-b1eb-669bc7ee92d3/62a3c652-7aa8-4599-8f83-042d50e2d73d/rotations/north-west.png?t=1794214560",
+    "https://backblaze.pixellab.ai/file/pixellab-characters/d9cdc2e1-c19c-4121-b1eb-669bc7ee92d3/62a3c652-7aa8-4599-8f83-042d50e2d73d/rotations/north.png?t=1794214560",
+    "https://backblaze.pixellab.ai/file/pixellab-characters/d9cdc2e1-c19c-4121-b1eb-669bc7ee92d3/62a3c652-7aa8-4599-8f83-042d50e2d73d/rotations/north-east.png?t=1794214560",
+    "https://backblaze.pixellab.ai/file/pixellab-characters/d9cdc2e1-c19c-4121-b1eb-669bc7ee92d3/62a3c652-7aa8-4599-8f83-042d50e2d73d/rotations/east.png?t=1794214560",
+    "https://backblaze.pixellab.ai/file/pixellab-characters/d9cdc2e1-c19c-4121-b1eb-669bc7ee92d3/62a3c652-7aa8-4599-8f83-042d50e2d73d/rotations/south-east.png?t=1794214560"
+  ],
+  "description": "Edit only the upper-body garment of this same young adult female Chinese-language teacher in all eight input direction frames. Replace the pale blue collared blouse with a WHITE long-sleeved KNITTED PULLOVER SWEATER. The sweater must read clearly as white knitwear: soft off-white fabric, subtle pale gray pixel clusters suggesting knitted texture, a simple ribbed crew neckline, ribbed sleeve cuffs and hem; no blouse collar, no buttons, no blue fabric. Keep the same golden blonde hairstyle, identical face and identity, identical white pleated skirt with readable vertical pleats, identical brown boots, identical empty hands, body proportions, standing pose, facing direction of EACH input frame, pixel density, canvas position, original low top-down orthographic view, dark pixel outlines and shading style. The white sweater and white skirt remain two distinct garments separated by the waist/hem. Do not redraw the character as a different person. Do not rotate or rearrange frames. Keep transparent background, crisp native pixel art, no blur, no antialiasing, no scenery, no shadows, no text."
+}

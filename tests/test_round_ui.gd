@@ -339,6 +339,11 @@ func _test_legacy_interface(ui: Control) -> bool:
 	var legacy: Dictionary = parsed
 	legacy.save_version = 3
 	legacy.erase("round_progression")
+	# v5才引入抽查状态与每日纪律分，降级夹具显式剔除。
+	legacy.erase("inspection")
+	for legacy_student: Dictionary in legacy.students:
+		legacy_student.erase("daily_discipline")
+		legacy_student.erase("daily_discipline_day")
 	legacy.logs = legacy.logs.filter(func(entry: Dictionary):
 		return entry.type not in ["daily_board", "exam_snapshot", "exam_published", "round_finished"]
 	)

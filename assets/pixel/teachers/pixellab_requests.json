@@ -1,0 +1,67 @@
+{
+  "created_date": "2026-11-09",
+  "generator": "PixelLab MCP create_character_pro_flash",
+  "requested_canvas": [32, 48],
+  "actual_source_canvas": [48, 48],
+  "exported_canvas": [32, 48],
+  "export_transform": "Remove only 8 fully transparent pixel columns from each horizontal side; no resampling or visible pixel edits.",
+  "view": "low top-down",
+  "n_directions": 8,
+  "template_id": "mannequin",
+  "style_reference_character_id": "a8e45275-522e-4afa-ac11-e00c05c684a8",
+  "style_reference_direction": "south",
+  "style_reference_url": "https://backblaze.pixellab.ai/file/pixellab-characters/d9cdc2e1-c19c-4121-b1eb-669bc7ee92d3/a8e45275-522e-4afa-ac11-e00c05c684a8/rotations/south.png?t=1793948065",
+  "style_options": {
+    "outline": true,
+    "shading": true,
+    "detail": true,
+    "color_palette": false
+  },
+  "characters": [
+    {
+      "key": "director01",
+      "label": "教导主任",
+      "name": "Director01 - discipline director",
+      "character_id": "6a8a7c4b-3b5d-4d45-8833-db273be3eb3b",
+      "background_job_id": "997af335-8e97-4766-9f83-8e07e6bb0070",
+      "description": "Full-body standing idle sprite of a Chinese male school discipline director, elderly adult about 58 years old. His defining features must be clearly readable: a bald shiny crown with a horseshoe ring of dark gray hair around the sides and back, very thick heavy old-fashioned reading spectacles with large square frames and thick pale lenses, stern serious face. Wearing a tidy dark charcoal school administrator jacket, light shirt, straight dark trousers and black shoes. Neutral empty hands by his sides. Match the supplied student's retro pixel-art style, restrained small palette, crisp single-pixel outlines and simple shading, same pixel density and in-game scale. Slight overhead low top-down orthographic view showing a little of the head top, no perspective shrinking. Centered south-facing full-body neutral standing pose, both feet grounded at the same level. Native 32 by 48 transparent canvas, aim for visible height 40 pixels, leave about 4 pixels under the feet and headroom above. No scenery, no floor, no lettering, no watermark, no blurry antialiasing, no cast shadow.",
+      "style_usage_description": "Match only the retro pixel technique, outline weight, simple shading, low top-down viewpoint and game scale. The new subject is an elderly adult male school director with his own identity and outfit."
+    },
+    {
+      "key": "math_teacher01",
+      "label": "班主任兼数学老师",
+      "name": "MathTeacher01 - homeroom math teacher",
+      "character_id": "b76c01b7-7358-4782-8800-ee02e2d32273",
+      "background_job_id": "2be020ed-24b1-46c9-ad64-aad9cb551779",
+      "description": "Full-body standing idle sprite of a Chinese middle-aged adult male homeroom teacher and mathematics teacher, about 45 years old. Neatly combed short black hair with a slightly receding hairline but not bald, calm responsible expression. Wearing a tucked-in pale blue long-sleeved button-up dress shirt with collar, black belt, dark gray tailored formal trousers and black leather shoes. Clearly a mature adult male teacher. Neutral empty hands by his sides. Match the supplied student's retro pixel-art style, restrained small palette, crisp single-pixel outlines and simple shading, same pixel density and in-game scale. Slight overhead low top-down orthographic view showing a little of the head top, no perspective shrinking. Centered south-facing full-body neutral standing pose, both feet grounded at the same level. Native 32 by 48 transparent canvas, aim for visible height 40 pixels, leave about 4 pixels under the feet and headroom above. No scenery, no floor, no lettering, no watermark, no blurry antialiasing, no cast shadow.",
+      "style_usage_description": "Match only the retro pixel technique, outline weight, simple shading, low top-down viewpoint and game scale. The new subject is a middle-aged adult male teacher with his own identity and formal shirt and trousers."
+    },
+    {
+      "key": "chinese_teacher01",
+      "label": "语文老师",
+      "name": "ChineseTeacher01 - young blonde Chinese teacher",
+      "character_id": "62a3c652-7aa8-4599-8f83-042d50e2d73d",
+      "background_job_id": "373530a4-a709-41d8-9c42-c39529bfd98b",
+      "current_edit": {
+        "revision": "white_knit_v2",
+        "generator": "PixelLab MCP edit_image",
+        "job_id": "ad3f6c35-761f-4f8d-a34c-68038e8f56cf",
+        "asset_id": "8be2c5fd-d7ca-5f51-b198-83f30564592f",
+        "raw_directory": "edits/white_knit_v2/raw",
+        "request_file": "edits/white_knit_v2/request.json",
+        "change": "上衣由浅蓝色衬衫改为白色长袖针织衫，保留金发、白色百褶裙及棕色靴子"
+      },
+      "description": "Full-body standing idle sprite of a newly graduated young ADULT female Chinese language teacher, about 24 years old. Clearly an adult teacher, friendly confident face, golden blonde shoulder-length hair. Wearing a simple pale sky-blue blouse, a clearly WHITE PLEATED SKIRT with visible vertical pleats, and dark brown boots rising to the lower calf. The golden hair, white pleated skirt and boots are the defining details. Professional everyday school-teacher outfit, neutral pose, empty hands by her sides. Match the supplied student's retro pixel-art style, restrained small palette, crisp single-pixel outlines and simple shading, same pixel density and in-game scale. Slight overhead low top-down orthographic view showing a little of the head top, no perspective shrinking. Centered south-facing full-body neutral standing pose, both feet grounded at the same level. Native 32 by 48 transparent canvas, aim for visible height 40 pixels, leave about 4 pixels under the feet and headroom above. No scenery, no floor, no lettering, no watermark, no blurry antialiasing, no cast shadow.",
+      "style_usage_description": "Match only the retro pixel technique, outline weight, simple shading, low top-down viewpoint and game scale. The new subject is a young adult female teacher with golden hair, white pleated skirt and boots."
+    },
+    {
+      "key": "english_teacher01",
+      "label": "英语老师",
+      "name": "EnglishTeacher01 - professional skirt suit teacher",
+      "character_id": "cbc77b38-a827-42a2-8ded-c616f68b0ae7",
+      "background_job_id": "f0712a45-d9cb-45ae-b558-5338fcab6fc7",
+      "description": "Full-body standing idle sprite of an ADULT female English teacher, polished professional school-teacher appearance. Neat dark brown chin-length bob hairstyle, composed friendly face. Wearing a dark teal tailored blazer over a crisp white collared blouse, coordinated professional above-knee straight skirt and black low-heeled closed-toe shoes. The professional teacher skirt suit must be clearly recognizable and visually distinct from the blonde teacher's white pleated skirt and boots. Neutral standing pose with empty hands by her sides. Match the supplied student's retro pixel-art style, restrained small palette, crisp single-pixel outlines and simple shading, same pixel density and in-game scale. Slight overhead low top-down orthographic view showing a little of the head top, no perspective shrinking. Centered south-facing full-body neutral standing pose, both feet grounded at the same level. Native 32 by 48 transparent canvas, aim for visible height 40 pixels, leave about 4 pixels under the feet and headroom above. No scenery, no floor, no lettering, no watermark, no blurry antialiasing, no cast shadow.",
+      "style_usage_description": "Match only the retro pixel technique, outline weight, simple shading, low top-down viewpoint and game scale. The new subject is an adult female English teacher with her own identity and professional skirt suit."
+    }
+  ]
+}

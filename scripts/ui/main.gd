@@ -2319,6 +2319,12 @@ func _refresh_status_effects() -> void:
 		if not corrections.is_empty():
 			lines.append(" · ".join(corrections))
 		lines.append(String(definition.description))
+	# 当日纪律分与教师在场来自同一权威模拟器，放在固定高度滚动区内，不撑高人物页。
+	lines.append("纪律分 %.0f / %.0f" % [float(student.daily_discipline), float(simulation.phase_scope.inspection.daily_base)])
+	var duty: Dictionary = simulation.teacher_on_duty()
+	lines.append(("在教室：" + String(duty.name)) if not duty.is_empty() else "本节无任课老师在教室")
+	if simulation.dean_is_visible():
+		lines.append("教导主任正在抽查")
 	# 先保留有效属性与真实状态的首屏顺序，宿舍附加明细继续在同一区域滚动查看。
 	var action: Dictionary = student.current_action
 	if not action.is_empty() and configuration.actions[action.action_id].knowledge_source == "dorm":

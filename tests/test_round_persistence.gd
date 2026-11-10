@@ -78,7 +78,7 @@ func _test_roundtrip() -> bool:
 	if not _result(source.advance(5.0), "先执行纸条五秒", source.error_message):
 		return false
 	var saved: Dictionary = _snapshot(source, "roundtrip_active.json")
-	if not _check(not saved.is_empty() and saved.save_version == 4 and saved.has("round_progression"), "生产写出完整v4账本"):
+	if not _check(not saved.is_empty() and saved.save_version == 5 and saved.has("round_progression"), "生产写出完整v5账本"):
 		return false
 	_check(saved.round_progression.exams.chinese.rows[0].score_units is String, "成绩整数磁盘使用精确十进制文本")
 	var restored := _empty_simulation()
@@ -347,7 +347,7 @@ func _test_legacy_migration() -> bool:
 				_close(row.knowledge, restored.students[index].knowledge[subject] - knowledge_before[index][subject] - dorm_gain, "部分日榜只统计接入后真实在校新增")
 				_close(restored.get_dorm_summary(2, index).totals[subject], dorm_gain, "迁移后宿舍收益独立记录且不反推旧档")
 		var upgraded: Dictionary = _snapshot(restored, "legacy_upgraded_v%d.json" % version)
-		if not _check(not upgraded.is_empty() and upgraded.save_version == 4, "旧档下次保存明确升级v4"):
+		if not _check(not upgraded.is_empty() and upgraded.save_version == 5, "旧档下次保存明确升级v5"):
 			return false
 		var verified := _empty_simulation()
 		if verified == null or not _result(verified.load_file(_path("legacy_upgraded_v%d.json" % version), false), "迁移后v4部分日榜能完整重读", verified.error_message):
@@ -623,6 +623,11 @@ func _legacy(source: Dictionary, version: int) -> Dictionary:
 	var result: Dictionary = source.duplicate(true)
 	result.save_version = version
 	result.erase("round_progression")
+	# v5才引入教导主任抽查状态，降级夹具显式剔除，不把新状态伪装成旧档。
+	result.erase("inspection")
+	for legacy_student: Dictionary in result.students:
+		legacy_student.erase("daily_discipline")
+		legacy_student.erase("daily_discipline_day")
 	if version < 3:
 		for student: Dictionary in result.students:
 			student.erase("daily_item_claim_days")

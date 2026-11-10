@@ -651,8 +651,12 @@ func _legacy_snapshot(source: Dictionary, version: int) -> Dictionary:
 	var legacy: Dictionary = source.duplicate(true)
 	legacy.save_version = version
 	legacy.erase("round_progression")
+	# v5才引入教导主任抽查状态，降级夹具显式剔除。
+	legacy.erase("inspection")
 	for student in legacy.students:
 		student.erase("daily_item_claim_days")
+		student.erase("daily_discipline")
+		student.erase("daily_discipline_day")
 		student.inventory = {}
 	legacy.logs = legacy.logs.filter(func(entry: Dictionary): return entry.type != "daily_items")
 	if version == 1:

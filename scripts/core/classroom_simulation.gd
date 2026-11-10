@@ -5,8 +5,8 @@ extends RefCounted
 const ConfigScript = preload("res://scripts/core/game_config.gd")
 const ROUND = preload("res://scripts/core/round_progression.gd")
 const ATTRIBUTE_KEYS: Array[String] = ["attention", "discipline", "health", "intelligence"]
-# v4保存日榜、考试快照、终局及离线冻结来源，v3已有的领取日继续原样迁移。
-const SAVE_VERSION: int = 4
+# v5新增教师在场与教导主任抽查状态及每人每日纪律分，v4账本与领取日继续原样迁移。
+const SAVE_VERSION: int = 5
 const DAILY_COURSE_ACTIONS: Array[String] = ["study", "physical_study", "music_class", "art_class", "exam"]
 # 持续互动的实现范围独立于自主候选，开放玩家入口不会让同学自动发起。
 const PAIR_ACTIONS: Array[String] = [
@@ -44,6 +44,12 @@ var next_interaction_number: int = 1
 var next_violation_number: int = 1
 # 七天账本不拥有第二套角色状态，所有知识增量只来自本执行器的真实积分。
 var round_progression: RefCounted
+# 教师/主任花名册来自阶段范围，运行期只读；不出现在学生状态里。
+var teachers: Array[Dictionary] = []
+# 抽查状态：独立随机流、下次检查点、冷却、主任可见截止时刻与最近一次结果。
+var inspection: Dictionary = {}
+# 抽查独立随机流，避免消耗四人共用随机流而改变动作抽取结果。
+var inspection_rng := RandomNumberGenerator.new()
 
 
 ## 建立新局的真实状态；行为树接入后由advance(0)开始首次自主决策。
@@ -67,6 +73,10 @@ func setup(game_config: RefCounted, random_seed: int = 0, scope_path: String = "
 		rng.randomize()
 	else:
 		rng.seed = random_seed
+	# 教师花名册与抽查参数在setup内一次性落到运行态，之后只读。
+	result = _apply_scope_characters()
+	if result != OK:
+		return result
 	var now: Dictionary = Time.get_datetime_dict_from_system()
 	created_date = "%04d-%02d-%02d" % [now.year, now.month, now.day]
 	day = 1
@@ -95,6 +105,8 @@ func setup(game_config: RefCounted, random_seed: int = 0, scope_path: String = "
 			"attributes": {"attention": 0.0, "discipline": 0.0, "health": 0.0, "intelligence": 0.0},
 			"unspent_points": int(config.global_value("initial_attribute_points")),
 			"knowledge": knowledge, "inventory": {}, "buffs": [], "current_action": {},
+			# 当日纪律分：每天从基准值重置，教导主任抽查抓到不在教室时扣减。
+			"daily_discipline": float(_inspection_setting("daily_base")), "daily_discipline_day": 1,
 			# 保存全部已领日期，开发时钟回退后仍能识别曾领过的日子。
 			"daily_item_claim_days": [],
 		})
@@ -120,12 +132,130 @@ func _apply_npc_builds() -> Error:
 	return OK
 
 
+## 从阶段范围装载教师花名册与抽查参数；参数已在_validate_scope校验，这里只建立运行态。
+func _apply_scope_characters() -> Error:
+	teachers.clear()
+	for row: Variant in phase_scope.teachers:
+		teachers.append((row as Dictionary).duplicate(true))
+	# 抽查使用独立随机流，种子由主随机流种子派生，不消耗也不改变四人共用随机流。
+	inspection_rng.seed = int(rng.seed) ^ 0x5DEECE66D
+	inspection = {
+		"rng_state": str(inspection_rng.state),
+		"next_check_elapsed": float(_inspection_setting("check_interval_seconds")),
+		"cooldown_until_elapsed": 0.0,
+		"visible_until_elapsed": -1.0,
+		"last": {},
+	}
+	return OK
+
+
+## 抽查参数的唯一读取入口，禁止在各处复制默认值。
+func _inspection_setting(key: String) -> Variant:
+	return phase_scope.inspection[key]
+
+
+## 当前文化课的任课老师；非文化课或未匹配时返回空字典。
+func teacher_on_duty() -> Dictionary:
+	var context: Dictionary = course_context()
+	if context.kind != "lesson" or not _is_cultural_subject(context.subject_id):
+		return {}
+	for teacher: Dictionary in teachers:
+		if teacher.subject_id == context.subject_id:
+			return teacher.duplicate(true)
+	return {}
+
+
+## 教导主任是否仍在教室内（抽查后按配置的可见时长短暂停留）。
+func dean_is_visible() -> bool:
+	return elapsed_s < float(inspection.visible_until_elapsed)
+
+
+## 主任在场景中的显现比例：1为刚出现，0为即将消失，供UI做起止淡入淡出。
+func dean_visibility_ratio() -> float:
+	var span: float = float(_inspection_setting("visible_seconds"))
+	return clampf((float(inspection.visible_until_elapsed) - elapsed_s) / span, 0.0, 1.0)
+
+
+## 逐段扫描抽查检查点；只有文化课、冷却结束且独立随机流命中时才真正抽查。
+func _run_inspection_window(start_day: int, start_clock: float, start_elapsed: float, end_elapsed: float, context: Dictionary) -> Error:
+	var interval: float = float(_inspection_setting("check_interval_seconds"))
+	while float(inspection.next_check_elapsed) < end_elapsed:
+		var checkpoint: float = float(inspection.next_check_elapsed)
+		inspection.next_check_elapsed = checkpoint + interval
+		if checkpoint < start_elapsed:
+			continue
+		if context.kind != "lesson" or not _is_cultural_subject(context.subject_id):
+			continue
+		if checkpoint < float(inspection.cooldown_until_elapsed):
+			continue
+		if inspection_rng.randf() >= float(_inspection_setting("chance")):
+			continue
+		var when: Dictionary = _window_time(start_day, start_clock, start_elapsed, checkpoint)
+		_run_inspection(int(when.day), float(when.clock_seconds), end_elapsed)
+	# 抽查状态随分段同步，保证读档后继续沿同一随机流推进。
+	inspection.rng_state = str(inspection_rng.state)
+	return OK
+
+
+## 把窗口内的绝对经过秒换算成当日的天与时钟，避免跨段时间误差。
+func _window_time(start_day: int, start_clock: float, start_elapsed: float, at_elapsed: float) -> Dictionary:
+	var total: float = float(start_day - 1) * 86400.0 + start_clock + (at_elapsed - start_elapsed)
+	var day_index: int = int(floor(total / 86400.0))
+	return {"day": day_index + 1, "clock_seconds": total - float(day_index) * 86400.0}
+
+
+## 执行一次真实抽查：不在教室的学生扣当日纪律分，并记录主任到访事件。
+func _run_inspection(at_day: int, at_clock: float, end_elapsed: float) -> void:
+	var deduction: float = float(_inspection_setting("deduction"))
+	var found: Array[Dictionary] = []
+	for index in students.size():
+		var location: String = student_location(index)
+		if location == "classroom":
+			continue
+		found.append({"student_id": students[index].id, "name": students[index].name, "location": location})
+		students[index].daily_discipline = maxf(0.0, float(students[index].daily_discipline) - deduction)
+		students[index].daily_discipline_day = at_day
+	inspection.cooldown_until_elapsed = end_elapsed + float(_inspection_setting("cooldown_seconds"))
+	inspection.visible_until_elapsed = end_elapsed + float(_inspection_setting("visible_seconds"))
+	inspection.last = {"day": at_day, "clock_seconds": at_clock, "deduction": deduction, "found": found}
+	for entry: Dictionary in found:
+		_log(_student_index(entry.student_id), "inspection", "教导主任抽查时你不在教室，纪律分 -%d" % int(deduction), {"day": at_day, "clock_seconds": at_clock, "location": entry.location})
+	if found.is_empty():
+		_log(-1, "inspection", "教导主任抽查：全员在教室", {"day": at_day, "clock_seconds": at_clock})
+
+
+## 按学生ID定位下标；调用方保证ID存在，找不到时直接失败暴露数据问题。
+func _student_index(student_id: String) -> int:
+	for index in students.size():
+		if students[index].id == student_id:
+			return index
+	return -1
+
+
+## 推进前兜底对齐当日：读档或开发时钟可能让纪律分天落后于当前天，此时按当天重置。
+func _ensure_daily_discipline() -> void:
+	for student: Dictionary in students:
+		if int(student.daily_discipline_day) != day:
+			_reset_daily_discipline()
+			return
+
+
+## 跨日把纪律分重置到基准值，避免沿用前一天的扣分。
+func _reset_daily_discipline() -> void:
+	var base: float = float(_inspection_setting("daily_base"))
+	for student: Dictionary in students:
+		student.daily_discipline = base
+		student.daily_discipline_day = day
+
+
 ## 按实际经过秒数推进，并在动作、资源耗尽、课表和状态边界分段结算。
 func advance(delta_s: float) -> Error:
 	if not is_finite(delta_s) or delta_s < 0.0:
 		return _fail("推进时间必须是非负有限秒数")
 	if is_round_finished():
 		return OK
+	# 推进前先把纪律分对齐到当前日：读档/开发时钟可能留下前一天的值。
+	_ensure_daily_discipline()
 	var result: Error = _process_round_position()
 	if result != OK or is_round_finished():
 		return result
@@ -154,14 +284,22 @@ func advance(delta_s: float) -> Error:
 					interval = minf(interval, buff.expires_at - elapsed_s)
 		if interval <= 0.0:
 			return _fail("时间边界未被处理，不能继续推进：%s" % interval)
+		# 分段内没有动作结束，位置视为常量；用段起点时间换算检查点，避免时钟越过午夜后失真。
+		var segment_start_day: int = day
+		var segment_start_clock: float = clock_seconds
+		var segment_start_elapsed: float = elapsed_s
 		for index in students.size():
 			_settle_student(index, interval, old_context)
+		result = _run_inspection_window(segment_start_day, segment_start_clock, segment_start_elapsed, elapsed_s + interval, old_context)
+		if result != OK:
+			return result
 		elapsed_s += interval
 		clock_seconds += interval
 		remaining -= interval
 		if clock_seconds >= 86400.0:
 			clock_seconds -= 86400.0
 			day += 1
+			_reset_daily_discipline()
 		# 完成效果先于下一段决策发生，只有完整执行到结束的动作才能获得。
 		var completion_routes: Array = []
 		var dorm_recovery: Array[int] = []
@@ -1041,6 +1179,8 @@ func effective_attribute(student_index: int, attribute: String) -> float:
 ## 原子替换本地存档，随机状态和已抽时长使用精确文本保存。
 func save_file(path: String) -> Error:
 	round_progression.freeze(day, clock_seconds, _round_participants())
+	# 保存前同步抽查随机流状态，保证读档后检查点与随机结果可继续复现。
+	inspection.rng_state = str(inspection_rng.state)
 	var snapshot: Dictionary = {
 		"save_version": SAVE_VERSION, "config_fingerprint": config.fingerprint, "config_version": config.version,
 		"created_date": created_date, "day": day, "clock_seconds": clock_seconds, "elapsed_s": elapsed_s,
@@ -1048,7 +1188,7 @@ func save_file(path: String) -> Error:
 		"rng_seed": str(rng.seed), "rng_state": str(rng.state), "next_action_number": next_action_number,
 		"interactions": interactions, "notes": notes, "violations": violations,
 		"next_interaction_number": next_interaction_number, "next_violation_number": next_violation_number,
-		"round_progression": round_progression.encoded(),
+		"round_progression": round_progression.encoded(), "inspection": inspection,
 	}
 	var global_path: String = ProjectSettings.globalize_path(path)
 	var directory_result: Error = DirAccess.make_dir_recursive_absolute(global_path.get_base_dir())
@@ -1106,9 +1246,9 @@ func _load_file(path: String, align_system_time: bool, explicit_day: int = -1, e
 	var candidate_round := ROUND.new()
 	var candidate_events: Array = []
 	var participants: Array = _round_participants(data.students)
-	if data.save_version == SAVE_VERSION:
+	if data.save_version >= 4:
 		if not data.has("round_progression"):
-			return _fail("v4存档缺少七天结算账本")
+			return _fail("v4及以后存档缺少七天结算账本")
 		var restored_result: Error = candidate_round.restore(data.round_progression, config, participants, int(data.day), data.clock_seconds, data.config_fingerprint)
 		if restored_result != OK:
 			return _fail(candidate_round.error_message)
@@ -1153,6 +1293,14 @@ func _load_file(path: String, align_system_time: bool, explicit_day: int = -1, e
 		# 旧版只有普通宿舍休息，明确迁移为非强制恢复；不为新自习或刷题猜测状态。
 		if not student.current_action.is_empty() and student.current_action.action_id == "dorm_rest" and not student.current_action.has("dorm_recovery"):
 			student.current_action.dorm_recovery = false
+		if data.save_version >= 5:
+			# JSON可能把纪律分读成浮点，这里统一归一为浮点与整数天。
+			student.daily_discipline = float(student.daily_discipline)
+			student.daily_discipline_day = int(student.daily_discipline_day)
+		else:
+			# v4及更早没有每日纪律分：迁移为载入当天的基准值，不补造历史扣分。
+			student.daily_discipline = float(_inspection_setting("daily_base"))
+			student.daily_discipline_day = int(data.day)
 		students.append(student)
 	logs.clear()
 	for entry in data.logs:
@@ -1165,6 +1313,26 @@ func _load_file(path: String, align_system_time: bool, explicit_day: int = -1, e
 	next_action_number = int(data.next_action_number)
 	rng.seed = int(data.rng_seed)
 	rng.state = int(data.rng_state)
+	if data.save_version >= 5:
+		inspection = data.inspection.duplicate(true)
+		inspection.rng_state = str(inspection.rng_state)
+		inspection.next_check_elapsed = float(inspection.next_check_elapsed)
+		inspection.cooldown_until_elapsed = float(inspection.cooldown_until_elapsed)
+		inspection.visible_until_elapsed = float(inspection.visible_until_elapsed)
+		inspection.last = (inspection.last as Dictionary).duplicate(true)
+		if not inspection.last.is_empty():
+			inspection.last.day = int(inspection.last.day)
+		inspection_rng.state = int(inspection.rng_state)
+	else:
+		# 旧版从读档时刻重新计时抽查，不猜测关闭期间发生过的检查。
+		inspection_rng.seed = int(rng.seed) ^ 0x5DEECE66D
+		inspection = {
+			"rng_state": str(inspection_rng.state),
+			"next_check_elapsed": elapsed_s + float(_inspection_setting("check_interval_seconds")),
+			"cooldown_until_elapsed": 0.0,
+			"visible_until_elapsed": -1.0,
+			"last": {},
+		}
 	interactions.clear()
 	notes.clear()
 	violations.clear()
@@ -1230,6 +1398,8 @@ func set_debug_time(test_day: int, seconds: float) -> Error:
 	day = test_day
 	clock_seconds = seconds
 	is_debug_time = true
+	# 开发时钟可跨日，纪律分必须按新的当前日重置，避免把旧日扣分带入。
+	_reset_daily_discipline()
 	var relocated: Error = round_progression.relocate(test_day, seconds, _round_participants())
 	if relocated != OK:
 		return _fail(round_progression.error_message)
@@ -1375,13 +1545,49 @@ func _validate_scope() -> Error:
 		if not action_id is String or action_id not in phase_scope.enabled_actions or action_id in seen_social or action_id not in ["borrow_notes", "swap_book", "invite_playground", "invite_canteen", "arm_wrestle", "eraser_prank"]:
 			return _fail("竞争社交候选重复、未开放或不属于竞争动作池：%s" % action_id)
 		seen_social.append(action_id)
+	# 教师花名册必须覆盖语数英三科并恰好一位教导主任，立绘文件必须真实存在。
+	var roster: Variant = phase_scope.get("teachers")
+	if not roster is Array or roster.size() != 4:
+		return _fail("阶段范围必须声明3位任课老师和1位教导主任")
+	var covered: Dictionary = {}
+	var dean_count: int = 0
+	for row: Variant in roster:
+		if not row is Dictionary or not row.get("id") is String or not row.get("name") is String or not row.get("subject_id") is String or not row.get("texture") is String:
+			return _fail("教师条目缺少id、name、subject_id或texture")
+		if (row.id as String).is_empty() or (row.name as String).is_empty() or (row.texture as String).is_empty():
+			return _fail("教师条目id、name、texture不能为空")
+		if not FileAccess.file_exists(row.texture):
+			return _fail("教师立绘不存在：%s" % row.texture)
+		if (row.subject_id as String).is_empty():
+			dean_count += 1
+			continue
+		if not config.subjects.has(row.subject_id) or not _is_cultural_subject(row.subject_id):
+			return _fail("任课老师科目必须是语数英之一：%s" % row.subject_id)
+		if covered.has(row.subject_id):
+			return _fail("同一文化科目出现多位任课老师：%s" % row.subject_id)
+		covered[row.subject_id] = row.id
+	if dean_count != 1 or covered.size() != 3:
+		return _fail("教师花名册必须覆盖语数英三科且恰好一位教导主任")
+	# 抽查参数必须完整、有限且落在可用区间，禁止代码里另藏默认值。
+	var settings: Variant = phase_scope.get("inspection")
+	if not settings is Dictionary:
+		return _fail("阶段范围必须声明inspection对象")
+	for key: String in ["check_interval_seconds", "chance", "cooldown_seconds", "deduction", "daily_base", "visible_seconds"]:
+		if not settings.has(key) or not _is_number(settings[key]):
+			return _fail("抽查参数必须是有限数字：%s" % key)
+	if float(settings.check_interval_seconds) <= 0.0 or float(settings.visible_seconds) <= 0.0 or float(settings.cooldown_seconds) < 0.0:
+		return _fail("抽查间隔与主任可见时长必须为正，冷却不能为负")
+	if float(settings.chance) < 0.0 or float(settings.chance) > 1.0:
+		return _fail("抽查概率必须在0到1之间")
+	if float(settings.deduction) < 0.0 or float(settings.daily_base) <= 0.0 or float(settings.deduction) > float(settings.daily_base):
+		return _fail("纪律扣分不能为负或超过每日基准，每日基准必须为正")
 	return OK
 
 
 ## 存档作为不可信边界统一校验，损坏内容不能流入后续结算并伪装成功。
 func _validate_snapshot(data: Dictionary) -> Error:
 	var required: Array = ["save_version", "config_fingerprint", "config_version", "created_date", "day", "clock_seconds", "elapsed_s", "context_key", "students", "logs", "rng_seed", "rng_state", "next_action_number"]
-	if not data.has_all(required) or (data.save_version != 1 and data.save_version != 2 and data.save_version != 3 and data.save_version != SAVE_VERSION):
+	if not data.has_all(required) or not _is_integer(data.save_version) or data.save_version < 1 or data.save_version > SAVE_VERSION:
 		return _fail("存档字段缺失或版本不支持")
 	if not data.students is Array or data.students.size() != 4 or not data.logs is Array:
 		return _fail("存档角色数量或日志类型错误")
@@ -1395,6 +1601,28 @@ func _validate_snapshot(data: Dictionary) -> Error:
 	for key in ["rng_seed", "rng_state"]:
 		if not data[key].is_valid_int() or str(int(data[key])) != data[key]:
 			return _fail("存档随机状态%s不是有效的精确整数文本" % key)
+	if data.save_version >= 5:
+		# 抽查状态属于权威进度：缺字段或字段非法都不能静默重建。
+		if not data.get("inspection") is Dictionary or not data.inspection.has_all(["rng_state", "next_check_elapsed", "cooldown_until_elapsed", "visible_until_elapsed", "last"]):
+			return _fail("存档缺少教导主任抽查状态或字段不完整")
+		var state: Dictionary = data.inspection
+		if not state.rng_state is String or not state.rng_state.is_valid_int():
+			return _fail("存档抽查随机状态无效")
+		for key in ["next_check_elapsed", "cooldown_until_elapsed", "visible_until_elapsed"]:
+			if not _is_number(state[key]):
+				return _fail("存档抽查时间字段%s无效" % key)
+		if state.next_check_elapsed < 0.0 or state.cooldown_until_elapsed < 0.0:
+			return _fail("存档抽查检查点或冷却时间无效")
+		if not state.last is Dictionary:
+			return _fail("存档最近抽查结果类型错误")
+		if not state.last.is_empty():
+			if not state.last.has_all(["day", "clock_seconds", "deduction", "found"]) or not _is_integer(state.last.day) or state.last.day < 1 or state.last.day > int(data.day) or not _is_number(state.last.clock_seconds) or state.last.clock_seconds < 0.0 or state.last.clock_seconds >= 86400.0 or not _is_number(state.last.deduction) or state.last.deduction < 0.0 or not state.last.found is Array:
+				return _fail("存档最近抽查结果字段无效")
+			for entry: Variant in state.last.found:
+				if not entry is Dictionary or not entry.get("student_id") is String or not entry.get("name") is String or not entry.get("location") is String or entry.location == "classroom":
+					return _fail("存档抽查发现记录无效")
+	elif data.has("inspection"):
+		return _fail("旧版存档含有无法归属的教导主任抽查状态")
 	var parsed_date: Dictionary = Time.get_datetime_dict_from_datetime_string(data.created_date + "T00:00:00", false)
 	if data.created_date.length() != 10 or parsed_date.is_empty() or "%04d-%02d-%02d" % [parsed_date.year, parsed_date.month, parsed_date.day] != data.created_date:
 		return _fail("存档创建日期无效")
@@ -1420,6 +1648,12 @@ func _validate_snapshot(data: Dictionary) -> Error:
 				previous_claim_day = int(claim_day)
 		elif student.has("daily_item_claim_days"):
 			return _fail("旧版存档含有无法归属的每日物品领取记录")
+		if data.save_version >= 5:
+			# 每日纪律分必须在0到当日基准之间，且归属当天。
+			if not student.has_all(["daily_discipline", "daily_discipline_day"]) or not _is_number(student.daily_discipline) or float(student.daily_discipline) < 0.0 or float(student.daily_discipline) > float(_inspection_setting("daily_base")) or not _is_integer(student.daily_discipline_day) or int(student.daily_discipline_day) < 1 or int(student.daily_discipline_day) > int(data.day):
+				return _fail("存档角色每日纪律分缺失或无效")
+		elif student.has("daily_discipline") or student.has("daily_discipline_day"):
+			return _fail("旧版存档含有无法归属的每日纪律分")
 		if not student.attributes.has_all(ATTRIBUTE_KEYS) or not _is_integer(student.unspent_points) or student.unspent_points < 0:
 			return _fail("存档角色属性或未分配点数无效")
 		for key in ["focus", "stamina"]:

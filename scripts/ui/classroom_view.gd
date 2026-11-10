@@ -30,6 +30,11 @@ var room_texture: Texture2D
 var poses: Dictionary = {}
 # 教室外使用已有真实方向站姿，不能把站姿当作跑步、吃饭或卧床动画。
 var standing_poses: Dictionary = {}
+# 教师立绘按教师ID缓存，绘制只读取模拟器的在场判定，不持有独立业务状态。
+var _teacher_textures: Dictionary = {}
+# 当前绘制中的任课老师ID与主任可见标记，仅用于判断是否需要重绘。
+var _teacher_id: String = ""
+var _dean_was_visible: bool = false
 
 # 观察模式属于画面状态；auto只跟随玩家真实地点，切换镜头不启动动作或推进时间。
 var _view_location: String = "classroom"
@@ -88,6 +93,10 @@ func _ready() -> void:
 # 场景读取同一份权威状态，选中同学不会改变玩家控制权。
 func bind_game(value: ClassroomSimulation) -> void:
 	simulation = value
+	_teacher_textures.clear()
+	if simulation != null:
+		for teacher: Dictionary in simulation.teachers:
+			_teacher_textures[String(teacher.id)] = load(String(teacher.texture))
 	refresh_state()
 
 
@@ -158,8 +167,13 @@ func refresh_state() -> void:
 			status_labels[index].text = visual_students[index].status
 			name_labels[index].visible = visual_students[index].visible
 			status_labels[index].visible = visual_students[index].visible
+	# 任课老师只在文化课出现在教室，切换科目或课间都必须重绘场景。
+	var teacher: Dictionary = simulation.teacher_on_duty()
+	var next_teacher_id: String = String(teacher.id) if not teacher.is_empty() else ""
+	var teacher_changed: bool = next_teacher_id != _teacher_id
+	_teacher_id = next_teacher_id
 	var overlays_changed: bool = _refresh_interaction_visuals()
-	if animation_enabled and (students_changed or overlays_changed):
+	if animation_enabled and (students_changed or overlays_changed or teacher_changed):
 		queue_redraw()
 	if location_changed:
 		view_location_changed.emit(location_id)
@@ -183,6 +197,11 @@ func _process(delta: float) -> void:
 	animation_seconds += delta
 	var next_frames = _animation_frames()
 	var overlays_changed: bool = _refresh_interaction_visuals()
+	# 主任停留期间需要逐帧重绘做淡入淡出，离开后再补一次清屏。
+	var dean_visible: bool = simulation != null and simulation.dean_is_visible()
+	if dean_visible or _dean_was_visible:
+		queue_redraw()
+	_dean_was_visible = dean_visible
 	if next_frames != rendered_frames or overlays_changed:
 		rendered_frames = next_frames
 		queue_redraw()
@@ -215,6 +234,9 @@ func _draw() -> void:
 		draw_texture_rect(texture, Rect2(foot - STUDENT_ANCHOR * pixel_scale, Vector2(32, 48) * pixel_scale), false, _student_tint(index))
 		if index == selected_index:
 			_draw_selection(foot, ACCENTS[index])
+	# 老师在教室内只在文化课登场；主任按抽查可见窗口在门口淡入淡出。
+	if _rendered_location == "classroom":
+		_draw_teacher_and_dean()
 	if _rendered_location != "classroom":
 		CampusSceneRenderer.draw_foreground(self, _rendered_location, room_origin, pixel_scale)
 	_draw_interaction_objects()
@@ -235,6 +257,40 @@ func _draw() -> void:
 		name_labels[index].size = Vector2(label_width - 12, name_height)
 		status_labels[index].position = label_rect.position + Vector2(6, name_height + 1)
 		status_labels[index].size = Vector2(label_width - 12, status_height)
+
+
+# 静态立绘表达在场：任课老师固定在讲台前，主任抽查时在门口淡入淡出。
+func _draw_teacher_and_dean() -> void:
+	var font = get_theme_default_font()
+	var teacher: Dictionary = {} if simulation == null else simulation.teacher_on_duty()
+	if not teacher.is_empty():
+		var texture: Texture2D = _teacher_textures.get(String(teacher.id))
+		if texture != null:
+			var foot: Vector2 = room_origin + Vector2(192, 96) * pixel_scale
+			draw_texture_rect(texture, Rect2(foot - STUDENT_ANCHOR * pixel_scale, Vector2(32, 48) * pixel_scale), false)
+			var name_text: String = String(teacher.name)
+			var name_width: float = font.get_string_size(name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
+			draw_string(font, foot + Vector2(-name_width * 0.5, 12), name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, PIXEL_INK)
+	if simulation == null or not simulation.dean_is_visible():
+		return
+	var dean: Dictionary = {}
+	for row: Dictionary in simulation.teachers:
+		if String(row.subject_id).is_empty():
+			dean = row
+			break
+	var dean_texture: Texture2D = _teacher_textures.get(String(dean.id)) if not dean.is_empty() else null
+	if dean_texture == null:
+		return
+	# 起止各占可见时长的15%，中间保持完全显现；纯视觉，不影响抽查结算。
+	var ratio: float = simulation.dean_visibility_ratio()
+	var alpha: float = clampf(minf((1.0 - ratio) / 0.15, ratio / 0.15), 0.0, 1.0)
+	var ink: Color = PIXEL_INK
+	ink.a = alpha
+	var foot: Vector2 = room_origin + Vector2(348, 104) * pixel_scale
+	draw_texture_rect(dean_texture, Rect2(foot - STUDENT_ANCHOR * pixel_scale, Vector2(32, 48) * pixel_scale), false, Color(1, 1, 1, alpha))
+	var name_text: String = "教导主任"
+	var name_width: float = font.get_string_size(name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
+	draw_string(font, foot + Vector2(-name_width * 0.5, 12), name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, ink)
 
 
 # 只保留活动互动和短暂完成或中断记录，不能从动画反推业务结果。

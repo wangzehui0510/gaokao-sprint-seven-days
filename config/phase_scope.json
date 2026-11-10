@@ -19,6 +19,20 @@
   "dorm_auto_actions": ["dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash", "dorm_rest"],
   "subject_auto_actions": {"physical": ["playground_play"]},
   "social_auto_actions": ["borrow_notes", "swap_book", "invite_playground", "invite_canteen", "arm_wrestle", "eraser_prank"],
+  "teachers": [
+    {"id": "teacher_chinese", "name": "语文老师", "subject_id": "chinese", "texture": "res://assets/pixel/teachers/chinese_teacher01/south.png"},
+    {"id": "teacher_math", "name": "数学老师", "subject_id": "math", "texture": "res://assets/pixel/teachers/math_teacher01/south.png"},
+    {"id": "teacher_english", "name": "英语老师", "subject_id": "english", "texture": "res://assets/pixel/teachers/english_teacher01/south.png"},
+    {"id": "dean", "name": "教导主任", "subject_id": "", "texture": "res://assets/pixel/teachers/director01/south.png"}
+  ],
+  "inspection": {
+    "check_interval_seconds": 600,
+    "chance": 0.2,
+    "cooldown_seconds": 1800,
+    "deduction": 10,
+    "daily_base": 100,
+    "visible_seconds": 20
+  },
   "deferred_auto_actions": ["send_note"],
   "deferred_reason": "纸条涉及目标与文字来源，仍仅开放主动执行。课间磨蹭仅支持规则执行，未加入自主池和玩家入口。抢答、每日点与特殊事件继续后置。",
   "clock": "local_computer_time",

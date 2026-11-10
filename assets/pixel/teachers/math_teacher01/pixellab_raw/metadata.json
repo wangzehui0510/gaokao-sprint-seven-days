@@ -1,0 +1,36 @@
+{
+  "group_id": "d85ac5af-7e3e-4df8-8563-9c77e5a90784",
+  "states": [
+    {
+      "character": {
+        "id": "b76c01b7-7358-4782-8800-ee02e2d32273",
+        "name": "Idle",
+        "prompt": "Full-body standing idle sprite of a Chinese middle-aged adult male homeroom teacher and mathematics teacher, about 45 years old. Neatly combed short black hair with a slightly receding hairline but not bald, calm responsible expression. Wearing a tucked-in pale blue long-sleeved button-up dress shirt with collar, black belt, dark gray tailored formal trousers and black leather shoes. Clearly a mature adult male teacher. Neutral empty hands by his sides. Match the supplied student's retro pixel-art style, restrained small palette, crisp single-pixel outlines and simple shading, same pixel density and in-game scale. Slight overhead low top-down orthographic view showing a little of the head top, no perspective shrinking. Centered south-facing full-body neutral standing pose, both feet grounded at the same level. Native 32 by 48 transparent canvas, aim for visible height 40 pixels, leave about 4 pixels under the feet and headroom above. No scenery, no floor, no lettering, no watermark, no blurry antialiasing, no cast shadow.",
+        "size": {
+          "width": 48,
+          "height": 48
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-11-09T08:52:58.871174+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-11-09T08:58:16.480052"
+}

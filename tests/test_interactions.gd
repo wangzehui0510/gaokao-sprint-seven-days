@@ -480,8 +480,10 @@ func _test_legacy_save_migration() -> void:
 	legacy.save_version = 1
 	legacy.logs = legacy.logs.filter(func(entry: Dictionary): return entry.type != "daily_items")
 	for student in legacy.students:
-		# 真正v1不含后续加入的每日领取权威字段，不能仅改版本号冒充旧格式。
+		# 真正v1不含后续加入的每日领取与纪律分权威字段，不能仅改版本号冒充旧格式。
 		student.erase("daily_item_claim_days")
+		student.erase("daily_discipline")
+		student.erase("daily_discipline_day")
 		student.inventory = {}
 		var old_action: Dictionary = {}
 		for key in ["instance_id", "action_id", "started_at", "ends_at", "duration_s", "last_settled_at", "subject_id", "natural_entry", "resource_changes", "knowledge_gain"]:

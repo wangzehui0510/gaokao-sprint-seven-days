@@ -1,4 +1,4 @@
-extends SceneTree
+﻿extends SceneTree
 ## 用真实配置、共享行为树与权威存档验收每日物品，不模拟领取成功或开放延期玩法。
 
 # 测试文件只进入本进程独占的系统缓存目录，不访问正式玩家存档。
@@ -27,7 +27,10 @@ func _run() -> void:
 	if not _result(configuration.load_file(), "正式配置加载", configuration.error_message):
 		_finish()
 		return
-	fixture_root = OS.get_cache_dir().path_join("ClassroomDailyRewardsTest_%d_%d" % [OS.get_process_id(), Time.get_ticks_usec()])
+	# 本组验证每日物品与领取幂等，不含每日发点；把起始日推到局外隔离每日属性点影响。
+	configuration.globals["first_daily_attribute_day"] = 99
+	# 事件是独立内容：本组库存基线不含事件干扰，显式关闭保持既有基线。
+	configuration.globals["events_enabled"] = false
 	if not _result(DirAccess.make_dir_recursive_absolute(fixture_root), "创建本次独占测试目录"):
 		_finish()
 		return
@@ -651,8 +654,14 @@ func _legacy_snapshot(source: Dictionary, version: int) -> Dictionary:
 	var legacy: Dictionary = source.duplicate(true)
 	legacy.save_version = version
 	legacy.erase("round_progression")
-	# v5才引入教导主任抽查状态，降级夹具显式剔除。
+	# v5才引入教导主任抽查状态，v6才引入每日属性点状态，降级夹具显式剔除。
 	legacy.erase("inspection")
+	legacy.erase("daily_points")
+	legacy.erase("npc_growth")
+	# v6抢答检查点状态同样不属于旧档。
+	legacy.erase("challenge_auto")
+	# 课间磨蹭状态同属v6，旧档夹具一并剔除。
+	legacy.erase("linger_auto")
 	for student in legacy.students:
 		student.erase("daily_item_claim_days")
 		student.erase("daily_discipline")

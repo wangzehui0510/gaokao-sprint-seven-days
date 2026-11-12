@@ -1,0 +1,9 @@
+{
+  "image_base64": "见 source_seed.png 原始字节",
+  "mask_image_base64": "见 inpaint_person_mask.png 原始字节",
+  "description": "Remove only the seated student and the pencil from the white mask. Reconstruct the EMPTY school desk and EMPTY chair behind that person, same exact northeast three-quarter view and 64x64 grid. Keep all unmasked visible tabletop, papers, desk edges, metal legs, wooden chair back and chair legs pixel-identical. Complete the hidden wooden chair seat as a solid plane attached to its existing frame, repair hidden tabletop/desk edge/legs only where logically behind the student. Areas above the furniture become transparent. No person, no clothing, no hair, no skin, no pen, no new objects. Do not move, resize, rotate or redesign the furniture; same warm wood and desaturated green metal. Crisp pixel clusters, transparent background.",
+  "no_background": true,
+  "output_method": "Modify current layer",
+  "crop_to_mask": true,
+  "seed": 261111
+}

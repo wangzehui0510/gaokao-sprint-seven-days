@@ -110,6 +110,8 @@ func _test_desktop_interface() -> void:
 	ui._build_interface()
 	var game_config := GameConfig.new()
 	_check(game_config.load_file() == OK, "正式配置通过完整入口校验")
+	# 事件是独立内容：桌面基线组显式关闭，保持既有数值契约。
+	game_config.globals["events_enabled"] = false
 	ui.configuration = game_config
 	ui._start_session(false)
 	_check(not ui.fatal_error and ui.simulation != null, "桌面界面绑定真实模拟器")

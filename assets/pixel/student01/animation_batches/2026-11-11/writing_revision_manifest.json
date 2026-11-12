@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "clips": [
+    {
+      "id": "A01_write_north_v2",
+      "label": "写字·自然衣背修订",
+      "direction": "north",
+      "frame_paths": [
+        "raw/A01_write_north_v2/frame_00.png",
+        "raw/A01_write_north_v2/frame_01.png",
+        "raw/A01_write_north_v2/frame_02.png",
+        "raw/A01_write_north_v2/frame_03.png",
+        "raw/A01_write_north_v2/frame_04.png",
+        "raw/A01_write_north_v2/frame_05.png"
+      ],
+      "duration_ms": 180,
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    }
+  ]
+}

@@ -14,9 +14,12 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 	var social_target: int = -1
 	match decision_kind:
 		"dorm":
-			action_id = simulation.select_dorm_action(student_actor.student_index)
-			if action_id.is_empty():
+			# 宿舍选择含双人活动目标；结伴自习抽中后由本人显式选科。
+			var option: Dictionary = simulation.select_dorm_option(student_actor.student_index)
+			if option.is_empty():
 				return FAILURE
+			action_id = String(option["action_id"])
+			social_target = int(option.get("target_index", -1))
 			if simulation.config.actions[action_id].knowledge_mode == "selected_subject":
 				selected_subject = simulation.select_cultural_subject(student_actor.student_index)
 		"sleep":

@@ -1,0 +1,27 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"background_job_id\": \"53e66ddb-03b9-4cee-aa70-e63a22be7870\",\n  \"image_id\": \"14989931-8f0d-5aa9-8167-8018d3663ccf\",\n  \"status\": \"processing\",\n  \"source_image_id\": \"14989931-8f0d-5aa9-8167-8018d3663ccf\",\n  \"job_id\": \"53e66ddb-03b9-4cee-aa70-e63a22be7870\",\n  \"description\": \"Match the exact existing crisp pixel art classroom and its near 2:1 isometric projection. Only add a low raised teaching platform and ONE compact wooden teacher lectern at the front by the blackboard. No people, no students, no student furniture, no text, no arrows, no guide marks. In this 160x128 crop use these local pixel coordinates: platform flat top polygon (39,51),(145,104),(115,119),(9,66); a low FOUR pixel thick front rim underneath. Pale warm wood or warm grey top, muted grey-green front rim, thin dark pixel outlines. Lectern TOP polygon (68,52),(96,66),(78,75),(50,61); solid warm wooden front panels extend DOWN 19 pixels, overall footprint matches the platform. The lectern stands on the LEFT half of the platform; leave the RIGHT half EMPTY for a teacher standing at local foot point (120,100). This is an empty reserved standing place, do not draw a teacher or a marker. The lectern front faces southwest toward student seating, same angles as room floor and walls. Preserve existing wall, chalkboard, windows, door, floor pattern outside the white mask. Hard native pixel clusters with no antialiasing, no blur, same palette and scale as context.\",\n  \"seed\": 2026111161,\n  \"image_size\": {\n    \"width\": 160,\n    \"height\": 128\n  },\n  \"output_count\": 1,\n  \"estimated_generations\": 6,\n  \"pricing_provisional\": true,\n  \"poll_tool\": \"get_image\",\n  \"download_path\": \"/mcp/images/53e66ddb-03b9-4cee-aa70-e63a22be7870/download\"\n}\nPoll get_image(job_id=\"53e66ddb-03b9-4cee-aa70-e63a22be7870\"). The source_image_id is usable after completion; it is an image ID, not a character/object ID. Actual usage is reported on completion. cancel_job(job_id=...) cancels unfinished work."
+    }
+  ],
+  "structuredContent": {
+    "background_job_id": "53e66ddb-03b9-4cee-aa70-e63a22be7870",
+    "image_id": "14989931-8f0d-5aa9-8167-8018d3663ccf",
+    "status": "processing",
+    "source_image_id": "14989931-8f0d-5aa9-8167-8018d3663ccf",
+    "job_id": "53e66ddb-03b9-4cee-aa70-e63a22be7870",
+    "description": "Match the exact existing crisp pixel art classroom and its near 2:1 isometric projection. Only add a low raised teaching platform and ONE compact wooden teacher lectern at the front by the blackboard. No people, no students, no student furniture, no text, no arrows, no guide marks. In this 160x128 crop use these local pixel coordinates: platform flat top polygon (39,51),(145,104),(115,119),(9,66); a low FOUR pixel thick front rim underneath. Pale warm wood or warm grey top, muted grey-green front rim, thin dark pixel outlines. Lectern TOP polygon (68,52),(96,66),(78,75),(50,61); solid warm wooden front panels extend DOWN 19 pixels, overall footprint matches the platform. The lectern stands on the LEFT half of the platform; leave the RIGHT half EMPTY for a teacher standing at local foot point (120,100). This is an empty reserved standing place, do not draw a teacher or a marker. The lectern front faces southwest toward student seating, same angles as room floor and walls. Preserve existing wall, chalkboard, windows, door, floor pattern outside the white mask. Hard native pixel clusters with no antialiasing, no blur, same palette and scale as context.",
+    "seed": 2026111161,
+    "image_size": {
+      "width": 160,
+      "height": 128
+    },
+    "output_count": 1,
+    "estimated_generations": 6,
+    "pricing_provisional": true,
+    "poll_tool": "get_image",
+    "download_path": "/mcp/images/53e66ddb-03b9-4cee-aa70-e63a22be7870/download"
+  },
+  "isError": false
+}

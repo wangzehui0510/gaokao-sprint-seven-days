@@ -122,6 +122,8 @@ func _test_interface() -> void:
 	if not _result(configuration.load_file(), "读取正式配置", configuration.error_message):
 		ui.free()
 		return
+	# 事件是独立内容：界面基线组显式关闭，保持既有六页与数值契约。
+	configuration.globals["events_enabled"] = false
 	ui.configuration = configuration
 	if not _control_contract(ui) or not _reset_session(ui, 1):
 		ui.free()
@@ -133,6 +135,9 @@ func _test_interface() -> void:
 		ui.free()
 		return
 	await _test_scene_controls(ui)
+	if not await _test_point_toast(ui):
+		ui.free()
+		return
 	if not await _test_personal_actions(ui):
 		ui.free()
 		return
@@ -159,7 +164,7 @@ func _control_contract(ui: Control) -> bool:
 	for property: Dictionary in ui.get_property_list():
 		property_names.append(String(property.name))
 	for name: String in [
-		"scene_picker", "attribute_entry_button", "attribute_dialog", "attribute_buttons",
+		"scene_picker", "attribute_entry_button", "attribute_dialog", "attribute_buttons", "attribute_inline_buttons",
 		"attribute_points_label", "attribute_value_labels", "personal_action_entry_button",
 		"personal_action_dialog", "personal_action_picker", "personal_action_button",
 		"personal_action_text", "personal_action_reason", "inventory_action_picker", "inventory_use_button",
@@ -224,6 +229,7 @@ func _test_attributes(ui: Control) -> bool:
 	ui.attribute_dialog.hide()
 	ui._select_student(1)
 	_check(ui.attribute_entry_button.disabled, "查看同学时初始点分配入口只读")
+	_check(ui.attribute_inline_buttons.attention.disabled, "查看同学时人物页内联加点按钮同样禁用")
 	var npc_before: Dictionary = _authority(ui)
 	ui.attribute_entry_button.pressed.emit()
 	if ui.attribute_dialog.visible:
@@ -238,6 +244,7 @@ func _test_attributes(ui: Control) -> bool:
 	_check(ui.simulation.students[0].unspent_points == 0, "真实按钮可以花完全部剩余点")
 	for attribute_id: String in ATTRIBUTE_IDS:
 		_check(ui.attribute_buttons[attribute_id].disabled, "点数耗尽后禁用加点：" + attribute_id)
+		_check(ui.attribute_inline_buttons[attribute_id].disabled, "点数耗尽后内联加点同样禁用：" + attribute_id)
 	ui.attribute_dialog.hide()
 	return not ui.fatal_error
 
@@ -389,6 +396,17 @@ func _test_rejection(ui: Control) -> bool:
 	return true
 
 
+## 每日发点真实跨越08:00时，教室场景以飘字提示本人获得点数。
+func _test_point_toast(ui: Control) -> bool:
+	if not _reset_session(ui, 7, 1, 70000.0):
+		return false
+	if not _result(ui.simulation.advance(46000.0), "真实推进跨越第2天08:00发点", ui.simulation.error_message):
+		return false
+	ui._refresh_interface()
+	_check(not ui.room.floating_texts.is_empty() and String(ui.room.floating_texts[0].text) == "已获得属性点+1", "跨过08:00后教室场景飘字提示获得属性点")
+	return not ui.fatal_error
+
+
 ## 通过真实保存按钮写隔离开发局，再走生产恢复验证不重扣消费或补发离线权益。
 func _test_save_and_offline(ui: Control) -> bool:
 	if not _reset_session(ui, 2):
@@ -429,12 +447,21 @@ func _test_save_and_offline(ui: Control) -> bool:
 		return false
 	if not _result(offline.load_file_at_time("user://classroom_debug_save.json", 3, 28800.0), "生产冻结来源跨两日恢复", offline.error_message):
 		return false
+	_check(ui.simulation.day == 1 and ui.simulation.daily_points.granted_days.is_empty(), "保存时处于第1天且未发过每日点")
 	for index in 4:
 		var saved: Dictionary = ui.simulation.students[index]
 		var actual: Dictionary = offline.students[index]
 		_check(_same(actual.knowledge, saved.knowledge) and _same(actual.inventory, saved.inventory), "离线恢复不学习、不发物品或退回消费：%d" % index)
 		_check(_same(actual.focus, saved.focus) and _same(actual.stamina, saved.stamina), "离线恢复不赠专注与体力：%d" % index)
-		_check(_same(actual.attributes, saved.attributes) and actual.unspent_points == saved.unspent_points, "离线恢复不补每日点或替NPC加点：%d" % index)
+		# 离线补点按业务规则生效：跨越第2、3天08:00各发一次，玩家累计待分配点，NPC同刻按轮换消费。
+		var expected_attributes: Dictionary = saved.attributes.duplicate(true)
+		if index > 0:
+			var first_round: String = ["attention", "discipline", "health"][index - 1]
+			var second_round: String = ["intelligence", "attention", "discipline"][index - 1]
+			expected_attributes[first_round] = float(expected_attributes[first_round]) + 1.0
+			expected_attributes[second_round] = float(expected_attributes[second_round]) + 1.0
+		var expected_unspent: int = int(saved.unspent_points) + (2 if index == 0 else 0)
+		_check(_same(actual.attributes, expected_attributes) and actual.unspent_points == expected_unspent, "离线恢复补发跨越的每日点并按轮换替NPC加点：%d" % index)
 	_check(offline.notes == ui.simulation.notes and str(offline.rng.state) == before.rng_state, "离线恢复不送纸条或抽取额外随机结果")
 	return true
 

@@ -1,0 +1,24 @@
+{
+  "canvas": [
+    64,
+    64
+  ],
+  "visible_bbox": [
+    8,
+    8,
+    60,
+    61
+  ],
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "unique_rgba_colors": 56,
+  "scales": [
+    1,
+    2,
+    4
+  ],
+  "resampling": "nearest",
+  "production_integration": false
+}

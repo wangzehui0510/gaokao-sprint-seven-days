@@ -24,17 +24,27 @@ const PIXEL_INK = Color("374c4c")
 const NOTE_COLOR = Color("fff3cf")
 const ERASER_COLOR = Color("e49a9a")
 const LOCATION_NAMES = {"classroom": "教室", "playground": "操场", "canteen": "食堂", "dorm": "宿舍"}
+# 结伴类互动同桌表现：一起做事的合作互动中两人画到同一张桌子旁，对抗/传递类保持连线。
+const TOGETHER_ACTIONS: Array[String] = ["solve_together", "invite_canteen", "invite_playground", "study_together", "roommate_game"]
+# 递接手势靠近显示，物品结果依旧由执行器结算；当前美术没有完整的独立道具接力。
+const EXCHANGE_ACTIONS: Array[String] = ["borrow_notes", "give_comic_item", "swap_book", "swap_book_boost", "feed_snack", "give_candy_item"]
 
 # 素材只从已经验收的真实PNG加载；缺失会在导入或加载时明确报错。
 var room_texture: Texture2D
-var poses: Dictionary = {}
-# 教室外使用已有真实方向站姿，不能把站姿当作跑步、吃饭或卧床动画。
-var standing_poses: Dictionary = {}
+# 教室空壳与原桌椅分开绘制，站立、带家具和近身动作不再穿过原桌。
+var room_shell: Texture2D
+var animation_library := StudentAnimationLibrary.new()
+# 每个真实动作实例只有一个视觉起点，刷新、切镜头不会重新播放进入手势。
+var _animation_states: Array[Dictionary] = []
+var rendered_clips := PackedStringArray()
 # 教师立绘按教师ID缓存，绘制只读取模拟器的在场判定，不持有独立业务状态。
 var _teacher_textures: Dictionary = {}
 # 当前绘制中的任课老师ID与主任可见标记，仅用于判断是否需要重绘。
 var _teacher_id: String = ""
 var _dean_was_visible: bool = false
+# 瞬时收益飘字：文本、剩余寿命与纵向叠加偏移，只做视觉提示，不承载业务状态。
+var floating_texts: Array = []
+const FLOATING_TEXT_LIFETIME: float = 2.2
 
 # 观察模式属于画面状态；auto只跟随玩家真实地点，切换镜头不启动动作或推进时间。
 var _view_location: String = "classroom"
@@ -71,18 +81,14 @@ var status_labels: Array[Label] = []
 var name_styles: Array[StyleBoxFlat] = []
 
 
-# 载入教室、专用坐姿与方向站姿，不通过遮住腿部冒充新的动作素材。
+# 载入正式动画索引与可拆桌椅的教室；原始批次继续由.gdignore隔离。
 func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	custom_minimum_size = ROOM_SIZE
 	room_texture = load("res://assets/pixel/classroom/classroom.png")
-	for pose_name in ["study", "daydream", "sleep"]:
-		var frames: Array[Texture2D] = []
-		for frame_index in 2:
-			frames.append(load("res://assets/pixel/student01/poses/%s_%d.png" % [pose_name, frame_index]))
-		poses[pose_name] = frames
-	for direction in ["south", "east", "north", "west"]:
-		standing_poses[direction] = load("res://assets/pixel/student01/%s.png" % direction)
+	room_shell = load("res://assets/pixel/classroom/classroom_shell.png")
+	var result: Error = animation_library.load_library()
+	assert(result == OK, "正式学生动画无法载入")
 	for index in SEATS.size():
 		name_labels.append(_create_seat_label(12, Color("186d85") if index == 0 else Color("263e35")))
 		status_labels.append(_create_seat_label(11, Color("597269")))
@@ -93,6 +99,7 @@ func _ready() -> void:
 # 场景读取同一份权威状态，选中同学不会改变玩家控制权。
 func bind_game(value: ClassroomSimulation) -> void:
 	simulation = value
+	_animation_states.clear()
 	_teacher_textures.clear()
 	if simulation != null:
 		for teacher: Dictionary in simulation.teachers:
@@ -139,6 +146,13 @@ func refresh_state() -> void:
 		var action_name = ("本局已结束" if simulation.is_round_finished() else "等待活动") if action.is_empty() else String(simulation.config.actions[action_id].name)
 		var name_text = String(student.name) + (" · 我" if index == 0 and student.name != "我" else "")
 		var interaction: Dictionary = _active_interaction_for_student(index)
+		var target: bool = not interaction.is_empty() and int(interaction.target_index) == index
+		var facing: String = "east" if index % 2 == 0 else "west"
+		if not interaction.is_empty():
+			facing = "west" if target else "east"
+			if action_id == "borrow_notes": facing = "east" if target else "west"
+		var sequence: Dictionary = animation_library.sequence_for(action_id, student_location_id, target, facing, not action.is_empty() and action.subject_id == "physical")
+		_sync_animation_instance(index, action)
 		var relationship: String = _interaction_relationship(interaction)
 		var short_status: String = action_name
 		if not action.is_empty() and simulation.config.actions[action_id].knowledge_source == "dorm":
@@ -153,6 +167,8 @@ func refresh_state() -> void:
 			"location": location,
 			"location_id": student_location_id,
 			"pose": _pose_name(action_id),
+			"action_id": action_id, "instance_id": int(action.get("instance_id", -1)),
+			"main": sequence.main, "intro": sequence.intro,
 			"in_room": location == "教室",
 			"visible": visible_here,
 			"interaction": relationship,
@@ -161,7 +177,6 @@ func refresh_state() -> void:
 	if students_changed:
 		visual_students = next_students
 		rendered_selection = selected_index
-		rendered_frames = _animation_frames()
 		for index in visual_students.size():
 			name_labels[index].text = visual_students[index].name
 			status_labels[index].text = visual_students[index].status
@@ -173,7 +188,8 @@ func refresh_state() -> void:
 	var teacher_changed: bool = next_teacher_id != _teacher_id
 	_teacher_id = next_teacher_id
 	var overlays_changed: bool = _refresh_interaction_visuals()
-	if animation_enabled and (students_changed or overlays_changed or teacher_changed):
+	var frames_changed: bool = _update_animation_frames()
+	if animation_enabled and (students_changed or overlays_changed or teacher_changed or frames_changed):
 		queue_redraw()
 	if location_changed:
 		view_location_changed.emit(location_id)
@@ -186,6 +202,8 @@ func set_animation_enabled(value: bool) -> void:
 	if value:
 		# 恢复时直接读取当前权威时间，不能重播隐藏期间已经过去的送达或受击。
 		if simulation != null:
+			# 隐藏期间业务继续，恢复时校准年龄，旧进入手势不从头重播。
+			_animation_states.clear()
 			refresh_state()
 		queue_redraw()
 
@@ -195,15 +213,23 @@ func _process(delta: float) -> void:
 	if not animation_enabled:
 		return
 	animation_seconds += delta
-	var next_frames = _animation_frames()
+	var frames_changed: bool = _update_animation_frames()
 	var overlays_changed: bool = _refresh_interaction_visuals()
 	# 主任停留期间需要逐帧重绘做淡入淡出，离开后再补一次清屏。
 	var dean_visible: bool = simulation != null and simulation.dean_is_visible()
 	if dean_visible or _dean_was_visible:
 		queue_redraw()
 	_dean_was_visible = dean_visible
-	if next_frames != rendered_frames or overlays_changed:
-		rendered_frames = next_frames
+	# 飘字按寿命逐帧上浮淡出，结束后移除并补一次清屏。
+	if not floating_texts.is_empty():
+		var alive: Array = []
+		for item: Dictionary in floating_texts:
+			item.remaining = float(item.remaining) - delta
+			if float(item.remaining) > 0.0:
+				alive.append(item)
+		floating_texts = alive
+		queue_redraw()
+	if frames_changed or overlays_changed:
 		queue_redraw()
 
 
@@ -214,26 +240,30 @@ func _draw() -> void:
 	_update_geometry()
 	var room_pixels = ROOM_SIZE * pixel_scale
 	if _rendered_location == "classroom":
-		draw_texture_rect(room_texture, Rect2(room_origin, room_pixels), false)
+		draw_texture_rect(room_shell, Rect2(room_origin, room_pixels), false)
 	else:
-		CampusSceneRenderer.draw_background(self, _rendered_location, room_origin, pixel_scale)
+		var occupied_beds: Array[int] = []
+		for index in visual_students.size():
+			if visual_students[index].visible and visual_students[index].main == "A05_sleep_bed":
+				occupied_beds.append(index)
+		CampusSceneRenderer.draw_background(self, _rendered_location, room_origin, pixel_scale, occupied_beds)
 	_draw_interaction_paths()
+	_draw_action_stations()
+	var drawing_order: Array[int] = []
 	for index in visual_students.size():
+		if visual_students[index].visible: drawing_order.append(index)
+	drawing_order.sort_custom(func(a: int, b: int): return _render_foot(a).y < _render_foot(b).y if _render_foot(a).y != _render_foot(b).y else _render_foot(a).x < _render_foot(b).x)
+	for index in drawing_order:
 		var student: Dictionary = visual_students[index]
 		if not student.visible:
 			continue
-		var foot: Vector2 = room_origin + _student_anchor(index) * pixel_scale
-		var texture: Texture2D
-		if _rendered_location == "classroom" and student.pose != "standing":
-			texture = poses[String(student.pose)][rendered_frames[index]]
-			# 完整坐姿帧已经含桌上手部，按素材约定在家具之后绘制一次。
-		else:
-			# 站立类动作仅复用真实静态站姿，不把站姿帧伪装成清扫或走动动画。
-			var direction: String = "south" if _rendered_location == "classroom" else CampusSceneRenderer.standing_direction(_rendered_location, index)
-			texture = standing_poses[direction]
-		draw_texture_rect(texture, Rect2(foot - STUDENT_ANCHOR * pixel_scale, Vector2(32, 48) * pixel_scale), false, _student_tint(index))
+		var foot: Vector2 = room_origin + _render_foot(index) * pixel_scale
+		var clip: Dictionary = animation_library.clips[rendered_clips[index]]
+		var texture: Texture2D = clip.textures[rendered_frames[index]]
+		# 宽画布和卧床沿各自锚点原尺寸绘制，完整PNG不额外叠手或家具。
+		draw_texture_rect(texture, Rect2(foot - clip.anchor * pixel_scale, clip.canvas * pixel_scale), false, _student_tint(index))
 		if index == selected_index:
-			_draw_selection(foot, ACCENTS[index])
+			_draw_selection(foot + (Vector2(0, 14) * pixel_scale if student.main == "A05_sleep_bed" else Vector2.ZERO), ACCENTS[index])
 	# 老师在教室内只在文化课登场；主任按抽查可见窗口在门口淡入淡出。
 	if _rendered_location == "classroom":
 		_draw_teacher_and_dean()
@@ -245,18 +275,38 @@ func _draw() -> void:
 		var student: Dictionary = visual_students[index]
 		if not student.visible:
 			continue
-		var foot: Vector2 = room_origin + _student_anchor(index) * pixel_scale
-		var text_width = maxf(font.get_string_size(student.name, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x, font.get_string_size(student.status, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x)
-		var label_width = minf(text_width + 12.0, LABEL_MAX_WIDTH)
 		# 中文字体实际行高大于字号，按测得行高排列两行，避免小窗中上下重叠。
 		var name_height = ceilf(font.get_height(12))
 		var status_height = ceilf(font.get_height(11))
-		var label_rect = Rect2(foot + Vector2(-label_width * 0.5, 1), Vector2(label_width, name_height + status_height + 2))
+		var label_rect: Rect2 = _student_label_rect(index)
 		draw_style_box(name_styles[1 if index == selected_index else 0], label_rect)
 		name_labels[index].position = label_rect.position + Vector2(6, 1)
-		name_labels[index].size = Vector2(label_width - 12, name_height)
+		name_labels[index].size = Vector2(label_rect.size.x - 12, name_height)
 		status_labels[index].position = label_rect.position + Vector2(6, name_height + 1)
-		status_labels[index].size = Vector2(label_width - 12, status_height)
+		status_labels[index].size = Vector2(label_rect.size.x - 12, status_height)
+	# 飘字最后绘制，锚定本人座位上方，随寿命上浮并淡出。
+	for item: Dictionary in floating_texts:
+		var progress: float = 1.0 - float(item.remaining) / FLOATING_TEXT_LIFETIME
+		var ink: Color = PIXEL_INK
+		ink.a = 1.0 - progress
+		var text: String = String(item.text)
+		var width: float = font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
+		var foot: Vector2 = room_origin + _student_anchor(0) * pixel_scale
+		var position: Vector2 = foot + Vector2(-width * 0.5, -46.0 * pixel_scale - float(item.offset) - 26.0 * progress)
+		draw_string(font, position, text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, ink)
+
+
+## 玩家获得每日属性点等瞬时收益时在本人头顶飘字提示，纯视觉不改变业务状态。
+func show_floating_text(text: String) -> void:
+	if not animation_enabled:
+		return
+	# 已有提示未消失时向上叠加，离线补发多天不会完全重叠。
+	floating_texts.append({
+		"text": text,
+		"remaining": FLOATING_TEXT_LIFETIME,
+		"offset": floating_texts.size() * 14.0,
+	})
+	queue_redraw()
 
 
 # 静态立绘表达在场：任课老师固定在讲台前，主任抽查时在门口淡入淡出。
@@ -269,8 +319,8 @@ func _draw_teacher_and_dean() -> void:
 			var foot: Vector2 = room_origin + Vector2(192, 96) * pixel_scale
 			draw_texture_rect(texture, Rect2(foot - STUDENT_ANCHOR * pixel_scale, Vector2(32, 48) * pixel_scale), false)
 			var name_text: String = String(teacher.name)
-			var name_width: float = font.get_string_size(name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
-			draw_string(font, foot + Vector2(-name_width * 0.5, 12), name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, PIXEL_INK)
+			# 名字放在老师右侧，中央双人活动靠近时不压在学生头顶。
+			draw_string(font, foot + Vector2(22, -18), name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, PIXEL_INK)
 	if simulation == null or not simulation.dean_is_visible():
 		return
 	var dean: Dictionary = {}
@@ -405,10 +455,13 @@ func _refresh_interaction_visuals() -> bool:
 		# 只有双方真实处在当前场景才画轨迹，跨地点关系仍由可见角色提示准确说明。
 		if not visual_students[initiator].visible or not visual_students[target].visible:
 			continue
-		var source: Vector2 = _student_anchor(initiator) + Vector2(7, -31)
-		var destination: Vector2 = _student_anchor(target) + Vector2(-7, -31)
+		var source: Vector2 = _render_foot(initiator) + Vector2(7, -31)
+		var destination: Vector2 = _render_foot(target) + Vector2(-7, -31)
 		var path: PackedVector2Array = _interaction_path(source, destination)
 		if interaction.status == "active":
+			# 结伴同桌互动不画连线与飞行物：两人已画在同一张桌子旁，结束回原座位。
+			if String(interaction.action_id) in TOGETHER_ACTIONS or String(interaction.action_id) in EXCHANGE_ACTIONS or interaction.action_id in ["arm_wrestle", "pillow_fight"]:
+				continue
 			var progress: float = clampf((simulation.elapsed_s - float(interaction.started_at)) / float(interaction.duration_s), 0.0, 1.0)
 			var point: Vector2 = _position_on_path(path, progress)
 			if interaction.action_id in ["eraser_prank", "use_eraser"]:
@@ -493,12 +546,6 @@ func _draw_interaction_objects() -> void:
 			_draw_native_rect(Rect2(point - Vector2(4, 2), Vector2(8, 5)), PIXEL_INK)
 			_draw_native_rect(Rect2(point - Vector2(3, 1), Vector2(4, 3)), ERASER_COLOR)
 			_draw_native_rect(Rect2(point + Vector2(1, -1), Vector2(2, 3)), Color("dce7e1"))
-			# 手臂只按真实飞行进度展示准备和抛出两段，不靠视觉提前命中。
-			var hand: Vector2 = interaction.source_position
-			var direction: int = 1 if interaction.target_position.x >= hand.x else -1
-			var reach: int = 4 if float(interaction.progress) < 0.25 else 2
-			_draw_pixel_line(hand, hand + Vector2(direction * reach, -2), PIXEL_INK)
-			_draw_native_rect(Rect2(hand + Vector2(direction * reach, -2), Vector2(2, 2)), Color("e0b68a"))
 		else:
 			# 箭头仅表示真实发起方向和动作进度，不把协作、邀请或胜负互动画成投掷。
 			var marker_direction: Vector2 = (interaction.target_position - interaction.source_position).normalized()
@@ -515,7 +562,7 @@ func _draw_interaction_objects() -> void:
 			var recent: Dictionary = _recent_interaction_for_student(index)
 			if recent.is_empty() or recent.interaction_id != outcome.interaction_id:
 				continue
-			var point: Vector2 = _student_anchor(index) + Vector2(18, -48)
+			var point: Vector2 = _render_foot(index) + Vector2(18, -48)
 			if outcome.status == "interrupted":
 				_draw_pixel_line(point + Vector2(-3, -3), point + Vector2(3, 3), Color("bd6b55"))
 				_draw_pixel_line(point + Vector2(-3, 3), point + Vector2(3, -3), Color("bd6b55"))
@@ -529,7 +576,7 @@ func _draw_interaction_objects() -> void:
 				_draw_pixel_line(point + Vector2(-4, 0), point + Vector2(-1, 3), Color("4b9163"))
 				_draw_pixel_line(point + Vector2(-1, 3), point + Vector2(4, -3), Color("4b9163"))
 	for impact in visual_impacts:
-		var center: Vector2 = _student_anchor(int(impact.target_index)) + Vector2(14, -38)
+		var center: Vector2 = _render_foot(int(impact.target_index)) + Vector2(14, -38)
 		var color: Color = Color("e0a347") if int(impact.phase) == 0 else Color("f6d88c")
 		_draw_pixel_line(center + Vector2(-4, 0), center + Vector2(4, 0), color)
 		_draw_pixel_line(center + Vector2(0, -4), center + Vector2(0, 4), color)
@@ -592,25 +639,149 @@ func _create_seat_label(font_size: int, color: Color) -> Label:
 	return label
 
 
-# 真实动作只复用已有坐姿或静态站姿，动作名称始终读取权威配表。
+# 姿态只供界面分类读取，真正绘制使用动作库中的具体片段。
 func _pose_name(action_id: String) -> String:
 	if action_id in ["standing_study", "chores", "dorm_workout", "dorm_wash"]:
 		return "standing"
-	if action_id in ["sleep", "rest", "dorm_rest", "lunch_rest"]:
+	if action_id in ["sleep", "dorm_rest", "linger_dorm_rest"]:
 		return "sleep"
 	if action_id in ["daydream", "break_rest", "music_class", "eye_exercise", "dorm_game"]:
 		return "daydream"
 	return "study"
 
 
-# 只有当前场景的教室坐姿切换现有帧；真实站姿保持静止，空场景不逐帧重绘。
-func _animation_frames() -> PackedInt32Array:
-	var frames: PackedInt32Array = []
+## 同名动作的新实例也重新起播；只刷新或切镜头保留已有起点。
+func _sync_animation_instance(index: int, action: Dictionary) -> void:
+	var instance_id: int = int(action.get("instance_id", -1))
+	if index < _animation_states.size() and _animation_states[index].instance_id == instance_id:
+		return
+	var wake: String = ""
+	if index < visual_students.size() and visual_students[index].main == "A04_sleep_desk_north" and action.get("action_id", "") != "sleep":
+		wake = "B04_wake_north"
+	var state: Dictionary = {"instance_id": instance_id, "origin": animation_seconds, "offset": 0.0 if action.is_empty() else simulation.elapsed_s - float(action.started_at), "wake": wake}
+	if index == _animation_states.size():
+		_animation_states.append(state)
+	else:
+		_animation_states[index] = state
+
+
+## 结果短段只读真实完成记录或成功日志，过期、打断和隐藏期间的事件不会重放。
+func _reaction_for_student(index: int) -> Dictionary:
+	if simulation == null:
+		return {}
+	for position in range(simulation.logs.size() - 1, -1, -1):
+		var entry: Dictionary = simulation.logs[position]
+		var age: float = simulation.elapsed_s - float(entry.elapsed_s)
+		if age >= REPORT_VISUAL_SECONDS: break
+		if int(entry.student_index) != index: continue
+		var clip_id: String = ""
+		if entry.type == "report": clip_id = "B02_point_north"
+		if entry.type == "command" and entry.details.get("requested_action", "") == "focus_command": clip_id = "B04_react_south"
+		if not clip_id.is_empty() and age < animation_library.duration_seconds(clip_id):
+			return {"clip": clip_id, "age": age}
+	var recent: Dictionary = _recent_interaction_for_student(index)
+	if recent.is_empty() or recent.status != "completed": return {}
+	var age: float = simulation.elapsed_s - float(recent.finished_at)
+	var clip_id: String = ""
+	if recent.action_id in ["arm_wrestle", "answer_challenge"]:
+		clip_id = "B04_react_south" if recent.result.outcome == "tie" else ("B04_happy_south" if int(recent.result.winner_index) == index else "B04_sad_south")
+	elif index == int(recent.target_index):
+		match String(recent.action_id):
+			"send_note": clip_id = "B01_receive_left_north" if _render_foot(index).x >= _render_foot(int(recent.initiator_index)).x else "B01_receive_right_north"
+			"eraser_prank", "use_eraser", "remind_friend", "swap_book", "swap_book_boost", "prank_together", "take_comic": clip_id = "B04_react_south"
+			"encourage": clip_id = "B04_happy_south"
+	if not clip_id.is_empty() and age < animation_library.duration_seconds(clip_id):
+		return {"clip": clip_id, "age": age}
+	return {}
+
+
+## 一次进入手势结束后回主循环；片段与帧一起比较，避免换段同帧号时漏画。
+func _update_animation_frames() -> bool:
+	var frames := PackedInt32Array()
+	var next_clips := PackedStringArray()
 	for index in visual_students.size():
 		var student: Dictionary = visual_students[index]
-		var duration = 0.9 if student.pose == "sleep" else 0.45
-		frames.append((int(animation_seconds / duration + index) % 2 if _rendered_location == "classroom" and student.pose != "standing" else 0) if student.visible else -1)
-	return frames
+		if not student.visible:
+			frames.append(-1)
+			next_clips.append("")
+			continue
+		var state: Dictionary = _animation_states[index]
+		var age: float = float(state.offset) + animation_seconds - float(state.origin)
+		var clip_id: String = String(student.main)
+		var intro: String = String(state.wake) if not String(state.wake).is_empty() else String(student.intro)
+		if not intro.is_empty():
+			var intro_duration: float = animation_library.duration_seconds(intro)
+			if age < intro_duration:
+				clip_id = intro
+			else:
+				age -= intro_duration
+		var reaction: Dictionary = _reaction_for_student(index)
+		if not reaction.is_empty():
+			clip_id = reaction.clip
+			age = reaction.age
+		elif clip_id == "A13_pillow_west":
+			# 两人错开四帧挥枕；这只是已检查的挥动节奏，不生成命中事件。
+			age += 0.52
+		next_clips.append(clip_id)
+		frames.append(animation_library.sample(clip_id, age))
+	var changed: bool = frames != rendered_frames or next_clips != rendered_clips
+	rendered_frames = frames
+	rendered_clips = next_clips
+	return changed
+
+
+## 每位学生拥有独立床位，卧床锚点只改变渲染，权威地点与动作实例保持不变。
+func _render_foot(index: int) -> Vector2:
+	if _rendered_location == "dorm" and visual_students[index].main == "A05_sleep_bed":
+		return Vector2(56 if index % 2 == 0 else 328, 126 if index < 2 else 206)
+	return _together_foot(index)
+
+
+## 窄距双人动作把姓名分开置于左右，床位标签避开64像素床尾。
+func _student_label_rect(index: int) -> Rect2:
+	var font: Font = get_theme_default_font()
+	var student: Dictionary = visual_students[index]
+	var width: float = minf(maxf(font.get_string_size(student.name, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x, font.get_string_size(student.status, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x) + 12, LABEL_MAX_WIDTH)
+	var foot: Vector2 = room_origin + _render_foot(index) * pixel_scale
+	var y: float = 1.0
+	if student.main == "A05_sleep_bed":
+		width = minf(width, 96)
+		# 床侧留姓名位置，避免上排姓名盖住下一排床头。
+		foot.x += (72.0 if index % 2 == 0 else -72.0) * pixel_scale
+		y = -8.0 * pixel_scale
+	var interaction: Dictionary = _active_interaction_for_student(index)
+	if not interaction.is_empty() and (String(interaction.action_id) in EXCHANGE_ACTIONS or String(interaction.action_id) in TOGETHER_ACTIONS or interaction.action_id in ["arm_wrestle", "pillow_fight"]) and simulation.student_location(int(interaction.initiator_index)) == simulation.student_location(int(interaction.target_index)):
+		width = minf(width, 94)
+		var middle_x: float = (_render_foot(int(interaction.initiator_index)).x + _render_foot(int(interaction.target_index)).x) * 0.5
+		var side: float = -1.0 if _render_foot(index).x < middle_x else 1.0
+		foot.x = room_origin.x + (middle_x + side * 49.0) * pixel_scale
+	return Rect2(foot + Vector2(-width * 0.5, y), Vector2(width, ceilf(font.get_height(12)) + ceilf(font.get_height(11)) + 2))
+
+
+## 桌面在人物之前绘制；完整动作帧已含手部，近身僵持桌沿不遮掉握合点。
+func _draw_action_stations() -> void:
+	if _rendered_location == "classroom":
+		# 离场同学的空桌继续保留；在场动作再按自己的工位选择桌面。
+		for index in visual_students.size():
+			if not visual_students[index].visible:
+				var source := Rect2(88, 96, 48, 48)
+				draw_texture_rect_region(room_texture, Rect2(room_origin + (_student_anchor(index) - Vector2(24, 44)) * pixel_scale, source.size * pixel_scale), source)
+	for index in visual_students.size():
+		if not visual_students[index].visible: continue
+		var clip_id: String = rendered_clips[index]
+		var foot: Vector2 = _render_foot(index)
+		if animation_library.needs_desk(clip_id) and _rendered_location in ["classroom", "dorm"]:
+			var source := Rect2(88, 96, 48, 48)
+			draw_texture_rect_region(room_texture, Rect2(room_origin + (foot - Vector2(24, 44)) * pixel_scale, source.size * pixel_scale), source)
+	for interaction in _interaction_sources:
+		if interaction.status != "active" or interaction.action_id != "arm_wrestle": continue
+		var left: int = int(interaction.initiator_index)
+		var right: int = int(interaction.target_index)
+		if not visual_students[left].visible or not visual_students[right].visible: continue
+		var middle: Vector2 = (_render_foot(left) + _render_foot(right)) * 0.5
+		_draw_native_rect(Rect2(middle + Vector2(-18, -16), Vector2(33, 3)), Color("b58a58"))
+		for x in [-15, 9]:
+			_draw_native_rect(Rect2(middle + Vector2(x, -13), Vector2(3, 20)), Color("89623f"))
 
 
 # 场景只接受原画的整数倍画布，窗口管理层负责提供对应的精确尺寸。
@@ -663,6 +834,54 @@ func _student_anchor(index: int) -> Vector2:
 	return CampusSceneRenderer.student_anchor(_rendered_location, index)
 
 
+## 结伴类互动进行中返回该角色参与的同桌互动；无则返回空字典。
+func _active_together_interaction(index: int) -> Dictionary:
+	for interaction in _interaction_sources:
+		if interaction.status != "active" or (String(interaction.action_id) not in TOGETHER_ACTIONS and String(interaction.action_id) not in EXCHANGE_ACTIONS and interaction.action_id not in ["arm_wrestle", "pillow_fight"]):
+			continue
+		# any互动允许跨地点，不能仅为接触画面把另一个场景的目标瞬移过来。
+		if simulation.student_location(int(interaction.initiator_index)) != simulation.student_location(int(interaction.target_index)):
+			continue
+		if int(interaction.initiator_index) == index or int(interaction.target_index) == index:
+			return interaction
+	return {}
+
+
+## 渲染脚点：结伴同桌按场景叠加偏移，其余保持原画座位；纯视觉不改变业务地点。
+func _together_foot(index: int) -> Vector2:
+	var anchor: Vector2 = _student_anchor(index)
+	if simulation == null or visual_students.is_empty() or not visual_students[index].visible:
+		return anchor
+	var interaction: Dictionary = _active_together_interaction(index)
+	if interaction.is_empty():
+		return anchor
+	var initiator: int = int(interaction.initiator_index)
+	var target: int = int(interaction.target_index)
+	var initiator_anchor: Vector2 = _student_anchor(initiator)
+	var target_anchor: Vector2 = _student_anchor(target)
+	var middle: Vector2 = ((initiator_anchor + target_anchor) * 0.5).round()
+	if String(interaction.action_id) in EXCHANGE_ACTIONS:
+		# 书在递出者右手，借笔记由目标递出，因此目标站左、发起者站右。
+		var giver: int = target if interaction.action_id == "borrow_notes" else initiator
+		return middle + Vector2(-20 if index == giver else 20, 0)
+	if interaction.action_id in ["arm_wrestle", "pillow_fight"]:
+		# 采用已检查的8像素僵持/32像素挥枕站位，循环不产生伤害或胜负事件。
+		var half_gap: float = 4.0 if interaction.action_id == "arm_wrestle" else 16.0
+		return middle + Vector2(-half_gap if index == initiator else half_gap, 0)
+	if interaction.action_id == "roommate_game":
+		# 两份64像素电脑家具留足宽度，不能沿用普通并排的28像素脚距。
+		return middle + Vector2(-32 if index == initiator else 32, 0)
+	if _rendered_location == "classroom":
+		# 教室合作：目标移到发起方桌子旁并排，发起方留在原座位。
+		if index != target:
+			return initiator_anchor
+		var side: float = 28.0 if target_anchor.x >= initiator_anchor.x else -28.0
+		return initiator_anchor + Vector2(side, 0)
+	# 食堂/宿舍/操场：两人一起移到两脚点中间并排。
+	var side: float = -14.0 if index == initiator else 14.0
+	return middle + Vector2(side, 0)
+
+
 # 左键查看角色或课表；右键只请求其他同学的互动菜单，不改变当前查看对象。
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
@@ -687,15 +906,32 @@ func _gui_input(event: InputEvent) -> void:
 			accept_event()
 
 
-# 命中同时覆盖当前真实人物与下方标签，离场角色只能经根界面名单查看。
+# 命中先检查分开的姓名标签，再按当前帧alpha检查人物，近身双方仍能独立选择。
 func _student_at(position_value: Vector2) -> int:
 	for index in visual_students.size():
 		if not visual_students[index].visible:
 			continue
-		var foot: Vector2 = room_origin + _student_anchor(index) * pixel_scale
-		var hit = Rect2(foot - Vector2(34, 44) * pixel_scale, Vector2(68 * pixel_scale, 44 * pixel_scale + 36))
-		if hit.has_point(position_value):
+		if _student_label_rect(index).has_point(position_value):
 			return index
+	var nearest: int = -1
+	var distance: float = INF
+	for index in visual_students.size():
+		if not visual_students[index].visible: continue
+		var clip: Dictionary = animation_library.clips[rendered_clips[index]]
+		var local: Vector2 = (position_value - room_origin) / pixel_scale - _render_foot(index) + clip.anchor
+		if not Rect2(Vector2.ZERO, clip.canvas).has_point(local): continue
+		var texture: Texture2D = clip.textures[rendered_frames[index]]
+		if texture.get_image().get_pixelv(Vector2i(local.floor())).a <= 0.0: continue
+		var candidate: float = position_value.distance_squared_to(room_origin + _render_foot(index) * pixel_scale)
+		if candidate < distance:
+			nearest = index
+			distance = candidate
+	if nearest >= 0: return nearest
+	# 保留原入口的座位点击区，空白透明边不会抢走已命中的相邻人物。
+	for index in visual_students.size():
+		if not visual_students[index].visible: continue
+		var foot: Vector2 = room_origin + _render_foot(index) * pixel_scale
+		if Rect2(foot - Vector2(18, 44) * pixel_scale, Vector2(36 * pixel_scale, 44 * pixel_scale + 36)).has_point(position_value): return index
 	return -1
 
 

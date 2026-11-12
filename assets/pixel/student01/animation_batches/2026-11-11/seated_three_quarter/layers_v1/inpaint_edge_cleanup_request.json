@@ -1,0 +1,12 @@
+{
+  "description": "Remove the three dark stray outline pixels on the EMPTY DESK at x36, y13 through y15. Replace only those three white mask pixels with the uninterrupted warm tan wooden tabletop, matching the immediate tabletop pixels to the right (x37,13-15; RGB 204,173,120). No line, no person, no hair, no new object. Keep all other RGBA pixels exactly unchanged. Same 64x64 canvas, no movement, no rescaling.",
+  "no_background": true,
+  "output_method": "Modify current layer",
+  "crop_to_mask": true,
+  "seed": 261112,
+  "source": "inpaint_empty_raw.png",
+  "source_sha256": "a7c1d936198d37321cad38ca5e2cbf54ea34443d2c3ab99967780f671847f62b",
+  "mask": "inpaint_edge_cleanup_mask.png",
+  "mask_white_pixels": 3,
+  "reason": "原人物mask漏了头部右沿的3个黑色轮廓像素；人物及静态身体mask同步修正。"
+}

@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-11",
+  "user_choice": "矮平台＋讲桌，老师站桌旁（推荐）",
+  "generator": "PixelLab MCP",
+  "selected_job": {
+    "tool": "edit_image",
+    "job_id": "eaf3b135-3183-4dec-b4c7-eab96648f2f0",
+    "seed": 2026111162,
+    "charged_generations": 10,
+    "input": "volume_guide_crop.png",
+    "raw_output": "generated_crop_raw.png",
+    "adopted_output": "adopted_crop.png",
+    "visual_status": "主代理与独立QA目检通过"
+  },
+  "rejected_jobs": [
+    {
+      "tool": "inpaint_image_pro_flash",
+      "job_id": "53e66ddb-03b9-4cee-aa70-e63a22be7870",
+      "seed": 2026111161,
+      "charged_generations": 6,
+      "archive": "rejected_attempt_01/",
+      "rejection": "讲桌缺失、地砖模糊、遮罩局部填错墙色。"
+    }
+  ],
+  "charged_generations_total": 16,
+  "postprocess": "完整原稿保留；仅采用白mask内真实返回像素，mask外取原教室，未将体块引导作为最终输出。",
+  "station_sources": "沿用classroom_v1已冻结的三层家具与animation_v1六帧人物，摘要已核对未变。",
+  "production_integration": false,
+  "teacher_asset_generated": false,
+  "qa_status": "isolated_gpu_and_visual_review_passed",
+  "limitations": [
+    "透明覆盖层与原教室384×256坐标绑定，不能自由移动。",
+    "四人共用学生01外观和动画相位。",
+    "本轮未切换正式游戏资源、玩法或存档。"
+  ],
+  "acceptance_file": "acceptance.json"
+}

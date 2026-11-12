@@ -1,0 +1,10 @@
+{
+  "description": "Refine the wooden teacher lectern and low platform already sketched in this isometric classroom image into finished clean pixel art. KEEP their exact shapes, positions, sizes and 2:1 isometric angles. The low pale wooden platform has a 4-pixel thick muted grey-green front edge. The compact solid wooden lectern sits on the LEFT side of the platform: warm light wood desktop, solid wooden front and side panels with subtle panel seams and pixel highlights. Keep the RIGHT half of the platform EMPTY as standing space for a teacher. Preserve the original room, blackboard, walls, door, floor and palette. Crisp simple pixel clusters, thin outlines matching the classroom. No people, no objects on the right half, no text, no extra desks, no blurry textures. Do not erase the platform or lectern.",
+  "width": 160,
+  "height": 128,
+  "no_background": false,
+  "seed": 2026111162,
+  "edit_target_file": "volume_guide_crop.png",
+  "generation_tool": "edit_image",
+  "postprocess": "仅白mask采用真实返回像素，mask外严格保留原教室；完整原始返回另存。"
+}

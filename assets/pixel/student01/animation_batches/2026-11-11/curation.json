@@ -1,0 +1,671 @@
+{
+  "schema_version": 1,
+  "clips": [
+    {
+      "id": "A01_write_north",
+      "label": "写字·自然衣背",
+      "source_clip_id": "A01_write_north_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "north",
+      "duration_ms": 180,
+      "loop": true,
+      "review_status": "衣背与领口修订样片通过",
+      "notes": "根据用户反馈由PixelLab edit_animation整段修订6帧：斜肩、侧腰收窄、白色布料褶皱取代方形白背板。保留32×48与[16,44]脚锚点；原版保留在raw/A01_write_north，前后对比见writing_back_comparison.gif。其他背面动作未批量套用本次衣背设计。首帧原稿缺斜褶，显式复制源第1号帧[14,32,20,35]到输出第0帧，仅改8个衣褶像素以避免循环闪褶；AI整段重绘包含配色和局部轮廓变化，不宣称其余原像素完全不变。再次逐帧定位到输出首帧缺蓝色领口下沿，从源第1号帧复制[12,25,21,27]到输出第0帧；相对上一版仅修改18个领口像素，alpha、衣褶、手脚与其余177帧均不变。",
+      "copy_regions": [
+        {
+          "source_index": 1,
+          "target_frames": [
+            0
+          ],
+          "region": [
+            14,
+            32,
+            20,
+            35
+          ]
+        },
+        {
+          "source_index": 1,
+          "target_frames": [
+            0
+          ],
+          "region": [
+            12,
+            25,
+            21,
+            27
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A02_read_north",
+      "label": "阅读翻页",
+      "source_clip_id": "A02_read_north",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "north",
+      "duration_ms": 220,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "notes": "当前单角色阅读样片通过；保持旧外观，需结合桌面显示，未同步应用A01的新衣背设计。"
+    },
+    {
+      "id": "A03_daydream_north",
+      "label": "发呆转笔",
+      "source_clip_id": "A03_idle_seated_north",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "north",
+      "duration_ms": 300,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "notes": "持笔变体，适用于发呆转笔。"
+    },
+    {
+      "id": "A03_relax_north",
+      "label": "坐姿放松",
+      "source_clip_id": "A03_relax_seated_north_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "north",
+      "duration_ms": 350,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "notes": "空手轻晃呼吸；保留原始坐姿变化。"
+    },
+    {
+      "id": "A03_idle_south",
+      "label": "站姿待机",
+      "source_clip_id": "A03_idle_standing_south",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "south",
+      "duration_ms": 300,
+      "loop": true,
+      "review_status": "单角色样片通过"
+    },
+    {
+      "id": "A04_sleep_desk_north",
+      "label": "趴桌慢呼吸",
+      "source_clip_id": "A04_sleep_desk_north_v3",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "north",
+      "duration_ms": 650,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "notes": "头始终贴合前臂，1像素起伏按呼吸验收。"
+    },
+    {
+      "id": "A05_sleep_bed",
+      "label": "盖被卧床休息",
+      "source_clip_id": "A05_sleep_bed",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "south",
+      "duration_ms": 650,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "anchor": [
+        32,
+        48
+      ],
+      "notes": "床框异常末帧不采用。此新床需要后续适配工位；暂定家具锚点32,48。"
+    },
+    {
+      "id": "A06_meal_north",
+      "label": "持碗用餐",
+      "source_clip_id": "A06_meal_north_v3",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "north",
+      "duration_ms": 200,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "notes": "背向持碗筷进食；餐桌在后续场景接入时适配。"
+    },
+    {
+      "id": "A06_snack_south",
+      "label": "吃零食",
+      "source_clip_id": "A06_snack_south",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "south",
+      "duration_ms": 180,
+      "loop": true,
+      "review_status": "单角色样片通过"
+    },
+    {
+      "id": "A06_candy_south",
+      "label": "吃清凉糖",
+      "source_clip_id": "A06_candy_south",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "south",
+      "duration_ms": 180,
+      "loop": true,
+      "review_status": "单角色样片通过"
+    },
+    {
+      "id": "A07_computer_west",
+      "label": "电脑键鼠·向左",
+      "source_clip_id": "A07_computer_west",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "west",
+      "duration_ms": 160,
+      "loop": true,
+      "review_status": "单角色样片通过"
+    },
+    {
+      "id": "A07_computer_east",
+      "label": "电脑键鼠·向右",
+      "source_clip_id": "A07_computer_east",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "east",
+      "duration_ms": 160,
+      "loop": true,
+      "review_status": "单角色样片通过"
+    },
+    {
+      "id": "A08_stretch_south",
+      "label": "徒手伸展",
+      "source_clip_id": "A08_exercise_south",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "direction": "south",
+      "duration_ms": 160,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "notes": "正面展臂，不含脚部踏步。"
+    },
+    {
+      "id": "A08_step_east",
+      "label": "徒手踏步",
+      "source_clip_id": "A08_exercise_east",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "direction": "east",
+      "duration_ms": 140,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "notes": "侧向腿脚活动；不宣称完整左右交替行走。"
+    },
+    {
+      "id": "A09_sweep_south",
+      "label": "扫地",
+      "source_clip_id": "A09_sweep_south",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "south",
+      "duration_ms": 180,
+      "loop": true,
+      "review_status": "单角色样片通过"
+    },
+    {
+      "id": "A10_wash_face_east",
+      "label": "洗手台洗脸",
+      "source_clip_id": "A10_wash_face_east",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "east",
+      "duration_ms": 180,
+      "loop": true,
+      "review_status": "单角色样片通过"
+    },
+    {
+      "id": "A11_eye_exercise_north",
+      "label": "眼保健操",
+      "source_clip_id": "A11_eye_exercise_north",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "north",
+      "duration_ms": 220,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "translate": [
+        -3,
+        2
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "notes": "按脚底实测整数归位：左3、下2像素，未缩放。"
+    },
+    {
+      "id": "A12_wrestle_west",
+      "label": "掰手腕·向左候选",
+      "source_clip_id": "A12_wrestle_west_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "west",
+      "duration_ms": 170,
+      "loop": true,
+      "review_status": "僵持样片通过·正式工位另验",
+      "notes": "采用v2竖直前臂僵持姿态。已按脚点距8像素的双人站位检查握合；矩形桌面仅作示意，正式家具与胜负演出另验。"
+    },
+    {
+      "id": "A12_wrestle_east",
+      "label": "掰手腕·向右候选",
+      "source_clip_id": "A12_wrestle_west_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "east",
+      "duration_ms": 170,
+      "loop": true,
+      "review_status": "僵持样片通过·正式工位另验",
+      "mirror_horizontal": true,
+      "notes": "西向原稿围绕64宽画布中线镜像；边界坐标锚点为32,44。已按脚点距8像素的双人站位检查握合；矩形桌面仅作示意，正式家具与胜负演出另验。"
+    },
+    {
+      "id": "A13_pillow_east",
+      "label": "挥枕头·向右",
+      "source_clip_id": "A13_pillow_east_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "direction": "east",
+      "duration_ms": 130,
+      "loop": true,
+      "review_status": "单人挥动通过·双人接触待完善",
+      "notes": "保留弯肘横过胸前的握枕动作。单人挥动通过；脚点距40像素打空，32像素仅轻触/擦边参考，明确互击演出待完善。"
+    },
+    {
+      "id": "A13_pillow_west",
+      "label": "挥枕头·向左",
+      "source_clip_id": "A13_pillow_east_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "direction": "west",
+      "duration_ms": 130,
+      "loop": true,
+      "review_status": "单人挥动通过·双人接触待完善",
+      "mirror_horizontal": true,
+      "notes": "东向围绕画布中线镜像。单人挥动通过；脚点距40像素打空，32像素仅轻触/擦边参考，明确互击演出待完善。"
+    },
+    {
+      "id": "B01_give_north",
+      "label": "递出书本",
+      "source_clip_id": "B01_give_north",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6
+      ],
+      "direction": "north",
+      "duration_ms": [
+        130,
+        100,
+        100,
+        120,
+        180,
+        250
+      ],
+      "loop": false,
+      "review_status": "手势通过·交接道具待补",
+      "notes": "只含递出者与书；不代表已完成双方交接。"
+    },
+    {
+      "id": "B01_receive_right_north",
+      "label": "右手接取",
+      "source_clip_id": "B01_receive_north_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "north",
+      "duration_ms": [
+        160,
+        120,
+        120,
+        120,
+        260
+      ],
+      "loop": false,
+      "review_status": "手势通过·交接道具待补",
+      "notes": "空手接取手势，道具交接层后续适配。"
+    },
+    {
+      "id": "B01_receive_left_north",
+      "label": "左手接取",
+      "source_clip_id": "B01_receive_north_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "north",
+      "duration_ms": [
+        160,
+        120,
+        120,
+        120,
+        260
+      ],
+      "loop": false,
+      "review_status": "手势通过·交接道具待补",
+      "mirror_horizontal": true,
+      "notes": "右手接取围绕画布中线镜像，用于右侧接物者；道具另层。"
+    },
+    {
+      "id": "B02_point_north",
+      "label": "伸手示意",
+      "source_clip_id": "B02_point_north",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "direction": "north",
+      "duration_ms": [
+        100,
+        90,
+        90,
+        100,
+        180,
+        400
+      ],
+      "loop": false,
+      "review_status": "单角色样片通过"
+    },
+    {
+      "id": "B02_raise_north",
+      "label": "举手抢答",
+      "source_clip_id": "B02_raise_north_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6
+      ],
+      "direction": "north",
+      "duration_ms": [
+        130,
+        90,
+        100,
+        140,
+        180,
+        400
+      ],
+      "loop": false,
+      "review_status": "单角色样片通过"
+    },
+    {
+      "id": "B03_throw_paper_north",
+      "label": "抛纸条",
+      "source_clip_id": "B03_throw_paper_north",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "direction": "north",
+      "duration_ms": [
+        160,
+        80,
+        80,
+        80,
+        100,
+        220
+      ],
+      "loop": false,
+      "review_status": "单角色样片通过",
+      "notes": "包含局部纸条飞出示意；跨工位飞行与送达事件后续由真实流程驱动。"
+    },
+    {
+      "id": "B03_flick_eraser_north",
+      "label": "桌边弹指",
+      "source_clip_id": "B03_flick_eraser_north_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "north",
+      "duration_ms": [
+        180,
+        90,
+        70,
+        100,
+        220
+      ],
+      "loop": false,
+      "review_status": "桌边弹指手势通过·橡皮飞行物另层",
+      "notes": "人工清除头顶y<11的附加魔法气泡，保留全部角色像素；橡皮飞行物独立。",
+      "clear_regions": [
+        [
+          0,
+          0,
+          64,
+          11
+        ]
+      ]
+    },
+    {
+      "id": "B04_react_south",
+      "label": "回神与轻微反应",
+      "source_clip_id": "B04_react_south",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "south",
+      "duration_ms": [
+        130,
+        140,
+        200,
+        280
+      ],
+      "loop": false,
+      "review_status": "单角色样片通过"
+    },
+    {
+      "id": "B04_happy_south",
+      "label": "振作高兴",
+      "source_clip_id": "B04_happy_south",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "south",
+      "duration_ms": [
+        130,
+        140,
+        200,
+        280
+      ],
+      "loop": false,
+      "review_status": "单角色样片通过"
+    },
+    {
+      "id": "B04_sad_south",
+      "label": "失落反应",
+      "source_clip_id": "B04_sad_south",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "south",
+      "duration_ms": [
+        130,
+        140,
+        200,
+        280
+      ],
+      "loop": false,
+      "review_status": "单角色样片通过"
+    },
+    {
+      "id": "B04_wake_north",
+      "label": "趴睡醒来",
+      "source_clip_id": "B04_wake_north_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "north",
+      "duration_ms": [
+        250,
+        150,
+        150,
+        150,
+        350
+      ],
+      "loop": false,
+      "review_status": "单角色样片通过",
+      "notes": "全程背向；与趴睡主循环进入点仍需后续接入时对齐。"
+    }
+  ]
+}

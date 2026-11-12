@@ -1,4 +1,4 @@
-extends SceneTree
+﻿extends SceneTree
 ## 教师在场与教导主任抽查：文化课任课老师必须在教室，抽查抓到不在教室的学生扣当日纪律分。
 
 # 临时存档与日志全部写入本进程独占目录，失败时保留证据。
@@ -24,6 +24,8 @@ func _run() -> void:
 	if not _result(DirAccess.make_dir_recursive_absolute(fixture_root), "建立独占抽查测试目录"):
 		_finish()
 		return
+	# 本组验证抽查自身规则：事件为独立内容，显式关闭保持既有基线。
+	configuration.globals["events_enabled"] = false
 	# 阶段范围在模拟器setup内装载，先建一局真实模拟器确认正式参数可用。
 	if _empty() == null:
 		_finish()
@@ -217,6 +219,13 @@ func _test_legacy_and_corruption() -> bool:
 	var legacy: Dictionary = parsed.duplicate(true)
 	legacy.save_version = 4
 	legacy.erase("inspection")
+	# v4不含v5抽查与v6每日属性点状态，降级夹具显式剔除。
+	legacy.erase("daily_points")
+	legacy.erase("npc_growth")
+	# v6抢答检查点状态同样不属于旧档。
+	legacy.erase("challenge_auto")
+	# 课间磨蹭状态同属v6，旧档夹具一并剔除。
+	legacy.erase("linger_auto")
 	for student: Dictionary in legacy.students:
 		student.erase("daily_discipline")
 		student.erase("daily_discipline_day")

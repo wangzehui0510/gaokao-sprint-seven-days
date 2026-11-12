@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-12",
+  "change": "从v3教室背景拆出讲桌，生成无讲桌背景并重新叠加独立讲桌层",
+  "source_scene": "classroom_v3_podium_wall/classroom_with_wall_connected_podium.png",
+  "pixellab_jobs": [
+    {"job_id": "5eefbdc3-d4ef-40ed-ae45-fbccaa689120", "operation": "inpaint_image_pro_flash", "charged_generations": 6, "role": "首次清理讲桌"},
+    {"job_id": "3f073e50-a656-4dc7-ac50-4bcc0a8a5e5e", "operation": "inpaint_image_pro_flash", "charged_generations": 6, "role": "残影局部修复尝试，保留但未直接采用"},
+    {"job_id": "ea20a7a0-7147-46d7-83e2-13ffeab80f3c", "operation": "inpaint_image", "charged_generations": 10, "role": "最终局部重绘来源"}
+  ],
+  "adopted_output": "clean_crop_final.png",
+  "postprocess": "仅在讲桌轮廓内采用清理结果；对35个已定位残色像素沿相邻墙面和平台纹理修复",
+  "checks": {"recomposed_rgba_difference_pixels": 0, "room_has_no_lectern_when_layer_off": true},
+  "production_integration": false,
+  "previous_version_preserved": "classroom_v3_podium_wall"
+}

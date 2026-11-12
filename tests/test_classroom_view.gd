@@ -106,6 +106,13 @@ func _run() -> void:
 	room.refresh_state()
 	_check(room.visual_students[0].location == "宿舍" and not room.visual_students[0].in_room, "离开教室只显示真实去向")
 	_check(room.rendered_frames == PackedInt32Array([-1, -1, -1, -1]), "全班离开后不保留虚假坐姿帧")
+	# 飘字是纯视觉提示：展示期间保留，寿命耗尽后由帧回调移除，不改变任何业务状态。
+	room.show_floating_text("已获得属性点+1")
+	_check(room.floating_texts.size() == 1 and String(room.floating_texts[0].text) == "已获得属性点+1", "发点飘字进入真实绘制队列")
+	room._process(1.0)
+	_check(room.floating_texts.size() == 1, "寿命未耗尽的飘字继续展示")
+	room._process(3.0)
+	_check(room.floating_texts.is_empty(), "飘字寿命耗尽后自动移除")
 	room.free()
 	behavior.free()
 	if failures.is_empty():

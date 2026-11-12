@@ -1,0 +1,15 @@
+{
+  "job_id": "efdf7f09-ae99-4cd1-a17d-28693364b89e",
+  "status": "completed",
+  "frames": 1,
+  "download_url": "https://api.pixellab.ai/mcp/images/efdf7f09-ae99-4cd1-a17d-28693364b89e/download",
+  "download_urls": [
+    "https://api.pixellab.ai/mcp/images/efdf7f09-ae99-4cd1-a17d-28693364b89e/download"
+  ],
+  "asset": {
+    "id": "f9ad6585-d882-58d3-bfed-68cf72fbd411",
+    "type": "image",
+    "status": "saved"
+  },
+  "charged_generations": 5
+}

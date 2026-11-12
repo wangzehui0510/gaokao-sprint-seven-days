@@ -56,6 +56,12 @@ func _simulation(seed_value: int = 1, at_day: int = 1, seconds: float = 28800.0,
 		return null
 	# 本组独立验收玩家双人动作，显式关闭自主竞争；完整自主池由AI集成组覆盖。
 	simulation.phase_scope.social_auto_actions = []
+	# 宿舍双人结伴候选同样由宿舍二批专项组覆盖；从本局配置副本移除池行，保持阶段范围与权威JSON一致以兼容热改。
+	var personal_pool: Array[Dictionary] = []
+	for row: Dictionary in simulation.config.tables.auto_pool:
+		if row.action_id not in ["study_together", "roommate_game"]:
+			personal_pool.append(row)
+	simulation.config.tables.auto_pool = personal_pool
 	if not _result(simulation.set_debug_time(at_day, seconds), "定位真实课表", simulation.error_message):
 		return null
 	var controller := ClassroomBehaviorController.new()
@@ -171,7 +177,7 @@ func _test_all_actions() -> bool:
 	var simulation := _simulation()
 	if simulation == null:
 		return false
-	_check(simulation.phase_scope.enabled_actions.size() == 54 and "answer_challenge" not in simulation.phase_scope.enabled_actions, "执行范围54项，宿舍新增五项且未确认抢答仍关闭")
+	_check(simulation.phase_scope.enabled_actions.size() == 60 and "answer_challenge" in simulation.phase_scope.enabled_actions and "linger_dorm_rest" in simulation.phase_scope.enabled_actions and "study_together" in simulation.phase_scope.enabled_actions and "roommate_game" in simulation.phase_scope.enabled_actions, "执行范围58项，含抢答、磨蹭与宿舍二批双人")
 	_check(simulation.phase_scope.auto_actions == ["daydream", "sleep", "read_comic", "bathroom"] and simulation.phase_scope.subject_auto_actions == {"physical": ["playground_play"]}, "双人扩展保留第7阶段已批准课堂自主候选")
 	return true
 
@@ -183,7 +189,7 @@ func _test_atomic_rejection() -> bool:
 		return false
 	for scenario: Array in [
 		["swap_book", ""], ["swap_book", "chinese"], ["swap_book", "physical"], ["swap_book", "missing"],
-		["answer_challenge", ""], ["missing", ""], ["pillow_fight", ""], ["encourage", "math"],
+		["missing", ""], ["pillow_fight", ""], ["encourage", "math"],
 	]:
 		var before: Dictionary = _authority(simulation)
 		var reason: String = simulation.interaction_unavailable_reason(0, 2, scenario[0], scenario[1])

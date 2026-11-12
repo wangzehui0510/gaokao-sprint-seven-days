@@ -96,6 +96,9 @@ func _test_interface() -> void:
 	ui._build_interface()
 	var configuration := GameConfig.new()
 	_check(configuration.load_file() == OK, "界面通过正式配置完整校验")
+	# 本组验证按钮与真实配置的对应关系；抢答的自主发起（决策点与检查点）由专门测试组覆盖，这里整体隔离。
+	configuration.globals["answer_challenge_auto_chance"] = 0.0
+	configuration.phase_scope.social_auto_actions.erase("answer_challenge")
 	ui.configuration = configuration
 	_reset_session(ui)
 	_check(ui.inspector_tabs.get_tab_count() == 6, "榜单追加第六页，人物课表记录互动背包的前五页索引保持不变")

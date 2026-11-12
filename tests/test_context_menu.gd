@@ -124,6 +124,8 @@ func _test_interface() -> void:
 	ui._build_interface()
 	var configuration := GameConfig.new()
 	_check(configuration.load_file() == OK, "右键测试通过正式配置完整校验")
+	# 事件是独立内容：右键基线组显式关闭，保持既有数值契约。
+	configuration.globals["events_enabled"] = false
 	ui.configuration = configuration
 	_reset_session(ui)
 	_test_open_and_cancel(ui)

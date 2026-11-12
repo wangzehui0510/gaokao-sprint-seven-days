@@ -1,0 +1,222 @@
+{
+  "schema_version": 1,
+  "status": "passed_fixed_seated_art_preview",
+  "date": "2026-11-11",
+  "production_integration": false,
+  "capture_count": 132,
+  "checks": 707,
+  "failures": [],
+  "gpu_environment": {
+    "application": "SeatedThreeQuarterGpuQa_20261111",
+    "isolated_user_dir": "C:/Users/admin/AppData/Roaming/SeatedThreeQuarterGpuQa_20261111",
+    "display_server": "Windows",
+    "gpu_adapter": "Intel(R) UHD Graphics 770",
+    "rendering_method": "gl_compatibility"
+  },
+  "source_manifest_sha256": "4c3aaf7b2ed763abcfce2c43053a79873ebe9258e7d648904681b095e3dfc703",
+  "source_inventory": [
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v1\\classroom_empty.png",
+      "sha256": "26069d7305553f14325b5a9dce4fd78d781c264b15ef80c346b0c9cf8be6d200",
+      "size": [
+        384,
+        256
+      ],
+      "alpha_values": [
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        384,
+        256
+      ]
+    },
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\layers_v1\\desk_back.png",
+      "sha256": "5576fd6a61ea55ea488c8b53186e7774e991882e0b6241361dab50ddb06df842",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        14,
+        10,
+        60,
+        55
+      ]
+    },
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\layers_v1\\chair_base.png",
+      "sha256": "3ac706c2b9b3dcdd5180b3fe71f902b2109c46e3f4d1ca9e9fde1336efdf3b6c",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        10,
+        39,
+        35,
+        61
+      ]
+    },
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\layers_v1\\chair_front.png",
+      "sha256": "a60ce770bca699d0a9c70990d00db3cfdf39e51a8691fbd11847b4acff13c1df",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        8,
+        31,
+        25,
+        47
+      ]
+    },
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\animation_v1\\curated\\frame_00.png",
+      "sha256": "e24a939ab6da65953870ffc24994e9f32b14c3edc55846a16cb424e6da508499",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        16,
+        8,
+        43,
+        53
+      ]
+    },
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\animation_v1\\curated\\frame_01.png",
+      "sha256": "d6f24d22af359c9caa07322374ab3c2f6e811889fef5ecfdcaafdc0bb1726f41",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        16,
+        8,
+        43,
+        53
+      ]
+    },
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\animation_v1\\curated\\frame_02.png",
+      "sha256": "b210e8a9bb193d74c6394aa6c0ed917da305c0be1223aa174f9f4041261edf2d",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        16,
+        8,
+        43,
+        53
+      ]
+    },
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\animation_v1\\curated\\frame_03.png",
+      "sha256": "d1893487d323584c1c7b94fab262e4ccf474eeac1e752c8e6f2f70233b6e866d",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        16,
+        8,
+        43,
+        53
+      ]
+    },
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\animation_v1\\curated\\frame_04.png",
+      "sha256": "b210e8a9bb193d74c6394aa6c0ed917da305c0be1223aa174f9f4041261edf2d",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        16,
+        8,
+        43,
+        53
+      ]
+    },
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\animation_v1\\curated\\frame_05.png",
+      "sha256": "d6f24d22af359c9caa07322374ab3c2f6e811889fef5ecfdcaafdc0bb1726f41",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_values": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        16,
+        8,
+        43,
+        53
+      ]
+    }
+  ],
+  "maximum_rgba_difference": 0,
+  "visual_review": "逐帧头、领口、脚、家具稳定；空桌椅无人物残边；手笔与纸面关系可读；四工位朝向黑板。",
+  "gpu_evidence": "D:/挂机上课/.artifacts/seated_three_quarter_qa/captures/gpu_capture_manifest.json",
+  "verification_evidence": "D:/挂机上课/.artifacts/seated_three_quarter_qa/verification.json",
+  "outputs": {
+    "classroom_four_desks_1x.png": "646da09f7b094b068f4e65887228573b0639602234c6367fb32a4101261ef0d0",
+    "classroom_four_desks_2x.png": "c00ca86858805ae4870c4daa63e3938ebefdce65f8fa197f0e6f9e859f81ce7b",
+    "classroom_four_students_1x.png": "6029dee779df5080a1c1bb3ff4af77609891cfa7c2cf353baaecf80c9f768c2b",
+    "classroom_four_students_2x.png": "86453ebfff57bf494197ab36ff4e2b39a2a8aa600860e65fefaa1b946c308e97",
+    "classroom_writing_2x.gif": "a742fea2d69001bd1e24e583f1072b367101b1ee0d2cc07c0b21a83513667842",
+    "layer_breakdown.png": "b5ba283e85f9c62a3ddd42bed1fc139023727fea3aa45fbb7442740141ed2ce3"
+  },
+  "limitations": [
+    "只验收冻结素材与隔离合成，不表示正式游戏已接入。",
+    "人物只保留固定坐姿可见部分，不能据此批准起身或移动。",
+    "人工目检结论单独写入FINAL_QA.md与final_result.json。"
+  ],
+  "independent_final_review": {
+    "status": "passed_with_documented_limits",
+    "report": "gpu_final_result.json",
+    "sha256": "94427039b46e30a7c675dc7c46b3ff1ab8aaec17009384d047f9c868387574a9",
+    "checks": 707,
+    "blocking_issues": []
+  }
+}

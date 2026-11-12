@@ -1,0 +1,9 @@
+{
+  "job_id": "ea20a7a0-7147-46d7-83e2-13ffeab80f3c",
+  "status": "completed",
+  "asset_id": "f4dda9dc-3dbb-5271-8a6b-774fa0419052",
+  "charged_generations": 10,
+  "adopted": true,
+  "adopted_file": "clean_crop_inpaint_standard.png",
+  "postprocess": "clean_crop_final.png additionally applies 35 deterministic residual-pixel repairs."
+}

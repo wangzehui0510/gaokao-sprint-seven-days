@@ -1,0 +1,64 @@
+{
+  "status": "pixel_checks_passed_visual_review_pending",
+  "source_sha256": {
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v2_podium\\classroom_with_podium.png": "bd82fae904fcdecc27f38f9f00714ed1503875a73c8e1e1f26997f789161996c",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v3_podium_wall\\source_crop.png": "c98e66b86dab5978dde8d0c8185486f5395c81f2af5d3a841eb858c5342957f2",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v3_podium_wall\\generated_crop_raw.png": "e74caab7010c172937988891dd25ed278088e965ddd4631aae1cca860271e919",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v3_podium_wall\\adopted_crop.png": "86ac9db186924789a406afd09d50375fb1b64046c304f486b37e237d355df4d9",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v3_podium_wall\\wall_connection_crop_mask.png": "7adf59177744ec31dba6f5c080a259bed315841b038bff218c1b28d2d59b67d2",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v3_podium_wall\\classroom_with_wall_connected_podium.png": "55805694ddf82a339af496416dc6c69019bf571d30398456a7904a4d0889634d",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v3_podium_wall\\wall_connected_podium_overlay.png": "6cb6a3cbd084dc10541fa0d81fefc2597df3c6e83005ae863389553cafb3afd3",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\layers_v1\\desk_back.png": "5576fd6a61ea55ea488c8b53186e7774e991882e0b6241361dab50ddb06df842",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\layers_v1\\chair_base.png": "3ac706c2b9b3dcdd5180b3fe71f902b2109c46e3f4d1ca9e9fde1336efdf3b6c",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\layers_v1\\chair_front.png": "a60ce770bca699d0a9c70990d00db3cfdf39e51a8691fbd11847b4acff13c1df",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\animation_v1\\curated\\frame_00.png": "e24a939ab6da65953870ffc24994e9f32b14c3edc55846a16cb424e6da508499",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\animation_v1\\curated\\frame_01.png": "d6f24d22af359c9caa07322374ab3c2f6e811889fef5ecfdcaafdc0bb1726f41",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\animation_v1\\curated\\frame_02.png": "b210e8a9bb193d74c6394aa6c0ed917da305c0be1223aa174f9f4041261edf2d",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\animation_v1\\curated\\frame_03.png": "d1893487d323584c1c7b94fab262e4ccf474eeac1e752c8e6f2f70233b6e866d",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\animation_v1\\curated\\frame_04.png": "b210e8a9bb193d74c6394aa6c0ed917da305c0be1223aa174f9f4041261edf2d",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\animation_v1\\curated\\frame_05.png": "d6f24d22af359c9caa07322374ab3c2f6e811889fef5ecfdcaafdc0bb1726f41"
+  },
+  "raw_edit_outside_mask_changed_pixels": 14702,
+  "adopted_outside_mask_changed_pixels": 0,
+  "changed_scene_pixels": 5185,
+  "room_overlay_reconstruction": true,
+  "frozen_station_sources_unchanged": true,
+  "station_podium_visible_collisions": [
+    {
+      "station": "S1_front_left",
+      "visible_pixels_on_changed_podium": 0
+    },
+    {
+      "station": "S2_back_left",
+      "visible_pixels_on_changed_podium": 0
+    },
+    {
+      "station": "S3_front_right",
+      "visible_pixels_on_changed_podium": 0
+    },
+    {
+      "station": "S4_back_right",
+      "visible_pixels_on_changed_podium": 0
+    }
+  ],
+  "teacher_position": "behind_lectern",
+  "teacher_foot_anchor": [
+    260,
+    126
+  ],
+  "station_count": 4,
+  "duration_ms": [
+    280,
+    150,
+    160,
+    200,
+    160,
+    150
+  ],
+  "loop_duration_ms": 1100,
+  "limitations": [
+    "老师仅预留在讲桌后方，没有教师精灵或动画。",
+    "覆盖层含局部背景，与v2背景坐标绑定，不能自由移动。",
+    "四人共用学生01外观和相位；正式游戏未切换。"
+  ]
+}

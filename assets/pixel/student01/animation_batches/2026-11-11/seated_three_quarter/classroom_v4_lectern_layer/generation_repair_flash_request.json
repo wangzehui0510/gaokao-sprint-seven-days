@@ -1,0 +1,9 @@
+{
+  "job_id": "3f073e50-a656-4dc7-ac50-4bcc0a8a5e5e",
+  "operation": "inpaint_image_pro_flash",
+  "source": "clean_crop_raw.png",
+  "mask": {"x": 36, "y": 55, "width": 60, "height": 54},
+  "seed": 2026111263,
+  "output_method": "Modify current layer",
+  "description": "Remove every remaining fragment of the wooden lectern from this pixel-art classroom crop. Continue the existing empty raised platform and wall trim with no brown or orange desk pixels, no vertical leg, no dark desk outline, no shadow and no rectangular patch."
+}

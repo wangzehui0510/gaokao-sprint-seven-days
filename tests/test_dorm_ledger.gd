@@ -116,7 +116,7 @@ func _test_roundtrip_and_offline() -> bool:
 	var saved: Dictionary = _save(source, "dorm_active.json")
 	if saved.is_empty():
 		return false
-	_check(saved.save_version == 5 and saved.round_progression.schema_version == 2, "顶层v5与内部新来源契约均明确保存")
+	_check(saved.save_version == 6 and saved.round_progression.schema_version == 2, "顶层v6与内部新来源契约均明确保存")
 	var before: Dictionary = source.round_progression.dorm_summary(1, "student_0")
 	var restored := _empty()
 	if restored == null or not _result(restored.load_file(_path("dorm_active.json"), false), "生产原时刻恢复真实宿舍局", restored.error_message):

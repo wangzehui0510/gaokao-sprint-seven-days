@@ -1,4 +1,4 @@
-extends SceneTree
+﻿extends SceneTree
 ## AI验收通过真实四棵行为树、课表和唯一执行器推进，不预填资源、知识或互动结果。
 
 const SOCIAL_IDS: Array[String] = ["borrow_notes", "swap_book", "invite_playground", "invite_canteen", "arm_wrestle", "eraser_prank"]
@@ -37,6 +37,10 @@ func _empty(seed_value: int = 261109, config_path: String = "res://config/game_c
 	var configuration := GameConfig.new()
 	if not _result(configuration.load_file(config_path), "加载AI真实配置", configuration.error_message):
 		return null
+	# 本组验证行为树与互动历史，不含每日发点；把起始日推到局外隔离每日属性点影响。
+	configuration.globals["first_daily_attribute_day"] = 99
+	# 事件是独立内容：本组数值基线不含事件干扰，显式关闭保持既有基线。
+	configuration.globals["events_enabled"] = false
 	var simulation := ClassroomSimulation.new()
 	if not _result(simulation.setup(configuration, seed_value, scope_path), "建立AI四人真实局", simulation.error_message):
 		return null
@@ -236,6 +240,17 @@ func _test_save_replay_and_legacy() -> bool:
 	var saved: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(path))
 	saved.save_version = 3
 	saved.erase("round_progression")
+	# v3没有教师抽查、每日纪律分与每日属性点，旧档夹具必须移除v5/v6字段，保留真实属性和互动。
+	saved.erase("inspection")
+	saved.erase("daily_points")
+	saved.erase("npc_growth")
+	# 每日属性点与抢答检查点状态同属v6，旧档夹具一并剔除。
+	saved.erase("challenge_auto")
+	# 课间磨蹭状态同属v6，旧档夹具一并剔除。
+	saved.erase("linger_auto")
+	for student: Dictionary in saved.students:
+		student.erase("daily_discipline")
+		student.erase("daily_discipline_day")
 	var legacy_path: String = _path("legacy_v3_ai.json")
 	if not _write_json(legacy_path, saved):
 		return false

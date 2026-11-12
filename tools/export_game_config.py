@@ -310,7 +310,7 @@ def typed_value(value: Any, column: dict[str, Any], sheet: str, row: int) -> Any
 
 # 枚举对应首版运行时能够解释的分型，未知值不能静默当成其他类型。
 ENUMS = {
-    "actions": {"kind": {"instant", "duration"}, "source": {"player", "auto", "both"}, "target": {"self", "pair", "group"}, "scene": {"any", "classroom", "playground", "canteen", "dorm", "course"}, "violation": {"none", "distraction"}, "completion_route": {"schedule", "study", "previous"}, "knowledge_source": {"school", "dorm", "none"}, "knowledge_mode": {"course", "selected_subject", "fixed_subject", "none"}, "eligible_period": {"any", "dorm_free"}},
+    "actions": {"kind": {"instant", "duration"}, "source": {"player", "auto", "both"}, "target": {"self", "pair", "group"}, "scene": {"any", "classroom", "playground", "canteen", "dorm", "course"}, "violation": {"none", "distraction"}, "completion_route": {"schedule", "study", "previous"}, "knowledge_source": {"school", "dorm", "none"}, "knowledge_mode": {"course", "selected_subject", "fixed_subject", "none"}, "eligible_period": {"any", "dorm_free", "break"}},
     "effects": {"phase": {"start", "tick", "complete", "instant"}, "recipient": {"self", "target", "both", "ally", "winner", "loser"}, "type": {"resource", "apply_buff", "consume_item", "start_action", "event"}, "resource": {"focus", "stamina"}, "mode": {"flat", "max_ratio"}, "max_basis": {"current"}, "condition": {"always", "natural_entry", "selected_variant", "course_active", "winner", "loser", "tie"}, "event": {"forced_entry", "natural_entry", "close_violation", "deliver_note", "resolve_answer_challenge", "resolve_arm_wrestle", "interrupt_reading"}},
     "buffs": {"lifecycle": {"action", "timed"}, "stacking": {"refresh", "replace", "independent"}, "knowledge_redirect": {"none", "selected_subject"}},
     "globals": {"type": {"string", "number", "boolean"}},
@@ -479,8 +479,8 @@ def validate_tables(tables: dict[str, Table]) -> None:
                 table.fail(record, "knowledge_mode", "在校知识必须使用当前知识课程")
             if source == "dorm" and (mode not in {"selected_subject", "fixed_subject"} or row["eligible_period"] != "dorm_free"):
                 table.fail(record, "knowledge_mode", "宿舍知识必须显式选科或固定科目，并限定宿舍自由时段")
-            if row["eligible_period"] == "dorm_free" and (row["scene"] != "dorm" or row["target"] != "self" or row["kind"] != "duration"):
-                table.fail(record, "eligible_period", "宿舍自由活动必须是宿舍内的个人持续动作")
+            if row["eligible_period"] == "dorm_free" and (row["scene"] != "dorm" or row["target"] not in {"self", "pair"} or row["kind"] != "duration"):
+                table.fail(record, "eligible_period", "宿舍自由活动必须是宿舍内的个人或双人持续动作")
 
     if "effects" in tables:
         table, sequences = tables["effects"], set()
@@ -561,26 +561,29 @@ def validate_tables(tables: dict[str, Table]) -> None:
         if total_weight <= 0:
             raise ConfigError(f'工作表“{table.sheet}”的启用项权重总和必须大于零')
 
-    # 宿舍与课堂候选按时段隔离，六项使用等权基线，再由运行时按属性修正。
+    # 宿舍与课堂候选按时段隔离，八项使用等权基线，再由运行时按属性修正。
     if "auto_pool" in tables:
         table = tables["auto_pool"]
-        expected = {"dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash", "dorm_rest"}
+        expected = {"dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash", "dorm_rest", "study_together", "roommate_game"}
         candidates: dict[str, float] = {}
         for record in table.records:
             row = record.values
             if row["eligible_period"] != "dorm_free":
                 continue
             action = reference(table, record, "action_id", "actions").values
-            if action["eligible_period"] != "dorm_free" or not action["enabled"] or row["requires_same_scene_target"] or not row["requires_affordable_start"]:
-                table.fail(record, "action_id", "宿舍候选必须是已启用、可支付且无需同伴的宿舍个人活动")
+            if action["eligible_period"] != "dorm_free" or not action["enabled"] or not row["requires_affordable_start"]:
+                table.fail(record, "action_id", "宿舍候选必须是已启用、可支付的宿舍个人或双人活动")
+            # 双人结伴候选必须声明同场景同伴要求；个人候选必须无需同伴。
+            if (action["target"] == "pair") != bool(row["requires_same_scene_target"]):
+                table.fail(record, "requires_same_scene_target", "宿舍候选的同伴要求必须与动作对象一致")
             if not row["enabled"]:
-                table.fail(record, "enabled", "已确认的宿舍六项候选必须启用")
+                table.fail(record, "enabled", "已确认的宿舍八项候选必须启用")
             if row["action_id"] in candidates:
                 table.fail(record, "action_id", "宿舍候选动作不得重复")
             weight = number(table, record, "weight", True)
             candidates[row["action_id"]] = weight
         if set(candidates) != expected or len(set(candidates.values())) != 1:
-            raise ConfigError(f'工作表“{table.sheet}”的宿舍候选必须完整包含六项活动且使用相等的正权重')
+            raise ConfigError(f'工作表“{table.sheet}”的宿舍候选必须完整包含八项活动且使用相等的正权重')
 
     if "subjects" in tables:
         table = tables["subjects"]

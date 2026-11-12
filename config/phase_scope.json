@@ -1,24 +1,26 @@
 {
-  "version": "phase_7_ai_upgrade",
-  "description": "属性驱动挂机行为加权与竞争自主社交：宿舍活动改为倾向+保底，课堂开小差开放漫画/厕所，挂机角色可自主发起竞争互动干扰对手。抢答、每日点与特殊事件继续后置。",
+  "version": "phase_11_prank_comic",
+  "description": "属性驱动挂机行为加权与竞争自主社交：宿舍活动改为倾向+保底，课堂开小差开放漫画/厕所，挂机角色可自主发起竞争互动干扰对手。抢答开放为文化课双人互动并进入NPC竞争池；课间磨蹭按专注阈值与概率触发，四地点等权抽取。宿舍二批双人开放结伴自习与室友开黑，进入NPC宿舍自主池并支持同桌表现。抢走漫画与合伙恶作剧开放为玩家主动双人互动（方案A：抢漫画只打断+分心不转移物品，恶作剧降级两人）。每日点与特殊事件继续后置。",
   "enabled_actions": [
     "study", "physical_study", "music_class", "art_class", "break_rest",
     "eye_exercise", "morning_exercise", "rest", "daydream", "sleep",
     "eat_meal", "dorm_rest", "exam", "focus_command", "playground_play",
     "send_note", "eraser_prank", "report",
-    "snack_self", "lunch_rest", "read_comic", "bathroom", "linger_break",
+    "snack_self", "lunch_rest", "read_comic", "bathroom", "linger_break", "linger_dorm_rest",
     "sprint_study", "preview", "notes", "self_test", "standing_study",
     "chores", "exercise_slack", "remind_self", "wake_self", "recall_classroom",
     "read_comic_item", "eat_candy_item",
     "remind_friend", "solve_together", "invite_playground", "invite_canteen",
     "borrow_notes", "encourage", "pillow_fight", "feed_snack", "use_eraser",
     "give_comic_item", "give_candy_item", "swap_book", "swap_book_boost", "arm_wrestle",
-    "dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash"
+    "answer_challenge", "take_comic", "prank_together",
+    "dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash",
+    "study_together", "roommate_game"
   ],
   "auto_actions": ["daydream", "sleep", "read_comic", "bathroom"],
-  "dorm_auto_actions": ["dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash", "dorm_rest"],
+  "dorm_auto_actions": ["dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash", "dorm_rest", "study_together", "roommate_game"],
   "subject_auto_actions": {"physical": ["playground_play"]},
-  "social_auto_actions": ["borrow_notes", "swap_book", "invite_playground", "invite_canteen", "arm_wrestle", "eraser_prank"],
+  "social_auto_actions": ["borrow_notes", "swap_book", "invite_playground", "invite_canteen", "arm_wrestle", "eraser_prank", "answer_challenge"],
   "teachers": [
     {"id": "teacher_chinese", "name": "语文老师", "subject_id": "chinese", "texture": "res://assets/pixel/teachers/chinese_teacher01/south.png"},
     {"id": "teacher_math", "name": "数学老师", "subject_id": "math", "texture": "res://assets/pixel/teachers/math_teacher01/south.png"},
@@ -34,7 +36,7 @@
     "visible_seconds": 20
   },
   "deferred_auto_actions": ["send_note"],
-  "deferred_reason": "纸条涉及目标与文字来源，仍仅开放主动执行。课间磨蹭仅支持规则执行，未加入自主池和玩家入口。抢答、每日点与特殊事件继续后置。",
+  "deferred_reason": "纸条涉及目标与文字来源，仍仅开放主动执行。课间磨蹭已接入检查点触发策略，玩家入口保持auto不开放。每日点与特殊事件继续后置。",
   "clock": "local_computer_time",
   "offline_progress": false,
   "config_reload": "new_rates_immediately_preserve_sampled_duration"

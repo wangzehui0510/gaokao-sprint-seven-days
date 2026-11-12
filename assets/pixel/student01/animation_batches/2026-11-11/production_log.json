@@ -1,0 +1,1667 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-11",
+  "decisions": {
+    "game_device": "电脑；Steam桌面挂机游戏",
+    "sports": "徒手伸展与踏步",
+    "wash": "在洗手台洗脸"
+  },
+  "jobs": [
+    {
+      "id": "A01_write_north",
+      "tool": "animate",
+      "seed": 2026111101,
+      "ref": "upload:d617c8ec-736a-4745-a8e5-62bd06f634fb",
+      "frames": 6,
+      "action": "Seated facing north, seen from behind. Write small short pencil strokes on the desk in front, brief pause, write again, return exactly to initial pose. Only the forearm and wrist move subtly, shoulders breathe by 1 pixel; keep head direction, body, legs and feet planted. Preserve same student, exact blue-white uniform, pixel clusters, scale, transparent background. No camera motion, no turning, no standing, no new furniture. Seamless loop.",
+      "job_id": "394fe92f-11e8-442b-931f-fb1978e54b90",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/394fe92f-11e8-442b-931f-fb1978e54b90/download",
+      "direction": "north"
+    },
+    {
+      "id": "A03_idle_seated_north",
+      "tool": "animate",
+      "seed": 2026111103,
+      "ref": "upload:2f101a8f-ccaf-43c4-b56e-33a027864aff",
+      "frames": 4,
+      "action": "Quiet seated idle loop facing north, seen from behind. Gentle one-pixel shoulder breathing and a tiny relaxed wrist/pen sway, returning to the initial pose. Keep both feet, hips, head orientation and seated silhouette fixed. Preserve same student, hairstyle, blue-white tracksuit, palette and crisp pixel clusters. Transparent background, no camera movement, no turn, no extra arms or furniture.",
+      "job_id": "2d3f7f9e-2d75-43aa-97fe-693ef4b5dd7f",
+      "status": "completed",
+      "output_count": 5,
+      "download_url": "https://api.pixellab.ai/mcp/images/2d3f7f9e-2d75-43aa-97fe-693ef4b5dd7f/download",
+      "direction": "north"
+    },
+    {
+      "id": "A04_sleep_desk_north",
+      "tool": "animate",
+      "seed": 2026111104,
+      "ref": "upload:97505830-b89d-4f3d-87ed-594bc6c91c1c",
+      "frames": 4,
+      "action": "Student remains asleep with head down on folded arms, facing north and viewed from behind. Very subtle slow one-pixel breathing rise and fall in head and shoulders, returning to original pose. Keep folded arms, seated hips and feet anchored. Same character, uniform, proportions, crisp pixel art and transparent background. No waking, no turning, no standing, no camera or desk added.",
+      "job_id": "b8925e2b-619d-4f72-8bf8-794fc63c7158",
+      "status": "completed",
+      "output_count": 5,
+      "download_url": "https://api.pixellab.ai/mcp/images/b8925e2b-619d-4f72-8bf8-794fc63c7158/download",
+      "direction": "north"
+    },
+    {
+      "id": "A02_read_keyframe",
+      "tool": "edit",
+      "seed": 2026111102,
+      "ref": "upload:d617c8ec-736a-4745-a8e5-62bd06f634fb",
+      "description": "Keep this exact seated student facing north from behind, same head, uniform, proportions, legs, feet, palette and transparent 32x48 canvas. Replace the raised pencil gesture with both hands holding the edges of a clearly open cream-paged book in front at chest height. Reading pose, elbows low, two hands only. Keep head and feet at the original coordinates, no furniture, no background.",
+      "job_id": "1f887ee4-2db6-42b6-a5ac-c8a6d393784a",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/1f887ee4-2db6-42b6-a5ac-c8a6d393784a/download",
+      "direction": "multiple"
+    },
+    {
+      "id": "A02_read_north",
+      "tool": "animate",
+      "seed": 2026111112,
+      "ref": "https://api.pixellab.ai/mcp/images/1f887ee4-2db6-42b6-a5ac-c8a6d393784a/download",
+      "frames": 6,
+      "action": "Student remains seated reading the open book, facing north from behind. Small gentle head tilt while reading, right hand shifts a page once then returns to hold book. Keep open cream book and both hands clearly visible beyond the head. Keep hips, legs and feet fixed; same character, exact blue-white uniform, hair, palette, scale, crisp pixel clusters and transparent background. No turning, standing, extra limbs or furniture. Close loop to initial pose.",
+      "job_id": "9b4ae4e9-baf1-4f1d-8fd2-ff83ca632abd",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/9b4ae4e9-baf1-4f1d-8fd2-ff83ca632abd/download",
+      "direction": "north"
+    },
+    {
+      "id": "A03_idle_standing_south",
+      "tool": "animate",
+      "seed": 2026111120,
+      "ref": "upload:a85ac0e0-b491-4a4c-8e3a-b1d790e02a49",
+      "frames": 4,
+      "action": "Standing relaxed facing south toward viewer. A small gentle breathing loop and tiny arm relaxation, return to original stance. Keep feet fixed exactly on the ground, same student, hair, face, blue-white tracksuit, proportions and pixel palette. Transparent background, no stepping, turning or camera motion.",
+      "job_id": "0079f7dc-183a-4853-9b29-d5cea6b816aa",
+      "status": "completed",
+      "output_count": 5,
+      "download_url": "https://api.pixellab.ai/mcp/images/0079f7dc-183a-4853-9b29-d5cea6b816aa/download",
+      "direction": "south"
+    },
+    {
+      "id": "A08_exercise_south",
+      "tool": "animate",
+      "seed": 2026111121,
+      "ref": "upload:a85ac0e0-b491-4a4c-8e3a-b1d790e02a49",
+      "frames": 8,
+      "action": "Standing student facing south toward viewer performs a small unarmed exercise loop: alternate step in place, raise bent arms outward only within canvas at shoulder height, lower arms and return to initial stance. Feet stay around same ground position; moderate compact motions within 32x48. Preserve character, face, hair, blue-white uniform, palette and pixel scale. Transparent background, no weights, sports equipment, turning or camera.",
+      "job_id": "ae71edb0-c11a-45d7-b07e-ef5999b83bdf",
+      "status": "completed",
+      "output_count": 9,
+      "download_url": "https://api.pixellab.ai/mcp/images/ae71edb0-c11a-45d7-b07e-ef5999b83bdf/download",
+      "direction": "south"
+    },
+    {
+      "id": "B01_give_north_key",
+      "ref": "upload:45d093ba-4e69-4b7b-ab89-3336171cd9ca",
+      "label": "递出关键帧",
+      "tool": "edit",
+      "seed": 2026111130,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "description": "Same seated student facing north from behind. Keep exact original head, uniform, legs and feet at x32 foot44. Remove pencil and paper above head. Right arm extends horizontally toward right neighbor, holding one small closed cream book at x48 y22. Left arm remains down. 64x48 transparent pixel-art canvas, crisp clusters, no desk, no second person, two arms only.",
+      "job_id": "5daae85e-42b7-4e95-ac04-1d271662480a",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/5daae85e-42b7-4e95-ac04-1d271662480a/download",
+      "direction": "north"
+    },
+    {
+      "id": "B01_receive_north_key",
+      "ref": "upload:38b5f64b-60af-4d07-b399-29a0dd61c3a6",
+      "label": "接收关键帧",
+      "tool": "edit",
+      "seed": 2026111131,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "description": "Same seated student facing north from behind. Keep original head, uniform, body, legs and foot anchor x32 y44. Remove pen. Right elbow bent and right empty open palm held sideways toward the right neighbor, ready to receive at x46 y25, hand below shoulder height. Left arm relaxed. Same pixel art, 64x48 transparent canvas, no objects, desk, background or second person.",
+      "job_id": "cdd9a246-a33f-4220-8a97-0d3a16605109",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/cdd9a246-a33f-4220-8a97-0d3a16605109/download",
+      "direction": "north"
+    },
+    {
+      "id": "B02_raise_north_key",
+      "ref": "upload:38b5f64b-60af-4d07-b399-29a0dd61c3a6",
+      "label": "举手关键帧",
+      "tool": "edit",
+      "seed": 2026111132,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "description": "Keep this exact seated student facing north from behind, head and feet fixed at original x32 y44 anchor. Remove pen, right arm straight raised vertically, open hand at x43 y5 for answering teacher. Left hand rests down. Preserve blue-white tracksuit, dark short hair, scale and crisp pixel style. Transparent 64x48, no furniture or second character.",
+      "job_id": "34b27d9c-5e2f-4d39-a1fa-bb24756973a3",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/34b27d9c-5e2f-4d39-a1fa-bb24756973a3/download",
+      "direction": "north"
+    },
+    {
+      "id": "B02_point_north_key",
+      "ref": "upload:38b5f64b-60af-4d07-b399-29a0dd61c3a6",
+      "label": "示意关键帧",
+      "tool": "edit",
+      "seed": 2026111133,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "description": "Keep exact seated north-facing student viewed from behind. Remove pen. Extend right forearm horizontally to right with open palm gesture at x47 y23, as explaining/inviting neighbor. Keep head, blue-white outfit, legs, feet and x32 y44 anchor fixed. Crisp pixel art, transparent 64x48 canvas, no furniture, props, writing or second person.",
+      "job_id": "54a7c874-38c3-48bc-8a97-7c8d814bbeb8",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/54a7c874-38c3-48bc-8a97-7c8d814bbeb8/download",
+      "direction": "north"
+    },
+    {
+      "id": "A06_meal_north_key",
+      "ref": "upload:45d093ba-4e69-4b7b-ab89-3336171cd9ca",
+      "label": "用餐关键帧",
+      "tool": "edit",
+      "seed": 2026111134,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "description": "Same seated north-facing student seen from behind, exact head, tracksuit, legs and foot x32 y44. Remove pencil and notebook. Right hand holds chopsticks just beside right cheek. Left hand supports a small cream rice bowl visible to left of head. Compact eating pose, same pixel scale and palette, 64x48 transparent canvas. No table or background, no extra arms.",
+      "job_id": "de86eb52-c9fe-4825-b189-2a1e55d24c12",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/de86eb52-c9fe-4825-b189-2a1e55d24c12/download",
+      "direction": "north"
+    },
+    {
+      "id": "A06_snack_south_key",
+      "url": "upload:a85ac0e0-b491-4a4c-8e3a-b1d790e02a49",
+      "label": "零食关键帧",
+      "canvas": [
+        32,
+        48
+      ],
+      "tool": "edit",
+      "seed": 2026111135,
+      "anchor": [
+        16,
+        44
+      ],
+      "description": "Keep this exact south-facing student, face, short dark hair, blue-white tracksuit, proportions and feet. Right hand holds a small biscuit near mouth; left hand holds a small orange snack packet at waist. Two arms only, no furniture or background. Same crisp pixel art and 32x48 transparent canvas, original foot anchor16,44.",
+      "ref": "upload:a85ac0e0-b491-4a4c-8e3a-b1d790e02a49",
+      "job_id": "12fbabd1-5b35-4cd2-8bd4-1262248be772",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/12fbabd1-5b35-4cd2-8bd4-1262248be772/download",
+      "direction": "south"
+    },
+    {
+      "id": "A07_computer_west_key",
+      "ref": "upload:601b7f9d-be4a-4d45-8216-d1f836eff253",
+      "label": "电脑游戏西向关键帧",
+      "tool": "edit",
+      "seed": 2026111136,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "description": "Same exact student in blue-white tracksuit, short black hair, facing west in low top-down pixel art. Change standing to seated on simple dark chair, keep foot anchor32,44. Both forearms reach left to compact keyboard, right hand on mouse. Small desktop computer monitor with dark frame and teal screen on a wooden desk to left x1-23. Keep character scale, two hands, transparent64x48. No phone, controller, labels or background.",
+      "job_id": "25cf76cc-fe06-42e8-ae69-7ecb1cc2963e",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/25cf76cc-fe06-42e8-ae69-7ecb1cc2963e/download",
+      "direction": "west"
+    },
+    {
+      "id": "A07_computer_east_key",
+      "ref": "upload:d55aa371-7bb1-4acf-b892-4ad865105b32",
+      "label": "电脑游戏东向关键帧",
+      "tool": "edit",
+      "seed": 2026111137,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "description": "Same exact student in blue-white tracksuit, short black hair, facing east in low top-down pixel art. Change standing to seated on simple dark chair, keep foot anchor32,44. Both forearms reach right to compact keyboard, right hand on mouse. Small desktop computer monitor with dark frame and teal screen on a wooden desk to right x41-62. Keep character scale, two hands, transparent64x48. No phone, controller, labels or background.",
+      "job_id": "bb3eb20d-d13d-464f-a4b7-bd76547ff678",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/bb3eb20d-d13d-464f-a4b7-bd76547ff678/download",
+      "direction": "east"
+    },
+    {
+      "id": "A05_bed_key",
+      "ref": "upload:0bfc7e3c-3058-42c7-9341-95201090b578",
+      "label": "卧床关键帧",
+      "canvas": [
+        64,
+        64
+      ],
+      "anchor": [
+        32,
+        48
+      ],
+      "tool": "edit",
+      "seed": 2026111138,
+      "description": "Same short black-haired student in blue-white tracksuit, now lying face up asleep, low top-down view. Horizontal wooden dorm bed footprint64x60, headboard at top, cream pillow under head at x32 y13, teal blanket covers body down toward feet at y45. Face visible with closed eyes, arms relaxed by sides under blanket. Preserve original character head scale, not a standing person pasted onto bed. Crisp pixel-art, transparent64x64, full bed inside margins, no text.",
+      "job_id": "f74c29c4-2c35-4ce0-8424-54da0a7fc6f4",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/f74c29c4-2c35-4ce0-8424-54da0a7fc6f4/download",
+      "direction": "lying_head_north"
+    },
+    {
+      "id": "A09_sweep_key",
+      "ref": "upload:0bfc7e3c-3058-42c7-9341-95201090b578",
+      "label": "扫地关键帧",
+      "tool": "edit",
+      "seed": 2026111139,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "description": "Keep exact south-facing student identity, face, hair, blue-white tracksuit, scale and foot anchor32,44. Both hands grasp one long brown broom handle in front of body, broom bristles near ground at x46 y43. Small practical sweeping pose. Two arms only. Crisp pixel art, transparent64x48, no floor, furniture, second person or text.",
+      "job_id": "a280f23a-ccce-457b-b06f-4bfc52f282a1",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/a280f23a-ccce-457b-b06f-4bfc52f282a1/download",
+      "direction": "multiple"
+    },
+    {
+      "id": "A10_wash_key",
+      "ref": "upload:d55aa371-7bb1-4acf-b892-4ad865105b32",
+      "label": "洗脸关键帧",
+      "tool": "edit",
+      "seed": 2026111140,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "description": "Same short dark-haired student wearing exact blue-white tracksuit facing east. Lean forward slightly toward a white ceramic sink on a pale pedestal at right x43-60, silver faucet at x51 y16. Both hands cupped together above basin ready to scoop water. Keep original head size, body scale, feet at anchor32,44, two arms only. Transparent64x48 crisp pixel art, sink fully in canvas, no room or text.",
+      "status": "completed",
+      "job_id": "9919770d-6670-4217-b137-61d0602d765a",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/9919770d-6670-4217-b137-61d0602d765a/download",
+      "direction": "multiple"
+    },
+    {
+      "id": "A11_eyes_south_key",
+      "url": "upload:a85ac0e0-b491-4a4c-8e3a-b1d790e02a49",
+      "label": "眼操关键帧",
+      "canvas": [
+        32,
+        48
+      ],
+      "tool": "edit",
+      "seed": 2026111141,
+      "anchor": [
+        16,
+        44
+      ],
+      "description": "Keep this exact student facing south, face identity, short black hair, blue-white tracksuit, scale, legs and foot anchor16,44. Both elbows bent, both fingertips gently pressing beside closed eyes/temples for eye exercises. Hands do not cover whole face. Two arms only. Crisp original pixel art, transparent32x48, no furniture or props.",
+      "ref": "upload:a85ac0e0-b491-4a4c-8e3a-b1d790e02a49",
+      "status": "completed",
+      "job_id": "0f68a45f-4f9b-4f5e-a330-80c2c879145a",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/0f68a45f-4f9b-4f5e-a330-80c2c879145a/download",
+      "direction": "south"
+    },
+    {
+      "id": "A03_relax_north_key",
+      "description": "Keep exact student seated facing north from behind, same head, uniform, silhouette, foot anchor32,44. Remove pen completely and lower right forearm. Both hands relaxed beside hips, two arms. Preserve original pixel clusters and limited palette; transparent64x48, no new items, furniture, second person or text.",
+      "tool": "edit",
+      "ref": "upload:38b5f64b-60af-4d07-b399-29a0dd61c3a6",
+      "seed": 2026111150,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "1bce513a-bad4-4bbe-b967-313114bbc848",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/1bce513a-bad4-4bbe-b967-313114bbc848/download",
+      "direction": "north"
+    },
+    {
+      "id": "B03_paper_north_key",
+      "description": "Same exact student seated facing north from behind, same head, uniform, legs and foot anchor32,44. Replace pen with a tiny white folded paper triangle pinched in right hand beside right shoulder, elbow bent ready for an underhand throw toward right. Left hand relaxed. Crisp original pixel style, transparent64x48, no table, flight trails or second person.",
+      "tool": "edit",
+      "ref": "upload:38b5f64b-60af-4d07-b399-29a0dd61c3a6",
+      "seed": 2026111151,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "b0439197-6f6c-44fc-80c1-cfb9887daf0f",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/b0439197-6f6c-44fc-80c1-cfb9887daf0f/download",
+      "direction": "north"
+    },
+    {
+      "id": "B03_flick_north_key",
+      "description": "Same seated north-facing student viewed from behind, exact head, blue-white tracksuit, legs and foot anchor32,44. Remove pen. Right forearm bent at waist toward right, fingers curled with index finger prepared to flick a tiny cream eraser by the fingertips at x45 y25. Left hand low. Crisp pixel art transparent64x48, no table, second person or effects.",
+      "tool": "edit",
+      "ref": "upload:38b5f64b-60af-4d07-b399-29a0dd61c3a6",
+      "seed": 2026111152,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "7f46e76d-164a-4e45-beae-be5ace712866",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/7f46e76d-164a-4e45-beae-be5ace712866/download",
+      "direction": "north"
+    },
+    {
+      "id": "A12_wrestle_east_key",
+      "description": "Same short dark-haired student in blue-white tracksuit facing east. Seated at table edge implied off-frame, exact head scale and feet near anchor32,44. Right elbow planted at x40 y29, right forearm rises vertically with fist at x44 y17, ready to clasp an opponent hand. Left hand braces beside hip. Only this one student, no opponent or table. Transparent64x48 crisp pixel art, same uniform and proportions.",
+      "tool": "edit",
+      "ref": "upload:d55aa371-7bb1-4acf-b892-4ad865105b32",
+      "seed": 2026111153,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "a89eca5b-228e-4fb1-be02-c19c23f9c607",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/a89eca5b-228e-4fb1-be02-c19c23f9c607/download",
+      "direction": "east"
+    },
+    {
+      "id": "A12_wrestle_west_key",
+      "description": "Same short dark-haired student in blue-white tracksuit facing west. Seated at table edge implied off-frame, exact head scale and feet near anchor32,44. Right elbow planted at x24 y29, right forearm rises vertically with fist at x20 y17, ready to clasp opponent hand. Left hand braces beside hip. Only this student, no opponent or table. Transparent64x48 crisp pixel art, same uniform and proportions.",
+      "tool": "edit",
+      "ref": "upload:601b7f9d-be4a-4d45-8216-d1f836eff253",
+      "seed": 2026111154,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "3521d643-ff2c-4de9-b876-9957c2e1648f",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/3521d643-ff2c-4de9-b876-9957c2e1648f/download",
+      "direction": "west"
+    },
+    {
+      "id": "A13_pillow_east_key",
+      "description": "Same exact student facing east, short dark hair, blue-white tracksuit, body scale and foot anchor32,44. Both hands hold a soft cream square pillow raised near right shoulder, pillow at x44 y13, ready for a playful pillow swing. Preserve original pixel style, two arms, transparent64x48. No second person, bed, floor, impact effect or text.",
+      "tool": "edit",
+      "ref": "upload:d55aa371-7bb1-4acf-b892-4ad865105b32",
+      "seed": 2026111155,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "a99737fa-deff-4a54-a60b-362adcbfdc38",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/a99737fa-deff-4a54-a60b-362adcbfdc38/download",
+      "direction": "east"
+    },
+    {
+      "id": "A13_pillow_west_key",
+      "description": "Same exact student facing west, short dark hair, blue-white tracksuit, body scale and foot anchor32,44. Both hands hold a soft cream square pillow raised near left shoulder, pillow at x20 y13, ready for a playful pillow swing. Preserve original pixel style, two arms, transparent64x48. No second person, bed, floor, impact effect or text.",
+      "tool": "edit",
+      "ref": "upload:601b7f9d-be4a-4d45-8216-d1f836eff253",
+      "seed": 2026111156,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "f1cabf0d-1cad-4fc5-a431-3a7e7af048e1",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/f1cabf0d-1cad-4fc5-a431-3a7e7af048e1/download",
+      "direction": "west"
+    },
+    {
+      "id": "A04_sleep_desk_north_v2",
+      "tool": "animate",
+      "ref": "upload:97505830-b89d-4f3d-87ed-594bc6c91c1c",
+      "frames": 4,
+      "seed": 2026111160,
+      "duration_ms": 650,
+      "action": "Hold this sleeping pose. The head stays lowered, firmly resting on the folded hands for the entire clip. Do not lift, rotate or enlarge the head at all. Animate only extremely subtle one-pixel breathing in the blue shoulders/jacket folds, returning to exactly the first frame. The hands and feet do not move at all. Sleep, no waking, no looking up. Same north-facing student, same exact palette, proportions, pixel art, transparent background.",
+      "job_id": "a4380b87-f3fb-4cbf-8c98-c0f86031c060",
+      "status": "completed",
+      "output_count": 5,
+      "download_url": "https://api.pixellab.ai/mcp/images/a4380b87-f3fb-4cbf-8c98-c0f86031c060/download",
+      "direction": "north"
+    },
+    {
+      "id": "A06_meal_north",
+      "key": "A06_meal_north_key",
+      "frames": 6,
+      "label": "持碗用餐",
+      "duration_ms": 180,
+      "action": "Seated north-facing student eats rice: right hand moves chopsticks from bowl at left to mouth beside right cheek and back; small chew pause. Bowl stays in left hand. Same head, uniform, seated body and fixed feet, exactly two arms. Transparent pixel art, no turn, no extra food, no furniture. Return to start.",
+      "tool": "animate",
+      "seed": 2026111170,
+      "ref": "https://api.pixellab.ai/mcp/images/de86eb52-c9fe-4825-b189-2a1e55d24c12/download",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "91d7c98a-419b-40aa-bc3d-e8844c03cd1b",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/91d7c98a-419b-40aa-bc3d-e8844c03cd1b/download",
+      "direction": "north"
+    },
+    {
+      "id": "A06_snack_south",
+      "key": "A06_snack_south_key",
+      "frames": 6,
+      "label": "吃零食",
+      "duration_ms": 180,
+      "action": "Facing south, take one small bite of biscuit from right hand, lower right hand a little and chew, then return to start. Left hand keeps orange snack packet at waist. Same student, face, hair, uniform, scale, legs and feet fixed. Crisp pixel art transparent background. No other objects or second person.",
+      "tool": "animate",
+      "seed": 2026111171,
+      "ref": "https://api.pixellab.ai/mcp/images/12fbabd1-5b35-4cd2-8bd4-1262248be772/download",
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "job_id": "a89905af-90ba-410c-9c3b-9ee4775aa56b",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/a89905af-90ba-410c-9c3b-9ee4775aa56b/download",
+      "direction": "south"
+    },
+    {
+      "id": "A07_computer_west",
+      "key": "A07_computer_west_key",
+      "frames": 6,
+      "label": "电脑游戏·西向",
+      "duration_ms": 140,
+      "action": "Remain seated facing west at the desktop computer. Alternate small finger taps on keyboard with right-hand mouse movement and subtle head focus. Keep monitor, desk, chair, screen shape, character head scale, uniform, hips and feet exactly stationary. Only hands and forearms move, screen remains teal. Seamless loop, transparent pixel art. No controller, phone or turn.",
+      "tool": "animate",
+      "seed": 2026111172,
+      "ref": "https://api.pixellab.ai/mcp/images/25cf76cc-fe06-42e8-ae69-7ecb1cc2963e/download",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "dab8ed67-c8d8-4e7e-97db-f0175024938b",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/dab8ed67-c8d8-4e7e-97db-f0175024938b/download",
+      "direction": "west"
+    },
+    {
+      "id": "A07_computer_east",
+      "key": "A07_computer_east_key",
+      "frames": 6,
+      "label": "电脑游戏·东向",
+      "duration_ms": 140,
+      "action": "Remain seated facing east at the desktop computer. Alternate small finger taps on keyboard with right-hand mouse movement and subtle head focus. Keep monitor, desk, chair, screen shape, character head scale, uniform, hips and feet exactly stationary. Only hands and forearms move, screen remains teal. Seamless loop, transparent pixel art. No controller, phone or turn.",
+      "tool": "animate",
+      "seed": 2026111173,
+      "ref": "https://api.pixellab.ai/mcp/images/bb3eb20d-d13d-464f-a4b7-bd76547ff678/download",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "9134e62d-b5e9-49d2-bd98-667e77d6e5a6",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/9134e62d-b5e9-49d2-bd98-667e77d6e5a6/download",
+      "direction": "east"
+    },
+    {
+      "id": "A09_sweep_south",
+      "key": "A09_sweep_key",
+      "frames": 6,
+      "label": "扫地",
+      "duration_ms": 160,
+      "action": "Same south-facing student sweeps broom bristles left then right along the ground in one compact loop. Both hands hold the same handle throughout. Bristles remain at floor height, not a sword strike. Keep head orientation, scale, uniform and feet in place. Crisp pixel art, transparent background, no dust effects, scenery, camera or extra limbs.",
+      "tool": "animate",
+      "seed": 2026111174,
+      "ref": "https://api.pixellab.ai/mcp/images/a280f23a-ccce-457b-b06f-4bfc52f282a1/download",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "14301eb3-1e07-4b99-b544-32d63dc05f03",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/14301eb3-1e07-4b99-b544-32d63dc05f03/download",
+      "direction": "south"
+    },
+    {
+      "id": "A05_bed_key_v2",
+      "tool": "edit",
+      "ref": "https://api.pixellab.ai/mcp/images/f74c29c4-2c35-4ce0-8424-54da0a7fc6f4/download",
+      "canvas": [
+        64,
+        64
+      ],
+      "anchor": [
+        32,
+        48
+      ],
+      "seed": 2026111175,
+      "description": "Keep the same wooden bed, pillow and student head. Make the student clearly lying asleep under a blanket: teal blanket pulled up to shoulders, covers entire torso, legs and shoes completely. Only small relaxed hands rest on top of blanket near chest, eyes closed, head sunk into pillow. Flat reclining body, no visible standing legs. Same head scale, pixel style and transparent64x64, bed stays exactly fixed.",
+      "job_id": "747cc20a-2a91-4c2e-a06e-4ad5050fde24",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/747cc20a-2a91-4c2e-a06e-4ad5050fde24/download",
+      "direction": "lying_head_north"
+    },
+    {
+      "id": "A03_relax_north_key_v2",
+      "urls": [
+        "upload:38b5f64b-60af-4d07-b399-29a0dd61c3a6"
+      ],
+      "description": "Keep exact seated north-facing student, head, torso, BOTH bent legs, shoes and their coordinates unchanged. ONLY remove yellow pen and lower right forearm to relaxed side. Left arm unchanged. Do not crop legs or change seated body. Same limited palette, exact crisp pixels, transparent64x48. Head faces north from behind, never turn. Both shoes remain visible at original positions.",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "ref": "upload:38b5f64b-60af-4d07-b399-29a0dd61c3a6",
+      "tool": "edit",
+      "provider_tool": "edit_image",
+      "seed": 2026111180,
+      "job_id": "9ff510b3-aae0-4d9a-8c1f-db1186792e12",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/9ff510b3-aae0-4d9a-8c1f-db1186792e12/download",
+      "charged_generations": 10,
+      "direction": "north"
+    },
+    {
+      "id": "A11_eyes_south_key_v2",
+      "urls": [
+        "upload:a85ac0e0-b491-4a4c-8e3a-b1d790e02a49"
+      ],
+      "description": "Keep exact FRONT south-facing student including visible face and original short dark hair, blue-white tracksuit, legs and shoes. ONLY change arms: both elbows bent outward, fingertips gently press beside CLOSED EYES at temples. Keep face visible between hands. Never turn to back. Same original pixel-art proportions, palette and exact foot position16,44. Transparent32x48, no props or background.",
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "ref": "upload:a85ac0e0-b491-4a4c-8e3a-b1d790e02a49",
+      "tool": "edit",
+      "provider_tool": "edit_image",
+      "seed": 2026111181,
+      "job_id": "68d0bbf9-bd16-4bf2-92ee-c969f2a25b9f",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/68d0bbf9-bd16-4bf2-92ee-c969f2a25b9f/download",
+      "direction": "south"
+    },
+    {
+      "id": "A12_wrestle_pair_key_v2",
+      "urls": [
+        "upload:d55aa371-7bb1-4acf-b892-4ad865105b32",
+        "upload:601b7f9d-be4a-4d45-8216-d1f836eff253"
+      ],
+      "description": "Each input keeps its own original facing direction and exact student identity, hair, blue-white tracksuit, head size. Change standing to clearly SEATED with bent knees and both shoes down. Arm-wrestling pose: near elbow at chest level resting on implied table, forearm vertical, fist upright in front of face toward the direction faced. Far hand braces at lap. One student per frame, no opponent, no table. Keep canvas64x48 and original pixel scale. Transparent, crisp pixel art.",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "ref": "upload:d55aa371-7bb1-4acf-b892-4ad865105b32",
+      "tool": "edit",
+      "provider_tool": "edit_image",
+      "seed": 2026111182,
+      "job_id": "5d7e4f23-f862-4fa5-ac6d-366fc9f5a34c",
+      "status": "completed",
+      "output_count": 2,
+      "download_url": "https://api.pixellab.ai/mcp/images/5d7e4f23-f862-4fa5-ac6d-366fc9f5a34c/download",
+      "charged_generations": 10,
+      "direction": "multiple"
+    },
+    {
+      "id": "A13_pillow_pair_key_v2",
+      "urls": [
+        "upload:d55aa371-7bb1-4acf-b892-4ad865105b32",
+        "upload:601b7f9d-be4a-4d45-8216-d1f836eff253"
+      ],
+      "description": "Each input preserves its OWN EXACT FACING direction east or west, profile FACE visible, same head hair, uniform, legs, shoes and foot anchor32,44. ONLY add one small cream pillow in both hands, raised in front of chest toward direction faced, ready to swing. Do not turn body or head away. Keep original pixel proportions and palette. One student per frame, no bed or scenery. Transparent64x48 crisp pixel art.",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "ref": "upload:d55aa371-7bb1-4acf-b892-4ad865105b32",
+      "tool": "edit",
+      "provider_tool": "edit_image",
+      "seed": 2026111183,
+      "job_id": "78aab2f9-5a19-4d35-8acc-20c6e1366be0",
+      "status": "completed",
+      "output_count": 2,
+      "download_url": "https://api.pixellab.ai/mcp/images/78aab2f9-5a19-4d35-8acc-20c6e1366be0/download",
+      "direction": "multiple"
+    },
+    {
+      "id": "A10_wash_face_east",
+      "key": "A10_wash_key",
+      "frames": 6,
+      "label": "洗手台洗脸",
+      "duration_ms": 180,
+      "action": "Student facing east washes face at the sink: cup both hands under faucet in basin, lift cupped hands together to face, gently rub cheeks, lower hands back to basin. Keep feet planted and head facing east, same hair uniform and scale. Sink pedestal and faucet stay exactly fixed. Tiny water drops only near hands. Transparent pixel art, no turn or extra arms.",
+      "tool": "animate",
+      "seed": 2026111190,
+      "ref": "https://api.pixellab.ai/mcp/images/9919770d-6670-4217-b137-61d0602d765a/download",
+      "last_ref": "https://api.pixellab.ai/mcp/images/9919770d-6670-4217-b137-61d0602d765a/download",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "003e5fb9-50e0-4019-84c3-55d6375d299a",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/003e5fb9-50e0-4019-84c3-55d6375d299a/download",
+      "charged_generations": 1,
+      "direction": "east"
+    },
+    {
+      "id": "B01_give_north",
+      "key": "B01_give_north_key",
+      "start": "upload:45d093ba-4e69-4b7b-ab89-3336171cd9ca",
+      "frames": 6,
+      "label": "递出书本",
+      "duration_ms": 90,
+      "loop": false,
+      "action": "One short giving gesture. Seated north-facing student lowers the small book from reading position, closes it, and extends right arm toward right neighbor to offer the closed book, reaching exact final pose. Keep left hand near body, feet and seated hips fixed. Same student, hair, uniform, pixel scale and transparent background. Only one character, no second book or extra arm.",
+      "tool": "animate",
+      "seed": 2026111191,
+      "ref": "upload:45d093ba-4e69-4b7b-ab89-3336171cd9ca",
+      "last_ref": "https://api.pixellab.ai/mcp/images/5daae85e-42b7-4e95-ac04-1d271662480a/download",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "23064d81-8c19-4036-90ee-3ce38a0d7c54",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/23064d81-8c19-4036-90ee-3ce38a0d7c54/download",
+      "charged_generations": 1,
+      "direction": "north"
+    },
+    {
+      "id": "B04_react_south",
+      "ref": "upload:a85ac0e0-b491-4a4c-8e3a-b1d790e02a49",
+      "frames": 4,
+      "label": "回神受惊",
+      "duration_ms": 110,
+      "action": "One short mild startled reaction facing south: blink, briefly draw shoulders upward and lean head back by one pixel, then relax to original face and stance. Feet do not move. Same student identity, hair, blue-white tracksuit and crisp pixel art on transparency. No stars, effects, new items, camera or turning.",
+      "tool": "animate",
+      "seed": 2026111192,
+      "last_ref": "upload:a85ac0e0-b491-4a4c-8e3a-b1d790e02a49",
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "job_id": "63f4fdaf-2ce6-4bef-b620-1cd9db1b400a",
+      "status": "completed",
+      "output_count": 5,
+      "download_url": "https://api.pixellab.ai/mcp/images/63f4fdaf-2ce6-4bef-b620-1cd9db1b400a/download",
+      "charged_generations": 1,
+      "direction": "south"
+    },
+    {
+      "id": "B04_happy_south",
+      "ref": "upload:a85ac0e0-b491-4a4c-8e3a-b1d790e02a49",
+      "frames": 4,
+      "label": "振作高兴",
+      "duration_ms": 120,
+      "action": "One compact happy encouragement reaction facing south: slight smile, raise one small clenched fist near chest, nod once, lower fist to original stance. Keep feet stationary, same student, original head proportions, blue-white uniform and pixel palette. Transparent background, no props, symbols or large jump.",
+      "tool": "animate",
+      "seed": 2026111193,
+      "last_ref": "upload:a85ac0e0-b491-4a4c-8e3a-b1d790e02a49",
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "job_id": "90479d22-63c6-4d20-a48e-495f72618c88",
+      "status": "completed",
+      "output_count": 5,
+      "download_url": "https://api.pixellab.ai/mcp/images/90479d22-63c6-4d20-a48e-495f72618c88/download",
+      "charged_generations": 1,
+      "direction": "south"
+    },
+    {
+      "id": "B04_sad_south",
+      "ref": "upload:a85ac0e0-b491-4a4c-8e3a-b1d790e02a49",
+      "frames": 4,
+      "label": "失落困惑",
+      "duration_ms": 160,
+      "action": "One short disappointed/confused reaction facing south: brows soften, head dips slightly by one pixel, shoulders slump gently, then return to original neutral stance. Keep feet and hips fixed. Same exact student, hair, face, blue-white tracksuit and pixel art on transparency. No tears, icons, camera or turn.",
+      "tool": "animate",
+      "seed": 2026111194,
+      "last_ref": "upload:a85ac0e0-b491-4a4c-8e3a-b1d790e02a49",
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "job_id": "cb99f4a0-5114-492a-9550-29443965d048",
+      "status": "completed",
+      "output_count": 5,
+      "download_url": "https://api.pixellab.ai/mcp/images/cb99f4a0-5114-492a-9550-29443965d048/download",
+      "charged_generations": 1,
+      "direction": "south"
+    },
+    {
+      "id": "A11_eye_exercise_south",
+      "key": "A11_eyes_south_key_v2",
+      "frames": 6,
+      "label": "眼保健操",
+      "duration_ms": 220,
+      "action": "Keep facing SOUTH with face visible, eyes closed. Both fingertips stay in contact with temples beside eyes and make tiny circular massage motions. Elbows, hair, head orientation, torso, uniform, legs and feet stay fixed. Same original student pixel art. Gentle closed loop, transparent background, no turn, no covering whole face, no new props.",
+      "tool": "animate",
+      "seed": 2026111200,
+      "ref": "https://api.pixellab.ai/mcp/images/68d0bbf9-bd16-4bf2-92ee-c969f2a25b9f/download",
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "job_id": "232b0cdb-1967-40fc-b8a0-76ed8e527a0c",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/232b0cdb-1967-40fc-b8a0-76ed8e527a0c/download",
+      "charged_generations": 1,
+      "direction": "south"
+    },
+    {
+      "id": "A06_meal_north_v2",
+      "key": "A06_meal_north_key",
+      "frames": 6,
+      "label": "持碗用餐·修订",
+      "duration_ms": 200,
+      "action": "North-facing seated eating loop. HOLD bowl still in left hand. Right hand and chopsticks move ONLY two pixels inward toward right cheek/mouth, tiny chewing pause, two pixels outward and return. Right hand NEVER rises above shoulder or head. Chopsticks stay in hand and remain visible. No tossed food, no steam, no flying white particles. Keep head and feet fixed, same character and transparent pixel art.",
+      "tool": "animate",
+      "seed": 2026111201,
+      "ref": "https://api.pixellab.ai/mcp/images/de86eb52-c9fe-4825-b189-2a1e55d24c12/download",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "bed73d8d-da8b-4b1a-97c4-533c314bd676",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/bed73d8d-da8b-4b1a-97c4-533c314bd676/download",
+      "charged_generations": 1,
+      "direction": "north"
+    },
+    {
+      "id": "A05_bed_key_v3",
+      "tool": "edit",
+      "provider_tool": "edit_image",
+      "ref": "https://api.pixellab.ai/mcp/images/747cc20a-2a91-4c2e-a06e-4ad5050fde24/download",
+      "canvas": [
+        64,
+        64
+      ],
+      "anchor": [
+        32,
+        48
+      ],
+      "seed": 2026111202,
+      "description": "Keep bed, pillow, head and exact scale. Student is sleeping flat under covers. Extend teal blanket UP to the NECK, leaving only head and two small relaxed hands visible; blanket covers the whole tracksuit, all legs and both shoes. No shoes visible anywhere. Eyes closed. Body is fully hidden under blanket from neck to foot of bed. Head rests on pillow. Preserve crisp pixel art, existing bed coordinates and transparency.",
+      "job_id": "91c4b383-23a5-4ab4-a09d-d20d9c9c7b34",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/91c4b383-23a5-4ab4-a09d-d20d9c9c7b34/download",
+      "charged_generations": 10,
+      "direction": "lying_head_north"
+    },
+    {
+      "id": "A05_sleep_bed",
+      "ref": "https://api.pixellab.ai/mcp/images/91c4b383-23a5-4ab4-a09d-d20d9c9c7b34/download",
+      "frames": 4,
+      "label": "卧床睡眠",
+      "canvas": [
+        64,
+        64
+      ],
+      "anchor": [
+        32,
+        48
+      ],
+      "direction": "south",
+      "duration_ms": 650,
+      "action": "Sleeping flat under blanket, eyes remain closed and head stays on pillow. Only tiny one-pixel blanket breathing rise and fall at chest, then return. All wooden bed edges, pillow, blanket outer edges and hands stay fixed. Do not reveal legs or shoes, do not sit up, no head lifting. Same crisp pixel art and transparent background.",
+      "tool": "animate",
+      "seed": 2026111210,
+      "job_id": "d97dbfa9-16f1-4fb5-a4f3-a4b9a32babbf",
+      "status": "completed",
+      "output_count": 5,
+      "download_url": "https://api.pixellab.ai/mcp/images/d97dbfa9-16f1-4fb5-a4f3-a4b9a32babbf/download",
+      "charged_generations": 1
+    },
+    {
+      "id": "A03_relax_seated_north",
+      "ref": "https://api.pixellab.ai/mcp/images/9ff510b3-aae0-4d9a-8c1f-db1186792e12/download",
+      "frames": 4,
+      "label": "坐姿放松",
+      "duration_ms": 260,
+      "action": "Seated relaxed idle north-facing from behind, both hands resting beside hips. Gentle one-pixel breathing in shoulders only. Keep head direction, entire seated hips, both bent legs and shoes exactly fixed. Same character, original silhouette, blue-white uniform, limited palette and crisp pixels. Transparent background, no pen, new props, turning or standing.",
+      "tool": "animate",
+      "seed": 2026111211,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "0427388e-02da-41b5-bca5-f4f7e9a35902",
+      "status": "completed",
+      "output_count": 5,
+      "download_url": "https://api.pixellab.ai/mcp/images/0427388e-02da-41b5-bca5-f4f7e9a35902/download",
+      "charged_generations": 1,
+      "direction": "north"
+    },
+    {
+      "id": "B01_receive_north",
+      "ref": "https://api.pixellab.ai/mcp/images/cdd9a246-a33f-4220-8a97-0d3a16605109/download",
+      "last_ref": "https://api.pixellab.ai/mcp/images/9ff510b3-aae0-4d9a-8c1f-db1186792e12/download",
+      "frames": 4,
+      "label": "伸手接收与收臂",
+      "loop": false,
+      "duration_ms": 110,
+      "action": "One short receiving hand gesture. North-facing seated student curls extended open right palm slightly, draws right forearm back toward chest, then lowers arm to relaxed final pose. Hand stays empty; transferred item is a separate runtime prop. Keep head, torso, legs and feet fixed, same character palette and pixel art. Transparent, no pen or new items.",
+      "tool": "animate",
+      "seed": 2026111212,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "1fba11db-ba06-4927-856b-bca1654f495a",
+      "status": "completed",
+      "output_count": 5,
+      "download_url": "https://api.pixellab.ai/mcp/images/1fba11db-ba06-4927-856b-bca1654f495a/download",
+      "charged_generations": 1,
+      "direction": "north"
+    },
+    {
+      "id": "B02_raise_north",
+      "ref": "https://api.pixellab.ai/mcp/images/9ff510b3-aae0-4d9a-8c1f-db1186792e12/download",
+      "last_ref": "https://api.pixellab.ai/mcp/images/34b27d9c-5e2f-4d39-a1fa-bb24756973a3/download",
+      "frames": 6,
+      "label": "举手抢答",
+      "loop": false,
+      "duration_ms": 90,
+      "action": "One clear hand-raising gesture. Seated north-facing student raises right forearm upward from relaxed side, straightens elbow and reaches open hand above shoulder to exact ending pose. Keep left hand, hips, legs, shoes and head orientation fixed. Same student, hair and blue-white uniform, transparent crisp pixel art. No pen or new props.",
+      "tool": "animate",
+      "seed": 2026111213,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "77702d02-f21c-4c31-9eab-89546c3c44d3",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/77702d02-f21c-4c31-9eab-89546c3c44d3/download",
+      "charged_generations": 1,
+      "direction": "north"
+    },
+    {
+      "id": "B02_point_north",
+      "ref": "https://api.pixellab.ai/mcp/images/9ff510b3-aae0-4d9a-8c1f-db1186792e12/download",
+      "last_ref": "https://api.pixellab.ai/mcp/images/54a7c874-38c3-48bc-8a97-7c8d814bbeb8/download",
+      "frames": 6,
+      "label": "指向与邀请示意",
+      "loop": false,
+      "duration_ms": 90,
+      "action": "One short explanatory/inviting gesture. Seated north-facing student lifts right forearm from side and extends open palm toward right neighbor, ending exactly at reference. Small head interest but keep north orientation. Left arm, hips, legs and feet fixed. Same original student, hair, uniform, pixel scale and transparency. No props, second person or camera.",
+      "tool": "animate",
+      "seed": 2026111214,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "db007f10-b032-4609-8144-f42add325ef5",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/db007f10-b032-4609-8144-f42add325ef5/download",
+      "charged_generations": 1,
+      "direction": "north"
+    },
+    {
+      "id": "A12_wrestle_west",
+      "ref": "https://api.pixellab.ai/mcp/images/5d7e4f23-f862-4fa5-ac6d-366fc9f5a34c/download?index=0",
+      "frames": 6,
+      "label": "掰手腕僵持·西向",
+      "direction": "west",
+      "duration_ms": 170,
+      "action": "Seated facing WEST, arm-wrestling strain loop. Hold bent near arm with elbow resting on implied table and fist upright in front of face. Elbow and fist remain at EXACT same pixels for partner contact. Only shoulder and torso breathe with slight effort, tiny blink. Keep seated legs and feet fixed, same student, hair, uniform and pixel scale. Transparent background, no table, other person, victory or hand swing.",
+      "tool": "animate",
+      "seed": 2026111215,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "d6cc23b4-8eab-4527-8085-19f43ae5c538",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/d6cc23b4-8eab-4527-8085-19f43ae5c538/download",
+      "charged_generations": 1
+    },
+    {
+      "id": "A13_pillow_east",
+      "ref": "https://api.pixellab.ai/mcp/images/78aab2f9-5a19-4d35-8acc-20c6e1366be0/download?index=0",
+      "frames": 6,
+      "label": "挥枕头·东向",
+      "direction": "east",
+      "duration_ms": 130,
+      "action": "Facing EAST throughout, make one compact playful pillow swing toward right: raise cream pillow slightly, swing forward right in a short arc at chest height, recover to initial ready pose. Both hands keep holding pillow, face stays in east profile, feet stay planted. Same student hair, uniform and scale. Full pillow remains in64x48 canvas with margins. Transparent, no opponent, impact effects or turn.",
+      "tool": "animate",
+      "seed": 2026111216,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "33612515-b95e-4ca6-b0cb-e991940e9e9d",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/33612515-b95e-4ca6-b0cb-e991940e9e9d/download",
+      "charged_generations": 1
+    },
+    {
+      "id": "B03_paper_key_v2",
+      "ref": "https://api.pixellab.ai/mcp/images/b0439197-6f6c-44fc-80c1-cfb9887daf0f/download",
+      "description": "Preserve exact north-facing seated student, head, uniform, legs, shoes and pixel scale. Remove white flying object above the hand. Put a tiny folded white paper triangle firmly PINCHED BETWEEN right thumb and index finger beside right shoulder; no gap between hand and paper. Same right bent arm ready to throw, left hand down. Transparent64x48, no new scenery or second person.",
+      "tool": "edit",
+      "provider_tool": "edit_image",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "seed": 2026111220,
+      "job_id": "9d1b1b0c-49c7-4171-ab93-7f955c5722a4",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/9d1b1b0c-49c7-4171-ab93-7f955c5722a4/download",
+      "charged_generations": 10
+    },
+    {
+      "id": "B03_flick_key_v2",
+      "ref": "upload:38b5f64b-60af-4d07-b399-29a0dd61c3a6",
+      "description": "Keep exact north-facing seated student, head, uniform, both bent legs, shoes and coordinates. Remove pen. Lower right forearm horizontally to waist at y27, right elbow at x40 y28, right fingertips at x48 y27. Thumb curls against index finger ready to FLICK a tiny cream eraser touching fingertips. Left hand relaxed. Two arms only, transparent64x48, no furniture, flying object or second person.",
+      "tool": "edit",
+      "provider_tool": "edit_image",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "seed": 2026111221,
+      "job_id": "b31a8215-3095-4de4-9757-cbe92c5b3593",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/b31a8215-3095-4de4-9757-cbe92c5b3593/download",
+      "charged_generations": 10
+    },
+    {
+      "id": "A11_eyes_north_key",
+      "ref": "upload:45d093ba-4e69-4b7b-ab89-3336171cd9ca",
+      "description": "Keep exact seated student facing north from behind, original head, outfit, bent legs, shoes and foot anchor32,44. Remove paper and pen. Both elbows bent outward, fingertips touch both sides of head at temples for eye exercises. Back of head stays visible, never turn face toward viewer. Same original pixel palette and crisp clusters, transparent64x48. No books, furniture or second person.",
+      "tool": "edit",
+      "provider_tool": "edit_image",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "seed": 2026111222,
+      "job_id": "12215e90-a5da-40d7-8993-8600a6c60924",
+      "status": "completed",
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/12215e90-a5da-40d7-8993-8600a6c60924/download",
+      "charged_generations": 10
+    },
+    {
+      "id": "B03_throw_paper_north",
+      "ref": "https://api.pixellab.ai/mcp/images/9d1b1b0c-49c7-4171-ab93-7f955c5722a4/download",
+      "last_ref": "https://api.pixellab.ai/mcp/images/9ff510b3-aae0-4d9a-8c1f-db1186792e12/download",
+      "frames": 6,
+      "label": "纸条抛出",
+      "loop": false,
+      "duration_ms": 90,
+      "action": "One short underhand paper throw toward RIGHT neighbor. Start with folded white paper firmly pinched in right hand. Forearm swings outward right, fingers open at release, then empty hand lowers to relaxed ending pose. The paper exits to the right once, do not duplicate or return it. Same seated north-facing student, fixed feet, hips, head, uniform, transparent crisp pixel art.",
+      "tool": "animate",
+      "seed": 2026111230,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "a87bfca6-0fe6-45a5-8c68-32be185db5f1",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/a87bfca6-0fe6-45a5-8c68-32be185db5f1/download",
+      "charged": "1 generation",
+      "direction": "north"
+    },
+    {
+      "id": "B03_flick_eraser_north",
+      "ref": "https://api.pixellab.ai/mcp/images/b31a8215-3095-4de4-9757-cbe92c5b3593/download",
+      "last_ref": "https://api.pixellab.ai/mcp/images/9ff510b3-aae0-4d9a-8c1f-db1186792e12/download",
+      "frames": 6,
+      "label": "弹指橡皮",
+      "loop": false,
+      "duration_ms": 80,
+      "action": "One short FINGER FLICK toward right. Keep elbow low at waist; thumb releases curled index finger, tiny eraser leaves fingertips to right, then right hand relaxes downward. This is a small finger snap, not an arm throw. No second eraser or repeated projectile. Same seated north-facing student, fixed hips, head, legs and feet, original pixel art and transparency.",
+      "tool": "animate",
+      "seed": 2026111231,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "7769a3e6-a98c-4922-9c52-b0fe2f2a143a",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/7769a3e6-a98c-4922-9c52-b0fe2f2a143a/download",
+      "charged": "1 generation",
+      "direction": "north"
+    },
+    {
+      "id": "A11_eye_exercise_north",
+      "ref": "https://api.pixellab.ai/mcp/images/12215e90-a5da-40d7-8993-8600a6c60924/download",
+      "frames": 6,
+      "label": "眼保健操·坐姿北向",
+      "duration_ms": 220,
+      "action": "Seated NORTH-facing student from behind massages temples. Both fingertips stay touching the sides of head, tiny circular rub motions. Keep head down facing north, torso, hips, both bent legs and shoes completely fixed. Same hair, blue-white uniform, pixel scale and palette. Transparent, no turn, stand, furniture, books or extra limbs.",
+      "tool": "animate",
+      "seed": 2026111232,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "70bfc2df-9e01-4969-aaba-4bc1dd40c2cd",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/70bfc2df-9e01-4969-aaba-4bc1dd40c2cd/download",
+      "charged": "1 generation",
+      "direction": "north"
+    },
+    {
+      "id": "A08_exercise_east",
+      "ref": "upload:d55aa371-7bb1-4acf-b892-4ad865105b32",
+      "frames": 8,
+      "label": "徒手运动·东向",
+      "direction": "east",
+      "duration_ms": 140,
+      "action": "Facing EAST profile throughout, perform compact unarmed exercise loop: bend knees slightly, alternately step in place and stretch both arms forward at shoulder height, lower arms to initial pose. Keep same small ground area and head scale. Same student face, hair, blue-white tracksuit, crisp original pixel art and transparent background. No equipment, turn, camera or displacement.",
+      "tool": "animate",
+      "seed": 2026111233,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "job_id": "de182b59-8355-4b18-b6f5-89e3c798d84f",
+      "status": "completed",
+      "output_count": 9,
+      "download_url": "https://api.pixellab.ai/mcp/images/de182b59-8355-4b18-b6f5-89e3c798d84f/download",
+      "charged": "1 generation"
+    },
+    {
+      "id": "A04_sleep_desk_north_v3",
+      "source": "A04_sleep_desk_north_v2",
+      "count": 4,
+      "label": "趴桌呼吸·姿态修订",
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "duration_ms": 650,
+      "description": "Correct every frame to SLEEPING with head firmly resting LOW on folded forearms, the exact lowered head silhouette of first frame. No lifting or waking at all. Keep north back view, original seated body, legs and feet coordinates. Preserve small breathing by subtle jacket/shoulder shading only, not moving the head. Same original student uniform, pixel scale and transparent background.",
+      "tool": "animate",
+      "provider_tool": "edit_animation",
+      "seed": 2026111240,
+      "frames": 4,
+      "ref": "job:a4380b87-f3fb-4cbf-8c98-c0f86031c060",
+      "action": "Correct every frame to SLEEPING with head firmly resting LOW on folded forearms, the exact lowered head silhouette of first frame. No lifting or waking at all. Keep north back view, original seated body, legs and feet coordinates. Preserve small breathing by subtle jacket/shoulder shading only, not moving the head. Same original student uniform, pixel scale and transparent background.",
+      "input_frames": [
+        "job:a4380b87-f3fb-4cbf-8c98-c0f86031c060:0",
+        "job:a4380b87-f3fb-4cbf-8c98-c0f86031c060:1",
+        "job:a4380b87-f3fb-4cbf-8c98-c0f86031c060:2",
+        "job:a4380b87-f3fb-4cbf-8c98-c0f86031c060:3"
+      ],
+      "job_id": "ee142adc-1598-42eb-ae7e-9cd2b09ffa47",
+      "status": "completed",
+      "output_count": 4,
+      "download_url": "https://api.pixellab.ai/mcp/images/ee142adc-1598-42eb-ae7e-9cd2b09ffa47/download",
+      "charged": "10 generations",
+      "direction": "north"
+    },
+    {
+      "id": "A13_pillow_east_v2",
+      "source": "A13_pillow_east",
+      "count": 7,
+      "label": "挥枕头·东向修订",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "duration_ms": 130,
+      "description": "Keep student facing EAST in exact right-side PROFILE in EVERY frame, head and torso never turn south toward viewer. Preserve pillow swing motion and same original character, head size, hair, blue-white tracksuit, legs and feet. Both hands keep gripping the same cream pillow, no arm detaches. Pillow remains fully in canvas. Transparent, crisp consistent pixel art.",
+      "tool": "animate",
+      "provider_tool": "edit_animation",
+      "seed": 2026111241,
+      "frames": 7,
+      "ref": "job:33612515-b95e-4ca6-b0cb-e991940e9e9d",
+      "action": "Keep student facing EAST in exact right-side PROFILE in EVERY frame, head and torso never turn south toward viewer. Preserve pillow swing motion and same original character, head size, hair, blue-white tracksuit, legs and feet. Both hands keep gripping the same cream pillow, no arm detaches. Pillow remains fully in canvas. Transparent, crisp consistent pixel art.",
+      "input_frames": [
+        "job:33612515-b95e-4ca6-b0cb-e991940e9e9d:0",
+        "job:33612515-b95e-4ca6-b0cb-e991940e9e9d:1",
+        "job:33612515-b95e-4ca6-b0cb-e991940e9e9d:2",
+        "job:33612515-b95e-4ca6-b0cb-e991940e9e9d:3",
+        "job:33612515-b95e-4ca6-b0cb-e991940e9e9d:4",
+        "job:33612515-b95e-4ca6-b0cb-e991940e9e9d:5",
+        "job:33612515-b95e-4ca6-b0cb-e991940e9e9d:6"
+      ],
+      "job_id": "180e1d8a-8cf0-44c8-a893-898264b33907",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/180e1d8a-8cf0-44c8-a893-898264b33907/download",
+      "charged": "10 generations",
+      "direction": "east"
+    },
+    {
+      "id": "A12_wrestle_west_v2",
+      "source": "A12_wrestle_west",
+      "count": 6,
+      "label": "掰手腕·接触姿态修订",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "duration_ms": 170,
+      "description": "Keep same WEST-facing seated student, exact hair, face, uniform and pixel proportions. Correct near arm to arm-wrestling stance: ELBOW planted at x28,y28, forearm VERTICAL, fist upright at x26,y18, same contact location EVERY FRAME, not a fist raised away from table. Other hand rests on lap. Preserve tiny shoulder strain. Seated hips, bent legs and shoes stay fixed. No opponent, table, extra arms or background.",
+      "tool": "animate",
+      "provider_tool": "edit_animation",
+      "seed": 2026111242,
+      "frames": 6,
+      "ref": "job:d6cc23b4-8eab-4527-8085-19f43ae5c538",
+      "action": "Keep same WEST-facing seated student, exact hair, face, uniform and pixel proportions. Correct near arm to arm-wrestling stance: ELBOW planted at x28,y28, forearm VERTICAL, fist upright at x26,y18, same contact location EVERY FRAME, not a fist raised away from table. Other hand rests on lap. Preserve tiny shoulder strain. Seated hips, bent legs and shoes stay fixed. No opponent, table, extra arms or background.",
+      "input_frames": [
+        "job:d6cc23b4-8eab-4527-8085-19f43ae5c538:0",
+        "job:d6cc23b4-8eab-4527-8085-19f43ae5c538:1",
+        "job:d6cc23b4-8eab-4527-8085-19f43ae5c538:2",
+        "job:d6cc23b4-8eab-4527-8085-19f43ae5c538:3",
+        "job:d6cc23b4-8eab-4527-8085-19f43ae5c538:4",
+        "job:d6cc23b4-8eab-4527-8085-19f43ae5c538:5"
+      ],
+      "job_id": "ec89f4ed-b8dd-4857-b1d1-3a6e63880de0",
+      "status": "completed",
+      "output_count": 6,
+      "download_url": "https://api.pixellab.ai/mcp/images/ec89f4ed-b8dd-4857-b1d1-3a6e63880de0/download",
+      "charged": "10 generations",
+      "direction": "west"
+    },
+    {
+      "id": "A06_candy_south",
+      "source": "A06_snack_south",
+      "count": 6,
+      "label": "吃糖",
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "duration_ms": 180,
+      "description": "Preserve every frame's character, FRONT facing, exact face hair uniform, poses and eating motion. Only replace biscuit with one tiny white candy held between fingers and orange snack bag with a small blue-and-white candy wrapper in left hand. Candy enters mouth as right hand approaches, same chewing loop. Keep exact pixel scale, two hands, transparency, no new objects or scenery.",
+      "tool": "animate",
+      "provider_tool": "edit_animation",
+      "seed": 2026111243,
+      "frames": 6,
+      "ref": "job:a89905af-90ba-410c-9c3b-9ee4775aa56b",
+      "action": "Preserve every frame's character, FRONT facing, exact face hair uniform, poses and eating motion. Only replace biscuit with one tiny white candy held between fingers and orange snack bag with a small blue-and-white candy wrapper in left hand. Candy enters mouth as right hand approaches, same chewing loop. Keep exact pixel scale, two hands, transparency, no new objects or scenery.",
+      "input_frames": [
+        "job:a89905af-90ba-410c-9c3b-9ee4775aa56b:0",
+        "job:a89905af-90ba-410c-9c3b-9ee4775aa56b:1",
+        "job:a89905af-90ba-410c-9c3b-9ee4775aa56b:2",
+        "job:a89905af-90ba-410c-9c3b-9ee4775aa56b:3",
+        "job:a89905af-90ba-410c-9c3b-9ee4775aa56b:4",
+        "job:a89905af-90ba-410c-9c3b-9ee4775aa56b:5"
+      ],
+      "job_id": "a2646820-7a89-4357-abd1-75a4b08d992a",
+      "status": "completed",
+      "output_count": 6,
+      "download_url": "https://api.pixellab.ai/mcp/images/a2646820-7a89-4357-abd1-75a4b08d992a/download",
+      "charged": "10 generations",
+      "direction": "south"
+    },
+    {
+      "id": "B04_wake_north",
+      "ref": "upload:97505830-b89d-4f3d-87ed-594bc6c91c1c",
+      "tool": "animate",
+      "seed": 2026111250,
+      "frames": 4,
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "label": "趴睡回神",
+      "direction": "north",
+      "duration_ms": 150,
+      "loop": false,
+      "action": "One waking-up reaction: north-facing seated student lifts sleepy head from folded forearms, blinks unseen, straightens upper back to attentive seated posture and holds. Head rises about four pixels, hands unfold and relax low. Keep hips, both bent legs and feet exactly stationary. Same original student hair, blue-white uniform, pixel scale and transparent background. No standing, turn, new book, pen or symbols.",
+      "job_id": "671a939d-1aa5-48e6-bb0f-248db79d2450",
+      "status": "completed",
+      "output_count": 5,
+      "download_url": "https://api.pixellab.ai/mcp/images/671a939d-1aa5-48e6-bb0f-248db79d2450/download",
+      "charged": "1 generation"
+    },
+    {
+      "id": "A03_relax_seated_north_v2",
+      "label": "坐姿放松·去气泡并固定坐姿",
+      "tool": "animate",
+      "generator": "edit_animation",
+      "source_clip": "A03_relax_seated_north",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "direction": "north",
+      "loop": true,
+      "duration_ms": 260,
+      "description": "Correct this entire animation. Remove every speech bubble, white cloud, icon, star and effect above or beside the student; those pixels must be transparent. Preserve frame 0 seated hips, both bent legs and white shoes pixel exactly across all frames, anchor x32 y44; no legs pulled together. Same back-facing north student, short black hair, blue-white tracksuit and exact scale. Hands relaxed at sides. Only shoulders breathe subtly by one pixel, no changes to head or feet. Crisp pixel art on transparency.",
+      "seed": 2026111300,
+      "job_id": "cfb931b8-43a6-4c30-8217-03afe26e9277",
+      "status": "completed",
+      "output_count": 4,
+      "download_url": "https://api.pixellab.ai/mcp/images/cfb931b8-43a6-4c30-8217-03afe26e9277/download",
+      "charged": "10 generations"
+    },
+    {
+      "id": "B01_receive_north_v2",
+      "label": "伸手接收·去除附加特效",
+      "tool": "animate",
+      "generator": "edit_animation",
+      "source_clip": "B01_receive_north",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "direction": "north",
+      "loop": false,
+      "duration_ms": 110,
+      "description": "Remove all stars, sparkles, pink or white glowing effects, bubbles and objects that were added around the right hand. Right hand stays anatomically normal, bare, empty, skin coloured, open palm curling and drawing back to chest then relaxed. Preserve the original receiving arm motion of each frame. Keep head facing north, same black-haired blue-white school uniform student, torso, seated hips, legs and shoes in identical fixed positions; transparent background with no VFX.",
+      "seed": 2026111301,
+      "job_id": "61221e4c-4985-410c-82fa-d9a2aab316dd",
+      "status": "completed",
+      "output_count": 5,
+      "download_url": "https://api.pixellab.ai/mcp/images/61221e4c-4985-410c-82fa-d9a2aab316dd/download",
+      "charged": "10 generations"
+    },
+    {
+      "id": "B02_raise_north_v2",
+      "label": "举手抢答·固定下身",
+      "tool": "animate",
+      "generator": "edit_animation",
+      "source_clip": "B02_raise_north",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "direction": "north",
+      "loop": false,
+      "duration_ms": 90,
+      "description": "Preserve the right-arm hand raising motion of all frames, ending with open hand high above shoulder. Correct the seated lower body: copy the exact bent hips, legs and shoes from input frame 0 to all frames. Both shoes stay exactly at x32 y44 foot anchor, no knees lifting, jumping, crouching or body rising. Same north-facing head, left arm, black hair, blue-white tracksuit and exact scale. No new props or effects. Pixel art transparency.",
+      "seed": 2026111302,
+      "job_id": "3f0874c0-38d2-4874-a963-5456717831f5",
+      "status": "completed",
+      "output_count": 7,
+      "download_url": "https://api.pixellab.ai/mcp/images/3f0874c0-38d2-4874-a963-5456717831f5/download",
+      "charged": "10 generations"
+    },
+    {
+      "id": "A06_meal_north_v3",
+      "label": "持碗用餐·去除蒸汽和漂浮粒子",
+      "tool": "animate",
+      "generator": "edit_animation",
+      "source_clip": "A06_meal_north_v2",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "direction": "north",
+      "loop": true,
+      "duration_ms": 200,
+      "description": "Remove ALL floating white/pink particles, steam, dots, cloud puffs and effects above the head and around the bowl from every frame, leaving those places transparent. Keep ONLY the real student, bowl in left hand, and chopsticks firmly in the right hand. Right hand and attached chopsticks approach the right cheek then return to bowl in a subtle eating loop. Preserve same north-facing black-haired student, blue-white uniform, seated legs and feet fixed. Do not alter head, uniform, proportions or pose to add effects. Crisp pixel art on transparency.",
+      "seed": 2026111303,
+      "job_id": "32896ecd-8427-4c95-83a8-37567163fce5",
+      "status": "completed",
+      "output_count": 6,
+      "download_url": "https://api.pixellab.ai/mcp/images/32896ecd-8427-4c95-83a8-37567163fce5/download",
+      "charged": "10 generations"
+    },
+    {
+      "id": "B04_wake_north_v2",
+      "label": "趴睡醒来·北向修订",
+      "tool": "animate",
+      "generator": "edit_animation",
+      "source_clip": "B04_wake_north",
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "direction": "north",
+      "loop": false,
+      "duration_ms": [
+        250,
+        150,
+        150,
+        150,
+        350
+      ],
+      "description": "Fix facing direction consistently in ALL five frames. This student is viewed FROM BEHIND, looking NORTH away from the camera. Every head must show ONLY the back of the same short black hair and nape, absolutely no eyes, no nose, no mouth, no face. Frame 0 head lowered resting on forearms, frames 1-3 lift back of head slightly to upright north-facing nape, frame 4 ends sitting upright seen from behind. Keep fixed north-facing blue-white jacket BACK panel, no front zipper, no shoulder straps; keep seated hips, legs, shoes and foot anchor x16 y44 identical across frames. Both hands lower from desk to sides while waking. Preserve exact scale and crisp pixel art, transparent background, no particles.",
+      "seed": 2026111310,
+      "job_id": "4ed1a9bb-122c-4dea-8f50-b76d3c2d5286",
+      "status": "completed",
+      "output_count": 5,
+      "download_url": "https://api.pixellab.ai/mcp/images/4ed1a9bb-122c-4dea-8f50-b76d3c2d5286/download",
+      "charged": "10 generations"
+    },
+    {
+      "id": "A12_wrestle_west_v3",
+      "label": "掰手腕·前臂发力",
+      "tool": "animate",
+      "source_clip": "A12_wrestle_west_v2",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "direction": "west",
+      "loop": true,
+      "duration_ms": 170,
+      "description": "Side view facing LEFT throughout. Arm wrestling exertion loop: fix the visible right elbow at x29 y29, fist starts x26 y18. Upper body stays seated upright. Tilt the forearm about that fixed elbow, pushing the gripped fist 4 pixels TO THE LEFT (x22 y20) in first half, resisting and returning to starting fist (x26 y18) in second half. Very clear lateral pressure, NOT waving, saluting, drinking or touching face. Keep fist clenched with thumb over fingers and vertical forearm. Keep left hand on lap, head, torso, bent legs and shoes fixed. Preserve same black-haired blue-white school-uniform student, exact scale, transparent crisp pixel art, no table or props. Start and end same pose.",
+      "seed": 2026111320,
+      "job_id": "2324e84f-57e2-408b-8cc6-5a6ba2723e7f",
+      "status": "completed",
+      "output_count": 9,
+      "download_url": "https://api.pixellab.ai/mcp/images/2324e84f-57e2-408b-8cc6-5a6ba2723e7f/download",
+      "charged": "1 generation"
+    },
+    {
+      "id": "B03_flick_eraser_north_v2",
+      "label": "弹橡皮·桌边弹指",
+      "tool": "animate",
+      "source_clip": "B03_flick_eraser_north",
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "direction": "north",
+      "loop": false,
+      "duration_ms": 100,
+      "description": "A tiny quick finger-flick gesture only, north-facing seated schoolboy viewed from behind. Keep right elbow LOW at waist height y32 and hand at desk height y29. Curl right index finger against thumb, flick the index finger HORIZONTALLY to the right by 2 pixels, relax and bring hand back. Absolutely no raising arm above shoulder, no overhead throwing. The small eraser is a separate prop and NOT drawn into this animation. No magical effects, no clouds, no sparkles or speed lines. Head hair, jacket back, torso, bent legs and feet exactly unchanged. Crisp pixel art transparent background.",
+      "seed": 2026111321,
+      "job_id": "13e7a010-e1ac-48b0-8d68-9a4369525641",
+      "status": "completed",
+      "output_count": 5,
+      "download_url": "https://api.pixellab.ai/mcp/images/13e7a010-e1ac-48b0-8d68-9a4369525641/download",
+      "charged": "1 generation"
+    },
+    {
+      "id": "A01_write_north_v2",
+      "tool": "edit_animation",
+      "seed": 2026111172,
+      "source_frames": [
+        "job:394fe92f-11e8-442b-931f-fb1978e54b90:0",
+        "job:394fe92f-11e8-442b-931f-fb1978e54b90:1",
+        "job:394fe92f-11e8-442b-931f-fb1978e54b90:2",
+        "job:394fe92f-11e8-442b-931f-fb1978e54b90:3",
+        "job:394fe92f-11e8-442b-931f-fb1978e54b90:4",
+        "job:394fe92f-11e8-442b-931f-fb1978e54b90:5"
+      ],
+      "frames": 6,
+      "description": "Revise ONLY the student's jacket BACK AND TORSO SHAPE consistently across ALL SIX ordered animation frames. Keep the same small dark-haired Chinese schoolboy, blue and white tracksuit, north-facing rear view, seated writing motion, the same hands, pencil, paper, legs, shoes, canvas size and feet position. The existing back looks like a flat white square sign or rigid backpack. Replace that rectangular plate with believable soft cloth: gently sloped rounded shoulders, a slight forward bend while writing, upper torso broader than the subtly tapered waist, curved sides and a softly shaped hem. Keep the blue-and-white uniform identity, but make the white back fabric a shaped textile panel rather than a perfect rectangle: blue side seams, small diagonal pale-blue/lavender folds under the shoulders and near the waist, no thick square border. At this tiny pixel scale use restrained crisp pixel clusters, not noisy texture or gradients. Across all frames the new torso proportions and jacket pattern stay identical; only retain the original subtle writing movement. Do not add a backpack, chair, furniture, text, effects, extra limbs, new accessories or a face on the back. Exactly 6 edited frames in input order, each 32x48 pixels, transparent background, no rescaling or camera changes.",
+      "job_id": "f2b16dd4-e302-410c-aa7c-b119d06007c2",
+      "receipt": "id: f2b16dd4-e302-410c-aa7c-b119d06007c2\njob_id: f2b16dd4-e302-410c-aa7c-b119d06007c2\nframes: 6\nsize: 32x48px\ndescription: Revise ONLY the student's jacket BACK AND TORSO SHAPE consistently across ALL SIX ordered animation frames. Keep the same small dark-haired Chinese schoolboy, blue and white tracksuit, north-facing rear view, seated writing motion, the same hands, pencil, paper, legs, shoes, canvas size and feet position. The existing back looks like a flat white square sign or rigid backpack. Replace that rectangular plate with believable soft cloth: gently sloped rounded shoulders, a slight forward bend while writing, upper torso broader than the subtly tapered waist, curved sides and a softly shaped hem. Keep the blue-and-white uniform identity, but make the white back fabric a shaped textile panel rather than a perfect rectangle: blue side seams, small diagonal pale-blue/lavender folds under the shoulders and near the waist, no thick square border. At this tiny pixel scale use restrained crisp pixel clusters, not noisy texture or gradients. Across all frames the new torso proportions and jacket pattern stay identical; only retain the original subtle writing movement. Do not add a backpack, chair, furniture, text, effects, extra limbs, new accessories or a face on the back. Exactly 6 edited frames in input order, each 32x48 pixels, transparent background, no rescaling or camera changes.\ntransparent: True\nseed: 2026111172\nasset_id: c30e44e1-1278-532d-b4a3-164a21b06162\nasset_status: pending (saved to your gallery when generation completes)\ncost: ~10 generations\nstatus: processing (~2 min)\n\nhint: get_image(job_id=\"f2b16dd4-e302-410c-aa7c-b119d06007c2\")\nwithout get_image: GET https://api.pixellab.ai/mcp/images/f2b16dd4-e302-410c-aa7c-b119d06007c2/download (423 + Retry-After until ready; ?index=N for the Nth of several images)",
+      "status": "completed",
+      "direction": "north",
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "duration_ms": 180,
+      "loop": true,
+      "label": "写字·自然衣背修订",
+      "output_count": 6,
+      "download_url": "https://api.pixellab.ai/mcp/images/f2b16dd4-e302-410c-aa7c-b119d06007c2/download",
+      "result_text": "status: completed\njob_id: f2b16dd4-e302-410c-aa7c-b119d06007c2\nframes: 6\nasset_id: c30e44e1-1278-532d-b4a3-164a21b06162\nasset_status: saved\ncharged: 10 generations"
+    }
+  ]
+}

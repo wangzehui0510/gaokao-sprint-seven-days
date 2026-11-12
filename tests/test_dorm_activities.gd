@@ -12,7 +12,8 @@ func _run() -> void:
 	if not _result(configuration.load_file(), "正式配置加载", configuration.error_message):
 		_finish()
 		return
-	fixture_root = OS.get_cache_dir().path_join("ClassroomDormActivities_%d_%d" % [OS.get_process_id(), Time.get_ticks_usec()])
+	# 本组验证宿舍活动与账本，不含每日发点；把起始日推到局外隔离每日属性点影响。
+	configuration.globals["first_daily_attribute_day"] = 99
 	if not _result(DirAccess.make_dir_recursive_absolute(fixture_root), "建立独占宿舍活动目录"):
 		_finish()
 		return
@@ -39,7 +40,11 @@ func _test_six_activity_numbers() -> bool:
 	]
 	for entry: Dictionary in cases:
 		var simulation := _at(1, 61200.0)
-		if simulation == null or not _play(simulation, 0, "dorm_practice", 600.0, "math"):
+		if simulation == null:
+			return false
+		# 数值算例只验收六项个人活动费率：结伴互动由专项组覆盖，隔离后本人不会被NPC拉走。
+		simulation.phase_scope.dorm_auto_actions = ["dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash", "dorm_rest"]
+		if not _play(simulation, 0, "dorm_practice", 600.0, "math"):
 			return false
 		_close(simulation.students[0].focus, 85.0, "正式刷题真实消耗十五专注")
 		_close(simulation.students[0].stamina, 97.0, "正式刷题真实消耗三体力")
@@ -77,7 +82,9 @@ func _test_six_activity_numbers() -> bool:
 		if not _result(simulation.advance(1.0), "恢复恰好完成后自主选择", simulation.error_message):
 			return false
 		_check(simulation.students[0].current_action.instance_id != recovery.instance_id and not simulation.students[0].current_action.dorm_recovery, "恢复完成即回到普通自主活动：" + entry.id)
-		_check(simulation.students[0].current_action.action_id in DORM_IDS and str(simulation.rng.state) != rng_before, "恢复后由同一随机流真实选择：" + entry.id)
+		# 恢复结束后自主池含双人结伴：抽中结伴时两人同时进入互动，仍由同一随机流真实选择。
+		var resumed: String = String(simulation.students[0].current_action.action_id)
+		_check(resumed in DORM_IDS or resumed in ["study_together", "roommate_game"], "恢复后由同一随机流真实选择：" + entry.id)
 	return true
 
 
@@ -106,7 +113,10 @@ func _test_precise_depletion() -> bool:
 		return false
 	_close(ended.details.executed_s, 400.0, "耗尽不是按整段十分钟补发")
 	_check(focus_case.students[0].current_action.dorm_recovery, "耗尽后立即进入真实恢复")
-	if not _assert_zero_candidates(focus_case, ["dorm_game", "dorm_workout", "dorm_wash", "dorm_rest"], ["dorm_study", "dorm_practice"], "零专注"):
+	# 结伴只在目标空闲时接受：临时清空其他同学动作，让开黑恢复型候选与个人活动同场比较。
+	for index in range(1, focus_case.students.size()):
+		focus_case.students[index].current_action = {}
+	if not _assert_zero_candidates(focus_case, ["dorm_game", "dorm_workout", "dorm_wash", "dorm_rest", "roommate_game"], ["dorm_study", "dorm_practice", "study_together"], "零专注"):
 		return false
 	var stamina_case := _at(1, 61200.0)
 	if stamina_case == null or not _play(stamina_case, 0, "dorm_study", 60.0, "chinese"):
@@ -133,7 +143,7 @@ func _test_precise_depletion() -> bool:
 		return false
 	_close(ended.details.executed_s, 594.0, "健身停止在精确体力零点")
 	_close(ended.details.knowledge_gain, 0.12 * 9.9 * 0.7, "部分健身仅获得实际疲劳收益")
-	return _assert_zero_candidates(stamina_case, ["dorm_wash", "dorm_rest"], ["dorm_study", "dorm_practice", "dorm_game", "dorm_workout"], "零体力")
+	return _assert_zero_candidates(stamina_case, ["dorm_wash", "dorm_rest"], ["dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "study_together", "roommate_game"], "零体力")
 
 
 ## 零资源候选查询保持权威状态；拒绝新动作后，真实行为树也只能选择可执行活动。
@@ -143,6 +153,19 @@ func _assert_zero_candidates(simulation: ClassroomSimulation, allowed: Array, bl
 	_check(_same_members(_candidate_ids(simulation, 0), allowed), label + "候选仅含真正可执行活动")
 	_check(simulation.students == authority and str(simulation.rng.state) == rng_before, label + "候选查询不改变权威状态")
 	for action_id: String in blocked:
+		if action_id in ["study_together", "roommate_game"]:
+			# 结伴只在目标空闲时接受：临时清掉对方动作隔离出资源为零的本人约束，再校验耗尽拒绝。
+			var pair_partner_action: Dictionary = simulation.students[1].current_action
+			simulation.students[1].current_action = {}
+			var pair_authority: Array = simulation.students.duplicate(true)
+			var rng_pair: String = str(simulation.rng.state)
+			var pair_subject: String = "chinese" if action_id == "study_together" else ""
+			var pair_reason: String = simulation.interaction_unavailable_reason(0, 1, action_id, pair_subject)
+			_check(pair_reason.contains("耗尽") and not simulation.can_start_interaction(0, 1, action_id, pair_subject), label + "双人活动真实不可用原因：" + action_id)
+			_check(simulation.start_interaction(0, 1, action_id, "", pair_subject, "零资源拒绝验证") == ERR_UNAVAILABLE, label + "互动入口拒绝耗尽双人活动：" + action_id)
+			_check(simulation.students == pair_authority and str(simulation.rng.state) == rng_pair, label + "双人拒绝保留原恢复实例和随机流：" + action_id)
+			simulation.students[1].current_action = pair_partner_action
+			continue
 		var selected: String = "math" if action_id in ["dorm_study", "dorm_practice"] else ""
 		var reason: String = simulation.action_unavailable_reason(0, action_id, false, selected)
 		_check(reason.contains("耗尽") and not simulation.can_start_action(0, action_id, false, selected), label + "说明真实不可用原因：" + action_id)
@@ -255,6 +278,8 @@ func _test_weighted_ai() -> bool:
 			return false
 		# 随机种子属于独立测试局的输入，未改动人物、资源、库存或已产生的结果。
 		simulation.rng.seed = 9001 + sample
+		# 本组期望模型只覆盖六项个人活动：双人结伴候选由宿舍双人专项组覆盖。
+		simulation.phase_scope.dorm_auto_actions = ["dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash", "dorm_rest"]
 		if not _result(simulation.set_debug_time(1, 61200.0), "固定种子宿舍采样定位", simulation.error_message):
 			return false
 		var expected_rng := RandomNumberGenerator.new()
@@ -398,7 +423,9 @@ func _practice_six(simulation: ClassroomSimulation) -> bool:
 func _candidate_ids(simulation: ClassroomSimulation, index: int) -> Array[String]:
 	var result: Array[String] = []
 	for candidate: Dictionary in simulation.get_dorm_candidates(index):
-		result.append(candidate.action_id)
+		# 双人活动按同学逐个出候选，这里比较的是活动集合，按动作去重。
+		if candidate.action_id not in result:
+			result.append(candidate.action_id)
 	return result
 
 

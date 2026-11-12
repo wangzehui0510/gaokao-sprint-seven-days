@@ -1,0 +1,2 @@
+FAIL：宿舍候选requires_same_scene_target=false加载结果：
+FAIL：宿舍候选requires_same_scene_target=false失败原因可见

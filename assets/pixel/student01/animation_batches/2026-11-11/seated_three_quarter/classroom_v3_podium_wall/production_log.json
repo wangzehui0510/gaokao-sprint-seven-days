@@ -1,0 +1,21 @@
+{
+  "date": "2026-11-12",
+  "change": "平台连接墙边，讲桌前移，为老师在讲桌后方留出连续站位",
+  "generator": "PixelLab MCP",
+  "accepted_job_id": "14c5fa5a-9f46-4536-a27f-4f70fd6aa549",
+  "charged_generations": 10,
+  "input": "wall_connection_volume_guide.png",
+  "raw_output": "generated_crop_raw.png",
+  "adopted_output": "adopted_crop.png",
+  "postprocess": "仅采用新mask内真实返回像素，mask外恢复classroom_v2_podium/classroom_with_podium.png",
+  "teacher_asset_generated": false,
+  "production_integration": false,
+  "qa_status": "passed",
+  "previous_version_preserved": "classroom_v2_podium",
+  "limitations": [
+    "讲桌后方只预留画布，没有教师精灵或动画。",
+    "透明覆盖层绑定v2背景原点，不能自由移动。",
+    "四人共用学生01外观和相位，正式游戏未切换。"
+  ],
+  "acceptance_file": "acceptance.json"
+}

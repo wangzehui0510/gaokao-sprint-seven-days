@@ -1,0 +1,10 @@
+ERROR: 在途数学自习不得被热改猜成固定英语
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _finish (res://tests/test_ai_integration.gd:453)
+       [1] _run (res://tests/test_ai_integration.gd:32)
+ERROR: 失败热改保留整个有效局和随机流
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _finish (res://tests/test_ai_integration.gd:453)
+       [1] _run (res://tests/test_ai_integration.gd:32)

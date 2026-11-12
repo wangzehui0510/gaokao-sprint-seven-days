@@ -10,6 +10,8 @@ var tables: Dictionary = {}
 var indexes: Dictionary = {}
 var actions: Dictionary = {}
 var effects_by_action: Dictionary = {}
+var effects_by_option: Dictionary = {}
+var events_by_trigger: Dictionary = {}
 var subjects: Dictionary = {}
 var periods: Array = []
 var globals: Dictionary = {}
@@ -24,7 +26,7 @@ const ENUMS: Dictionary = {
 		"target": ["self", "pair", "group"], "scene": ["any", "classroom", "playground", "canteen", "dorm", "course"],
 		"violation": ["none", "distraction"], "completion_route": ["schedule", "study", "previous"],
 		"knowledge_source": ["school", "dorm", "none"], "knowledge_mode": ["course", "selected_subject", "fixed_subject", "none"],
-		"eligible_period": ["any", "dorm_free"],
+		"eligible_period": ["any", "dorm_free", "break"],
 	},
 	"effects": {
 		"phase": ["start", "tick", "complete", "instant"], "recipient": ["self", "target", "both", "ally", "winner", "loser"],
@@ -34,6 +36,11 @@ const ENUMS: Dictionary = {
 		"event": ["forced_entry", "natural_entry", "close_violation", "deliver_note", "resolve_answer_challenge", "resolve_arm_wrestle", "interrupt_reading"],
 	},
 	"buffs": {"lifecycle": ["action", "timed"], "stacking": ["refresh", "replace", "independent"], "knowledge_redirect": ["none", "selected_subject"]},
+	"events": {"trigger_point": ["morning", "lesson_start", "break_start", "lunch", "after_school"]},
+	"event_effects": {
+		"recipient": ["self", "target", "both"], "type": ["resource", "apply_buff", "attribute_point", "give_item", "force_action"],
+		"resource": ["focus", "stamina", "knowledge"],
+	},
 	"globals": {"type": ["string", "number", "boolean"]},
 	"subjects": {"kind": ["knowledge", "recovery", "exam"]},
 	"periods": {"kind": ["lesson", "break", "exercise", "eye_exercise", "lunch", "rest"]},
@@ -43,6 +50,7 @@ const ENUMS: Dictionary = {
 const REFERENCES: Dictionary = {
 	"action_id": "actions", "default_action_id": "actions", "interrupt_policy_id": "interrupt_policies",
 	"buff_id": "buffs", "item_id": "items", "subject_id": "subjects", "knowledge_subject_id": "subjects", "period_id": "periods",
+	"event_id": "events", "option_id": "event_options",
 }
 # 核心和行为树直接读取的全局参数，必须在加载入口保证存在且为数字。
 const REQUIRED_NUMBER_GLOBALS: Array[String] = [
@@ -56,6 +64,10 @@ const REQUIRED_NUMBER_GLOBALS: Array[String] = [
 	"personality_ref_attr", "dorm_weight_floor", "social_auto_base",
 	"g_study", "g_game", "g_workout", "g_playful", "g_weak", "g_lead",
 	"k_threshold",
+	# 抢答自主检查点：课内按独立随机流尝试发起。
+	"answer_challenge_check_seconds", "answer_challenge_auto_chance",
+	# 课间磨蹭：课间开始按专注阈值与概率触发，四地点抽一。
+	"linger_break_focus_threshold", "linger_break_chance",
 ]
 # 成绩以整数刻度相加；这里只校验实际表示范围，不设置人为分数或小数位上限。
 const MAX_SCORE_INTEGER: int = 9223372036854775807
@@ -113,6 +125,57 @@ func load_file(path: String = "res://config/game_config.json", schema_path: Stri
 		effects_by_action[row.action_id].append(row)
 	for action_id in effects_by_action:
 		effects_by_action[action_id].sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a.sequence < b.sequence)
+	effects_by_option.clear()
+	for option_id in indexes.event_options:
+		effects_by_option[option_id] = []
+	for row in tables.event_effects:
+		effects_by_option[row.option_id].append(row)
+	for option_id in effects_by_option:
+		effects_by_option[option_id].sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a.sequence < b.sequence)
+	events_by_trigger.clear()
+	for trigger_point in ["morning", "lesson_start", "break_start", "lunch", "after_school"]:
+		events_by_trigger[trigger_point] = []
+	for row in tables.events:
+		if row.enabled:
+			events_by_trigger[row.trigger_point].append(row)
+	var event_result: Error = _validate_events()
+	if event_result != OK:
+		return event_result
+	return OK
+
+
+## 事件表专项校验：每个启用事件至少一个选项，效果类型与字段匹配。
+func _validate_events() -> Error:
+	for row in tables.event_options:
+		if not indexes.events.has(row.event_id):
+			return _fail("事件选项%s引用了不存在的事件：%s" % [row.id, row.event_id])
+		if row.sequence != int(row.sequence):
+			return _fail("事件选项%s的sequence必须为整数" % row.id)
+	for event_id in indexes.events:
+		var option_count: int = 0
+		for row in tables.event_options:
+			if row.event_id == event_id:
+				option_count += 1
+		if indexes.events[event_id].enabled and option_count < 2:
+			return _fail("启用事件%s必须至少提供两个选项" % event_id)
+	for row in tables.event_effects:
+		if not indexes.event_options.has(row.option_id) or String(indexes.event_options[row.option_id].event_id) != String(row.event_id):
+			return _fail("事件效果%s的选项归属不一致：%s" % [row.id, row.option_id])
+		if row.sequence != int(row.sequence):
+			return _fail("事件效果%s的sequence必须为整数" % row.id)
+		match String(row.type):
+			"resource":
+				if row.resource == null or row.value == null:
+					return _fail("事件资源效果%s缺少资源或数值" % row.id)
+			"apply_buff":
+				if row.buff_id == null:
+					return _fail("事件状态效果%s缺少状态引用" % row.id)
+			"attribute_point", "give_item":
+				if row.value == null:
+					return _fail("事件效果%s缺少数量" % row.id)
+			"force_action":
+				if row.action_id == null:
+					return _fail("事件强制动作效果%s缺少后续动作" % row.id)
 	return OK
 
 
@@ -192,8 +255,9 @@ func _validate_relations() -> Error:
 			return _fail("动作%s的在校知识必须来自当前知识课程" % row.id)
 		if row.knowledge_source == "dorm" and (row.knowledge_mode not in ["selected_subject", "fixed_subject"] or row.eligible_period != "dorm_free"):
 			return _fail("动作%s的宿舍知识必须明确科目来源并限定宿舍自由时段" % row.id)
-		if row.eligible_period == "dorm_free" and (row.scene != "dorm" or row.target != "self" or row.kind != "duration"):
-			return _fail("动作%s的宿舍自由活动必须是宿舍内个人持续动作" % row.id)
+		# 结伴自习/室友开黑是宿舍pair动作：需要同场景同学，其余仍要求可支付。
+		if row.eligible_period == "dorm_free" and (row.scene != "dorm" or row.target not in ["self", "pair"] or row.kind != "duration"):
+			return _fail("动作%s的宿舍自由活动必须是宿舍内个人或双人持续动作" % row.id)
 	for row in tables.effects:
 		var identity: String = "%s/%s/%s" % [row.action_id, row.phase, row.sequence]
 		if effect_sequences.has(identity):
@@ -306,25 +370,31 @@ func _validate_ai_parameters() -> Error:
 	return OK
 
 
-## 宿舍候选必须与课堂池隔离，六项活动使用相同基础权重，再由AI按属性加权。
+## 宿舍候选必须与课堂池隔离，八项活动使用相同基础权重，再由AI按属性加权。
 func _validate_dorm_pool() -> Error:
-	var expected: Array[String] = ["dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash", "dorm_rest"]
+	# 结伴自习与室友开黑需要同场景同学，其余为个人活动。
+	var expected: Array[String] = ["dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash", "dorm_rest", "study_together", "roommate_game"]
 	var candidates: Dictionary = {}
 	var weight: float = -1.0
 	for row: Dictionary in tables.auto_pool:
 		if row.eligible_period != "dorm_free":
 			continue
 		var action: Dictionary = indexes.actions[row.action_id]
-		if action.eligible_period != "dorm_free" or not action.enabled or not row.enabled or row.requires_same_scene_target or not row.requires_affordable_start:
-			return _fail("宿舍候选%s必须启用、可支付且无需同伴" % row.id)
+		if action.eligible_period != "dorm_free" or not action.enabled or not row.enabled or not row.requires_affordable_start:
+			return _fail("宿舍候选%s必须启用且可支付" % row.id)
+		# 双人结伴候选必须声明同场景同伴要求；个人候选必须无需同伴，防止单人入口误开。
+		if action.target == "pair" and not row.requires_same_scene_target:
+			return _fail("宿舍双人候选%s必须要求同场景同伴" % row.id)
+		if action.target != "pair" and row.requires_same_scene_target:
+			return _fail("宿舍个人候选%s不能要求同场景同伴" % row.id)
 		if row.action_id not in expected or candidates.has(row.action_id):
-			return _fail("宿舍候选%s不是六项活动之一或存在重复" % row.id)
+			return _fail("宿舍候选%s不是八项活动之一或存在重复" % row.id)
 		if row.weight <= 0.0 or (weight > 0.0 and row.weight != weight):
 			return _fail("宿舍候选%s必须使用相等的正权重" % row.id)
 		weight = row.weight
 		candidates[row.action_id] = true
 	if candidates.size() != expected.size():
-		return _fail("宿舍自主候选必须完整包含六项活动")
+		return _fail("宿舍自主候选必须完整包含八项活动")
 	return OK
 
 

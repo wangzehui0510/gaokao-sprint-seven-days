@@ -1,0 +1,36 @@
+{
+  "status": "passed",
+  "verdict": "passed_with_documented_limits",
+  "date": "2026-11-12",
+  "source": "classroom_v3_podium_wall/classroom_with_wall_connected_podium.png",
+  "canvas": [384, 256],
+  "lectern_layer": {
+    "bbox": [215, 84, 269, 134],
+    "visible_pixels": 1684,
+    "room_without_lectern_layer": true,
+    "recomposed_rgba_difference_pixels": 0
+  },
+  "mask_validation": {
+    "raw_clear_outside_mask_changed_pixels": 0,
+    "adopted_clear_outside_mask_changed_pixels": 0,
+    "residual_patch_pixels": 35
+  },
+  "visual_review": {
+    "passed": true,
+    "reviewed_files": [
+      "classroom_clean_no_lectern.png",
+      "classroom_clean_no_lectern_zoom.png",
+      "lectern_cutout.png",
+      "classroom_recomposed_lectern_layer.png",
+      "classroom_four_students_2x.png",
+      "classroom_four_desks_2x.png"
+    ]
+  },
+  "production_integration": false,
+  "teacher_asset_generated": false,
+  "limitations": [
+    "讲桌层绑定384×256场景坐标。",
+    "老师只有预留位置，没有教师精灵或动画。",
+    "本轮没有切换正式游戏。"
+  ]
+}

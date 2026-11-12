@@ -1,0 +1,9 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "id: eaf3b135-3183-4dec-b4c7-eab96648f2f0\njob_id: eaf3b135-3183-4dec-b4c7-eab96648f2f0\nmode: text\nframes: 1\nsize: 160x128px\ntransparent: False\nedit: Refine the wooden teacher lectern and low platform already sketched in this isometric classroom image into finished clean pixel art. KEEP their exact shapes, positions, sizes and 2:1 isometric angles. The low pale wooden platform has a 4-pixel thick muted grey-green front edge. The compact solid wooden lectern sits on the LEFT side of the platform: warm light wood desktop, solid wooden front and side panels with subtle panel seams and pixel highlights. Keep the RIGHT half of the platform EMPTY as standing space for a teacher. Preserve the original room, blackboard, walls, door, floor and palette. Crisp simple pixel clusters, thin outlines matching the classroom. No people, no objects on the right half, no text, no extra desks, no blurry textures. Do not erase the platform or lectern.\nseed: 2026111162\nasset_id: a5e33683-384c-58ba-8bf8-a158f1b8f661\nasset_status: pending (saved when generation completes)\ncost: ~10 generations\nstatus: processing (~30-90s)\n\nhint: get_image(job_id=\"eaf3b135-3183-4dec-b4c7-eab96648f2f0\")\nwithout get_image: GET https://api.pixellab.ai/mcp/images/eaf3b135-3183-4dec-b4c7-eab96648f2f0/download (423 + Retry-After until ready; ?index=N for the Nth of several images)"
+    }
+  ],
+  "isError": false
+}

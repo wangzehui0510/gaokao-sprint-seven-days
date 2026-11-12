@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "scope": "从用户已批准3/4关键帧生成整段写字动画",
+  "approved_source": "../seated_write_northeast_v1.png",
+  "jobs": [
+    {
+      "id": "write_northeast_v1",
+      "tool": "animate_image",
+      "job_id": "51e7f97e-e979-4fa1-9f82-f375d5a9bc3d",
+      "status": "completed",
+      "seed": 2026111152,
+      "prompt": "Subtle six-frame seamless writing loop, exact approved north-east 3/4 rear seated student. Preserve same hair, cheek, blue-white tracksuit, proportions, silhouette, palette, pixel clusters, scale and transparent 64x64 canvas. Entire desk, notebook, chair/backrest/legs stay pixel-still. Hips rest on seat; bent knees, shoes, head and torso remain anchored. Only right forearm, wrist and pencil move 1-2 pixels: two short pencil strokes with tip touching the cream notebook, brief pause, return to exact start. Left hand stays holding page flat. Maintain chair-back occlusion at lower back and correct desk/hand overlap. No standing, floating hips, foot movement, head turns, extra hands, furniture warping, camera motion, background, labels or scribble effects. Generate whole motion together; end matches initial frame.",
+      "canvas": [
+        64,
+        64
+      ],
+      "generated_frames": 6,
+      "output_count": 7,
+      "raw_directory": "raw",
+      "charged_generations": 1,
+      "submission_receipt": "id: 51e7f97e-e979-4fa1-9f82-f375d5a9bc3d\njob_id: 51e7f97e-e979-4fa1-9f82-f375d5a9bc3d\naction: Subtle six-frame seamless writing loop, exact approved north-east 3/4 rear seated student. Preserve same hair, cheek, blue-white tracksuit, proportions, silhouette, palette, pixel clusters, scale and transparent 64x64 canvas. Entire desk, notebook, chair/backrest/legs stay pixel-still. Hips rest on seat; bent knees, shoes, head and torso remain anchored. Only right forearm, wrist and pencil move 1-2 pixels: two short pencil strokes with tip touching the cream notebook, brief pause, return to exact start. Left hand stays holding page flat. Maintain chair-back occlusion at lower back and correct desk/hand overlap. No standing, floating hips, foot movement, head turns, extra hands, furniture warping, camera motion, background, labels or scribble effects. Generate whole motion together; end matches initial frame.\nframes: 6\nsize: 64x64px\ntransparent: True\nlast_frame: yes (interpolating to it)\nseed: 2026111152\nasset_id: 414fb743-469a-5138-b292-44dda9b49fe0\nasset_status: pending (saved when generation completes)\ncost: 1 generation\nstatus: processing (~30-180s)\n\nhint: get_image(job_id=\"51e7f97e-e979-4fa1-9f82-f375d5a9bc3d\")\nwithout get_image: GET https://api.pixellab.ai/mcp/images/51e7f97e-e979-4fa1-9f82-f375d5a9bc3d/download (423 + Retry-After until ready; ?index=N for the Nth of several images)",
+      "completion_receipt": "status: completed\nid: 51e7f97e-e979-4fa1-9f82-f375d5a9bc3d\njob_id: 51e7f97e-e979-4fa1-9f82-f375d5a9bc3d\nframes: 7\ntransparent: yes\nasset_id: 414fb743-469a-5138-b292-44dda9b49fe0\nasset_type: image\nasset_status: saved\ngallery: saved to your PixelLab gallery (pixellab.ai/create)\ncharged: 1 generation\ndownload: https://api.pixellab.ai/mcp/images/51e7f97e-e979-4fa1-9f82-f375d5a9bc3d/download?index=0 ... ?index=6\n(3 more frames not shown — fetch them from the download URLs above)"
+    }
+  ]
+}

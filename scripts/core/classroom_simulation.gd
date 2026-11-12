@@ -5,8 +5,10 @@ extends RefCounted
 const ConfigScript = preload("res://scripts/core/game_config.gd")
 const ROUND = preload("res://scripts/core/round_progression.gd")
 const ATTRIBUTE_KEYS: Array[String] = ["attention", "discipline", "health", "intelligence"]
-# v5新增教师在场与教导主任抽查状态及每人每日纪律分，v4账本与领取日继续原样迁移。
-const SAVE_VERSION: int = 5
+# NPC日志用的属性中文名，与界面ATTRIBUTE_NAMES保持一致。
+const ATTRIBUTE_DISPLAY_NAMES: Dictionary = {"attention": "专注力", "discipline": "自律性", "health": "健康", "intelligence": "智力"}
+# v6新增每日属性点发放记录与NPC轮换游标，v5的教师与抽查状态继续原样迁移。
+const SAVE_VERSION: int = 6
 const DAILY_COURSE_ACTIONS: Array[String] = ["study", "physical_study", "music_class", "art_class", "exam"]
 # 持续互动的实现范围独立于自主候选，开放玩家入口不会让同学自动发起。
 const PAIR_ACTIONS: Array[String] = [
@@ -14,6 +16,8 @@ const PAIR_ACTIONS: Array[String] = [
 	"invite_playground", "invite_canteen", "borrow_notes", "encourage",
 	"pillow_fight", "feed_snack", "use_eraser", "give_comic_item",
 	"give_candy_item", "swap_book", "swap_book_boost", "arm_wrestle",
+	"answer_challenge", "study_together", "roommate_game",
+	"take_comic", "prank_together",
 ]
 # Godot整型的表示边界，仅用于防止数量溢出为负数，不限制背包格数或业务容量。
 const MAX_ITEM_INTEGER: int = 9223372036854775807
@@ -50,6 +54,23 @@ var teachers: Array[Dictionary] = []
 var inspection: Dictionary = {}
 # 抽查独立随机流，避免消耗四人共用随机流而改变动作抽取结果。
 var inspection_rng := RandomNumberGenerator.new()
+# 抢答自主检查点独立随机流与扫描状态：课内上课无行为树决策点，由检查点驱动NPC尝试抢答。
+var challenge_rng := RandomNumberGenerator.new()
+var challenge_auto: Dictionary = {}
+# 课间磨蹭独立随机流与已处理课间标记：每个课间时段只判定一次，读档后沿同一随机流继续。
+var linger_rng := RandomNumberGenerator.new()
+var linger_auto: Dictionary = {}
+# 特殊事件独立随机流：触发概率、事件/学生/同学抽取与NPC选择全部走ambient流；每日至多1个事件。
+var event_rng := RandomNumberGenerator.new()
+var event_auto: Dictionary = {}
+# 事件历史：事件名、选项、归属者与实际结算摘要，入存档并在日志页展示。
+var events_log: Array[Dictionary] = []
+# 每日属性点：已发放日集合（升序）保证幂等；NPC轮换游标；08:00换算后的当日秒数。
+var daily_points: Dictionary = {}
+var npc_growth: Dictionary = {}
+var daily_point_clock: float = 0.0
+# NPC每日加点轮换顺序：不抽随机，保证同种子结果可复现。
+const NPC_GROWTH_CYCLE: Array[String] = ["attention", "discipline", "health", "intelligence"]
 
 
 ## 建立新局的真实状态；行为树接入后由advance(0)开始首次自主决策。
@@ -109,6 +130,8 @@ func setup(game_config: RefCounted, random_seed: int = 0, scope_path: String = "
 			"daily_discipline": float(_inspection_setting("daily_base")), "daily_discipline_day": 1,
 			# 保存全部已领日期，开发时钟回退后仍能识别曾领过的日子。
 			"daily_item_claim_days": [],
+			# 特殊事件：待玩家选择的事件与下一课间强制动作（课间补作业语义）。
+			"pending_event": {}, "pending_forced_action": "",
 		})
 	# AI升级：本地占位假人用预设加点模拟未来真人，联机后由真人自己加点。玩家“我”保留待分配点。
 	result = _apply_npc_builds()
@@ -146,6 +169,38 @@ func _apply_scope_characters() -> Error:
 		"visible_until_elapsed": -1.0,
 		"last": {},
 	}
+	# 抢答自主检查点同样走独立随机流：课内上课动作没有行为树决策点，只能由检查点窗口驱动。
+	challenge_rng.seed = int(rng.seed) ^ 0x2FCB4C67
+	challenge_auto = {
+		"rng_state": str(challenge_rng.state),
+		"next_check_elapsed": float(config.global_value("answer_challenge_check_seconds")),
+	}
+	# 课间磨蹭独立随机流：课间开始统一判定一次，handled_key防止同一课间重复触发。
+	linger_rng.seed = int(rng.seed) ^ 0x1D872B41
+	linger_auto = {
+		"rng_state": str(linger_rng.state),
+		"handled_key": "",
+	}
+	# 特殊事件独立随机流：handled_key防止同一时刻重复判定，fired_day实现每日至多1个。
+	event_rng.seed = int(rng.seed) ^ 0x6E774B57
+	event_auto = {
+		"rng_state": str(event_rng.state),
+		"handled_key": "",
+		"fired_day": 0,
+	}
+	events_log.clear()
+	# 每日属性点在setup时解析一次发放时刻，格式非法直接失败，不在推进中反复猜测。
+	var time_text: String = String(config.global_value("daily_attribute_time"))
+	var parts: PackedStringArray = time_text.split(":")
+	if parts.size() != 2 or not parts[0].is_valid_int() or not parts[1].is_valid_int():
+		return _fail("每日发点时间必须是HH:MM格式：%s" % time_text)
+	var hour: int = int(parts[0])
+	var minute: int = int(parts[1])
+	if hour < 0 or hour > 23 or minute < 0 or minute > 59:
+		return _fail("每日发点时间超出当日范围：%s" % time_text)
+	daily_point_clock = float(hour * 3600 + minute * 60)
+	daily_points = {"granted_days": []}
+	npc_growth = {"cursor": 0}
 	return OK
 
 
@@ -194,6 +249,239 @@ func _run_inspection_window(start_day: int, start_clock: float, start_elapsed: f
 		_run_inspection(int(when.day), float(when.clock_seconds), end_elapsed)
 	# 抽查状态随分段同步，保证读档后继续沿同一随机流推进。
 	inspection.rng_state = str(inspection_rng.state)
+	return OK
+
+
+## 逐段扫描抢答自主检查点；只查文化课，命中的NPC等权抽取可抢答的同学真实发起。
+## 段开始处处理到期的抢答检查点；发起时刻固定为段起点，保证大步与小步推进产生同一时间账。
+func _run_challenge_checkpoints(context: Dictionary) -> Error:
+	var chance: float = float(config.global_value("answer_challenge_auto_chance"))
+	# 大步推进可能一次补处理多个到期检查点；检查点网格必须始终推进，否则段边界截断会失配。
+	while float(challenge_auto.next_check_elapsed) <= elapsed_s:
+		challenge_auto.next_check_elapsed = float(challenge_auto.next_check_elapsed) + float(config.global_value("answer_challenge_check_seconds"))
+		# 抢答属于竞争自主社交：总开关关闭、自主池清空或非文化课时检查点空转，不消耗随机数。
+		if float(config.global_value("social_auto_base")) <= 0.0 or "answer_challenge" not in phase_scope.social_auto_actions:
+			continue
+		if context.kind != "lesson" or not _is_cultural_subject(context.subject_id):
+			continue
+		for index in range(1, students.size()):
+			# 正在互动中的NPC不再发起，避免自己打断自己的抢答。
+			if not students[index].current_action.is_empty() and students[index].current_action.has("interaction_id"):
+				continue
+			# 每个空闲NPC固定消耗一次判定随机数，保证存档回放与在线推进消耗一致。
+			if challenge_rng.randf() >= chance:
+				continue
+			var candidates: Array[int] = []
+			for other in students.size():
+				if other == index:
+					continue
+				if interaction_unavailable_reason(index, other, "answer_challenge", "").is_empty():
+					candidates.append(other)
+			if candidates.is_empty():
+				continue
+			# 命中后固定消耗一次目标抽取随机数；无候选也保持消耗次数稳定。
+			var target: int = candidates[challenge_rng.randi() % candidates.size()]
+			var when: Dictionary = {"day": day, "clock_seconds": clock_seconds}
+			if start_interaction(index, target, "answer_challenge", "") != OK:
+				# 候选校验与真实发动之间的并发冲突是显式边界：留放弃日志后继续推进。
+				_log(index, "answer_challenge", "想发起抢答但对方状态已变化，本次放弃", {"day": when.day, "clock_seconds": when.clock_seconds, "target_index": target})
+				error_message = ""
+				continue
+			_log(index, "answer_challenge", "主动发起了抢答", {"day": when.day, "clock_seconds": when.clock_seconds, "target_index": target})
+	# 检查点随机流状态随段同步，保证读档后继续沿同一随机流推进。
+	challenge_auto.rng_state = str(challenge_rng.state)
+	return OK
+
+
+## 课间磨蹭地点与动作映射：地点抽取命中后按现有动作执行，宿舍地点用课间专用的同效果动作。
+const LINGER_BREAK_PLACES: Array[String] = ["linger_break", "playground_play", "eat_meal", "linger_dorm_rest"]
+const LINGER_BREAK_PLACE_NAMES: Array[String] = ["教室", "操场", "食堂", "宿舍"]
+
+
+## 课间开始时统一判定磨蹭：专注低于阈值乘上限后按概率触发，四地点等权抽取。
+## 判定先标记已处理课间再消耗随机数，保证大步与小步推进消耗同一随机流序列。
+func _run_linger_checkpoints(context: Dictionary) -> Error:
+	var context_key: String = String(context.context_key)
+	if context.kind != "break" or String(linger_auto.handled_key) == context_key:
+		return OK
+	linger_auto.handled_key = context_key
+	var threshold: float = float(config.global_value("linger_break_focus_threshold"))
+	var chance: float = float(config.global_value("linger_break_chance"))
+	for index in students.size():
+		var student: Dictionary = students[index]
+		# 每个角色固定消耗一次判定随机数；命中后再消耗一次地点抽取，次数与结果无关保持一致。
+		if linger_rng.randf() >= chance:
+			continue
+		if float(student.focus) >= get_resource_max(index, "focus") * threshold:
+			continue
+		var place: int = linger_rng.randi() % LINGER_BREAK_PLACES.size()
+		var action_id: String = LINGER_BREAK_PLACES[place]
+		if start_action(index, action_id, true, -1, "课间磨蹭") != OK:
+			# 地点动作前置不满足（如资源耗尽）是显式边界：留放弃日志后继续课间。
+			_log(index, "linger_break", "课间想去%s磨蹭但未能成行" % LINGER_BREAK_PLACE_NAMES[place], {"context_key": context_key, "action_id": action_id, "reason": error_message})
+			error_message = ""
+			continue
+		_log(index, "linger_break", "课间去%s磨蹭" % LINGER_BREAK_PLACE_NAMES[place], {"context_key": context_key, "action_id": action_id})
+	# 磨蹭随机流状态随段同步，保证读档后继续沿同一随机流推进。
+	linger_auto.rng_state = str(linger_rng.state)
+	return OK
+
+
+## 事件触发点由段起点上下文决定：早晨挂第一节课起点（第2-7天），其余按课表时段。
+func _event_trigger_for_context(context: Dictionary) -> String:
+	match String(context.kind):
+		"lesson":
+			if String(context.period_id) == "lesson_1":
+				if day >= 2:
+					return "morning"
+				return ""
+			if String(context.subject_kind) == "knowledge":
+				return "lesson_start"
+		"break":
+			return "break_start"
+		"lunch":
+			return "lunch"
+		"outside":
+			if clock_seconds >= 60000.0 and day <= int(config.global_value("session_days")) - 1:
+				return "after_school"
+	return ""
+
+
+## 特殊事件检查点：每个段起点判定一次；概率命中后抽事件、归属者与同学目标。
+func _run_event_checkpoints(context: Dictionary) -> Error:
+	if not bool(config.global_value("events_enabled")):
+		return OK
+	var trigger_point := _event_trigger_for_context(context)
+	var context_key := String(context.context_key)
+	if trigger_point == "after_school":
+		# 放学没有独立时段，用日键防重；第7天16:40为局末收束，不再触发。
+		context_key = "%s/after_school" % day
+	if trigger_point.is_empty() or String(event_auto.handled_key) == context_key:
+		return OK
+	event_auto.handled_key = context_key
+	# 每日至多1个事件：当日已触发过则静默结束，不消耗抽取随机数。
+	if int(event_auto.fired_day) == day:
+		return OK
+	# 概率判定、事件池、归属者与同学目标都走ambient流，顺序固定保证读档可复盘。
+	if event_rng.randf() >= float(config.global_value("event_chance")):
+		event_auto.rng_state = str(event_rng.state)
+		return OK
+	var pool: Array = config.events_by_trigger[trigger_point]
+	var event_row: Dictionary = pool[event_rng.randi() % pool.size()]
+	var owner_index: int = event_rng.randi() % students.size()
+	var target_index: int = (owner_index + 1 + event_rng.randi() % (students.size() - 1)) % students.size()
+	event_auto.fired_day = day
+	event_auto.rng_state = str(event_rng.state)
+	if owner_index == 0:
+		# 玩家事件进入待选择状态：弹窗不暂停模拟，选择后由UI经resolve入口结算。
+		students[0].pending_event = {"event_id": String(event_row.id), "target_index": target_index}
+		_log(0, "event", "特殊事件待选择：%s" % String(event_row.name), {"event_id": String(event_row.id), "trigger_point": trigger_point})
+		return OK
+	# NPC事件：等权随机选一个选项并立即结算。
+	var option_rows: Array = []
+	for row in config.tables.event_options:
+		if String(row.event_id) == String(event_row.id):
+			option_rows.append(row)
+	return _resolve_event_option(owner_index, event_row, option_rows[event_rng.randi() % option_rows.size()], target_index, "npc")
+
+
+## 结算事件选项：效果只影响之后的结算；写入事件历史供日志页展示。
+func _resolve_event_option(owner_index: int, event_row: Dictionary, option_row: Dictionary, target_index: int, resolver: String) -> Error:
+	var effects: Array = config.effects_by_option[String(option_row.id)]
+	for effect in effects:
+		var recipients: Array[int] = []
+		match String(effect.recipient):
+			"self":
+				recipients = [owner_index]
+			"target":
+				recipients = [target_index]
+			"both":
+				recipients = [owner_index, target_index]
+		for index in recipients:
+			match String(effect.type):
+				"resource":
+					if String(effect.resource) == "knowledge":
+						var subject_id := String(course_context().get("subject_id"))
+						if subject_id.is_empty():
+							return _fail("事件知识效果缺少当前知识课程：%s" % String(effect.id))
+						students[index].knowledge[subject_id] = float(students[index].knowledge[subject_id]) + float(effect.value)
+					else:
+						_change_resource(index, String(effect.resource), float(effect.value), true)
+				"apply_buff":
+					_apply_buff(index, String(effect.buff_id))
+				"attribute_point":
+					students[index].unspent_points = int(students[index].unspent_points) + int(effect.value)
+				"give_item":
+					students[index].inventory[String(effect.item_id)] = int(students[index].inventory.get(String(effect.item_id), 0)) + int(effect.value)
+				"force_action":
+					students[index].pending_forced_action = String(effect.action_id)
+	var summary: String = ""
+	for effect in effects:
+		summary = summary + String(effect.description)
+	events_log.append({
+		"day": day, "clock_seconds": clock_seconds,
+		"event_id": String(event_row.id), "event_name": String(event_row.name),
+		"option_id": String(option_row.id), "option_name": String(option_row.name),
+		"student_index": owner_index, "student_name": String(students[owner_index].name),
+		"resolver": resolver, "summary": summary,
+	})
+	_log(owner_index, "event", "特殊事件[%s]：%s" % [String(event_row.name), String(option_row.name)], {"event_id": String(event_row.id), "option_id": String(option_row.id)})
+	return OK
+
+
+## 玩家待处理事件查询：弹窗不暂停模拟，选择前挂机照常推进。
+func pending_event_for_player() -> Dictionary:
+	if students.is_empty() or students[0].pending_event.is_empty():
+		return {}
+	var event_id := String(students[0].pending_event.event_id)
+	if not config.indexes.events.has(event_id):
+		return {}
+	var definition: Dictionary = config.indexes.events[event_id]
+	var options: Array = []
+	for row in config.tables.event_options:
+		if String(row.event_id) == event_id:
+			options.append({"id": String(row.id), "name": String(row.name), "description": String(row.description)})
+	return {
+		"event_id": event_id, "name": String(definition.name), "description": String(definition.description),
+		"target_index": int(students[0].pending_event.target_index), "options": options,
+	}
+
+
+## 玩家选择事件选项：一次结算后清除待处理状态；重复结算或外部选项被拒绝。
+func resolve_pending_event(option_id: String) -> Error:
+	if students[0].pending_event.is_empty():
+		return _reject("当前没有待处理事件", ERR_UNAVAILABLE)
+	var event_id := String(students[0].pending_event.event_id)
+	var option_row: Dictionary = {}
+	for row in config.tables.event_options:
+		if String(row.id) == option_id and String(row.event_id) == event_id:
+			option_row = row
+			break
+	if option_row.is_empty():
+		return _reject("选项不属于当前待处理事件：%s" % option_id, ERR_UNAVAILABLE)
+	var target_index := int(students[0].pending_event.target_index)
+	students[0].pending_event = {}
+	return _resolve_event_option(0, config.indexes.events[event_id], option_row, target_index, "player")
+
+
+## 课间开始执行事件挂起的强制动作（课间补写笔记），沿用统一执行器；失败留放弃日志继续课间。
+func _apply_pending_forced_actions(context: Dictionary) -> Error:
+	if String(context.kind) != "break":
+		return OK
+	for index in students.size():
+		var action_id := String(students[index].pending_forced_action)
+		if action_id.is_empty():
+			continue
+		students[index].pending_forced_action = ""
+		if not students[index].current_action.is_empty():
+			var ended: Error = _end_action(index, false, "课间强制任务切换", -1, [])
+			if ended != OK:
+				return ended
+		if start_action(index, action_id, false, -1, "事件安排的课间任务") != OK:
+			_log(index, "event", "课间任务未能成行：%s" % String(config.actions[action_id].name), {"action_id": action_id, "reason": error_message})
+			error_message = ""
+			continue
+		_log(index, "event", "课间开始%s" % String(config.actions[action_id].name), {"action_id": action_id})
 	return OK
 
 
@@ -248,6 +536,64 @@ func _reset_daily_discipline() -> void:
 		student.daily_discipline_day = day
 
 
+## 扫描推进窗口内的每日发点检查点（每天08:00）；幂等由granted_days保证，不抽随机。
+func _run_attribute_window(start_day: int, start_clock: float, start_elapsed: float, end_elapsed: float) -> Error:
+	var first_day: int = int(config.global_value("first_daily_attribute_day"))
+	var start_abs: float = float(start_day - 1) * 86400.0 + start_clock
+	# 窗口起点与检查点都以当日时钟直接比较，避免经过秒与跨日换算互相干扰。
+	var span: float = end_elapsed - start_elapsed
+	var last_day: int = int(floor((start_abs + span) / 86400.0)) + 1
+	for grant_day in range(maxi(first_day, start_day), last_day + 1):
+		var grant_clock: float = float(grant_day - 1) * 86400.0 + daily_point_clock
+		if grant_clock < start_abs or grant_clock >= start_abs + span:
+			continue
+		if int(grant_day) in daily_points.granted_days:
+			continue
+		var granted: Error = _grant_daily_points(int(grant_day))
+		if granted != OK:
+			return granted
+	return OK
+
+
+## 离线补发入口：把当前时刻之前所有已错过且未发放的检查点一次性补上（八点后上线补点）。
+func _catch_up_daily_points() -> Error:
+	var first_day: int = int(config.global_value("first_daily_attribute_day"))
+	var now_abs: float = float(day - 1) * 86400.0 + clock_seconds
+	for grant_day in range(first_day, day + 1):
+		var grant_clock: float = float(grant_day - 1) * 86400.0 + daily_point_clock
+		if grant_clock > now_abs:
+			break
+		if grant_day in daily_points.granted_days:
+			continue
+		var granted: Error = _grant_daily_points(grant_day)
+		if granted != OK:
+			return granted
+	return OK
+
+
+## 每日发点：全员待分配点+1，NPC立即按固定轮换消费；写班级与个人真实日志。
+func _grant_daily_points(grant_day: int) -> Error:
+	var points: int = int(config.global_value("daily_attribute_points"))
+	for student: Dictionary in students:
+		student.unspent_points = int(student.unspent_points) + points
+	daily_points.granted_days.append(grant_day)
+	_log(-1, "attribute_points", "第%d天发放属性点+%d" % [grant_day, points], {"day": grant_day})
+	# 学生0是玩家本人，保留待分配点由玩家自己消费；其余NPC按轮换立即分配。
+	for index in range(1, students.size()):
+		var attribute: String = NPC_GROWTH_CYCLE[int(npc_growth.cursor)]
+		npc_growth.cursor = (int(npc_growth.cursor) + 1) % NPC_GROWTH_CYCLE.size()
+		var student: Dictionary = students[index]
+		var previous_value: float = float(student.attributes[attribute])
+		var next_value: float = previous_value + float(points)
+		if not is_finite(next_value) or next_value - previous_value != float(points):
+			return _fail("NPC属性增长后的数值无效，发放中止于第%d天" % grant_day)
+		student.attributes[attribute] = next_value
+		student.unspent_points = int(student.unspent_points) - points
+		_clamp_resources_after_max_change(index)
+		_log(index, "attribute_points", "自动分配%s+%d" % [ATTRIBUTE_DISPLAY_NAMES[attribute], points], {"attribute_id": attribute, "amount": points, "day": grant_day})
+	return OK
+
+
 ## 按实际经过秒数推进，并在动作、资源耗尽、课表和状态边界分段结算。
 func advance(delta_s: float) -> Error:
 	if not is_finite(delta_s) or delta_s < 0.0:
@@ -256,6 +602,10 @@ func advance(delta_s: float) -> Error:
 		return OK
 	# 推进前先把纪律分对齐到当前日：读档/开发时钟可能留下前一天的值。
 	_ensure_daily_discipline()
+	# 推进前补发已错过的每日发点检查点（读档上线/时钟切换后的离线补点语义）。
+	var caught_up: Error = _catch_up_daily_points()
+	if caught_up != OK:
+		return caught_up
 	var result: Error = _process_round_position()
 	if result != OK or is_round_finished():
 		return result
@@ -273,8 +623,22 @@ func advance(delta_s: float) -> Error:
 	var remaining: float = delta_s
 	while remaining > 0.0:
 		var old_context: Dictionary = course_context()
+		# 抢答自主检查点在段开始处理：检查点已作为段边界，发起时刻=段起点，大步小步一致。
+		result = _run_challenge_checkpoints(old_context)
+		if result != OK:
+			return result
+		# 课间磨蹭在课间开始的第一个段起点判定一次，触发动作沿用统一执行器。
+		result = _run_linger_checkpoints(old_context)
+		if result != OK:
+			return result
+		# 特殊事件在早晨/知识课/课间/午休/放学段起点判定一次：概率抽取后按归属立即或挂起。
+		result = _run_event_checkpoints(old_context)
+		if result != OK:
+			return result
 		var interval: float = minf(remaining, old_context.end_seconds - clock_seconds)
 		interval = minf(interval, round_progression.next_boundary(day, clock_seconds) - clock_seconds)
+		# 抢答自主检查点同样是段边界：段在检查点处截止，下一段起点即检查点时刻。
+		interval = minf(interval, float(challenge_auto.next_check_elapsed) - elapsed_s)
 		for index in students.size():
 			var student: Dictionary = students[index]
 			interval = minf(interval, student.current_action.ends_at - elapsed_s)
@@ -293,6 +657,10 @@ func advance(delta_s: float) -> Error:
 		result = _run_inspection_window(segment_start_day, segment_start_clock, segment_start_elapsed, elapsed_s + interval, old_context)
 		if result != OK:
 			return result
+		# 每日属性点检查点与抽查检查点同窗扫描，发放只依赖真实时钟跨越。
+		result = _run_attribute_window(segment_start_day, segment_start_clock, segment_start_elapsed, elapsed_s + interval)
+		if result != OK:
+			return result
 		elapsed_s += interval
 		clock_seconds += interval
 		remaining -= interval
@@ -304,9 +672,11 @@ func advance(delta_s: float) -> Error:
 		var completion_routes: Array = []
 		var dorm_recovery: Array[int] = []
 		for index in students.size():
-			if not students[index].current_action.is_empty() and students[index].current_action.ends_at <= elapsed_s:
+			# 完成判定带 ulp 容差：段长由ends_at反向截断，浮点累加可能比ends_at小不到百万分之一秒。
+			if not students[index].current_action.is_empty() and students[index].current_action.ends_at <= elapsed_s + 1.0e-6:
 				var completed_action: Dictionary = students[index].current_action
-				if config.actions[completed_action.action_id].eligible_period == "dorm_free" and not completed_action.dorm_recovery:
+				# 互动创建的current_action没有恢复标记字段：pair宿舍动作完成走统一互动语义，不强制接续恢复。
+				if config.actions[completed_action.action_id].eligible_period == "dorm_free" and not completed_action.get("dorm_recovery", false):
 					dorm_recovery.append(index)
 				result = _end_action(index, true, "动作完成", -1, completion_routes)
 				if result != OK:
@@ -337,6 +707,10 @@ func advance(delta_s: float) -> Error:
 			if result != OK:
 				return result
 		result = _start_dorm_recovery(dorm_recovery)
+		if result != OK:
+			return result
+		# 事件挂起的课间强制任务在课间开始、清理与终局判定之后落地，先于行为树补位。
+		result = _apply_pending_forced_actions(new_context)
 		if result != OK:
 			return result
 		result = _fill_missing_actions()
@@ -491,11 +865,21 @@ func get_dorm_candidates(student_index: int) -> Array[Dictionary]:
 	for row: Dictionary in config.tables.auto_pool:
 		if row.eligible_period != "dorm_free" or not row.enabled or row.action_id not in phase_scope.dorm_auto_actions:
 			continue
+		var definition: Dictionary = config.actions[row.action_id]
 		# 此处仅验证选科动作是否能执行；实际科目在候选抽中后由弱科选科决定。
-		var subject_id: String = "chinese" if config.actions[row.action_id].knowledge_mode == "selected_subject" else ""
-		if can_start_action(student_index, row.action_id, true, subject_id):
-			var candidate: Dictionary = row.duplicate()
-			candidate["weight"] = float(candidate["weight"]) * persona_factor(student_index, String(candidate["action_id"]))
+		var subject_id: String = "chinese" if definition.knowledge_mode == "selected_subject" else ""
+		var candidate: Dictionary = row.duplicate()
+		candidate["weight"] = float(candidate["weight"]) * persona_factor(student_index, String(candidate["action_id"]))
+		if bool(row.get("requires_same_scene_target", false)):
+			# 宿舍双人活动按可参与同学逐个枚举候选；无同伴时本次不出候选。
+			for target_index: int in students.size():
+				if target_index == student_index:
+					continue
+				if can_start_interaction(student_index, target_index, String(row.action_id), subject_id):
+					candidate["target_index"] = target_index
+					result.append(candidate)
+		elif can_start_action(student_index, row.action_id, true, subject_id):
+			candidate["target_index"] = -1
 			result.append(candidate)
 	return result
 
@@ -608,16 +992,25 @@ func _weighted_with_floor(weights: Array[float], floor_prob: float) -> Array[flo
 
 
 ## AI升级：宿舍活动选择——过滤可执行候选后做倾向加权+保底抽取。
-func select_dorm_action(student_index: int) -> String:
+## 宿舍活动完整选择：候选含双人动作目标；返回动作与目标，选科仍由决策点处理。
+func select_dorm_option(student_index: int) -> Dictionary:
 	var candidates: Array[Dictionary] = get_dorm_candidates(student_index)
 	if candidates.is_empty():
-		return ""
+		return {}
 	var weights: Array[float] = []
 	for candidate: Dictionary in candidates:
 		weights.append(float(candidate["weight"]))
 	var adjusted: Array[float] = _weighted_with_floor(weights, float(config.global_value("dorm_weight_floor")))
 	var picked: int = _weighted_index(adjusted)
-	return "" if picked < 0 else String(candidates[picked]["action_id"])
+	if picked < 0:
+		return {}
+	return {"action_id": String(candidates[picked]["action_id"]), "target_index": int(candidates[picked]["target_index"])}
+
+
+func select_dorm_action(student_index: int) -> String:
+	# 兼容入口：只返回动作ID；双人目标由select_dorm_option完整给出且不重复消耗随机流。
+	var option: Dictionary = select_dorm_option(student_index)
+	return "" if option.is_empty() else String(option["action_id"])
 
 
 ## AI升级：课堂开小差选择——按属性倾向加权后的候选抽取。
@@ -726,6 +1119,8 @@ func action_unavailable_reason(student_index: int, action_id: String, natural_en
 	var context: Dictionary = course_context()
 	if definition.eligible_period == "dorm_free" and not is_dorm_free_time(student_index):
 		return "需要本人真实位于宿舍，且当前为宿舍自由活动时段"
+	if definition.eligible_period == "break" and context.kind != "break":
+		return "这个动作只在课间可用"
 	if definition.knowledge_mode == "selected_subject":
 		if not _is_cultural_subject(selected_subject_id):
 			return "请选择语文、数学或英语"
@@ -888,8 +1283,27 @@ func interaction_unavailable_reason(initiator_index: int, target_index: int, act
 			return "请选择换入的文化课科目"
 		if selected_subject_id == course_context().subject_id:
 			return "换入科目必须不同于当前授课科目"
+	elif definition.knowledge_mode == "selected_subject":
+		# 结伴自习等显式选科互动必须指定真实文化课，双方同按该科学习。
+		if not _is_cultural_subject(selected_subject_id):
+			return "请为%s选择语文、数学或英语" % definition.name
 	elif not selected_subject_id.is_empty():
 		return "这个互动不接受换入科目"
+	# 抢漫画是竞争互动：目标必须正在看漫画（个人或物品版）才有可抢的漫画。
+	if action_id == "take_comic" and String(students[target_index].current_action.get("action_id")) not in ["read_comic", "read_comic_item"]:
+		return "对方正在看漫画时才能抢走漫画"
+	# 宿舍结伴是合作邀请：只在目标空闲时接受，不打断对方的自习或休息，也阻断反复互相打断链。
+	if definition.eligible_period == "dorm_free" and not students[target_index].current_action.is_empty():
+		return "对方正忙，不便打扰"
+	# 宿舍双人活动与单人活动同一耗尽口径：任一方负tick资源为零即不可开始。
+	if definition.eligible_period == "dorm_free":
+		for effect: Dictionary in config.phase_effects(action_id, "tick"):
+			if effect.type == "resource" and effect.value < 0.0 and _condition_matches(effect.condition, true, course_context()):
+				for index in [initiator_index, target_index]:
+					if index in _effect_recipients(effect.recipient, initiator_index, target_index) and students[index][effect.resource] <= 0.0:
+						return "%s的%s耗尽，不能开始%s" % [students[index].name, "专注" if effect.resource == "focus" else "体力", definition.name]
+	if action_id == "answer_challenge" and not (course_context().kind == "lesson" and _is_cultural_subject(course_context().subject_id)):
+		return "抢答需要在语文、数学或英语课堂上"
 	for index in [initiator_index, target_index]:
 		var costs: Dictionary = {"focus": 0.0, "stamina": 0.0}
 		var item_costs: Dictionary = {}
@@ -929,10 +1343,21 @@ func start_interaction(initiator_index: int, target_index: int, action_id: Strin
 		return _reject(unavailable, ERR_UNAVAILABLE)
 	if action_id == "send_note" and note_text.strip_edges().is_empty():
 		return _reject("请输入纸条内容", ERR_INVALID_PARAMETER)
-	# 掰手腕只取真实发动时的体力；完成时不重新取值，不受之后恢复或调表影响。
+	# 掰手腕只取真实发动时的体力；抢答只取真实发动时的知识与智力快照。
+	# 完成时不重新取值，不受期间知识积累、属性点或调表影响，保证结果可复现。
 	var stamina_snapshot: Dictionary = {}
 	if action_id == "arm_wrestle":
 		stamina_snapshot = {"initiator": students[initiator_index].stamina, "target": students[target_index].stamina}
+	var subject: String = course_context().subject_id
+	var challenge_snapshot: Dictionary = {}
+	if action_id == "answer_challenge":
+		challenge_snapshot = {
+			"subject_id": subject,
+			"initiator_knowledge": float(students[initiator_index].knowledge[subject]),
+			"target_knowledge": float(students[target_index].knowledge[subject]),
+			"initiator_intelligence": effective_attribute(initiator_index, "intelligence"),
+			"target_intelligence": effective_attribute(target_index, "intelligence"),
+		}
 	for index: int in [initiator_index, target_index]:
 		_queue_remaining_participants(index, [initiator_index, target_index])
 	for index in [initiator_index, target_index]:
@@ -949,16 +1374,23 @@ func start_interaction(initiator_index: int, target_index: int, action_id: Strin
 		"status": "active", "finished_at": null, "interrupted_by": -1,
 		"note_text": note_text if action_id == "send_note" else "",
 		"selected_subject_id": selected_subject_id, "stamina_snapshot": stamina_snapshot, "result": {},
+		"challenge_snapshot": challenge_snapshot,
 	}
 	next_interaction_number += 1
 	interactions.append(interaction)
 	for index in [initiator_index, target_index]:
-		students[index].current_action = {
+		var pair_action: Dictionary = {
 			"instance_id": next_action_number, "interaction_id": interaction.interaction_id,
 			"action_id": action_id, "started_at": elapsed_s, "ends_at": interaction.ends_at,
-			"duration_s": duration, "last_settled_at": elapsed_s, "subject_id": course_context().subject_id,
+			"duration_s": duration, "last_settled_at": elapsed_s,
+			# 显式选科动作（如结伴自习）保存发起者选科；宿舍无选科互动与单人活动同样不留科目。
+			"subject_id": selected_subject_id if definition.knowledge_mode == "selected_subject" else ("" if definition.eligible_period == "dorm_free" else course_context().subject_id),
 			"natural_entry": true, "resource_changes": {}, "knowledge_gain": 0.0,
 		}
+		# 宿舍自由时段的互动与单人活动共享休息接续契约。
+		if definition.eligible_period == "dorm_free":
+			pair_action["dorm_recovery"] = false
+		students[index].current_action = pair_action
 		next_action_number += 1
 	var result: Error = _apply_targeted_phase(initiator_index, target_index, action_id, "start", interaction)
 	if result != OK:
@@ -991,6 +1423,9 @@ func _action_location(action: Dictionary, context: Dictionary) -> String:
 		return "playground"
 	if action.get("action_id") == "invite_canteen":
 		return "canteen"
+	# 去操场玩就是操场活动：体育课与课间磨蹭都真实位于操场。
+	if action.get("action_id") == "playground_play":
+		return "playground"
 	var location: String = "any" if action.is_empty() else config.actions[action.action_id].scene
 	if location == "course":
 		return "playground" if context.subject_id == "physical" else "classroom"
@@ -1179,8 +1614,10 @@ func effective_attribute(student_index: int, attribute: String) -> float:
 ## 原子替换本地存档，随机状态和已抽时长使用精确文本保存。
 func save_file(path: String) -> Error:
 	round_progression.freeze(day, clock_seconds, _round_participants())
-	# 保存前同步抽查随机流状态，保证读档后检查点与随机结果可继续复现。
+	# 保存前同步抽查、抢答与磨蹭的随机流状态，保证读档后继续可复现。
 	inspection.rng_state = str(inspection_rng.state)
+	challenge_auto.rng_state = str(challenge_rng.state)
+	linger_auto.rng_state = str(linger_rng.state)
 	var snapshot: Dictionary = {
 		"save_version": SAVE_VERSION, "config_fingerprint": config.fingerprint, "config_version": config.version,
 		"created_date": created_date, "day": day, "clock_seconds": clock_seconds, "elapsed_s": elapsed_s,
@@ -1189,6 +1626,8 @@ func save_file(path: String) -> Error:
 		"interactions": interactions, "notes": notes, "violations": violations,
 		"next_interaction_number": next_interaction_number, "next_violation_number": next_violation_number,
 		"round_progression": round_progression.encoded(), "inspection": inspection,
+		"daily_points": daily_points, "npc_growth": npc_growth, "challenge_auto": challenge_auto,
+		"linger_auto": linger_auto, "event_auto": event_auto, "events_log": events_log,
 	}
 	var global_path: String = ProjectSettings.globalize_path(path)
 	var directory_result: Error = DirAccess.make_dir_recursive_absolute(global_path.get_base_dir())
@@ -1281,6 +1720,11 @@ func _load_file(path: String, align_system_time: bool, explicit_day: int = -1, e
 			return _fail(candidate_round.error_message)
 	students.clear()
 	for student in data.students:
+		# 特殊事件字段是v6新增：同版本旧档与更低版本档缺失时按未触发默认迁移。
+		if not student.has("pending_event") or not student.pending_event is Dictionary:
+			student.pending_event = {}
+		if not student.has("pending_forced_action") or not student.pending_forced_action is String:
+			student.pending_forced_action = ""
 		# v1/v2从未持久化领取记录；迁移只建空记录，不从库存猜测，也不重启当前课程补发。
 		if data.save_version < 3:
 			student.daily_item_claim_days = []
@@ -1333,6 +1777,69 @@ func _load_file(path: String, align_system_time: bool, explicit_day: int = -1, e
 			"visible_until_elapsed": -1.0,
 			"last": {},
 		}
+	if data.save_version >= 6:
+		# v6恢复抢答检查点随机流与下一次检查时刻，读档后沿同一随机流继续。
+		challenge_rng.state = int(data.challenge_auto.rng_state)
+		challenge_auto = {
+			"rng_state": str(challenge_rng.state),
+			"next_check_elapsed": float(data.challenge_auto.next_check_elapsed),
+		}
+	else:
+		# v5及更早没有抢答检查点：从读档时刻按间隔重新计时，随机流种子照常派生。
+		challenge_rng.seed = int(rng.seed) ^ 0x2FCB4C67
+		challenge_auto = {
+			"rng_state": str(challenge_rng.state),
+			"next_check_elapsed": elapsed_s + float(config.global_value("answer_challenge_check_seconds")),
+		}
+	if data.save_version >= 6:
+		# v6恢复磨蹭随机流与已处理课间标记，读档后同一课间不重复判定。
+		linger_rng.state = int(data.linger_auto.rng_state)
+		linger_auto = {
+			"rng_state": str(linger_rng.state),
+			"handled_key": String(data.linger_auto.handled_key),
+		}
+	else:
+		# v5及更早没有磨蹭状态：随机流种子照常派生，读档课间视为未判定。
+		linger_rng.seed = int(rng.seed) ^ 0x1D872B41
+		linger_auto = {
+			"rng_state": str(linger_rng.state),
+			"handled_key": "",
+		}
+	# 特殊事件状态同属v6新增：字段缺失（同版本旧档）时按未触发默认，不补造历史事件。
+	if data.save_version >= 6 and data.get("event_auto") is Dictionary and data.event_auto.has_all(["rng_state", "handled_key", "fired_day"]) and data.event_auto.rng_state is String and data.event_auto.rng_state.is_valid_int():
+		event_rng.state = int(data.event_auto.rng_state)
+		event_auto = {
+			"rng_state": str(event_rng.state),
+			"handled_key": String(data.event_auto.handled_key),
+			"fired_day": int(data.event_auto.fired_day),
+		}
+		events_log.clear()
+		if data.get("events_log") is Array:
+			for entry: Variant in data.events_log:
+				if entry is Dictionary:
+					events_log.append(entry)
+	else:
+		# 旧v6档与更低版本档没有事件状态：随机流种子照常派生，读档后从未触发过事件。
+		event_rng.seed = int(rng.seed) ^ 0x6E774B57
+		event_auto = {
+			"rng_state": str(event_rng.state),
+			"handled_key": "",
+			"fired_day": 0,
+		}
+		events_log.clear()
+	if data.save_version >= 6:
+		# v6恢复已发放日集合与NPC轮换游标，之后由统一的离线补发入口兜底。
+		daily_points = {"granted_days": []}
+		for granted_day: Variant in data.daily_points.granted_days:
+			daily_points.granted_days.append(int(granted_day))
+		npc_growth = {"cursor": int(data.npc_growth.cursor)}
+	else:
+		# v5及更早没有发点记录：迁移日及之前全部视为已发放，不补造历史，从下一天起正常发放。
+		var migrated_days: Array = []
+		for grant_day in range(int(config.global_value("first_daily_attribute_day")), int(data.day) + 1):
+			migrated_days.append(grant_day)
+		daily_points = {"granted_days": migrated_days}
+		npc_growth = {"cursor": 0}
 	interactions.clear()
 	notes.clear()
 	violations.clear()
@@ -1381,6 +1888,10 @@ func _load_file(path: String, align_system_time: bool, explicit_day: int = -1, e
 			_clamp_resources_after_max_change(index)
 			_sync_violation(index)
 	_log(-1, "save", "已读取本地存档，关闭期间不推进资源与知识", {})
+	# 读档恢复完成后再补点：此刻的day/clock才是“上线时刻”，八点后上线的离线点在此补上。
+	var caught_up: Error = _catch_up_daily_points()
+	if caught_up != OK:
+		return caught_up
 	return OK
 
 
@@ -1400,6 +1911,10 @@ func set_debug_time(test_day: int, seconds: float) -> Error:
 	is_debug_time = true
 	# 开发时钟可跨日，纪律分必须按新的当前日重置，避免把旧日扣分带入。
 	_reset_daily_discipline()
+	# 开发时钟切换后的补点与读档同一语义：当前时刻前错过的检查点补上，已发放的不回滚。
+	var caught_up: Error = _catch_up_daily_points()
+	if caught_up != OK:
+		return caught_up
 	var relocated: Error = round_progression.relocate(test_day, seconds, _round_participants())
 	if relocated != OK:
 		return _fail(round_progression.error_message)
@@ -1421,8 +1936,9 @@ func _validate_scope() -> Error:
 	var redirect_group: String = ""
 	if not phase_scope.get("subject_auto_actions") is Dictionary:
 		return _fail("阶段范围必须声明subject_auto_actions对象")
-	if not phase_scope.get("dorm_auto_actions") is Array or phase_scope.dorm_auto_actions.size() != 6:
-		return _fail("阶段范围必须明确声明六项宿舍自主活动")
+	# 宿舍自主池含六项个人活动与两项双人结伴活动。
+	if not phase_scope.get("dorm_auto_actions") is Array or phase_scope.dorm_auto_actions.size() != 8:
+		return _fail("阶段范围必须明确声明八项宿舍自主活动")
 	var dorm_ids: Array = []
 	for action_id: Variant in phase_scope.dorm_auto_actions:
 		if not action_id is String or action_id in dorm_ids or action_id not in phase_scope.enabled_actions or not config.actions.has(action_id) or config.actions[action_id].eligible_period != "dorm_free":
@@ -1458,7 +1974,7 @@ func _validate_scope() -> Error:
 			var pair: bool = definition.target == "pair"
 			if (definition.kind == "instant") != (effect.phase == "instant") or effect.phase not in ["start", "tick", "complete", "instant"]:
 				return _fail("动作效果阶段与执行契约不一致：%s" % effect.id)
-			var result_recipient: bool = pair and action_id == "arm_wrestle" and effect.phase == "complete" and effect.recipient in ["winner", "loser"] and effect.condition == effect.recipient
+			var result_recipient: bool = pair and action_id in ["arm_wrestle", "answer_challenge"] and effect.phase == "complete" and effect.recipient in ["winner", "loser", "tie"] and effect.condition == effect.recipient
 			if (not pair and effect.recipient != "self") or (pair and effect.recipient not in ["self", "target", "both"] and not result_recipient):
 				return _fail("当前阶段尚未实现效果对象：%s" % effect.id)
 			if effect.type not in (["resource", "event", "start_action", "apply_buff", "consume_item"] if pair else ["resource", "apply_buff", "consume_item", "start_action"]):
@@ -1496,24 +2012,24 @@ func _validate_scope() -> Error:
 				for later_effect in config.effects_by_action[action_id]:
 					if later_effect.phase == effect.phase and later_effect.sequence > effect.sequence:
 						return _fail("个人后续动作必须位于对应阶段的最后：%s" % effect.id)
-			if effect.type == "event" and not ((action_id == "send_note" and effect.phase == "complete" and effect.event == "deliver_note" and effect.recipient == "target") or (action_id == "report" and effect.phase == "instant" and effect.event == "close_violation" and effect.recipient == "target") or (action_id == "arm_wrestle" and effect.phase == "complete" and effect.event == "resolve_arm_wrestle" and effect.recipient == "both")):
+			if effect.type == "event" and not ((action_id == "send_note" and effect.phase == "complete" and effect.event == "deliver_note" and effect.recipient == "target") or (action_id == "report" and effect.phase == "instant" and effect.event == "close_violation" and effect.recipient == "target") or (action_id == "arm_wrestle" and effect.phase == "complete" and effect.event == "resolve_arm_wrestle" and effect.recipient == "both") or (action_id == "answer_challenge" and effect.phase == "complete" and effect.event == "resolve_answer_challenge" and effect.recipient == "both")):
 				return _fail("当前阶段尚未实现事件：%s" % effect.id)
 			if effect.type == "event" and effect.condition != "always":
 				return _fail("送达与关闭违纪事件必须无条件执行：%s" % effect.id)
-			if pair and effect.type == "start_action" and not ((action_id == "report" and effect.phase == "instant") or (action_id == "remind_friend" and effect.phase == "complete")):
+			if pair and effect.type == "start_action" and not ((action_id == "report" and effect.phase == "instant") or (action_id == "remind_friend" and effect.phase == "complete") or (action_id == "take_comic" and effect.phase == "complete")):
 				return _fail("当前阶段尚未实现互动后续动作：%s" % effect.id)
 			if pair and effect.type == "start_action" and (effect.recipient != "target" or effect.next_action_id != "current_course" or effect.event != "forced_entry"):
 				return _fail("互动后续动作必须明确强制目标回当前课表：%s" % effect.id)
 			if pair and effect.type == "start_action" and effect.condition != "always":
 				return _fail("举报后的强制回课堂必须无条件执行：%s" % effect.id)
-			if effect.condition not in ["always", "natural_entry", "course_active"] and not (action_id == "arm_wrestle" and effect.phase == "complete" and effect.condition in ["winner", "loser", "tie"]):
+			if effect.condition not in ["always", "natural_entry", "course_active"] and not (action_id in ["arm_wrestle", "answer_challenge"] and effect.phase == "complete" and effect.condition in ["winner", "loser", "tie"]):
 				return _fail("当前阶段尚未实现效果条件：%s" % effect.id)
 			if effect.phase == "tick" and effect.type != "resource":
 				return _fail("当前阶段持续效果只支持资源连续结算：%s" % effect.id)
 		if self_route_count > 1:
 			return _fail("个人动作只能包含一个明确的后续动作：%s" % action_id)
 		# 业务事件必须有且只有一次，避免调表把同一纸条送达两次或重复结束违纪。
-		if action_id in ["send_note", "report", "arm_wrestle", "remind_friend"]:
+		if action_id in ["send_note", "report", "arm_wrestle", "remind_friend", "answer_challenge"]:
 			var event_count: int = 0
 			var route_count: int = 0
 			var route_sequence: float = -1.0
@@ -1536,13 +2052,21 @@ func _validate_scope() -> Error:
 					resolve_sequence = effect.sequence
 				elif effect.condition in ["winner", "loser", "tie"] and (resolve_sequence < 0.0 or effect.sequence <= resolve_sequence):
 					return _fail("掰手腕必须先确定快照胜负再结算胜负效果")
+		if action_id == "answer_challenge":
+			# 抢答与掰手腕同序：先由判定事件给出胜负，再按条件结算双方专注变化。
+			var resolve_sequence: float = -1.0
+			for effect: Dictionary in config.phase_effects(action_id, "complete"):
+				if effect.type == "event":
+					resolve_sequence = effect.sequence
+				elif effect.condition in ["winner", "loser", "tie"] and (resolve_sequence < 0.0 or effect.sequence <= resolve_sequence):
+					return _fail("抢答必须先确定快照胜负再结算胜负效果")
 	# 竞争社交候选必须是已开放的双人持续互动，不能把个人动作混入自主干扰池。
 	if not phase_scope.get("social_auto_actions") is Array:
 		return _fail("阶段范围必须声明social_auto_actions数组")
 	var social_ids: Array = phase_scope.social_auto_actions
 	var seen_social: Array = []
 	for action_id: Variant in social_ids:
-		if not action_id is String or action_id not in phase_scope.enabled_actions or action_id in seen_social or action_id not in ["borrow_notes", "swap_book", "invite_playground", "invite_canteen", "arm_wrestle", "eraser_prank"]:
+		if not action_id is String or action_id not in phase_scope.enabled_actions or action_id in seen_social or action_id not in ["borrow_notes", "swap_book", "invite_playground", "invite_canteen", "arm_wrestle", "eraser_prank", "answer_challenge"]:
 			return _fail("竞争社交候选重复、未开放或不属于竞争动作池：%s" % action_id)
 		seen_social.append(action_id)
 	# 教师花名册必须覆盖语数英三科并恰好一位教导主任，立绘文件必须真实存在。
@@ -1623,6 +2147,31 @@ func _validate_snapshot(data: Dictionary) -> Error:
 					return _fail("存档抽查发现记录无效")
 	elif data.has("inspection"):
 		return _fail("旧版存档含有无法归属的教导主任抽查状态")
+	if data.save_version >= 6:
+		# 每日发点记录与NPC轮换游标属于权威进度，缺失或非法都不能静默重建。
+		if not data.get("daily_points") is Dictionary or not data.daily_points.get("granted_days") is Array or not data.get("npc_growth") is Dictionary or not _is_integer(data.npc_growth.cursor):
+			return _fail("存档缺少每日属性点状态或字段不完整")
+		if int(data.npc_growth.cursor) < 0 or int(data.npc_growth.cursor) >= NPC_GROWTH_CYCLE.size():
+			return _fail("存档NPC轮换游标无效")
+		var previous_day: int = 0
+		for granted_day: Variant in data.daily_points.granted_days:
+			if not _is_integer(granted_day) or int(granted_day) < 1 or int(granted_day) > int(data.day):
+				return _fail("存档每日发点记录无效")
+			if int(granted_day) <= previous_day:
+				return _fail("存档每日发点记录必须升序且唯一")
+			previous_day = int(granted_day)
+		# 抢答检查点随机流状态同样属于权威进度，缺失或非法直接拒绝。
+		if not data.get("challenge_auto") is Dictionary or not data.challenge_auto.has_all(["rng_state", "next_check_elapsed"]):
+			return _fail("存档缺少抢答自主检查点状态或字段不完整")
+		if not data.challenge_auto.rng_state is String or not data.challenge_auto.rng_state.is_valid_int() or not _is_number(data.challenge_auto.next_check_elapsed) or float(data.challenge_auto.next_check_elapsed) < 0.0:
+			return _fail("存档抢答自主检查点状态无效")
+		# 磨蹭随机流与已处理课间标记同属权威进度，缺失或非法直接拒绝。
+		if not data.get("linger_auto") is Dictionary or not data.linger_auto.has_all(["rng_state", "handled_key"]):
+			return _fail("存档缺少课间磨蹭状态或字段不完整")
+		if not data.linger_auto.rng_state is String or not data.linger_auto.rng_state.is_valid_int() or not data.linger_auto.handled_key is String:
+			return _fail("存档课间磨蹭状态无效")
+	elif data.has("daily_points") or data.has("npc_growth") or data.has("challenge_auto") or data.has("linger_auto"):
+		return _fail("旧版存档含有无法归属的每日属性点状态")
 	var parsed_date: Dictionary = Time.get_datetime_dict_from_datetime_string(data.created_date + "T00:00:00", false)
 	if data.created_date.length() != 10 or parsed_date.is_empty() or "%04d-%02d-%02d" % [parsed_date.year, parsed_date.month, parsed_date.day] != data.created_date:
 		return _fail("存档创建日期无效")
@@ -1786,6 +2335,7 @@ func _validate_interaction_snapshot(data: Dictionary) -> Error:
 		else:
 			if not _is_number(interaction.finished_at) or interaction.finished_at < interaction.started_at or interaction.finished_at > data.elapsed_s or interaction.finished_at > interaction.ends_at + 0.000001:
 				return _fail("存档历史互动结束时刻无效")
+			# 完成结算由ends_at反向截断的段末触发，浮点累加允许百万分之一秒级别的同刻误差。
 			if interaction.status == "completed" and absf(interaction.finished_at - interaction.ends_at) > 0.000001:
 				return _fail("存档互动未执行到完成时刻")
 		registry[interaction.interaction_id] = interaction
@@ -1865,10 +2415,16 @@ func _validate_pair_metadata(interaction: Dictionary) -> Error:
 	if interaction.action_id in ["swap_book", "swap_book_boost"]:
 		if not _is_cultural_subject(interaction.selected_subject_id):
 			return _fail("存档偷换课本缺少有效文化课科目")
+	elif config.actions[interaction.action_id].knowledge_mode == "selected_subject":
+		# 结伴自习等显式选科互动保存发起者的真实文化课。
+		if not _is_cultural_subject(interaction.selected_subject_id):
+			return _fail("存档显式选科互动缺少有效文化课科目")
 	elif not interaction.selected_subject_id.is_empty():
 		return _fail("存档非偷书互动不应包含换入科目")
+	if interaction.action_id == "answer_challenge":
+		return _validate_challenge_metadata(interaction)
 	if interaction.action_id != "arm_wrestle":
-		if not interaction.stamina_snapshot.is_empty() or not interaction.result.is_empty():
+		if not interaction.stamina_snapshot.is_empty() or not interaction.result.is_empty() or not (interaction.get("challenge_snapshot", {}) as Dictionary).is_empty():
 			return _fail("存档普通互动含有无法归属的胜负快照或结果")
 		return OK
 	var snapshot: Dictionary = interaction.stamina_snapshot
@@ -1887,6 +2443,49 @@ func _validate_pair_metadata(interaction: Dictionary) -> Error:
 	elif not interaction.result.is_empty():
 		return _fail("未完成的掰手腕不能保存胜负结果")
 	return OK
+
+
+## 抢答快照与结果校验：发动时记录双方该科知识与有效智力，完成结果必须由快照复算得出。
+func _validate_challenge_metadata(interaction: Dictionary) -> Error:
+	if not interaction.stamina_snapshot.is_empty():
+		return _fail("存档抢答不应包含体力快照")
+	var snapshot: Dictionary = interaction.challenge_snapshot
+	if snapshot.size() != 5 or not snapshot.get("subject_id") is String or not _is_cultural_subject(String(snapshot.subject_id)):
+		return _fail("存档抢答缺少有效的文化课快照")
+	for field: String in ["initiator_knowledge", "target_knowledge"]:
+		if not _is_number(snapshot[field]) or float(snapshot[field]) < 0.0:
+			return _fail("存档抢答快照字段无效")
+	# 有效智力可能被减益压到负数，只要求是有限数值即可复算。
+	for field: String in ["initiator_intelligence", "target_intelligence"]:
+		if not _is_number(snapshot[field]) or not is_finite(float(snapshot[field])):
+			return _fail("存档抢答快照字段无效")
+	if interaction.status == "completed":
+		var actual: Dictionary = interaction.result
+		if actual.size() != 3 or not actual.has_all(["outcome", "winner_index", "loser_index"]) or not actual.outcome is String or not _is_integer(actual.winner_index) or not _is_integer(actual.loser_index):
+			return _fail("存档抢答结果字段无效")
+		var expected: Dictionary = _answer_challenge_result(interaction)
+		if actual.outcome != expected.outcome or actual.winner_index != expected.winner_index or actual.loser_index != expected.loser_index:
+			return _fail("存档抢答胜负与发动快照不符")
+	elif not interaction.result.is_empty():
+		return _fail("未完成的抢答不能保存胜负结果")
+	return OK
+
+
+## 抢答判定只比较发动时快照：K×(1+考试智力系数×有效智力)，相对差在机器表示内判平局。
+func _answer_challenge_result(interaction: Dictionary) -> Dictionary:
+	var snapshot: Dictionary = interaction.challenge_snapshot
+	var coefficient: float = float(config.global_value("exam_intelligence_coefficient"))
+	var initiator_score: float = float(snapshot.initiator_knowledge) * (1.0 + coefficient * float(snapshot.initiator_intelligence))
+	var target_score: float = float(snapshot.target_knowledge) * (1.0 + coefficient * float(snapshot.target_intelligence))
+	var representation_error: float = maxf(5.0e-18, maxf(absf(initiator_score), absf(target_score)) * 1.0e-13)
+	if absf(initiator_score - target_score) <= representation_error:
+		return {"outcome": "tie", "winner_index": -1, "loser_index": -1}
+	var initiator_wins: bool = initiator_score > target_score
+	return {
+		"outcome": "initiator" if initiator_wins else "target",
+		"winner_index": int(interaction.initiator_index if initiator_wins else interaction.target_index),
+		"loser_index": int(interaction.target_index if initiator_wins else interaction.initiator_index),
+	}
 
 
 ## 所有互动参与者均来自本局固定四个角色，不接受小数索引或字符串。
@@ -2151,7 +2750,7 @@ func _end_interaction(interaction_id: int, completed: bool, reason: String, inte
 	var result_text: String = "纸条已送达" if completed else "纸条未送达"
 	if interaction.action_id != "send_note":
 		result_text = "%s%s" % [config.actions[interaction.action_id].name, "完成" if completed else "被打断，未结算完成效果"]
-		if completed and interaction.action_id == "arm_wrestle":
+		if completed and interaction.action_id in ["arm_wrestle", "answer_challenge"]:
 			result_text += "，平局" if interaction.result.outcome == "tie" else "，%s获胜" % students[int(interaction.result.winner_index)].name
 	_log(interaction.initiator_index, "interaction_end", "%s → %s：%s（%s）" % [students[interaction.initiator_index].name, students[interaction.target_index].name, result_text, reason], interaction.duplicate(true))
 	return OK
@@ -2181,6 +2780,9 @@ func _apply_targeted_phase(initiator_index: int, target_index: int, action_id: S
 		# 双方事件属于一次互动，先确定结果，不能因both对象重复求值或发奖。
 		if effect.type == "event" and effect.event == "resolve_arm_wrestle":
 			payload.result = _arm_wrestle_result(payload)
+			continue
+		if effect.type == "event" and effect.event == "resolve_answer_challenge":
+			payload.result = _answer_challenge_result(payload)
 			continue
 		for index in _effect_recipients(effect.recipient, initiator_index, target_index, payload):
 			match effect.type:

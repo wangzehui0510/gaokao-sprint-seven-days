@@ -1,0 +1,138 @@
+{
+  "canvas": [
+    384,
+    256
+  ],
+  "source_room": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v2_podium\\classroom_with_podium.png",
+  "source_room_sha256": "bd82fae904fcdecc27f38f9f00714ed1503875a73c8e1e1f26997f789161996c",
+  "crop": [
+    172,
+    32,
+    160,
+    128
+  ],
+  "platform_top_polygon": [
+    [
+      199,
+      76
+    ],
+    [
+      326,
+      140
+    ],
+    [
+      287,
+      160
+    ],
+    [
+      181,
+      101
+    ]
+  ],
+  "podium_floor_polygon": [
+    [
+      199,
+      80
+    ],
+    [
+      326,
+      144
+    ],
+    [
+      287,
+      164
+    ],
+    [
+      181,
+      105
+    ]
+  ],
+  "platform_height_px": 4,
+  "lectern_top_polygon": [
+    [
+      232,
+      92
+    ],
+    [
+      260,
+      106
+    ],
+    [
+      242,
+      115
+    ],
+    [
+      214,
+      101
+    ]
+  ],
+  "lectern_floor_polygon": [
+    [
+      232,
+      111
+    ],
+    [
+      260,
+      125
+    ],
+    [
+      242,
+      134
+    ],
+    [
+      214,
+      120
+    ]
+  ],
+  "lectern_rect": [
+    214,
+    92,
+    47,
+    43
+  ],
+  "lectern_height_px": 19,
+  "teacher_reserve_rect": [
+    236,
+    78,
+    40,
+    56
+  ],
+  "teacher_foot_anchor": [
+    260,
+    126
+  ],
+  "teacher_facing": "south-west",
+  "teacher_position": "behind_lectern",
+  "stations": [
+    {
+      "id": "S1_front_left",
+      "origin": [
+        124,
+        93
+      ]
+    },
+    {
+      "id": "S2_back_left",
+      "origin": [
+        60,
+        125
+      ]
+    },
+    {
+      "id": "S3_front_right",
+      "origin": [
+        208,
+        135
+      ]
+    },
+    {
+      "id": "S4_back_right",
+      "origin": [
+        144,
+        167
+      ]
+    }
+  ],
+  "user_change": "平台连接墙边，讲桌前移并为后方老师保留站位",
+  "scope": "讲台版美术预览，老师预留区不等于新教师动画已完成。"
+}

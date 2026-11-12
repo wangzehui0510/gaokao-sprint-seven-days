@@ -2,6 +2,49 @@
   "version": "0.2.0",
   "tables": [
     {
+      "key": "events",
+      "sheet": "特殊事件",
+      "header_row": 4,
+      "columns": [
+        {"key": "id", "type": "string", "nullable": false},
+        {"key": "name", "type": "string", "nullable": false},
+        {"key": "trigger_point", "type": "string", "nullable": false},
+        {"key": "enabled", "type": "boolean", "nullable": false},
+        {"key": "description", "type": "string", "nullable": false}
+      ]
+    },
+    {
+      "key": "event_options",
+      "sheet": "事件选项",
+      "header_row": 4,
+      "columns": [
+        {"key": "id", "type": "string", "nullable": false},
+        {"key": "event_id", "type": "string", "nullable": false},
+        {"key": "sequence", "type": "number", "nullable": false},
+        {"key": "name", "type": "string", "nullable": false},
+        {"key": "description", "type": "string", "nullable": false}
+      ]
+    },
+    {
+      "key": "event_effects",
+      "sheet": "事件效果",
+      "header_row": 4,
+      "columns": [
+        {"key": "id", "type": "string", "nullable": false},
+        {"key": "event_id", "type": "string", "nullable": false},
+        {"key": "option_id", "type": "string", "nullable": false},
+        {"key": "sequence", "type": "number", "nullable": false},
+        {"key": "recipient", "type": "string", "nullable": false},
+        {"key": "type", "type": "string", "nullable": false},
+        {"key": "resource", "type": "string", "nullable": true},
+        {"key": "value", "type": "number", "nullable": true},
+        {"key": "buff_id", "type": "string", "nullable": true},
+        {"key": "item_id", "type": "string", "nullable": true},
+        {"key": "action_id", "type": "string", "nullable": true},
+        {"key": "description", "type": "string", "nullable": false}
+      ]
+    },
+    {
       "key": "actions",
       "sheet": "动作",
       "header_row": 4,

@@ -1,0 +1,9 @@
+{
+  "description": "Remove the entire wooden lectern from this pixel-art classroom crop. Continue the existing warm beige raised platform top and its clean 4-pixel front edge through the cleared area, keeping the platform connected to the wall under the blackboard. The result must contain NO lectern, no wooden desk colors, no ghost outline, no shadow, and no rectangular patch. Preserve the blackboard, wall trim, floor tiles, door, clock and every pixel outside the white mask exactly. Use crisp native pixel clusters matching the room, no blur, no texture invention, no people, no text.",
+  "crop_to_mask": true,
+  "no_background": false,
+  "output_method": "Modify current layer",
+  "seed": 2026111262,
+  "source": "v3 classroom_with_wall_connected_podium.png",
+  "mask": "lectern_clear_crop_mask.png"
+}

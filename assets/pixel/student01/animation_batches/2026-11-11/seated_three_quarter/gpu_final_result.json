@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "status": "passed_with_documented_limits",
+  "scope": "frozen_fixed_seated_writing_and_four_station_asset_preview",
+  "generated_at_utc": "2026-11-11T09:30:01.285740+00:00",
+  "source_manifest_sha256": "4c3aaf7b2ed763abcfce2c43053a79873ebe9258e7d648904681b095e3dfc703",
+  "qa_manifest_copy_sha256": "4c3aaf7b2ed763abcfce2c43053a79873ebe9258e7d648904681b095e3dfc703",
+  "gpu_capture_manifest_sha256": "dcfba95196cb173bafca43ad2ab851929887e21dbf71b86c4f4115bfc40d77b9",
+  "verification_sha256": "c60899a9e7eb00a416f32100b9819a6605bd53aad1baf90c05272ca6775540cf",
+  "gpu_environment": {
+    "application": "SeatedThreeQuarterGpuQa_20261111",
+    "isolated_user_dir": "C:/Users/admin/AppData/Roaming/SeatedThreeQuarterGpuQa_20261111",
+    "display_server": "Windows",
+    "gpu_adapter": "Intel(R) UHD Graphics 770",
+    "rendering_method": "gl_compatibility"
+  },
+  "gpu_process_exit_code": 0,
+  "gpu_stderr_bytes": 0,
+  "automated_checks": 707,
+  "automated_failures": [],
+  "capture_count": 132,
+  "capture_matrix": {
+    "layer_states": 11,
+    "frames": 6,
+    "integer_scales": [
+      1,
+      2
+    ],
+    "stations": 4
+  },
+  "independent_cpu_pixel_matches": 132,
+  "strict_1x_2x_matches": 66,
+  "final_source_files_checked": 10,
+  "raw_source_frames_preserved": 7,
+  "source_order": [
+    0,
+    6,
+    4,
+    2,
+    4,
+    6
+  ],
+  "duration_ms": [
+    280,
+    150,
+    160,
+    200,
+    160,
+    150
+  ],
+  "loop_duration_ms": 1100,
+  "approved_seed_exact_reconstruction": true,
+  "visual_review": [
+    {
+      "id": "pose_and_anchor",
+      "status": "passed",
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "finding": "头发、脸、领口、背部、臀腿脚和桌椅位置固定；未看到身体抖动、肩臂断开或脚点跳动。"
+    },
+    {
+      "id": "hand_pen_loop",
+      "status": "passed",
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "finding": "手腕和持笔在纸面附近往返，抬腕和回收轨迹可读；首尾差分仅4像素，未发现循环首尾整个人跳动。"
+    },
+    {
+      "id": "foreground_chair",
+      "status": "passed",
+      "finding": "椅背保持在下背前方，未压住头、手或笔；人物层保留原批准画面的可见人体剪影。"
+    },
+    {
+      "id": "empty_station",
+      "status": "passed",
+      "finding": "关闭人物后四套桌面、纸、椅面和桌椅腿完整；未看到头发、脸、蓝白校服、手臂或鞋的残留。"
+    },
+    {
+      "id": "room_and_layout",
+      "status": "passed",
+      "finding": "空背景无桌椅人物；四工位均朝东北且位于地板内，画布互不相交，黑板和门窗未被异常遮挡；地板方向与桌面近似2:1视角协调。"
+    },
+    {
+      "id": "pixel_scaling",
+      "status": "passed",
+      "finding": "1x和2x轮廓清晰，未出现滤波软化、缩放拉伸或半透明边缘。"
+    }
+  ],
+  "visually_reviewed_evidence": [
+    {
+      "path": "D:\\挂机上课\\.artifacts\\seated_three_quarter_qa\\captures\\all_layers_f00_2x.png",
+      "sha256": "2fc68469a04b7e391d0d44296cf72bb20cfd5e80350a5be157ad937ebb496e9b"
+    },
+    {
+      "path": "D:\\挂机上课\\.artifacts\\seated_three_quarter_qa\\inspection\\gpu_station_frames_6x.png",
+      "sha256": "f8d2c70022bde52324b4b062929294cfb9848953d74414da2b990d71e549122e"
+    },
+    {
+      "path": "D:\\挂机上课\\.artifacts\\seated_three_quarter_qa\\inspection\\gpu_hand_frames_12x.png",
+      "sha256": "e023075d57580e84ea5c700f6a2bbb3c0d02e23f1f2f1761db4268037aab17e0"
+    },
+    {
+      "path": "D:\\挂机上课\\.artifacts\\seated_three_quarter_qa\\inspection\\gpu_without_layers_4x.png",
+      "sha256": "8ae02d619aa37ab70cf66d6f39c463b03651be4989e0d84281f1bb6bae5eada0"
+    },
+    {
+      "path": "D:\\挂机上课\\.artifacts\\seated_three_quarter_qa\\inspection\\gpu_only_layers_4x.png",
+      "sha256": "b38e56289f119cba99bd56d3673ee23b560b597b129f097993a1d672f333afd2"
+    },
+    {
+      "path": "D:\\挂机上课\\.artifacts\\seated_three_quarter_qa\\inspection\\gpu_scene_frames_1x.png",
+      "sha256": "afb627167748bb0bb864d334f180e73dfd94f9c36f03d7a670304c36ff2c5558"
+    },
+    {
+      "path": "D:\\挂机上课\\.artifacts\\seated_three_quarter_qa\\captures\\only_room_f00_1x.png",
+      "sha256": "1d8fce5d703f4c307d8f2b2cdc9c2c33b498b2730c4dbdd68b5ac752a95e32f6"
+    },
+    {
+      "path": "D:\\挂机上课\\.artifacts\\seated_three_quarter_qa\\captures\\without_student_f00_2x.png",
+      "sha256": "223ce9c4fcb4a34cf56d30ead90a1bed39b87df6dc9e0cc2067c4393ba977610"
+    },
+    {
+      "path": "D:\\挂机上课\\.artifacts\\seated_three_quarter_qa\\captures\\all_layers_f03_1x.png",
+      "sha256": "f0b3e10b1d06efc2df071b6cf9dff3ca41e87162d53046d3f1687d5ff90d024b"
+    }
+  ],
+  "blocking_issues": [],
+  "observations_and_limits": [
+    "本结论仅适用于冻结的固定3/4坐姿写字及四工位素材预览，未运行正式主场景、业务、教师、命中区域或存档服务。",
+    "人物层只保留批准视角中可见的人体；椅背后的躯干未补全。关闭椅背时看见的人体缺口属于当前分层边界，起身、转身或移位需另验。",
+    "四个工位共用学生01外观和动画相位；其他角色、其他动作、双人演出及过渡尚未适配。",
+    "六帧时间轴包含4个独立姿态，动作幅度克制；源6对应的两个时间片仅比批准首帧变化4像素，保留已采用的停顿与往返节奏。",
+    "源桌面是近似2:1的3/4视角，右前边比严格等轴轴向更陡；本轮未剪切或拉伸源素材来修正该造型。",
+    "人工逐帧目检覆盖所列九份实际GPU图与放大表，程序像素核对覆盖全部132张截图；未宣称逐张单独目检132张。"
+  ],
+  "qa_tool_history": {
+    "initial_failure": "JSON尺寸数组中的浮点数与整型数组直接比较产生QA工具误判。",
+    "repair": "仅在隔离脚本输入边界验证整数值，再比较Vector2i尺寸；未修改任何冻结素材。",
+    "preserved_logs": [
+      "initial_manifest_type_failure_stdout.log",
+      "initial_manifest_type_failure_stderr.log"
+    ],
+    "final_run": "真实GPU重跑退出0，stderr为空。"
+  },
+  "production_integration": false,
+  "formal_save_accessed": false
+}

@@ -1,0 +1,1054 @@
+{
+  "schema_version": 1,
+  "clips": [
+    {
+      "id": "A01_write_north",
+      "label": "A01_write_north",
+      "direction": "north",
+      "frame_paths": [
+        "raw/A01_write_north/frame_00.png",
+        "raw/A01_write_north/frame_01.png",
+        "raw/A01_write_north/frame_02.png",
+        "raw/A01_write_north/frame_03.png",
+        "raw/A01_write_north/frame_04.png",
+        "raw/A01_write_north/frame_05.png",
+        "raw/A01_write_north/frame_06.png"
+      ],
+      "duration_ms": 160,
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A03_idle_seated_north",
+      "label": "A03_idle_seated_north",
+      "direction": "north",
+      "frame_paths": [
+        "raw/A03_idle_seated_north/frame_00.png",
+        "raw/A03_idle_seated_north/frame_01.png",
+        "raw/A03_idle_seated_north/frame_02.png",
+        "raw/A03_idle_seated_north/frame_03.png",
+        "raw/A03_idle_seated_north/frame_04.png"
+      ],
+      "duration_ms": 160,
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A04_sleep_desk_north",
+      "label": "A04_sleep_desk_north",
+      "direction": "north",
+      "frame_paths": [
+        "raw/A04_sleep_desk_north/frame_00.png",
+        "raw/A04_sleep_desk_north/frame_01.png",
+        "raw/A04_sleep_desk_north/frame_02.png",
+        "raw/A04_sleep_desk_north/frame_03.png",
+        "raw/A04_sleep_desk_north/frame_04.png"
+      ],
+      "duration_ms": 160,
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A02_read_north",
+      "label": "A02_read_north",
+      "direction": "north",
+      "frame_paths": [
+        "raw/A02_read_north/frame_00.png",
+        "raw/A02_read_north/frame_01.png",
+        "raw/A02_read_north/frame_02.png",
+        "raw/A02_read_north/frame_03.png",
+        "raw/A02_read_north/frame_04.png",
+        "raw/A02_read_north/frame_05.png",
+        "raw/A02_read_north/frame_06.png"
+      ],
+      "duration_ms": 160,
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A03_idle_standing_south",
+      "label": "A03_idle_standing_south",
+      "direction": "south",
+      "frame_paths": [
+        "raw/A03_idle_standing_south/frame_00.png",
+        "raw/A03_idle_standing_south/frame_01.png",
+        "raw/A03_idle_standing_south/frame_02.png",
+        "raw/A03_idle_standing_south/frame_03.png",
+        "raw/A03_idle_standing_south/frame_04.png"
+      ],
+      "duration_ms": 160,
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A08_exercise_south",
+      "label": "A08_exercise_south",
+      "direction": "south",
+      "frame_paths": [
+        "raw/A08_exercise_south/frame_00.png",
+        "raw/A08_exercise_south/frame_01.png",
+        "raw/A08_exercise_south/frame_02.png",
+        "raw/A08_exercise_south/frame_03.png",
+        "raw/A08_exercise_south/frame_04.png",
+        "raw/A08_exercise_south/frame_05.png",
+        "raw/A08_exercise_south/frame_06.png",
+        "raw/A08_exercise_south/frame_07.png",
+        "raw/A08_exercise_south/frame_08.png"
+      ],
+      "duration_ms": 160,
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A04_sleep_desk_north_v2",
+      "label": "A04_sleep_desk_north_v2",
+      "direction": "north",
+      "frame_paths": [
+        "raw/A04_sleep_desk_north_v2/frame_00.png",
+        "raw/A04_sleep_desk_north_v2/frame_01.png",
+        "raw/A04_sleep_desk_north_v2/frame_02.png",
+        "raw/A04_sleep_desk_north_v2/frame_03.png",
+        "raw/A04_sleep_desk_north_v2/frame_04.png"
+      ],
+      "duration_ms": 650,
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A06_meal_north",
+      "label": "持碗用餐",
+      "direction": "north",
+      "frame_paths": [
+        "raw/A06_meal_north/frame_00.png",
+        "raw/A06_meal_north/frame_01.png",
+        "raw/A06_meal_north/frame_02.png",
+        "raw/A06_meal_north/frame_03.png",
+        "raw/A06_meal_north/frame_04.png",
+        "raw/A06_meal_north/frame_05.png",
+        "raw/A06_meal_north/frame_06.png"
+      ],
+      "duration_ms": 180,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A06_snack_south",
+      "label": "吃零食",
+      "direction": "south",
+      "frame_paths": [
+        "raw/A06_snack_south/frame_00.png",
+        "raw/A06_snack_south/frame_01.png",
+        "raw/A06_snack_south/frame_02.png",
+        "raw/A06_snack_south/frame_03.png",
+        "raw/A06_snack_south/frame_04.png",
+        "raw/A06_snack_south/frame_05.png",
+        "raw/A06_snack_south/frame_06.png"
+      ],
+      "duration_ms": 180,
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A07_computer_west",
+      "label": "电脑游戏·西向",
+      "direction": "west",
+      "frame_paths": [
+        "raw/A07_computer_west/frame_00.png",
+        "raw/A07_computer_west/frame_01.png",
+        "raw/A07_computer_west/frame_02.png",
+        "raw/A07_computer_west/frame_03.png",
+        "raw/A07_computer_west/frame_04.png",
+        "raw/A07_computer_west/frame_05.png",
+        "raw/A07_computer_west/frame_06.png"
+      ],
+      "duration_ms": 140,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A07_computer_east",
+      "label": "电脑游戏·东向",
+      "direction": "east",
+      "frame_paths": [
+        "raw/A07_computer_east/frame_00.png",
+        "raw/A07_computer_east/frame_01.png",
+        "raw/A07_computer_east/frame_02.png",
+        "raw/A07_computer_east/frame_03.png",
+        "raw/A07_computer_east/frame_04.png",
+        "raw/A07_computer_east/frame_05.png",
+        "raw/A07_computer_east/frame_06.png"
+      ],
+      "duration_ms": 140,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A09_sweep_south",
+      "label": "扫地",
+      "direction": "south",
+      "frame_paths": [
+        "raw/A09_sweep_south/frame_00.png",
+        "raw/A09_sweep_south/frame_01.png",
+        "raw/A09_sweep_south/frame_02.png",
+        "raw/A09_sweep_south/frame_03.png",
+        "raw/A09_sweep_south/frame_04.png",
+        "raw/A09_sweep_south/frame_05.png",
+        "raw/A09_sweep_south/frame_06.png"
+      ],
+      "duration_ms": 160,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A10_wash_face_east",
+      "label": "洗手台洗脸",
+      "direction": "east",
+      "frame_paths": [
+        "raw/A10_wash_face_east/frame_00.png",
+        "raw/A10_wash_face_east/frame_01.png",
+        "raw/A10_wash_face_east/frame_02.png",
+        "raw/A10_wash_face_east/frame_03.png",
+        "raw/A10_wash_face_east/frame_04.png",
+        "raw/A10_wash_face_east/frame_05.png",
+        "raw/A10_wash_face_east/frame_06.png"
+      ],
+      "duration_ms": 180,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "B01_give_north",
+      "label": "递出书本",
+      "direction": "north",
+      "frame_paths": [
+        "raw/B01_give_north/frame_00.png",
+        "raw/B01_give_north/frame_01.png",
+        "raw/B01_give_north/frame_02.png",
+        "raw/B01_give_north/frame_03.png",
+        "raw/B01_give_north/frame_04.png",
+        "raw/B01_give_north/frame_05.png",
+        "raw/B01_give_north/frame_06.png"
+      ],
+      "duration_ms": 90,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": false,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "B04_react_south",
+      "label": "回神受惊",
+      "direction": "south",
+      "frame_paths": [
+        "raw/B04_react_south/frame_00.png",
+        "raw/B04_react_south/frame_01.png",
+        "raw/B04_react_south/frame_02.png",
+        "raw/B04_react_south/frame_03.png",
+        "raw/B04_react_south/frame_04.png"
+      ],
+      "duration_ms": 110,
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "B04_happy_south",
+      "label": "振作高兴",
+      "direction": "south",
+      "frame_paths": [
+        "raw/B04_happy_south/frame_00.png",
+        "raw/B04_happy_south/frame_01.png",
+        "raw/B04_happy_south/frame_02.png",
+        "raw/B04_happy_south/frame_03.png",
+        "raw/B04_happy_south/frame_04.png"
+      ],
+      "duration_ms": 120,
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "B04_sad_south",
+      "label": "失落困惑",
+      "direction": "south",
+      "frame_paths": [
+        "raw/B04_sad_south/frame_00.png",
+        "raw/B04_sad_south/frame_01.png",
+        "raw/B04_sad_south/frame_02.png",
+        "raw/B04_sad_south/frame_03.png",
+        "raw/B04_sad_south/frame_04.png"
+      ],
+      "duration_ms": 160,
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A11_eye_exercise_south",
+      "label": "眼保健操",
+      "direction": "south",
+      "frame_paths": [
+        "raw/A11_eye_exercise_south/frame_00.png",
+        "raw/A11_eye_exercise_south/frame_01.png",
+        "raw/A11_eye_exercise_south/frame_02.png",
+        "raw/A11_eye_exercise_south/frame_03.png",
+        "raw/A11_eye_exercise_south/frame_04.png",
+        "raw/A11_eye_exercise_south/frame_05.png",
+        "raw/A11_eye_exercise_south/frame_06.png"
+      ],
+      "duration_ms": 220,
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A06_meal_north_v2",
+      "label": "持碗用餐·修订",
+      "direction": "north",
+      "frame_paths": [
+        "raw/A06_meal_north_v2/frame_00.png",
+        "raw/A06_meal_north_v2/frame_01.png",
+        "raw/A06_meal_north_v2/frame_02.png",
+        "raw/A06_meal_north_v2/frame_03.png",
+        "raw/A06_meal_north_v2/frame_04.png",
+        "raw/A06_meal_north_v2/frame_05.png",
+        "raw/A06_meal_north_v2/frame_06.png"
+      ],
+      "duration_ms": 200,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A05_sleep_bed",
+      "label": "卧床睡眠",
+      "direction": "south",
+      "frame_paths": [
+        "raw/A05_sleep_bed/frame_00.png",
+        "raw/A05_sleep_bed/frame_01.png",
+        "raw/A05_sleep_bed/frame_02.png",
+        "raw/A05_sleep_bed/frame_03.png",
+        "raw/A05_sleep_bed/frame_04.png"
+      ],
+      "duration_ms": 650,
+      "canvas": [
+        64,
+        64
+      ],
+      "anchor": [
+        32,
+        48
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A03_relax_seated_north",
+      "label": "坐姿放松",
+      "direction": "north",
+      "frame_paths": [
+        "raw/A03_relax_seated_north/frame_00.png",
+        "raw/A03_relax_seated_north/frame_01.png",
+        "raw/A03_relax_seated_north/frame_02.png",
+        "raw/A03_relax_seated_north/frame_03.png",
+        "raw/A03_relax_seated_north/frame_04.png"
+      ],
+      "duration_ms": 260,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "B01_receive_north",
+      "label": "伸手接收与收臂",
+      "direction": "north",
+      "frame_paths": [
+        "raw/B01_receive_north/frame_00.png",
+        "raw/B01_receive_north/frame_01.png",
+        "raw/B01_receive_north/frame_02.png",
+        "raw/B01_receive_north/frame_03.png",
+        "raw/B01_receive_north/frame_04.png"
+      ],
+      "duration_ms": 110,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": false,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "B02_raise_north",
+      "label": "举手抢答",
+      "direction": "north",
+      "frame_paths": [
+        "raw/B02_raise_north/frame_00.png",
+        "raw/B02_raise_north/frame_01.png",
+        "raw/B02_raise_north/frame_02.png",
+        "raw/B02_raise_north/frame_03.png",
+        "raw/B02_raise_north/frame_04.png",
+        "raw/B02_raise_north/frame_05.png",
+        "raw/B02_raise_north/frame_06.png"
+      ],
+      "duration_ms": 90,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": false,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "B02_point_north",
+      "label": "指向与邀请示意",
+      "direction": "north",
+      "frame_paths": [
+        "raw/B02_point_north/frame_00.png",
+        "raw/B02_point_north/frame_01.png",
+        "raw/B02_point_north/frame_02.png",
+        "raw/B02_point_north/frame_03.png",
+        "raw/B02_point_north/frame_04.png",
+        "raw/B02_point_north/frame_05.png",
+        "raw/B02_point_north/frame_06.png"
+      ],
+      "duration_ms": 90,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": false,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A12_wrestle_west",
+      "label": "掰手腕僵持·西向",
+      "direction": "west",
+      "frame_paths": [
+        "raw/A12_wrestle_west/frame_00.png",
+        "raw/A12_wrestle_west/frame_01.png",
+        "raw/A12_wrestle_west/frame_02.png",
+        "raw/A12_wrestle_west/frame_03.png",
+        "raw/A12_wrestle_west/frame_04.png",
+        "raw/A12_wrestle_west/frame_05.png",
+        "raw/A12_wrestle_west/frame_06.png"
+      ],
+      "duration_ms": 170,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A13_pillow_east",
+      "label": "挥枕头·东向",
+      "direction": "east",
+      "frame_paths": [
+        "raw/A13_pillow_east/frame_00.png",
+        "raw/A13_pillow_east/frame_01.png",
+        "raw/A13_pillow_east/frame_02.png",
+        "raw/A13_pillow_east/frame_03.png",
+        "raw/A13_pillow_east/frame_04.png",
+        "raw/A13_pillow_east/frame_05.png",
+        "raw/A13_pillow_east/frame_06.png"
+      ],
+      "duration_ms": 130,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "B03_throw_paper_north",
+      "label": "纸条抛出",
+      "direction": "north",
+      "frame_paths": [
+        "raw/B03_throw_paper_north/frame_00.png",
+        "raw/B03_throw_paper_north/frame_01.png",
+        "raw/B03_throw_paper_north/frame_02.png",
+        "raw/B03_throw_paper_north/frame_03.png",
+        "raw/B03_throw_paper_north/frame_04.png",
+        "raw/B03_throw_paper_north/frame_05.png",
+        "raw/B03_throw_paper_north/frame_06.png"
+      ],
+      "duration_ms": 90,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": false,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "B03_flick_eraser_north",
+      "label": "弹指橡皮",
+      "direction": "north",
+      "frame_paths": [
+        "raw/B03_flick_eraser_north/frame_00.png",
+        "raw/B03_flick_eraser_north/frame_01.png",
+        "raw/B03_flick_eraser_north/frame_02.png",
+        "raw/B03_flick_eraser_north/frame_03.png",
+        "raw/B03_flick_eraser_north/frame_04.png",
+        "raw/B03_flick_eraser_north/frame_05.png",
+        "raw/B03_flick_eraser_north/frame_06.png"
+      ],
+      "duration_ms": 80,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": false,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A11_eye_exercise_north",
+      "label": "眼保健操·坐姿北向",
+      "direction": "north",
+      "frame_paths": [
+        "raw/A11_eye_exercise_north/frame_00.png",
+        "raw/A11_eye_exercise_north/frame_01.png",
+        "raw/A11_eye_exercise_north/frame_02.png",
+        "raw/A11_eye_exercise_north/frame_03.png",
+        "raw/A11_eye_exercise_north/frame_04.png",
+        "raw/A11_eye_exercise_north/frame_05.png",
+        "raw/A11_eye_exercise_north/frame_06.png"
+      ],
+      "duration_ms": 220,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A08_exercise_east",
+      "label": "徒手运动·东向",
+      "direction": "east",
+      "frame_paths": [
+        "raw/A08_exercise_east/frame_00.png",
+        "raw/A08_exercise_east/frame_01.png",
+        "raw/A08_exercise_east/frame_02.png",
+        "raw/A08_exercise_east/frame_03.png",
+        "raw/A08_exercise_east/frame_04.png",
+        "raw/A08_exercise_east/frame_05.png",
+        "raw/A08_exercise_east/frame_06.png",
+        "raw/A08_exercise_east/frame_07.png",
+        "raw/A08_exercise_east/frame_08.png"
+      ],
+      "duration_ms": 140,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A04_sleep_desk_north_v3",
+      "label": "趴桌呼吸·姿态修订",
+      "direction": "north",
+      "frame_paths": [
+        "raw/A04_sleep_desk_north_v3/frame_00.png",
+        "raw/A04_sleep_desk_north_v3/frame_01.png",
+        "raw/A04_sleep_desk_north_v3/frame_02.png",
+        "raw/A04_sleep_desk_north_v3/frame_03.png"
+      ],
+      "duration_ms": 650,
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A13_pillow_east_v2",
+      "label": "挥枕头·东向修订",
+      "direction": "east",
+      "frame_paths": [
+        "raw/A13_pillow_east_v2/frame_00.png",
+        "raw/A13_pillow_east_v2/frame_01.png",
+        "raw/A13_pillow_east_v2/frame_02.png",
+        "raw/A13_pillow_east_v2/frame_03.png",
+        "raw/A13_pillow_east_v2/frame_04.png",
+        "raw/A13_pillow_east_v2/frame_05.png",
+        "raw/A13_pillow_east_v2/frame_06.png"
+      ],
+      "duration_ms": 130,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A12_wrestle_west_v2",
+      "label": "掰手腕·接触姿态修订",
+      "direction": "west",
+      "frame_paths": [
+        "raw/A12_wrestle_west_v2/frame_00.png",
+        "raw/A12_wrestle_west_v2/frame_01.png",
+        "raw/A12_wrestle_west_v2/frame_02.png",
+        "raw/A12_wrestle_west_v2/frame_03.png",
+        "raw/A12_wrestle_west_v2/frame_04.png",
+        "raw/A12_wrestle_west_v2/frame_05.png"
+      ],
+      "duration_ms": 170,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A06_candy_south",
+      "label": "吃糖",
+      "direction": "south",
+      "frame_paths": [
+        "raw/A06_candy_south/frame_00.png",
+        "raw/A06_candy_south/frame_01.png",
+        "raw/A06_candy_south/frame_02.png",
+        "raw/A06_candy_south/frame_03.png",
+        "raw/A06_candy_south/frame_04.png",
+        "raw/A06_candy_south/frame_05.png"
+      ],
+      "duration_ms": 180,
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "B04_wake_north",
+      "label": "趴睡回神",
+      "direction": "north",
+      "frame_paths": [
+        "raw/B04_wake_north/frame_00.png",
+        "raw/B04_wake_north/frame_01.png",
+        "raw/B04_wake_north/frame_02.png",
+        "raw/B04_wake_north/frame_03.png",
+        "raw/B04_wake_north/frame_04.png"
+      ],
+      "duration_ms": 150,
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "loop": false,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A03_relax_seated_north_v2",
+      "label": "坐姿放松·去气泡并固定坐姿",
+      "direction": "north",
+      "frame_paths": [
+        "raw/A03_relax_seated_north_v2/frame_00.png",
+        "raw/A03_relax_seated_north_v2/frame_01.png",
+        "raw/A03_relax_seated_north_v2/frame_02.png",
+        "raw/A03_relax_seated_north_v2/frame_03.png"
+      ],
+      "duration_ms": 260,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "B01_receive_north_v2",
+      "label": "伸手接收·去除附加特效",
+      "direction": "north",
+      "frame_paths": [
+        "raw/B01_receive_north_v2/frame_00.png",
+        "raw/B01_receive_north_v2/frame_01.png",
+        "raw/B01_receive_north_v2/frame_02.png",
+        "raw/B01_receive_north_v2/frame_03.png",
+        "raw/B01_receive_north_v2/frame_04.png"
+      ],
+      "duration_ms": 110,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": false,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "B02_raise_north_v2",
+      "label": "举手抢答·固定下身",
+      "direction": "north",
+      "frame_paths": [
+        "raw/B02_raise_north_v2/frame_00.png",
+        "raw/B02_raise_north_v2/frame_01.png",
+        "raw/B02_raise_north_v2/frame_02.png",
+        "raw/B02_raise_north_v2/frame_03.png",
+        "raw/B02_raise_north_v2/frame_04.png",
+        "raw/B02_raise_north_v2/frame_05.png",
+        "raw/B02_raise_north_v2/frame_06.png"
+      ],
+      "duration_ms": 90,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": false,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A06_meal_north_v3",
+      "label": "持碗用餐·去除蒸汽和漂浮粒子",
+      "direction": "north",
+      "frame_paths": [
+        "raw/A06_meal_north_v3/frame_00.png",
+        "raw/A06_meal_north_v3/frame_01.png",
+        "raw/A06_meal_north_v3/frame_02.png",
+        "raw/A06_meal_north_v3/frame_03.png",
+        "raw/A06_meal_north_v3/frame_04.png",
+        "raw/A06_meal_north_v3/frame_05.png"
+      ],
+      "duration_ms": 200,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "B04_wake_north_v2",
+      "label": "趴睡醒来·北向修订",
+      "direction": "north",
+      "frame_paths": [
+        "raw/B04_wake_north_v2/frame_00.png",
+        "raw/B04_wake_north_v2/frame_01.png",
+        "raw/B04_wake_north_v2/frame_02.png",
+        "raw/B04_wake_north_v2/frame_03.png",
+        "raw/B04_wake_north_v2/frame_04.png"
+      ],
+      "duration_ms": [
+        250,
+        150,
+        150,
+        150,
+        350
+      ],
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "loop": false,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A12_wrestle_west_v3",
+      "label": "掰手腕·前臂发力",
+      "direction": "west",
+      "frame_paths": [
+        "raw/A12_wrestle_west_v3/frame_00.png",
+        "raw/A12_wrestle_west_v3/frame_01.png",
+        "raw/A12_wrestle_west_v3/frame_02.png",
+        "raw/A12_wrestle_west_v3/frame_03.png",
+        "raw/A12_wrestle_west_v3/frame_04.png",
+        "raw/A12_wrestle_west_v3/frame_05.png",
+        "raw/A12_wrestle_west_v3/frame_06.png",
+        "raw/A12_wrestle_west_v3/frame_07.png",
+        "raw/A12_wrestle_west_v3/frame_08.png"
+      ],
+      "duration_ms": 170,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "B03_flick_eraser_north_v2",
+      "label": "弹橡皮·桌边弹指",
+      "direction": "north",
+      "frame_paths": [
+        "raw/B03_flick_eraser_north_v2/frame_00.png",
+        "raw/B03_flick_eraser_north_v2/frame_01.png",
+        "raw/B03_flick_eraser_north_v2/frame_02.png",
+        "raw/B03_flick_eraser_north_v2/frame_03.png",
+        "raw/B03_flick_eraser_north_v2/frame_04.png"
+      ],
+      "duration_ms": 100,
+      "canvas": [
+        64,
+        48
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "loop": false,
+      "review_status": "pending_visual_review"
+    },
+    {
+      "id": "A01_write_north_v2",
+      "label": "写字·自然衣背修订",
+      "direction": "north",
+      "frame_paths": [
+        "raw/A01_write_north_v2/frame_00.png",
+        "raw/A01_write_north_v2/frame_01.png",
+        "raw/A01_write_north_v2/frame_02.png",
+        "raw/A01_write_north_v2/frame_03.png",
+        "raw/A01_write_north_v2/frame_04.png",
+        "raw/A01_write_north_v2/frame_05.png"
+      ],
+      "duration_ms": 180,
+      "canvas": [
+        32,
+        48
+      ],
+      "anchor": [
+        16,
+        44
+      ],
+      "loop": true,
+      "review_status": "pending_visual_review"
+    }
+  ]
+}

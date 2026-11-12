@@ -1,0 +1,332 @@
+{
+  "canvas": [
+    64,
+    64
+  ],
+  "direction": "northeast_three_quarter",
+  "coordinate_origin": [
+    0,
+    0
+  ],
+  "coordinate_transform": "无移动、无缩放、无镜像",
+  "layer_alignment": "所有64×64图层按同一左上角[0,0]叠加",
+  "ground_reference": {
+    "lowest_opaque_row": 60,
+    "ground_line_exclusive": 61
+  },
+  "production_world_anchor": null,
+  "production_world_anchor_note": "未替生产场景决定世界锚点；所有图层必须共享同一原点和缩放。",
+  "occupied_draw_order": [
+    "desk_back.png",
+    "chair_base.png",
+    "character_seed.png",
+    "chair_front.png"
+  ],
+  "empty_draw_order": [
+    "desk_back.png",
+    "chair_base.png",
+    "chair_front.png"
+  ],
+  "source": {
+    "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\seated_write_northeast_v1.png",
+    "sha256": "c5d217fa3f15b094aec155ee4eb9663944d6f8dadcd16a1a378adfaf8919e2ba"
+  },
+  "inpaint": {
+    "tool": "mcp__pixellab__inpaint_image_pro_flash",
+    "job_id": "27b80127-5f4b-437d-ab59-477c34aa8632",
+    "seed": 261111,
+    "charged_generations": 5,
+    "raw_sha256": "a7c1d936198d37321cad38ca5e2cbf54ea34443d2c3ab99967780f671847f62b",
+    "description": "仅重绘人物mask，恢复真实空桌椅；mask外逐像素保持原样。",
+    "edge_cleanup": {
+      "job_id": "efdf7f09-ae99-4cd1-a17d-28693364b89e",
+      "seed": 261112,
+      "charged_generations": 5,
+      "mask_pixels": [
+        [
+          36,
+          13
+        ],
+        [
+          36,
+          14
+        ],
+        [
+          36,
+          15
+        ]
+      ],
+      "reason": "首次人物mask漏了3个头部右沿像素，已修正人物mask并用真实局部重绘清理空桌面。",
+      "raw_sha256": "4b7467dd270d27c6cc2553fdccdb3b7b7dea42fa204210e4efe4461a5bdd9073"
+    },
+    "total_charged_generations": 10
+  },
+  "validation": {
+    "unmasked_rgba_changed_pixels": 0,
+    "masked_rgba_changed_pixels": 712,
+    "hidden_furniture_repaired_pixels": 460,
+    "person_removed_to_transparency_pixels": 252,
+    "furniture_reassembly_rgba_diff_pixels": 0,
+    "occupied_reconstruction_rgba_diff_pixels": 0,
+    "chair_front_person_intersection_pixels": 0,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "all_canvases": [
+      64,
+      64
+    ]
+  },
+  "furniture_partition": {
+    "chair_right_inclusive_by_row": {
+      "31": 12,
+      "32": 13,
+      "33": 15,
+      "34": 18,
+      "35": 20,
+      "36": 22,
+      "37": 24,
+      "38": 24,
+      "39": 25,
+      "40": 28,
+      "41": 31,
+      "42": 34,
+      "43": 34,
+      "44": 34,
+      "45": 33,
+      "46": 33,
+      "47": 33,
+      "48": 33,
+      "49": 33,
+      "50": 33,
+      "51": 33,
+      "52": 33,
+      "53": 33,
+      "54": 33,
+      "55": 24,
+      "56": 24,
+      "57": 24,
+      "58": 24,
+      "59": 24,
+      "60": 24
+    },
+    "chair_front_spans_inclusive": {
+      "31": [
+        [
+          9,
+          12
+        ]
+      ],
+      "32": [
+        [
+          8,
+          13
+        ]
+      ],
+      "33": [
+        [
+          8,
+          15
+        ]
+      ],
+      "34": [
+        [
+          8,
+          18
+        ]
+      ],
+      "35": [
+        [
+          8,
+          20
+        ]
+      ],
+      "36": [
+        [
+          8,
+          22
+        ]
+      ],
+      "37": [
+        [
+          8,
+          24
+        ]
+      ],
+      "38": [
+        [
+          8,
+          24
+        ]
+      ],
+      "39": [
+        [
+          8,
+          24
+        ]
+      ],
+      "40": [
+        [
+          9,
+          24
+        ]
+      ],
+      "41": [
+        [
+          9,
+          24
+        ]
+      ],
+      "42": [
+        [
+          9,
+          11
+        ],
+        [
+          13,
+          24
+        ]
+      ],
+      "43": [
+        [
+          9,
+          11
+        ],
+        [
+          14,
+          24
+        ]
+      ],
+      "44": [
+        [
+          9,
+          11
+        ],
+        [
+          17,
+          24
+        ]
+      ],
+      "45": [
+        [
+          9,
+          11
+        ],
+        [
+          18,
+          24
+        ]
+      ],
+      "46": [
+        [
+          9,
+          11
+        ],
+        [
+          20,
+          23
+        ]
+      ]
+    },
+    "visible_pixels_by_layer": {
+      "desk_back": 1017,
+      "chair_base": 236,
+      "chair_front": 195
+    }
+  },
+  "scope_limits": [
+    "character_seed只包含原稿可见人体；被椅背遮住的躯干、臀部和远侧腿未猜测补画。",
+    "chair_front只包含原稿可见椅背与立柱；局部重绘新补家具全部放在人后。",
+    "当前适用于固定坐姿与小幅前臂、手、笔运动；大幅起身、转身或移位需另做完整人体和遮挡验收。",
+    "桌面纸张属于desk_back；手持笔属于character_seed和writing_hand_pen_visibility_mask。",
+    "空家具恢复包含被头遮住桌面及被身体遮住椅面；原可见家具逐像素保留。",
+    "这些素材尚未替换生产资源或变更正式路由。"
+  ],
+  "files": {
+    "desk_back.png": {
+      "sha256": "5576fd6a61ea55ea488c8b53186e7774e991882e0b6241361dab50ddb06df842",
+      "size": [
+        64,
+        64
+      ]
+    },
+    "chair_base.png": {
+      "sha256": "3ac706c2b9b3dcdd5180b3fe71f902b2109c46e3f4d1ca9e9fde1336efdf3b6c",
+      "size": [
+        64,
+        64
+      ]
+    },
+    "chair_front.png": {
+      "sha256": "a60ce770bca699d0a9c70990d00db3cfdf39e51a8691fbd11847b4acff13c1df",
+      "size": [
+        64,
+        64
+      ]
+    },
+    "character_seed.png": {
+      "sha256": "e24a939ab6da65953870ffc24994e9f32b14c3edc55846a16cb424e6da508499",
+      "size": [
+        64,
+        64
+      ]
+    },
+    "all_furniture.png": {
+      "sha256": "4b7467dd270d27c6cc2553fdccdb3b7b7dea42fa204210e4efe4461a5bdd9073",
+      "size": [
+        64,
+        64
+      ]
+    },
+    "source_seed.png": {
+      "sha256": "c5d217fa3f15b094aec155ee4eb9663944d6f8dadcd16a1a378adfaf8919e2ba",
+      "size": [
+        64,
+        64
+      ]
+    },
+    "reconstructed_seed.png": {
+      "sha256": "c5d217fa3f15b094aec155ee4eb9663944d6f8dadcd16a1a378adfaf8919e2ba",
+      "size": [
+        64,
+        64
+      ]
+    },
+    "character_visibility_mask.png": {
+      "sha256": "e813a66622fee1dc8e65658d2b78ab49663a862fc111f5be3414b425e49f9ba3",
+      "size": [
+        64,
+        64
+      ]
+    },
+    "character_static_body_mask.png": {
+      "sha256": "f8c3dda694e1cc832c7d8f03db0e734672427b64a6a2981582a420c2986e0fd9",
+      "size": [
+        64,
+        64
+      ]
+    },
+    "writing_motion_visibility_mask.png": {
+      "sha256": "012d3117d37bcfa10ef81f4f954fd737f56b2d22496c6194809dcee8f5bb006f",
+      "size": [
+        64,
+        64
+      ]
+    },
+    "writing_hand_pen_visibility_mask.png": {
+      "sha256": "7526d991c6df8a25b72cf55458ef770cc94c522eb12ff25d0bbafa22988feef4",
+      "size": [
+        64,
+        64
+      ]
+    },
+    "right_forearm_visibility_mask.png": {
+      "sha256": "c85d002cfd59e831d7263ea5a22ddc274a0960e910278f1852ed9978c3a59989",
+      "size": [
+        64,
+        64
+      ]
+    }
+  }
+}

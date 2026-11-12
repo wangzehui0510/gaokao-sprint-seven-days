@@ -1,0 +1,41 @@
+{
+  "status": "pixel_gpu_and_visual_checks_passed",
+  "sources_sha256": {
+    "classroom_v1\\classroom_empty.png": "26069d7305553f14325b5a9dce4fd78d781c264b15ef80c346b0c9cf8be6d200",
+    "layers_v1\\desk_back.png": "5576fd6a61ea55ea488c8b53186e7774e991882e0b6241361dab50ddb06df842",
+    "layers_v1\\chair_base.png": "3ac706c2b9b3dcdd5180b3fe71f902b2109c46e3f4d1ca9e9fde1336efdf3b6c",
+    "layers_v1\\chair_front.png": "a60ce770bca699d0a9c70990d00db3cfdf39e51a8691fbd11847b4acff13c1df",
+    "animation_v1\\curated\\frame_00.png": "e24a939ab6da65953870ffc24994e9f32b14c3edc55846a16cb424e6da508499",
+    "animation_v1\\curated\\frame_01.png": "d6f24d22af359c9caa07322374ab3c2f6e811889fef5ecfdcaafdc0bb1726f41",
+    "animation_v1\\curated\\frame_02.png": "b210e8a9bb193d74c6394aa6c0ed917da305c0be1223aa174f9f4041261edf2d",
+    "animation_v1\\curated\\frame_03.png": "d1893487d323584c1c7b94fab262e4ccf474eeac1e752c8e6f2f70233b6e866d",
+    "animation_v1\\curated\\frame_04.png": "b210e8a9bb193d74c6394aa6c0ed917da305c0be1223aa174f9f4041261edf2d",
+    "animation_v1\\curated\\frame_05.png": "d6f24d22af359c9caa07322374ab3c2f6e811889fef5ecfdcaafdc0bb1726f41"
+  },
+  "exact_approved_seed_reconstruction": true,
+  "empty_station_layer_reconstruction": true,
+  "station_count": 4,
+  "station_canvas_non_overlapping": true,
+  "integer_scales": [
+    1,
+    2
+  ],
+  "duration_ms": [
+    280,
+    150,
+    160,
+    200,
+    160,
+    150
+  ],
+  "loop_duration_ms": 1100,
+  "limits": [
+    "静态与逐帧美术合成不是正式游戏接入验收。",
+    "四个学生暂共用学生01的外观和动作相位。"
+  ],
+  "final_review": {
+    "report": "../FINAL_QA.md",
+    "capture_count": 132,
+    "production_integration": false
+  }
+}

@@ -18,10 +18,16 @@ func _test_interface() -> void:
 		ui.free()
 		return
 	ui.configuration = loaded
+	# 双人UI算例只验收既有互动项：从配置副本移除结伴池行，行为树建立时即无结伴候选。
+	var personal_pool: Array[Dictionary] = []
+	for row: Dictionary in loaded.tables.auto_pool:
+		if row.action_id not in ["study_together", "roommate_game"]:
+			personal_pool.append(row)
+	loaded.tables.auto_pool = personal_pool
 	if not _reset_session(ui, 1):
 		ui.free()
 		return
-	_check(ui._pair_action_ids().size() == 14, "扩展入口恰有14项已确定动作")
+	_check(ui._pair_action_ids().size() == 18, "扩展入口恰有18项已确定动作，含宿舍二批双人与批次3双人")
 	_check("answer_challenge" not in ui._pair_action_ids(), "待确认抢答不进入玩家入口")
 	if not await _test_pair_buttons(ui):
 		ui.free()

@@ -28,25 +28,15 @@ static func student_anchor(location: String, index: int) -> Vector2:
 	return ANCHORS[location][index]
 
 
-## 教室外只使用已存在的静态方向PNG，不把它宣称为吃饭、跑步或卧床动画。
-static func standing_direction(location: String, index: int) -> String:
-	assert(ANCHORS.has(location), "未知校园场景：" + location)
-	if location == "dorm":
-		return "west" if index % 2 == 0 else "east"
-	if location == "canteen":
-		return "north"
-	return "south" if index < 2 else "east"
-
-
 ## 背景和家具统一使用整数像素绘制；教室继续保留已有正式位图。
-static func draw_background(canvas: CanvasItem, location: String, origin: Vector2, pixel_scale: int) -> void:
+static func draw_background(canvas: CanvasItem, location: String, origin: Vector2, pixel_scale: int, occupied_beds: Array[int] = []) -> void:
 	assert(location in ["playground", "canteen", "dorm"], "此入口只绘制教室外校园场景")
 	if location == "playground":
 		_draw_playground(canvas, origin, pixel_scale)
 	elif location == "canteen":
 		_draw_canteen(canvas, origin, pixel_scale)
 	else:
-		_draw_dorm(canvas, origin, pixel_scale)
+		_draw_dorm(canvas, origin, pixel_scale, occupied_beds)
 
 
 ## 当前构图让角色站在家具前或侧面，没有覆盖身体的假前景遮挡。
@@ -101,7 +91,7 @@ static func _draw_playground(c: CanvasItem, o: Vector2, s: int) -> void:
 	_rect(c, o, s, Rect2(186, 56, 12, 6), Color("e5dba2"))
 
 
-## 食堂以窗口、餐桌和凳子区分空间，角色站在桌旁，不隐藏腿部假装吃饭坐姿。
+## 食堂以窗口、餐桌和凳子区分空间，进食完整帧在桌旁原生工位绘制。
 static func _draw_canteen(c: CanvasItem, o: Vector2, s: int) -> void:
 	_room_floor(c, o, s, FLOOR)
 	for x in [24, 136, 248]:
@@ -129,8 +119,8 @@ static func _draw_canteen(c: CanvasItem, o: Vector2, s: int) -> void:
 		_rect(c, o, s, Rect2(x, 86, 4, 4), INK)
 
 
-## 宿舍四床和储物柜围绕走道布置，人物保持真实站姿观察，不伪造卧躺动画。
-static func _draw_dorm(c: CanvasItem, o: Vector2, s: int) -> void:
+## 四床围绕走道布置；卧床动画自带床体，替换该床而不叠成两张床。
+static func _draw_dorm(c: CanvasItem, o: Vector2, s: int, occupied_beds: Array[int]) -> void:
 	_room_floor(c, o, s, Color("d9d4bf"))
 	_window(c, o, s, Vector2(160, 8), Vector2(64, 32))
 	for x in [24, 280]:
@@ -139,19 +129,11 @@ static func _draw_dorm(c: CanvasItem, o: Vector2, s: int) -> void:
 		_line(c, o, s, Vector2(x + 36, 11), Vector2(x + 36, 48), WOOD_SHADOW)
 		for handle_x in [x + 30, x + 40]:
 			_rect(c, o, s, Rect2(handle_x, 27, 2, 7), WOOD_LIGHT)
-	for bed_origin in [Vector2(24, 78), Vector2(296, 78), Vector2(24, 158), Vector2(296, 158)]:
-		_bed(c, o, s, bed_origin)
-	for desk_origin in [Vector2(160, 83), Vector2(160, 163)]:
-		_rect(c, o, s, Rect2(desk_origin, Vector2(64, 27)), WOOD_SHADOW)
-		_rect(c, o, s, Rect2(desk_origin + Vector2(0, -3), Vector2(64, 19)), WOOD_LIGHT)
-		_outline(c, o, s, Rect2(desk_origin + Vector2(0, -3), Vector2(64, 19)), WOOD_SHADOW)
-		for x in [4, 56]:
-			_rect(c, o, s, Rect2(desk_origin + Vector2(x, 17), Vector2(4, 15)), WOOD_SHADOW)
-		_rect(c, o, s, Rect2(desk_origin + Vector2(10, 2), Vector2(16, 10)), Color("6b9293"))
-		_rect(c, o, s, Rect2(desk_origin + Vector2(12, 3), Vector2(12, 7)), Color("e7e2c6"))
-		_rect(c, o, s, Rect2(desk_origin + Vector2(44, -7), Vector2(9, 4)), LEAF_DARK)
-		_rect(c, o, s, Rect2(desk_origin + Vector2(47, -3), Vector2(2, 10)), INK)
-		_rect(c, o, s, Rect2(desk_origin + Vector2(44, 7), Vector2(8, 2)), INK)
+	var bed_origins: Array[Vector2] = [Vector2(24, 78), Vector2(296, 78), Vector2(24, 158), Vector2(296, 158)]
+	for index in bed_origins.size():
+		if index not in occupied_beds:
+			_bed(c, o, s, bed_origins[index])
+	# 学习桌由当前坐姿工位绘制；电脑和洗手台使用完整PNG，不再叠旧中央桌。
 	_plant(c, o, s, Vector2(368, 64))
 	_rect(c, o, s, Rect2(176, 232, 32, 16), Color("b2bfa0"))
 	for x in range(178, 208, 4):
@@ -186,18 +168,14 @@ static func _dining_table(c: CanvasItem, o: Vector2, s: int, p: Vector2) -> void
 		_rect(c, o, s, Rect2(p + Vector2(x + 13, 36), Vector2(3, 7)), WOOD_SHADOW)
 
 
-## 床体包含床头、枕头、床单和床脚，附近站姿不会被床体遮住腿部。
+## 空床沿卧床动画64像素画布的同一床体范围绘制，切换休息时家具尺度不跳变。
 static func _bed(c: CanvasItem, o: Vector2, s: int, p: Vector2) -> void:
-	_rect(c, o, s, Rect2(p + Vector2(2, 11), Vector2(62, 46)), WOOD_SHADOW)
-	_rect(c, o, s, Rect2(p, Vector2(64, 9)), WOOD)
-	_rect(c, o, s, Rect2(p + Vector2(2, 7), Vector2(60, 38)), Color("6e9a9c"))
-	_rect(c, o, s, Rect2(p + Vector2(5, 9), Vector2(54, 10)), Color("e5e8d5"))
-	_rect(c, o, s, Rect2(p + Vector2(4, 22), Vector2(56, 22)), Color("94b3ad"))
-	for x in range(8, 60, 8):
-		_line(c, o, s, p + Vector2(x, 23), p + Vector2(x, 42), Color("aac6bb"))
-	_rect(c, o, s, Rect2(p + Vector2(0, 44), Vector2(64, 6)), WOOD)
-	for x in [2, 57]:
-		_rect(c, o, s, Rect2(p + Vector2(x, 50), Vector2(5, 10)), WOOD_SHADOW)
+	_rect(c, o, s, Rect2(p + Vector2(17, 5), Vector2(30, 55)), Color("684728"))
+	_rect(c, o, s, Rect2(p + Vector2(18, 6), Vector2(28, 7)), Color("b58a58"))
+	_rect(c, o, s, Rect2(p + Vector2(19, 12), Vector2(26, 12)), Color("e8dfb4"))
+	_rect(c, o, s, Rect2(p + Vector2(19, 24), Vector2(26, 29)), Color("3b9a8c"))
+	_rect(c, o, s, Rect2(p + Vector2(20, 25), Vector2(24, 3)), Color("60b19b"))
+	_rect(c, o, s, Rect2(p + Vector2(18, 53), Vector2(28, 4)), Color("b58a58"))
 
 
 ## 窗框保留无平滑的玻璃高光和中间横梁。

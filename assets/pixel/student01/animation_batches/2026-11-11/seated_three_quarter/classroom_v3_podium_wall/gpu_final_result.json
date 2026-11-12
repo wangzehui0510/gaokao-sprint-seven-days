@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "reviewed_at": "2026-11-12T00:00:00+08:00",
+  "scope": "v3贴墙平台、前移讲桌、讲桌后方老师预留区、四工位六帧写字的独立实际GPU验收",
+  "pixel_lab_job_id": "14c5fa5a-9f46-4536-a27f-4f70fd6aa549",
+  "pixel_lab_generations": 10,
+  "source_manifest_sha256": "00fe4194e8e08f6d9ba2e00ced42c191059b03a05ba06dc3b6c9c7d6a9b5f4f8",
+  "source_count": 17,
+  "automated_checks": {
+    "count": 649,
+    "failure_count": 0,
+    "actual_gpu_capture_count": 158,
+    "normal_capture_count": 156,
+    "geometry_guide_capture_count": 2,
+    "cpu_rgba_zero_difference_pages": 156,
+    "strict_nearest_neighbor_pairs": 78,
+    "station_frame_visible_pixel_collision_checks": 24,
+    "station_frame_visible_pixel_collisions": 0
+  },
+  "gpu_environment": {
+    "engine": "Godot 4.7.2.stable.official.ed1daf0bf",
+    "display_server": "Windows",
+    "adapter": "Intel(R) UHD Graphics 770",
+    "opengl": "3.3.0 - Build 32.0.101.7088",
+    "rendering_method": "gl_compatibility",
+    "isolated_user_directory": "C:/Users/admin/AppData/Roaming/PodiumWallClassroomGpuQa_20261112",
+    "gpu_exit_code": 0,
+    "verification_exit_code": 0,
+    "stderr_bytes": 0
+  },
+  "geometry": {
+    "teacher_reserve_rect": [
+      236,
+      78,
+      40,
+      56
+    ],
+    "teacher_foot_anchor": [
+      260,
+      126
+    ],
+    "teacher_position": "behind_lectern",
+    "lectern_rect": [
+      214,
+      92,
+      47,
+      43
+    ],
+    "podium_floor_polygon": [
+      [
+        199,
+        80
+      ],
+      [
+        326,
+        144
+      ],
+      [
+        287,
+        164
+      ],
+      [
+        181,
+        105
+      ]
+    ],
+    "platform_top_polygon": [
+      [
+        199,
+        76
+      ],
+      [
+        326,
+        140
+      ],
+      [
+        287,
+        160
+      ],
+      [
+        181,
+        101
+      ]
+    ],
+    "teacher_foot_inside_platform_top": true,
+    "rear_edge_samples": 200,
+    "rear_edge_scene_delta_hits": 200,
+    "rear_edge_mask_hits": 200,
+    "station_origins": [
+      [
+        124,
+        93
+      ],
+      [
+        60,
+        125
+      ],
+      [
+        208,
+        135
+      ],
+      [
+        144,
+        167
+      ]
+    ],
+    "station_canvas_intersections": 0,
+    "station_canvas_vs_teacher_reserve_intersections": 0
+  },
+  "podium_adoption": {
+    "raw_edit_outside_mask_changed_pixels": 14702,
+    "adopted_outside_mask_changed_pixels": 0,
+    "adopted_inside_vs_raw_changed_pixels": 0,
+    "changed_scene_pixels": 5185,
+    "room_overlay_reconstruction_difference_pixels": 0
+  },
+  "visual_review": {
+    "passed": true,
+    "reviewed_pages": [
+      "captures/all_layers_f00_2x.png",
+      "captures/geometry_guides_f00_2x.png",
+      "captures/only_wall_connected_podium_overlay_f00_2x.png",
+      "inspection/gpu_scene_frames_1x.png",
+      "inspection/gpu_empty_furniture_2x.png",
+      "inspection/gpu_student_frames_2x.png",
+      "teacher_behind_lectern_layout_3x.png"
+    ],
+    "findings": [
+      "平台后沿与墙边连续，前移讲桌后方保留可用老师预留框。",
+      "六帧全景与空家具页未见人物残留、整体漂移或明显穿桌。",
+      "1x与2x保持像素边界，手部写字小幅往返可见。"
+    ]
+  },
+  "limitations": [
+    "仅验收冻结v3素材与隔离GPU合成，不表示正式游戏已接入。",
+    "老师只有讲桌后方预留画布，没有教师精灵或动画。",
+    "人物仅适用于固定坐姿写字，不能据此批准起立、转身或移动。",
+    "贴墙覆盖层绑定v2背景原点，不能自由移动；四人共用学生01外观与相位。"
+  ],
+  "evidence": {
+    "report": "FINAL_QA.md",
+    "verification": "verification.json",
+    "gpu_capture_manifest": "captures/gpu_capture_manifest.json",
+    "gpu_stdout": "gpu_stdout.log",
+    "gpu_stderr": "gpu_stderr.log",
+    "verification_stdout": "verification_stdout.log",
+    "previous_v2_evidence_reused_as_current_pass": false
+  },
+  "verdict": "passed_with_documented_limits"
+}

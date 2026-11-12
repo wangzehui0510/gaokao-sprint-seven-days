@@ -1,0 +1,89 @@
+{
+  "status": "split_pixel_checks_passed_visual_reviewed",
+  "source_sha256": {
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v3_podium_wall\\classroom_with_wall_connected_podium.png": "55805694ddf82a339af496416dc6c69019bf571d30398456a7904a4d0889634d",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v4_lectern_layer\\clean_crop_raw.png": "48804af81512b1d1cd03069d25f3c3bae64adf4f5a069170a2ab9be9fec8578c",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v4_lectern_layer\\classroom_clean_no_lectern.png": "0e12491e0bd2617d94d83e3321eec90badd932c3faf07650e714bdebb9aef9ef",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v4_lectern_layer\\lectern_layer.png": "5154dcec44248e5c5ed9445eb775d36d192444688f9f3cd7f41ae5e69e32f858",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v4_lectern_layer\\lectern_cutout.png": "93c54f872e3b026c60dd83b6f071c38f62f4f38cce0802051498e4dcbf76a9b3",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v4_lectern_layer\\classroom_recomposed_lectern_layer.png": "55805694ddf82a339af496416dc6c69019bf571d30398456a7904a4d0889634d",
+    "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v4_lectern_layer\\clean_crop_final.png": "8a9e3c06da0fa85b3fd3aad0a550d471d71bce6e91d320e08128f66d4be7457b"
+  },
+  "raw_clear_outside_mask_changed_pixels": 0,
+  "adopted_clear_outside_mask_changed_pixels": 0,
+  "lectern_layer_visible_pixels": 1684,
+  "recomposed_rgba_difference_pixels": 0,
+  "lectern_layer_bbox": [
+    215,
+    84,
+    269,
+    134
+  ],
+  "lectern_layer_canvas": [
+    384,
+    256
+  ],
+  "room_has_no_lectern_when_layer_off": true,
+  "stations": [
+    {
+      "id": "S1_front_left",
+      "origin": [
+        124,
+        93
+      ]
+    },
+    {
+      "id": "S2_back_left",
+      "origin": [
+        60,
+        125
+      ]
+    },
+    {
+      "id": "S3_front_right",
+      "origin": [
+        208,
+        135
+      ]
+    },
+    {
+      "id": "S4_back_right",
+      "origin": [
+        144,
+        167
+      ]
+    }
+  ],
+  "teacher_reserve_rect": [
+    236,
+    78,
+    40,
+    56
+  ],
+  "teacher_foot_anchor": [
+    260,
+    126
+  ],
+  "limitations": [
+    "讲桌独立层由现有v3成品拆分，仍绑定384×256场景坐标。",
+    "老师只预留位置，没有教师精灵或动画。",
+    "本轮不切换正式游戏。"
+  ],
+  "residual_patch_pixels": 35,
+  "visual_review": {
+    "passed": true,
+    "reviewed_files": [
+      "classroom_clean_no_lectern.png",
+      "classroom_clean_no_lectern_zoom.png",
+      "lectern_cutout.png",
+      "classroom_recomposed_lectern_layer.png",
+      "classroom_four_students_2x.png",
+      "classroom_four_desks_2x.png"
+    ],
+    "findings": [
+      "关闭讲桌层后平台、墙面和黑板下沿连续，未见讲桌桌面、桌腿或棕色残影。",
+      "独立讲桌层只保留讲桌木色像素，重新叠加后恢复原v3场景。",
+      "四套桌椅与六帧写字预览保持原有位置和动画节奏。"
+    ]
+  }
+}

@@ -1,4 +1,4 @@
-extends SceneTree
+﻿extends SceneTree
 ## 用生产保存、迁移和显式恢复入口验证七天账本，不修改系统时间或正式玩家文件。
 
 const SUBJECTS: Array[String] = ["chinese", "math", "english", "physical"]
@@ -22,7 +22,10 @@ func _run() -> void:
 	if not _result(configuration.load_file(), "正式配置加载", configuration.error_message):
 		_finish()
 		return
-	fixture_root = OS.get_cache_dir().path_join("ClassroomRoundSave_%d_%d" % [OS.get_process_id(), Time.get_ticks_usec()])
+	# 本组验证回合持久化行为，不含每日发点；把起始日推到局外隔离每日属性点影响。
+	configuration.globals["first_daily_attribute_day"] = 99
+	# 事件是独立内容：本组存档往返基线不含事件干扰，显式关闭保持既有基线。
+	configuration.globals["events_enabled"] = false
 	if not _result(DirAccess.make_dir_recursive_absolute(fixture_root), "创建独占持久化验证目录"):
 		_finish()
 		return
@@ -44,8 +47,9 @@ func _empty_simulation(game_config: GameConfig = null, seed_value: int = 261107)
 	var source: GameConfig = configuration if game_config == null else game_config
 	if not _result(simulation.setup(source, seed_value), "建立隔离四人局", simulation.error_message):
 		return null
-	# 旧版本迁移夹具只生成当时支持的显式互动，自主竞争另由AI集成验收覆盖。
+	# 旧版本迁移夹具只生成当时支持的显式互动，自主竞争与宿舍结伴另由专项组验收。
 	simulation.phase_scope.social_auto_actions = []
+	simulation.phase_scope.dorm_auto_actions = ["dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash", "dorm_rest"]
 	var controller := ClassroomBehaviorController.new()
 	root.add_child(controller)
 	controller.setup(simulation)
@@ -78,7 +82,7 @@ func _test_roundtrip() -> bool:
 	if not _result(source.advance(5.0), "先执行纸条五秒", source.error_message):
 		return false
 	var saved: Dictionary = _snapshot(source, "roundtrip_active.json")
-	if not _check(not saved.is_empty() and saved.save_version == 5 and saved.has("round_progression"), "生产写出完整v5账本"):
+	if not _check(not saved.is_empty() and saved.save_version == 6 and saved.has("round_progression"), "生产写出完整v6账本"):
 		return false
 	_check(saved.round_progression.exams.chinese.rows[0].score_units is String, "成绩整数磁盘使用精确十进制文本")
 	var restored := _empty_simulation()
@@ -347,7 +351,7 @@ func _test_legacy_migration() -> bool:
 				_close(row.knowledge, restored.students[index].knowledge[subject] - knowledge_before[index][subject] - dorm_gain, "部分日榜只统计接入后真实在校新增")
 				_close(restored.get_dorm_summary(2, index).totals[subject], dorm_gain, "迁移后宿舍收益独立记录且不反推旧档")
 		var upgraded: Dictionary = _snapshot(restored, "legacy_upgraded_v%d.json" % version)
-		if not _check(not upgraded.is_empty() and upgraded.save_version == 5, "旧档下次保存明确升级v5"):
+		if not _check(not upgraded.is_empty() and upgraded.save_version == 6, "旧档下次保存明确升级v6"):
 			return false
 		var verified := _empty_simulation()
 		if verified == null or not _result(verified.load_file(_path("legacy_upgraded_v%d.json" % version), false), "迁移后v4部分日榜能完整重读", verified.error_message):
@@ -604,6 +608,9 @@ func _variant_config(filename: String, coefficient: float, exam_max: float, inte
 	for row: Dictionary in source.tables.globals:
 		if row.key == "exam_intelligence_coefficient":
 			row.value = coefficient
+		# 冻结副本与主配置一致地隔离每日发点，避免NPC轮换加点扰动智力基线断言。
+		if row.key == "first_daily_attribute_day":
+			row.value = 99
 	for row: Dictionary in source.tables.subjects:
 		if row.id in ["chinese", "math", "english"]:
 			row.max_score = exam_max
@@ -623,8 +630,12 @@ func _legacy(source: Dictionary, version: int) -> Dictionary:
 	var result: Dictionary = source.duplicate(true)
 	result.save_version = version
 	result.erase("round_progression")
-	# v5才引入教导主任抽查状态，降级夹具显式剔除，不把新状态伪装成旧档。
+	# v5才引入教导主任抽查状态，v6才引入每日属性点状态，降级夹具显式剔除，不把新状态伪装成旧档。
 	result.erase("inspection")
+	result.erase("daily_points")
+	result.erase("npc_growth")
+	result.erase("challenge_auto")
+	result.erase("linger_auto")
 	for legacy_student: Dictionary in result.students:
 		legacy_student.erase("daily_discipline")
 		legacy_student.erase("daily_discipline_day")

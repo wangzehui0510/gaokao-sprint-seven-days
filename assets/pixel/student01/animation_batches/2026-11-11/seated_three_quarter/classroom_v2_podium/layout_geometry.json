@@ -1,0 +1,137 @@
+{
+  "canvas": [
+    384,
+    256
+  ],
+  "source_room": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v1\\classroom_empty.png",
+  "source_room_sha256": "26069d7305553f14325b5a9dce4fd78d781c264b15ef80c346b0c9cf8be6d200",
+  "crop": [
+    172,
+    32,
+    160,
+    128
+  ],
+  "platform_top_polygon": [
+    [
+      211,
+      83
+    ],
+    [
+      317,
+      136
+    ],
+    [
+      287,
+      151
+    ],
+    [
+      181,
+      98
+    ]
+  ],
+  "podium_floor_polygon": [
+    [
+      211,
+      87
+    ],
+    [
+      317,
+      140
+    ],
+    [
+      287,
+      155
+    ],
+    [
+      181,
+      102
+    ]
+  ],
+  "platform_height_px": 4,
+  "lectern_top_polygon": [
+    [
+      240,
+      84
+    ],
+    [
+      268,
+      98
+    ],
+    [
+      250,
+      107
+    ],
+    [
+      222,
+      93
+    ]
+  ],
+  "lectern_floor_polygon": [
+    [
+      240,
+      103
+    ],
+    [
+      268,
+      117
+    ],
+    [
+      250,
+      126
+    ],
+    [
+      222,
+      112
+    ]
+  ],
+  "lectern_rect": [
+    222,
+    84,
+    47,
+    43
+  ],
+  "lectern_height_px": 19,
+  "teacher_reserve_rect": [
+    272,
+    80,
+    40,
+    56
+  ],
+  "teacher_foot_anchor": [
+    292,
+    132
+  ],
+  "teacher_facing": "south-west",
+  "stations": [
+    {
+      "id": "S1_front_left",
+      "origin": [
+        124,
+        93
+      ]
+    },
+    {
+      "id": "S2_back_left",
+      "origin": [
+        60,
+        125
+      ]
+    },
+    {
+      "id": "S3_front_right",
+      "origin": [
+        208,
+        135
+      ]
+    },
+    {
+      "id": "S4_back_right",
+      "origin": [
+        144,
+        167
+      ]
+    }
+  ],
+  "user_choice": "矮平台＋讲桌，老师站桌旁（推荐）",
+  "scope": "固定坐姿四工位美术预览，老师预留区不等于新教师动画已完成。"
+}

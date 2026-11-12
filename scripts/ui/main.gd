@@ -27,6 +27,7 @@ const PAIR_ACTION_IDS: Array[String] = [
 	"remind_friend", "solve_together", "invite_playground", "invite_canteen",
 	"borrow_notes", "encourage", "pillow_fight", "feed_snack", "use_eraser",
 	"give_comic_item", "give_candy_item", "swap_book", "swap_book_boost", "arm_wrestle",
+	"study_together", "roommate_game", "take_comic", "prank_together",
 ]
 
 # 核心状态、共享树控制器和界面分开持有，画面不能自行结算收益。
@@ -115,7 +116,16 @@ var knowledge_label: Label
 var attributes_label: Label
 # 加点面板只消费本人已有点数，不维护另一份属性或每日领取记录。
 var attribute_entry_button: Button
+var attribute_inline_buttons: Dictionary = {}
 var attribute_dialog: AcceptDialog
+# 特殊事件弹窗与记录页：弹窗不暂停模拟推进，关闭后可从工具栏入口重新打开。
+var event_dialog: AcceptDialog
+var event_name_label: Label
+var event_desc_label: Label
+var event_options_box: VBoxContainer
+var rendered_event_count: int = 0
+var dismissed_event_id: String = ""
+var event_button: Button
 var attribute_points_label: Label
 var attribute_buttons: Dictionary = {}
 var attribute_value_labels: Dictionary = {}
@@ -369,13 +379,16 @@ func _build_header(parent: Control) -> void:
 	menu.tooltip_text = "配表、重新开始与开发工具"
 	menu.custom_minimum_size = Vector2(28, BAR_HEIGHT)
 	header.add_child(menu)
+	# 特殊事件入口放在设置菜单，不增加工具栏按钮避免挤压时钟显示。
+	event_button = menu
 	menu.get_popup().add_item("重新读取配表", 0)
 	menu.get_popup().add_item("重新开始", 1)
 	menu.get_popup().add_separator()
 	menu.get_popup().add_item("开发工具", 2)
 	menu.get_popup().add_item("重试桌面功能", 3)
 	menu.get_popup().add_separator()
-	menu.get_popup().add_item("查看榜单", 4)
+	menu.get_popup().add_item("查看特殊事件", 4)
+	menu.get_popup().add_item("查看榜单", 5)
 	menu.get_popup().id_pressed.connect(_on_menu)
 	var close_button = _icon_button("x", "收起到系统托盘，继续挂机")
 	close_button.pressed.connect(_hide_to_tray)
@@ -492,12 +505,22 @@ func _build_inspector() -> void:
 	details.add_child(attributes_row)
 	attributes_label = _label("", 11, MUTED)
 	attributes_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	attributes_label.clip_text = true
 	attributes_row.add_child(attributes_label)
 	attribute_entry_button = _button("+", "分配我的待分配属性点")
 	attribute_entry_button.name = "AttributeEntry"
 	attribute_entry_button.custom_minimum_size = Vector2(24, 24)
 	attribute_entry_button.pressed.connect(_show_attribute_allocation)
 	attributes_row.add_child(attribute_entry_button)
+	# 人物页内联加点：有属性点时逐属性直接+1，与分配弹窗共用同一核心接口。
+	for attribute_id: String in ATTRIBUTE_NAMES:
+		var inline: Button = _button("+", "%s增加1点" % ATTRIBUTE_NAMES[attribute_id])
+		inline.name = "InlineAllocate_" + attribute_id
+		inline.custom_minimum_size = Vector2(20, 24)
+		inline.add_theme_font_size_override("font_size", 11)
+		inline.pressed.connect(_allocate_selected_attribute.bind(attribute_id))
+		attributes_row.add_child(inline)
+		attribute_inline_buttons[attribute_id] = inline
 	# 有效属性和状态在固定剩余区域滚动，不让长说明把1倍人物页撑高。
 	status_effects_text = _text_area("StatusEffects")
 	status_effects_text.custom_minimum_size.y = 40
@@ -508,6 +531,7 @@ func _build_inspector() -> void:
 	log_text = _text_area("记录")
 	log_text.scroll_following = true
 	inspector_tabs.add_child(log_text)
+	# 特殊事件结算历史并入记录页尾部，保持原有六页结构不新增页面。
 	_build_interaction_page()
 	_build_inventory_page()
 	_build_round_page()
@@ -920,6 +944,100 @@ func _show_records() -> void:
 	_set_panel_visible(true)
 
 
+# 特殊事件入口：有待处理事件时重新打开选择弹窗，否则打开记录页查看事件历史。
+func _show_events() -> void:
+	if simulation == null or fatal_error:
+		return
+	_set_panel_visible(true)
+	if not simulation.pending_event_for_player().is_empty():
+		dismissed_event_id = ""
+		_refresh_event_interface(true)
+		if not event_dialog.visible:
+			event_dialog.popup_centered()
+	else:
+		inspector_tabs.current_tab = 2
+
+
+# 事件弹窗不暂停模拟：挂机照常推进，选择后回到挂机界面，关闭可稍后从工具栏再开。
+func _build_event_dialog() -> void:
+	event_dialog = AcceptDialog.new()
+	event_dialog.name = "EventDialog"
+	event_dialog.title = "特殊事件"
+	event_dialog.ok_button_text = "稍后处理"
+	event_dialog.min_size = Vector2i(320, 240)
+	add_child(event_dialog)
+	var content = VBoxContainer.new()
+	content.add_theme_constant_override("separation", 6)
+	event_dialog.add_child(content)
+	event_name_label = _label("", 15)
+	content.add_child(event_name_label)
+	event_desc_label = _label("", 12, MUTED)
+	event_desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	event_desc_label.custom_minimum_size = Vector2(280, 0)
+	content.add_child(event_desc_label)
+	event_options_box = VBoxContainer.new()
+	event_options_box.name = "EventOptions"
+	event_options_box.add_theme_constant_override("separation", 4)
+	content.add_child(event_options_box)
+	event_dialog.visibility_changed.connect(_on_event_dialog_visibility_changed)
+
+
+## 弹窗被玩家关闭（未选择）时记录已阅事件，改为工具栏入口提示，不自动反复弹出。
+func _on_event_dialog_visibility_changed() -> void:
+	if simulation == null or fatal_error or event_dialog == null or event_dialog.visible:
+		return
+	var pending: Dictionary = simulation.pending_event_for_player()
+	if not pending.is_empty():
+		dismissed_event_id = String(pending.event_id)
+
+
+## 刷新事件选择弹窗、入口按钮提示与事件记录页；全部只读查询真实状态。
+func _refresh_event_interface(force: bool = false) -> void:
+	if simulation == null or fatal_error:
+		return
+	var pending: Dictionary = simulation.pending_event_for_player()
+	var pending_id: String = String(pending.get("event_id", ""))
+	# 事件结算历史并入记录页尾部：先补一条分节标题，再按真实历史增量渲染。
+	while rendered_event_count < simulation.events_log.size():
+		if rendered_event_count == 0:
+			log_text.add_text("—— 特殊事件结算 ——\n")
+		var entry: Dictionary = simulation.events_log[rendered_event_count]
+		log_text.add_text("第%d天 %s  %s：%s → 「%s」（%s）%s\n" % [
+			int(entry.day), _clock(entry.clock_seconds), String(entry.student_name), String(entry.event_name),
+			String(entry.option_name), "NPC自动" if entry.resolver == "npc" else "玩家选择",
+			"" if String(entry.summary).is_empty() else " · " + String(entry.summary),
+		])
+		rendered_event_count += 1
+	if pending.is_empty():
+		event_button.tooltip_text = "查看特殊事件与待处理选择"
+		return
+	event_button.tooltip_text = "有待处理特殊事件：%s" % String(pending.name)
+	if not event_dialog.visible and (force or dismissed_event_id != pending_id):
+		dismissed_event_id = ""
+		event_name_label.text = String(pending.name)
+		event_desc_label.text = "%s\n（发生在 %s 身上，不影响挂机推进；\"稍后处理\"可稍后从工具栏再选）" % [String(pending.description), String(simulation.students[int(pending.target_index)].name)]
+		for child in event_options_box.get_children():
+			child.queue_free()
+		for option: Dictionary in pending.options:
+			var option_button = _button(String(option.name), String(option.description))
+			option_button.pressed.connect(_on_event_option_selected.bind(String(option.id)))
+			event_options_box.add_child(option_button)
+		event_dialog.popup_centered()
+
+
+## 选择事件选项：结算成功后收起弹窗；过期或非法选择由核心明确拒绝并保持弹窗。
+func _on_event_option_selected(option_id: String) -> void:
+	if simulation == null or fatal_error:
+		return
+	var result: Error = simulation.resolve_pending_event(option_id)
+	if result != OK:
+		_queue_error(simulation.error_message)
+		return
+	dismissed_event_id = ""
+	event_dialog.hide()
+	status_label.text = "事件已处理，挂机继续"
+
+
 # 背包入口保留查看对象和纸条收件人，查看本身不发动自用动作。
 func _show_inventory() -> void:
 	if simulation == null or fatal_error:
@@ -985,6 +1103,9 @@ func _refresh_attribute_interface() -> void:
 		attribute_value_labels[attribute_id].text = _interaction_number(float(player.attributes[attribute_id]))
 		attribute_buttons[attribute_id].disabled = not unavailable.is_empty()
 		attribute_buttons[attribute_id].tooltip_text = "%s增加1点" % ATTRIBUTE_NAMES[attribute_id] if unavailable.is_empty() else unavailable
+		# 内联按钮与弹窗按钮同规则禁用：非本人、终局或无点数时不可加。
+		attribute_inline_buttons[attribute_id].disabled = not unavailable.is_empty()
+		attribute_inline_buttons[attribute_id].tooltip_text = "%s增加1点" % ATTRIBUTE_NAMES[attribute_id] if unavailable.is_empty() else unavailable
 
 
 # 行动窗口只选择本人的动作，查看其他人物时也不会改变指令对象。
@@ -1226,20 +1347,25 @@ func _pair_action_ids() -> Array[String]:
 	return result
 
 
-# 固定科目列表保留显式选择；当前授课科目禁选，不能用体育替代文化课。
+# 固定科目列表保留显式选择；换课本禁用当前授课科目，结伴自习不排除任何文化课。
 func _refresh_pair_subjects() -> void:
 	var available: Array[String] = []
 	for subject: Dictionary in configuration.tables.subjects:
 		if subject.kind == "knowledge" and subject.id != "physical":
 			available.append(String(subject.id))
+	var selected_action: String = ""
+	if pair_action_picker.selected >= 0:
+		selected_action = String(pair_action_picker.get_item_metadata(pair_action_picker.selected))
+	var block_current: bool = selected_action in ["swap_book", "swap_book_boost"]
+	var current_subject: String = simulation.course_context().subject_id
 	var previous: String = "" if pair_subject_picker.selected < 0 else String(pair_subject_picker.get_item_metadata(pair_subject_picker.selected))
 	pair_subject_picker.clear()
-	pair_subject_picker.add_item("选择换入科目", 0)
+	pair_subject_picker.add_item("选择换入科目" if block_current else "选择科目", 0)
 	pair_subject_picker.set_item_metadata(0, "")
 	for subject_id: String in available:
 		pair_subject_picker.add_item(String(configuration.subjects[subject_id].name))
 		pair_subject_picker.set_item_metadata(pair_subject_picker.item_count - 1, subject_id)
-		pair_subject_picker.set_item_disabled(pair_subject_picker.item_count - 1, subject_id == simulation.course_context().subject_id)
+		pair_subject_picker.set_item_disabled(pair_subject_picker.item_count - 1, block_current and subject_id == current_subject)
 	pair_subject_picker.select(available.find(previous) + 1 if previous in available else 0)
 
 
@@ -1295,15 +1421,21 @@ func _refresh_pair_action_interface() -> void:
 	if pair_subject_picker.item_count == 0:
 		_refresh_pair_subjects()
 	else:
+		var current_action: String = ""
+		if pair_action_picker.selected >= 0:
+			current_action = String(pair_action_picker.get_item_metadata(pair_action_picker.selected))
 		for index: int in range(1, pair_subject_picker.item_count):
 			var subject_id: String = pair_subject_picker.get_item_metadata(index)
 			pair_subject_picker.set_item_text(index, String(configuration.subjects[subject_id].name))
-			pair_subject_picker.set_item_disabled(index, subject_id == simulation.course_context().subject_id)
+			# 换课本禁用当前授课科目；结伴自习不排除任何文化课。
+			var block_current: bool = current_action in ["swap_book", "swap_book_boost"]
+			pair_subject_picker.set_item_disabled(index, block_current and subject_id == simulation.course_context().subject_id)
 	var reason: String = "当前没有已开放的双人动作"
 	pair_subject_picker.visible = false
 	if pair_action_picker.selected >= 0:
 		var action_id: String = pair_action_picker.get_item_metadata(pair_action_picker.selected)
-		var needs_subject: bool = action_id in ["swap_book", "swap_book_boost"]
+		# 需要显式选科的双人动作由配置驱动（结伴自习与换课本），不再硬编码动作清单。
+		var needs_subject: bool = configuration.actions[action_id].knowledge_mode == "selected_subject" or action_id in ["swap_book", "swap_book_boost"]
 		pair_subject_picker.visible = needs_subject
 		var subject_id: String = String(pair_subject_picker.get_item_metadata(pair_subject_picker.selected)) if needs_subject else ""
 		reason = simulation.interaction_unavailable_reason(0, pair_action_target_index, action_id, subject_id)
@@ -1318,7 +1450,9 @@ func _start_pair_action() -> void:
 	if simulation == null or fatal_error or pair_action_target_index <= 0 or pair_action_picker.selected < 0:
 		return
 	var action_id: String = pair_action_picker.get_item_metadata(pair_action_picker.selected)
-	var subject_id: String = String(pair_subject_picker.get_item_metadata(pair_subject_picker.selected)) if action_id in ["swap_book", "swap_book_boost"] else ""
+	# 发起选科与展示口径一致：显式选科动作由配置驱动，避免结伴自习经通用入口丢失选科。
+	var needs_subject: bool = configuration.actions[action_id].knowledge_mode == "selected_subject" or action_id in ["swap_book", "swap_book_boost"]
+	var subject_id: String = String(pair_subject_picker.get_item_metadata(pair_subject_picker.selected)) if needs_subject else ""
 	var result: Error = simulation.start_interaction(0, pair_action_target_index, action_id, "", subject_id)
 	if result != OK:
 		_show_interaction_error(result)
@@ -1958,6 +2092,7 @@ func _build_dialogs() -> void:
 	_build_attribute_dialog()
 	_build_personal_action_dialog()
 	_build_pair_action_dialog()
+	_build_event_dialog()
 
 
 # 四项基础属性逐点分配，显示真实剩余点数；提高上限不赠送当前资源。
@@ -2274,10 +2409,16 @@ func _refresh_interface() -> void:
 	focus_button.disabled = round_finished
 	rest_button.disabled = round_finished
 	sleep_button.disabled = round_finished or not simulation.can_start_action(0, "sleep")
+	var pending_point_logs: int = 0
 	while rendered_log_count < simulation.logs.size():
 		var entry: Dictionary = simulation.logs[rendered_log_count]
 		log_text.add_text("%s  %s  %s\n" % [_clock(entry.clock_seconds), entry.name, entry.message])
+		if entry.type == "attribute_points" and int(entry.student_index) == -1:
+			pending_point_logs += 1
 		rendered_log_count += 1
+	# 离线补发可能一次跨多天，按班级发点日志合并为一条飘字提示总获得点数。
+	if pending_point_logs > 0:
+		room.show_floating_text("已获得属性点+%d" % pending_point_logs)
 	footer_label.text = "专注 %.0f · 体力 %.0f" % [simulation.students[0].focus, simulation.students[0].stamina]
 	footer_label.tooltip_text = "我的专注 %.1f / %.0f · 体力 %.1f / %.0f" % [simulation.students[0].focus, simulation.get_resource_max(0, "focus"), simulation.students[0].stamina, simulation.get_resource_max(0, "stamina")]
 	_refresh_timetable()
@@ -2289,6 +2430,7 @@ func _refresh_interface() -> void:
 	_refresh_personal_action_interface()
 	_refresh_pair_action_interface()
 	_refresh_round_interface()
+	_refresh_event_interface()
 	room.refresh_state()
 
 
@@ -2459,6 +2601,8 @@ func _on_menu(id: int) -> void:
 		3:
 			_initialize_desktop()
 		4:
+			_show_events()
+		5:
 			_show_round_boards()
 
 

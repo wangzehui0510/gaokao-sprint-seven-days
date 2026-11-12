@@ -1,0 +1,6 @@
+ERROR: Attempt to open script 'res://tests/test_config_contract.gd' resulted in error 'File not found'.
+   at: load_source_code (modules/gdscript/gdscript.cpp:1139)
+ERROR: Failed loading resource: res://tests/test_config_contract.gd.
+   at: _load (core/io/resource_loader.cpp:317)
+ERROR: Can't load script: res://tests/test_config_contract.gd
+   at: start (main/main.cpp:4370)

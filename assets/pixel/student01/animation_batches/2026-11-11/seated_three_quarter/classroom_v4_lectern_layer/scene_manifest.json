@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "status": "ready",
+  "canvas": [
+    384,
+    256
+  ],
+  "station_canvas": [
+    64,
+    64
+  ],
+  "station_anchor": [
+    32,
+    60
+  ],
+  "facing": "north-east",
+  "stations": [
+    {
+      "id": "S1_front_left",
+      "origin": [
+        124,
+        93
+      ]
+    },
+    {
+      "id": "S2_back_left",
+      "origin": [
+        60,
+        125
+      ]
+    },
+    {
+      "id": "S3_front_right",
+      "origin": [
+        208,
+        135
+      ]
+    },
+    {
+      "id": "S4_back_right",
+      "origin": [
+        144,
+        167
+      ]
+    }
+  ],
+  "teacher_reserve_rect": [
+    236,
+    78,
+    40,
+    56
+  ],
+  "teacher_foot_anchor": [
+    260,
+    126
+  ],
+  "teacher_position": "behind_lectern",
+  "lectern_layer_id": "lectern",
+  "layers": [
+    {
+      "id": "room_clean",
+      "scope": "scene",
+      "canvas": [
+        384,
+        256
+      ],
+      "frame_paths": [
+        "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v4_lectern_layer\\classroom_clean_no_lectern.png"
+      ],
+      "duration_ms": [
+        1100
+      ]
+    },
+    {
+      "id": "lectern",
+      "scope": "scene",
+      "canvas": [
+        384,
+        256
+      ],
+      "frame_paths": [
+        "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v4_lectern_layer\\lectern_layer.png"
+      ],
+      "duration_ms": [
+        1100
+      ]
+    },
+    {
+      "id": "desk_back",
+      "scope": "station",
+      "canvas": [
+        64,
+        64
+      ],
+      "frame_paths": [
+        "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\layers_v1\\desk_back.png"
+      ],
+      "duration_ms": [
+        1100
+      ]
+    },
+    {
+      "id": "chair_base",
+      "scope": "station",
+      "canvas": [
+        64,
+        64
+      ],
+      "frame_paths": [
+        "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\layers_v1\\chair_base.png"
+      ],
+      "duration_ms": [
+        1100
+      ]
+    },
+    {
+      "id": "student",
+      "scope": "station",
+      "canvas": [
+        64,
+        64
+      ],
+      "frame_paths": [
+        "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\animation_v1\\curated\\frame_00.png",
+        "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\animation_v1\\curated\\frame_01.png",
+        "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\animation_v1\\curated\\frame_02.png",
+        "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\animation_v1\\curated\\frame_03.png",
+        "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\animation_v1\\curated\\frame_04.png",
+        "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\animation_v1\\curated\\frame_05.png"
+      ],
+      "duration_ms": [
+        280,
+        150,
+        160,
+        200,
+        160,
+        150
+      ]
+    },
+    {
+      "id": "chair_front",
+      "scope": "station",
+      "canvas": [
+        64,
+        64
+      ],
+      "frame_paths": [
+        "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\layers_v1\\chair_front.png"
+      ],
+      "duration_ms": [
+        1100
+      ]
+    }
+  ],
+  "animation_layer_id": "student",
+  "production_integration": false,
+  "note": "讲桌已拆成独立透明场景层；关闭lectern层时背景不残留讲桌。"
+}

@@ -1,0 +1,10 @@
+{
+  "description": "Refine the existing low teaching platform and wooden lectern into finished clean pixel art while preserving the exact sketched geometry. The platform MUST touch the classroom wall under the blackboard along its rear edge, with no visible strip of loose floor between platform and wall. Keep the platform as a shallow raised slab with a clear 4-pixel front edge, following the room's 2:1 isometric lines. The lectern is moved toward the students/front half of the platform; keep its compact warm wooden top and solid front panels. Leave a clearly visible continuous strip of platform behind the lectern, from the lectern back edge to the wall, wide enough for a 32x48 teacher sprite to stand behind it. Do not place a person or any marker in that strip. Preserve the original blackboard, wall trim, door, clock, windows, floor and palette outside the sketched platform/lectern. Crisp native pixel clusters, no blur, no extra desks, no text, no objects on the teacher standing area.",
+  "width": 160,
+  "height": 128,
+  "no_background": false,
+  "seed": 2026111261,
+  "edit_target": "wall_connection_volume_guide.png",
+  "source_scene": "classroom_v2_podium/classroom_with_podium.png",
+  "postprocess": "采用仅新mask内的真实返回像素，mask外恢复classroom_v2原背景"
+}

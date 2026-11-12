@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "clips": [
+    {
+      "id": "pair_wrestle",
+      "label": "掰手腕·僵持接触检查",
+      "direction": "paired",
+      "canvas": [
+        96,
+        64
+      ],
+      "anchor": null,
+      "frame_paths": [
+        "pair_wrestle/frame_00.png",
+        "pair_wrestle/frame_01.png",
+        "pair_wrestle/frame_02.png",
+        "pair_wrestle/frame_03.png",
+        "pair_wrestle/frame_04.png",
+        "pair_wrestle/frame_05.png"
+      ],
+      "duration_ms": [
+        170,
+        170,
+        170,
+        170,
+        170,
+        170
+      ],
+      "loop": true,
+      "review_status": "paired_contact_pending",
+      "category": "双人接触",
+      "notes": "真实源帧按计划合成，仅为接触与站位待审预览；没有插帧、镜像、拉伸或自动批准。"
+    },
+    {
+      "id": "pair_pillow",
+      "label": "挥枕头·32px轻触参考，互击待完善",
+      "direction": "paired",
+      "canvas": [
+        128,
+        64
+      ],
+      "anchor": null,
+      "frame_paths": [
+        "pair_pillow/frame_00.png",
+        "pair_pillow/frame_01.png",
+        "pair_pillow/frame_02.png",
+        "pair_pillow/frame_03.png",
+        "pair_pillow/frame_04.png",
+        "pair_pillow/frame_05.png",
+        "pair_pillow/frame_06.png",
+        "pair_pillow/frame_07.png",
+        "pair_pillow/frame_08.png",
+        "pair_pillow/frame_09.png",
+        "pair_pillow/frame_10.png",
+        "pair_pillow/frame_11.png",
+        "pair_pillow/frame_12.png",
+        "pair_pillow/frame_13.png"
+      ],
+      "duration_ms": [
+        130,
+        130,
+        130,
+        130,
+        130,
+        130,
+        130,
+        130,
+        130,
+        130,
+        130,
+        130,
+        130,
+        130
+      ],
+      "loop": true,
+      "review_status": "paired_contact_pending",
+      "category": "双人接触",
+      "notes": "真实源帧按计划合成，仅为接触与站位待审预览；没有插帧、镜像、拉伸或自动批准。"
+    },
+    {
+      "id": "pair_give_receive",
+      "label": "递接手势·书本尚未交接",
+      "direction": "paired",
+      "canvas": [
+        128,
+        64
+      ],
+      "anchor": null,
+      "frame_paths": [
+        "pair_give_receive/frame_00.png",
+        "pair_give_receive/frame_01.png",
+        "pair_give_receive/frame_02.png",
+        "pair_give_receive/frame_03.png",
+        "pair_give_receive/frame_04.png",
+        "pair_give_receive/frame_05.png",
+        "pair_give_receive/frame_06.png",
+        "pair_give_receive/frame_07.png"
+      ],
+      "duration_ms": [
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120
+      ],
+      "loop": false,
+      "review_status": "paired_contact_pending",
+      "category": "双人接触",
+      "notes": "真实源帧按计划合成，仅为接触与站位待审预览；没有插帧、镜像、拉伸或自动批准。"
+    }
+  ]
+}

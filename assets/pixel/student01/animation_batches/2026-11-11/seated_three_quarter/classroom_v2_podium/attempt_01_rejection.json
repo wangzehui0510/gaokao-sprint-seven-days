@@ -1,0 +1,11 @@
+{
+  "job_id": "53e66ddb-03b9-4cee-aa70-e63a22be7870",
+  "charged_generations": 6,
+  "visual_acceptance": "rejected",
+  "reasons": [
+    "没有生成可辨识的讲桌。",
+    "平台区域出现模糊地砖纹理与碎片，未达到清晰像素要求。",
+    "讲桌预留遮罩中的黑板边缘被错误填成墙色。"
+  ],
+  "decision": "原稿与临时合成保留为rejected_attempt_01，不作为最终素材或通过依据。"
+}

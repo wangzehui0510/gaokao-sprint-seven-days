@@ -27,6 +27,8 @@ func _run() -> void:
 	if not _result(DirAccess.make_dir_recursive_absolute(fixture_root), "创建独占七天局验证目录"):
 		_finish()
 		return
+	# 七天数值样本是既有基线：事件为独立内容，显式关闭避免分叉。
+	configuration.globals["events_enabled"] = false
 	_check(_test_whole_round(), "真实四人从第1天连续执行到第7天终局")
 	_check(_test_daily_raw_order(), "知识榜按未舍入真实增量排序并列")
 	_check(_test_snapshot_and_hot_reload(), "开考快照、真实互动、调表与公布时序完整执行")
@@ -132,8 +134,14 @@ func _test_whole_round() -> bool:
 	_check_ranking(totals.rows, "score_units", "真实最终榜")
 	_check(simulation.students.all(func(student: Dictionary): return student.current_action.is_empty()), "终局四人均不残留可执行动作")
 	_check(not simulation.interactions.is_empty(), "第7阶段真实七天确实发生已批准的自主竞争互动")
+	# 真实七天局的自主互动包含竞争池与宿舍结伴池两类，终局都不得残留占用。
+	var allowed_interactions: Array[String] = []
+	for action_id: String in simulation.phase_scope.social_auto_actions:
+		allowed_interactions.append(action_id)
+	for action_id: String in simulation.phase_scope.dorm_auto_actions:
+		allowed_interactions.append(action_id)
 	for interaction: Dictionary in simulation.interactions:
-		_check(interaction.action_id in simulation.phase_scope.social_auto_actions and interaction.status != "active", "自主互动仅来自已批准竞争池，终局不残留双人占用")
+		_check(interaction.action_id in allowed_interactions and interaction.status != "active", "自主互动仅来自已批准竞争与宿舍结伴池，终局不残留双人占用")
 	return _check_terminal_read_only(simulation, "完整七天局")
 
 

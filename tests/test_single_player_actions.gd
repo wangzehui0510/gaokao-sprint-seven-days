@@ -129,7 +129,7 @@ func _test_all_actions() -> bool:
 	var simulation := _simulation()
 	if simulation == null:
 		return false
-	_check(simulation.phase_scope.enabled_actions.size() == 54, "范围保留既有49项并增加五项宿舍动作")
+	_check(simulation.phase_scope.enabled_actions.size() == 60, "范围保留既有49项并增加宿舍动作、抢答、磨蹭、宿舍二批双人与批次3双人")
 	var expected_actions: Array[String] = [
 		"study", "physical_study", "music_class", "art_class", "break_rest", "eye_exercise",
 		"morning_exercise", "rest", "daydream", "sleep", "eat_meal", "dorm_rest", "exam",
@@ -137,6 +137,7 @@ func _test_all_actions() -> bool:
 		"remind_friend", "solve_together", "invite_playground", "invite_canteen", "borrow_notes",
 		"encourage", "pillow_fight", "feed_snack", "use_eraser", "give_comic_item",
 		"give_candy_item", "swap_book", "swap_book_boost", "arm_wrestle",
+		"answer_challenge", "linger_dorm_rest", "take_comic", "prank_together", "study_together", "roommate_game",
 		"dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash",
 	]
 	for scenario: Dictionary in cases:
@@ -145,7 +146,7 @@ func _test_all_actions() -> bool:
 	var actual_actions: Array = simulation.phase_scope.enabled_actions.duplicate()
 	actual_actions.sort()
 	_check(actual_actions == expected_actions, "既有动作身份完整保留，新增宿舍范围没有多开或漏开")
-	_check(simulation.phase_scope.dorm_auto_actions == ["dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash", "dorm_rest"], "宿舍自主池恰为已批准六项")
+	_check(simulation.phase_scope.dorm_auto_actions == ["dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash", "dorm_rest", "study_together", "roommate_game"], "宿舍自主池恰为已批准八项，含两人结伴")
 	_check(simulation.phase_scope.auto_actions == ["daydream", "sleep", "read_comic", "bathroom"] and simulation.phase_scope.subject_auto_actions == {"physical": ["playground_play"]}, "自主候选按批准范围开放发呆、睡觉、漫画与上厕所")
 	for candidate: Dictionary in simulation.get_auto_candidates(0):
 		_check(candidate.action_id not in ["send_note", "linger_break"], "仅开放执行的动作不擅自加入自主池")

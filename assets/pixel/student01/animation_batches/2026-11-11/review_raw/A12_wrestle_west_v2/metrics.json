@@ -1,0 +1,402 @@
+{
+  "id": "A12_wrestle_west_v2",
+  "label": "掰手腕·接触姿态修订",
+  "direction": "west",
+  "declared_canvas": [
+    64,
+    48
+  ],
+  "anchor": [
+    32,
+    44
+  ],
+  "loop": true,
+  "review_status": "pending_visual_review",
+  "visual_approval": "not_assessed_by_script",
+  "input_frame_count": 6,
+  "input_total_duration_ms": 1020,
+  "bbox_convention": "left_top_inclusive_right_bottom_exclusive",
+  "review_flags": [],
+  "frames": [
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\raw\\A12_wrestle_west_v2\\frame_00.png",
+      "sha256": "3f84408b2b3d14fdebf6536f3770888344c4c4a45974f7e64cb69ef38d98e3b9",
+      "dimensions": [
+        64,
+        48
+      ],
+      "matches_declared_canvas": true,
+      "visible_bbox": [
+        26,
+        5,
+        50,
+        44
+      ],
+      "visible_bbox_relative_to_anchor": [
+        -6,
+        -39,
+        18,
+        0
+      ],
+      "alpha_weighted_centroid": [
+        37.5739,
+        24.0016
+      ],
+      "empty": false,
+      "transparent_pixels": 2443,
+      "partial_alpha_pixels": 0,
+      "opaque_pixels": 629,
+      "visible_pixels": 629,
+      "unique_rgba_colors": 84,
+      "visible_rgba_colors": 83,
+      "edge_contacts": [],
+      "possible_edge_clipping": false
+    },
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\raw\\A12_wrestle_west_v2\\frame_01.png",
+      "sha256": "3b6989696abb191d49bc92e5d46940cb2882c0bbc07e7bbe9a4db0a00e2d0482",
+      "dimensions": [
+        64,
+        48
+      ],
+      "matches_declared_canvas": true,
+      "visible_bbox": [
+        25,
+        5,
+        50,
+        44
+      ],
+      "visible_bbox_relative_to_anchor": [
+        -7,
+        -39,
+        18,
+        0
+      ],
+      "alpha_weighted_centroid": [
+        37.465,
+        23.9984
+      ],
+      "empty": false,
+      "transparent_pixels": 2444,
+      "partial_alpha_pixels": 0,
+      "opaque_pixels": 628,
+      "visible_pixels": 628,
+      "unique_rgba_colors": 87,
+      "visible_rgba_colors": 86,
+      "edge_contacts": [],
+      "possible_edge_clipping": false
+    },
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\raw\\A12_wrestle_west_v2\\frame_02.png",
+      "sha256": "33f4bf23c0a7fa7ddf7434594498ea5b25e1778db40ac0d6a01660e91ed651ac",
+      "dimensions": [
+        64,
+        48
+      ],
+      "matches_declared_canvas": true,
+      "visible_bbox": [
+        25,
+        5,
+        50,
+        44
+      ],
+      "visible_bbox_relative_to_anchor": [
+        -7,
+        -39,
+        18,
+        0
+      ],
+      "alpha_weighted_centroid": [
+        37.465,
+        23.9984
+      ],
+      "empty": false,
+      "transparent_pixels": 2444,
+      "partial_alpha_pixels": 0,
+      "opaque_pixels": 628,
+      "visible_pixels": 628,
+      "unique_rgba_colors": 88,
+      "visible_rgba_colors": 87,
+      "edge_contacts": [],
+      "possible_edge_clipping": false
+    },
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\raw\\A12_wrestle_west_v2\\frame_03.png",
+      "sha256": "effa6ae8d2bf815a1753a3c0149648c7ba6648d3b860ad61d43b73761badd93c",
+      "dimensions": [
+        64,
+        48
+      ],
+      "matches_declared_canvas": true,
+      "visible_bbox": [
+        25,
+        5,
+        50,
+        44
+      ],
+      "visible_bbox_relative_to_anchor": [
+        -7,
+        -39,
+        18,
+        0
+      ],
+      "alpha_weighted_centroid": [
+        37.4057,
+        23.9493
+      ],
+      "empty": false,
+      "transparent_pixels": 2441,
+      "partial_alpha_pixels": 0,
+      "opaque_pixels": 631,
+      "visible_pixels": 631,
+      "unique_rgba_colors": 84,
+      "visible_rgba_colors": 83,
+      "edge_contacts": [],
+      "possible_edge_clipping": false
+    },
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\raw\\A12_wrestle_west_v2\\frame_04.png",
+      "sha256": "4216734b57af74617d6419e0736a9f93d8fbb2b242c5b5f361a4b33c99b38438",
+      "dimensions": [
+        64,
+        48
+      ],
+      "matches_declared_canvas": true,
+      "visible_bbox": [
+        24,
+        5,
+        50,
+        44
+      ],
+      "visible_bbox_relative_to_anchor": [
+        -8,
+        -39,
+        18,
+        0
+      ],
+      "alpha_weighted_centroid": [
+        37.3851,
+        24.0079
+      ],
+      "empty": false,
+      "transparent_pixels": 2441,
+      "partial_alpha_pixels": 0,
+      "opaque_pixels": 631,
+      "visible_pixels": 631,
+      "unique_rgba_colors": 86,
+      "visible_rgba_colors": 85,
+      "edge_contacts": [],
+      "possible_edge_clipping": false
+    },
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\raw\\A12_wrestle_west_v2\\frame_05.png",
+      "sha256": "7190bfbbd19310bf7d8ae4ad17d62cd05e87a8fe1cc31009039f574edba8890f",
+      "dimensions": [
+        64,
+        48
+      ],
+      "matches_declared_canvas": true,
+      "visible_bbox": [
+        24,
+        5,
+        50,
+        44
+      ],
+      "visible_bbox_relative_to_anchor": [
+        -8,
+        -39,
+        18,
+        0
+      ],
+      "alpha_weighted_centroid": [
+        37.3851,
+        24.0079
+      ],
+      "empty": false,
+      "transparent_pixels": 2441,
+      "partial_alpha_pixels": 0,
+      "opaque_pixels": 631,
+      "visible_pixels": 631,
+      "unique_rgba_colors": 87,
+      "visible_rgba_colors": 86,
+      "edge_contacts": [],
+      "possible_edge_clipping": false
+    }
+  ],
+  "adjacent_differences": [
+    {
+      "from_frame": 0,
+      "to_frame": 1,
+      "comparable": true,
+      "visible_changed_pixels": 264,
+      "visible_changed_fraction": 0.085938,
+      "exact_rgba_changed_pixels": 264,
+      "changed_bbox": [
+        25,
+        5,
+        50,
+        44
+      ],
+      "visually_identical": false,
+      "mean_absolute_rgba_difference": 1.606201
+    },
+    {
+      "from_frame": 1,
+      "to_frame": 2,
+      "comparable": true,
+      "visible_changed_pixels": 183,
+      "visible_changed_fraction": 0.05957,
+      "exact_rgba_changed_pixels": 183,
+      "changed_bbox": [
+        26,
+        5,
+        50,
+        44
+      ],
+      "visually_identical": false,
+      "mean_absolute_rgba_difference": 0.197184
+    },
+    {
+      "from_frame": 2,
+      "to_frame": 3,
+      "comparable": true,
+      "visible_changed_pixels": 251,
+      "visible_changed_fraction": 0.081706,
+      "exact_rgba_changed_pixels": 251,
+      "changed_bbox": [
+        25,
+        5,
+        50,
+        44
+      ],
+      "visually_identical": false,
+      "mean_absolute_rgba_difference": 0.80778
+    },
+    {
+      "from_frame": 3,
+      "to_frame": 4,
+      "comparable": true,
+      "visible_changed_pixels": 275,
+      "visible_changed_fraction": 0.089518,
+      "exact_rgba_changed_pixels": 275,
+      "changed_bbox": [
+        24,
+        5,
+        50,
+        44
+      ],
+      "visually_identical": false,
+      "mean_absolute_rgba_difference": 1.337484
+    },
+    {
+      "from_frame": 4,
+      "to_frame": 5,
+      "comparable": true,
+      "visible_changed_pixels": 202,
+      "visible_changed_fraction": 0.065755,
+      "exact_rgba_changed_pixels": 202,
+      "changed_bbox": [
+        25,
+        5,
+        50,
+        44
+      ],
+      "visually_identical": false,
+      "mean_absolute_rgba_difference": 0.227946
+    }
+  ],
+  "first_last_difference": {
+    "from_frame": 0,
+    "to_frame": 5,
+    "comparable": true,
+    "visible_changed_pixels": 291,
+    "visible_changed_fraction": 0.094727,
+    "exact_rgba_changed_pixels": 291,
+    "changed_bbox": [
+      24,
+      5,
+      50,
+      44
+    ],
+    "visually_identical": false,
+    "mean_absolute_rgba_difference": 2.245605
+  },
+  "reference": null,
+  "artifacts": {
+    "strip": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\review_raw\\A12_wrestle_west_v2\\strip.png",
+    "contact_sheet": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\review_raw\\A12_wrestle_west_v2\\contact_sheet.png",
+    "gif": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\review_raw\\A12_wrestle_west_v2\\preview.gif",
+    "strip_cell_canvas": [
+      64,
+      48
+    ],
+    "strip_frame_rects": [
+      [
+        0,
+        0,
+        64,
+        48
+      ],
+      [
+        64,
+        0,
+        64,
+        48
+      ],
+      [
+        128,
+        0,
+        64,
+        48
+      ],
+      [
+        192,
+        0,
+        64,
+        48
+      ],
+      [
+        256,
+        0,
+        64,
+        48
+      ],
+      [
+        320,
+        0,
+        64,
+        48
+      ]
+    ],
+    "source_pixels_resampled": false,
+    "preview_scale": 8,
+    "preview_resampling": "nearest_neighbor",
+    "gif_background": "opaque_checkerboard",
+    "gif_encoded_frame_count": 6,
+    "gif_requested_durations_ms": [
+      170,
+      170,
+      170,
+      170,
+      170,
+      170
+    ],
+    "gif_encoded_durations_ms": [
+      170,
+      170,
+      170,
+      170,
+      170,
+      170
+    ],
+    "gif_requested_total_duration_ms": 1020,
+    "gif_encoded_total_duration_ms": 1020,
+    "gif_encoded_loop": 0,
+    "gif_encoding_note": "GIF使用10毫秒时间单位，编码器可能合并连续相同帧；逐帧表和原始横条始终保留全部输入帧。"
+  },
+  "limitations": [
+    "指标不能判断人体结构、服装一致性、道具语义或动作是否自然。",
+    "边缘接触仅提示可能裁切；透明像素中不可见的RGB不计入可见变化。",
+    "不同尺寸只在预览中以左上角放入最大画布，不修改或修复源帧。"
+  ]
+}

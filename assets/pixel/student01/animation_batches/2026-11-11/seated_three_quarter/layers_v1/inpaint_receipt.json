@@ -1,0 +1,27 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"background_job_id\": \"27b80127-5f4b-437d-ab59-477c34aa8632\",\n  \"image_id\": \"d8bd1391-8666-5cde-9153-4654341525dd\",\n  \"status\": \"processing\",\n  \"source_image_id\": \"d8bd1391-8666-5cde-9153-4654341525dd\",\n  \"job_id\": \"27b80127-5f4b-437d-ab59-477c34aa8632\",\n  \"description\": \"Remove only the seated student and the pencil from the white mask. Reconstruct the EMPTY school desk and EMPTY chair behind that person, same exact northeast three-quarter view and 64x64 grid. Keep all unmasked visible tabletop, papers, desk edges, metal legs, wooden chair back and chair legs pixel-identical. Complete the hidden wooden chair seat as a solid plane attached to its existing frame, repair hidden tabletop/desk edge/legs only where logically behind the student. Areas above the furniture become transparent. No person, no clothing, no hair, no skin, no pen, no new objects. Do not move, resize, rotate or redesign the furniture; same warm wood and desaturated green metal. Crisp pixel clusters, transparent background.\",\n  \"seed\": 261111,\n  \"image_size\": {\n    \"width\": 64,\n    \"height\": 64\n  },\n  \"output_count\": 1,\n  \"estimated_generations\": 5,\n  \"pricing_provisional\": true,\n  \"poll_tool\": \"get_image\",\n  \"download_path\": \"/mcp/images/27b80127-5f4b-437d-ab59-477c34aa8632/download\"\n}\nPoll get_image(job_id=\"27b80127-5f4b-437d-ab59-477c34aa8632\"). The source_image_id is usable after completion; it is an image ID, not a character/object ID. Actual usage is reported on completion. cancel_job(job_id=...) cancels unfinished work."
+    }
+  ],
+  "structuredContent": {
+    "background_job_id": "27b80127-5f4b-437d-ab59-477c34aa8632",
+    "image_id": "d8bd1391-8666-5cde-9153-4654341525dd",
+    "status": "processing",
+    "source_image_id": "d8bd1391-8666-5cde-9153-4654341525dd",
+    "job_id": "27b80127-5f4b-437d-ab59-477c34aa8632",
+    "description": "Remove only the seated student and the pencil from the white mask. Reconstruct the EMPTY school desk and EMPTY chair behind that person, same exact northeast three-quarter view and 64x64 grid. Keep all unmasked visible tabletop, papers, desk edges, metal legs, wooden chair back and chair legs pixel-identical. Complete the hidden wooden chair seat as a solid plane attached to its existing frame, repair hidden tabletop/desk edge/legs only where logically behind the student. Areas above the furniture become transparent. No person, no clothing, no hair, no skin, no pen, no new objects. Do not move, resize, rotate or redesign the furniture; same warm wood and desaturated green metal. Crisp pixel clusters, transparent background.",
+    "seed": 261111,
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "output_count": 1,
+    "estimated_generations": 5,
+    "pricing_provisional": true,
+    "poll_tool": "get_image",
+    "download_path": "/mcp/images/27b80127-5f4b-437d-ab59-477c34aa8632/download"
+  },
+  "isError": false
+}

@@ -20,6 +20,12 @@ func _test_interface() -> void:
 	if not _reset_session(ui, 351, 1, 61200.0):
 		ui.free()
 		return
+	# 宿舍界面算例只验收六项个人入口；双人结伴由专项组覆盖，隔离后避免NPC结伴抢占本人。
+	var personal_dorm: Array[String] = []
+	for action_id: String in ui.simulation.phase_scope.dorm_auto_actions:
+		if action_id not in ["study_together", "roommate_game"]:
+			personal_dorm.append(action_id)
+	ui.simulation.phase_scope.dorm_auto_actions = personal_dorm
 	_check(ui.inspector_tabs.get_tab_count() == 6, "宿舍收益沿用六页，不新增独立页")
 	if not await _test_dorm_controls(ui):
 		ui.free()

@@ -1,0 +1,1349 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-11T07:50:36.791847+00:00",
+  "plan_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\pairs_plan.json",
+  "plan_sha256": "2a1e966e5a2418aeec5a26eaa73b53c14833cb8f76311a943b31259af7bcbfcd",
+  "source_manifest_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated_manifest.json",
+  "source_manifest_sha256": "3fbdf97ac1b2bfd189c93f75d0e0e47db710fd4e341ec572fc3549ea4ebeacbe",
+  "review_status": "paired_contact_pending",
+  "visual_approval": "not_assessed_by_script",
+  "rectangle_convention": "left_top_inclusive_right_bottom_exclusive",
+  "actor_layer_order": "actors_array_back_to_front",
+  "scenes": [
+    {
+      "id": "pair_wrestle",
+      "label": "掰手腕·僵持接触检查",
+      "review_status": "paired_contact_pending",
+      "canvas": [
+        96,
+        64
+      ],
+      "background_color": "#dedace",
+      "static_rectangles": [
+        {
+          "rect": [
+            28,
+            36,
+            61,
+            39
+          ],
+          "fill": "#b58a58",
+          "outline": "#493624"
+        },
+        {
+          "rect": [
+            31,
+            39,
+            34,
+            59
+          ],
+          "fill": "#89623f"
+        },
+        {
+          "rect": [
+            55,
+            39,
+            58,
+            59
+          ],
+          "fill": "#89623f"
+        }
+      ],
+      "actors": [
+        {
+          "clip_id": "A12_wrestle_east",
+          "position": [
+            10,
+            8
+          ],
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "clip_id": "A12_wrestle_west",
+          "position": [
+            18,
+            8
+          ],
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      ],
+      "pixel_operations": [
+        "declared_background",
+        "declared_static_rectangles",
+        "ordered_rgba_alpha_composite"
+      ],
+      "source_pixels_resampled": false,
+      "source_frames_interpolated": false,
+      "frames": [
+        {
+          "output_frame_index": 0,
+          "duration_ms": 170,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_wrestle\\frame_00.png",
+          "output_sha256": "c0e9f9c6b0eb4c37a73d79a088af0520c81306b8d1e3e5e4c80bfdb387859c24",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A12_wrestle_east",
+              "position": [
+                10,
+                8
+              ],
+              "source_frame_index": 0,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A12_wrestle_east\\frame_00.png",
+              "source_sha256": "d14dcf08be7424f20a19ae14da7e7fab8971ac4ec32d6852361cc970b9cc4275",
+              "source_duration_ms": 170,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A12_wrestle_west",
+              "position": [
+                18,
+                8
+              ],
+              "source_frame_index": 0,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A12_wrestle_west\\frame_00.png",
+              "source_sha256": "3f84408b2b3d14fdebf6536f3770888344c4c4a45974f7e64cb69ef38d98e3b9",
+              "source_duration_ms": 170,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 1,
+          "duration_ms": 170,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_wrestle\\frame_01.png",
+          "output_sha256": "acfd1d785b283a834d02e1f88d52b0ca2dd36d2634b17526dd00ef174ca7ad8b",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A12_wrestle_east",
+              "position": [
+                10,
+                8
+              ],
+              "source_frame_index": 1,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A12_wrestle_east\\frame_01.png",
+              "source_sha256": "43e5f9de82f919bdebe978593f9440b99533689fb78cc01406828cee30436611",
+              "source_duration_ms": 170,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A12_wrestle_west",
+              "position": [
+                18,
+                8
+              ],
+              "source_frame_index": 1,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A12_wrestle_west\\frame_01.png",
+              "source_sha256": "3b6989696abb191d49bc92e5d46940cb2882c0bbc07e7bbe9a4db0a00e2d0482",
+              "source_duration_ms": 170,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 2,
+          "duration_ms": 170,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_wrestle\\frame_02.png",
+          "output_sha256": "b22f93c523ae1369159bcf8052d793ed7c3e637de5a01b295589d9f3d87c9fac",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A12_wrestle_east",
+              "position": [
+                10,
+                8
+              ],
+              "source_frame_index": 2,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A12_wrestle_east\\frame_02.png",
+              "source_sha256": "e23c5555ad664c610e76170a3448f121582fd1c6d1d79cf9bccdc03c5d545b17",
+              "source_duration_ms": 170,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A12_wrestle_west",
+              "position": [
+                18,
+                8
+              ],
+              "source_frame_index": 2,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A12_wrestle_west\\frame_02.png",
+              "source_sha256": "33f4bf23c0a7fa7ddf7434594498ea5b25e1778db40ac0d6a01660e91ed651ac",
+              "source_duration_ms": 170,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 3,
+          "duration_ms": 170,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_wrestle\\frame_03.png",
+          "output_sha256": "8f9449cd972b7467c8d1f087fc79d1bfec76cd5a9bb6b1325516d0c05fa297ae",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A12_wrestle_east",
+              "position": [
+                10,
+                8
+              ],
+              "source_frame_index": 3,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A12_wrestle_east\\frame_03.png",
+              "source_sha256": "d63d76745aafa58c29418d21bff1338a1414473700a719ec0da383b038bff33f",
+              "source_duration_ms": 170,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A12_wrestle_west",
+              "position": [
+                18,
+                8
+              ],
+              "source_frame_index": 3,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A12_wrestle_west\\frame_03.png",
+              "source_sha256": "effa6ae8d2bf815a1753a3c0149648c7ba6648d3b860ad61d43b73761badd93c",
+              "source_duration_ms": 170,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 4,
+          "duration_ms": 170,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_wrestle\\frame_04.png",
+          "output_sha256": "4a03db2cd5b339c67d46d675161e752be4cd79718df24273ec431ba7a0108b47",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A12_wrestle_east",
+              "position": [
+                10,
+                8
+              ],
+              "source_frame_index": 4,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A12_wrestle_east\\frame_04.png",
+              "source_sha256": "016cc09321db6059ddce3f9b0abf45ba044266bf22dc432eb4e22e13f78f177a",
+              "source_duration_ms": 170,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A12_wrestle_west",
+              "position": [
+                18,
+                8
+              ],
+              "source_frame_index": 4,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A12_wrestle_west\\frame_04.png",
+              "source_sha256": "4216734b57af74617d6419e0736a9f93d8fbb2b242c5b5f361a4b33c99b38438",
+              "source_duration_ms": 170,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 5,
+          "duration_ms": 170,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_wrestle\\frame_05.png",
+          "output_sha256": "0065bd79bbd560a657f0ea7bbcc543697a5dca56c8528931955728c47d7feb3d",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A12_wrestle_east",
+              "position": [
+                10,
+                8
+              ],
+              "source_frame_index": 5,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A12_wrestle_east\\frame_05.png",
+              "source_sha256": "89cf23b3dbf9be2459d9d8791bb56775bdbd6a27f7f43fc8578223504c1a64e4",
+              "source_duration_ms": 170,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A12_wrestle_west",
+              "position": [
+                18,
+                8
+              ],
+              "source_frame_index": 5,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A12_wrestle_west\\frame_05.png",
+              "source_sha256": "7190bfbbd19310bf7d8ae4ad17d62cd05e87a8fe1cc31009039f574edba8890f",
+              "source_duration_ms": 170,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pair_pillow",
+      "label": "挥枕头·32px轻触参考，互击待完善",
+      "review_status": "paired_contact_pending",
+      "canvas": [
+        128,
+        64
+      ],
+      "background_color": "#dedace",
+      "static_rectangles": [
+        {
+          "rect": [
+            0,
+            53,
+            128,
+            64
+          ],
+          "fill": "#bcb49c"
+        }
+      ],
+      "actors": [
+        {
+          "clip_id": "A13_pillow_east",
+          "position": [
+            4,
+            9
+          ],
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "clip_id": "A13_pillow_west",
+          "position": [
+            36,
+            9
+          ],
+          "frame_indices": [
+            4,
+            5,
+            6,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            0,
+            1,
+            2,
+            3
+          ]
+        }
+      ],
+      "pixel_operations": [
+        "declared_background",
+        "declared_static_rectangles",
+        "ordered_rgba_alpha_composite"
+      ],
+      "source_pixels_resampled": false,
+      "source_frames_interpolated": false,
+      "frames": [
+        {
+          "output_frame_index": 0,
+          "duration_ms": 130,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_00.png",
+          "output_sha256": "b7fdf80a9e76210f6c9bf41a9888d2cfdf80608be1810b1d83d74ecfab862248",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A13_pillow_east",
+              "position": [
+                4,
+                9
+              ],
+              "source_frame_index": 0,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_east\\frame_00.png",
+              "source_sha256": "bdb39bb1a80629cf91a653c15838ef68886d9ee33960e4b99bdc8046a9a12700",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A13_pillow_west",
+              "position": [
+                36,
+                9
+              ],
+              "source_frame_index": 4,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_west\\frame_04.png",
+              "source_sha256": "7e03fb399d9d4217f40e06f296d5e896bb898807f5e97c61a93fa7ae79230bd5",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 1,
+          "duration_ms": 130,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_01.png",
+          "output_sha256": "509e26f02006e2ae18ccaac0f65ca35e498f238d90937675ef1993cacdbc0c68",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A13_pillow_east",
+              "position": [
+                4,
+                9
+              ],
+              "source_frame_index": 1,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_east\\frame_01.png",
+              "source_sha256": "80513f0fc8acc01fef7966a8fd498ec1a67258c535e81d477ae092a236f40429",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A13_pillow_west",
+              "position": [
+                36,
+                9
+              ],
+              "source_frame_index": 5,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_west\\frame_05.png",
+              "source_sha256": "d0c3b414627450437b839d870dae410282e42b999837e23e7878b7843403a704",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 2,
+          "duration_ms": 130,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_02.png",
+          "output_sha256": "16926a41ca5ff7adf0d0b7bce893896491ca09bd7094da2ff6575fd40056737b",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A13_pillow_east",
+              "position": [
+                4,
+                9
+              ],
+              "source_frame_index": 2,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_east\\frame_02.png",
+              "source_sha256": "ae381a999c73ea7c364845a3115afe923c60d7e4cc101c7353fb55f6ac8f728d",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A13_pillow_west",
+              "position": [
+                36,
+                9
+              ],
+              "source_frame_index": 6,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_west\\frame_06.png",
+              "source_sha256": "1e40eece86af9020983bc619b7365c400e7601f0c53e73fb09bdd18c8b90cf0d",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 3,
+          "duration_ms": 130,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_03.png",
+          "output_sha256": "50767a9ac27cb75e79736d11d191e4cbdd73f7df65147c39901dd2603702064b",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A13_pillow_east",
+              "position": [
+                4,
+                9
+              ],
+              "source_frame_index": 3,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_east\\frame_03.png",
+              "source_sha256": "4c6e006b15ad743f67296f37cc4048f14094da54ba7747aec553f7a0a748b1f3",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A13_pillow_west",
+              "position": [
+                36,
+                9
+              ],
+              "source_frame_index": 0,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_west\\frame_00.png",
+              "source_sha256": "97b30cee8cefa5698c1843921e7655804daebac52d2c623207ca320a602ccd7e",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 4,
+          "duration_ms": 130,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_04.png",
+          "output_sha256": "a4bd05a7737202a3401c1d646d54876e7a0217e4c50ed3a760ca401a6f78fe24",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A13_pillow_east",
+              "position": [
+                4,
+                9
+              ],
+              "source_frame_index": 4,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_east\\frame_04.png",
+              "source_sha256": "dc086ef47264138a83bc90c72859789dda72a4ed0369009f1cf303553dd4f7f3",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A13_pillow_west",
+              "position": [
+                36,
+                9
+              ],
+              "source_frame_index": 1,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_west\\frame_01.png",
+              "source_sha256": "42cc0535a4744d9f1af6b3ac8ec96e69e376997060aa397fa32eb16dac15b662",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 5,
+          "duration_ms": 130,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_05.png",
+          "output_sha256": "304cb8a7574cf24b90d100a8d05c00a51fddf94d7e863d74936c6eaed6e112ad",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A13_pillow_east",
+              "position": [
+                4,
+                9
+              ],
+              "source_frame_index": 5,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_east\\frame_05.png",
+              "source_sha256": "4959ccda1958140bc36a322f74fd9676aad7e32b3c9c1d9db535564bc6fd0751",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A13_pillow_west",
+              "position": [
+                36,
+                9
+              ],
+              "source_frame_index": 2,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_west\\frame_02.png",
+              "source_sha256": "8c1bf72f48e51206134f2169a0db93176863f719d01dd9fd6c699a9a720ee5af",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 6,
+          "duration_ms": 130,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_06.png",
+          "output_sha256": "6c88c48e86ba1dccc234c3444fca2b4e41ec86d6f301e2aa40fe320f8828a843",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A13_pillow_east",
+              "position": [
+                4,
+                9
+              ],
+              "source_frame_index": 6,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_east\\frame_06.png",
+              "source_sha256": "6843040d88099e8d22ead1329ec6dc645eb30bd250ad7f35f5245bde6b52a937",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A13_pillow_west",
+              "position": [
+                36,
+                9
+              ],
+              "source_frame_index": 3,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_west\\frame_03.png",
+              "source_sha256": "0a3856fb04a6a9ecce3be80682073b3186ad19752ef20a89b453d045591af509",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 7,
+          "duration_ms": 130,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_07.png",
+          "output_sha256": "b7fdf80a9e76210f6c9bf41a9888d2cfdf80608be1810b1d83d74ecfab862248",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A13_pillow_east",
+              "position": [
+                4,
+                9
+              ],
+              "source_frame_index": 0,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_east\\frame_00.png",
+              "source_sha256": "bdb39bb1a80629cf91a653c15838ef68886d9ee33960e4b99bdc8046a9a12700",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A13_pillow_west",
+              "position": [
+                36,
+                9
+              ],
+              "source_frame_index": 4,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_west\\frame_04.png",
+              "source_sha256": "7e03fb399d9d4217f40e06f296d5e896bb898807f5e97c61a93fa7ae79230bd5",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 8,
+          "duration_ms": 130,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_08.png",
+          "output_sha256": "509e26f02006e2ae18ccaac0f65ca35e498f238d90937675ef1993cacdbc0c68",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A13_pillow_east",
+              "position": [
+                4,
+                9
+              ],
+              "source_frame_index": 1,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_east\\frame_01.png",
+              "source_sha256": "80513f0fc8acc01fef7966a8fd498ec1a67258c535e81d477ae092a236f40429",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A13_pillow_west",
+              "position": [
+                36,
+                9
+              ],
+              "source_frame_index": 5,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_west\\frame_05.png",
+              "source_sha256": "d0c3b414627450437b839d870dae410282e42b999837e23e7878b7843403a704",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 9,
+          "duration_ms": 130,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_09.png",
+          "output_sha256": "16926a41ca5ff7adf0d0b7bce893896491ca09bd7094da2ff6575fd40056737b",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A13_pillow_east",
+              "position": [
+                4,
+                9
+              ],
+              "source_frame_index": 2,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_east\\frame_02.png",
+              "source_sha256": "ae381a999c73ea7c364845a3115afe923c60d7e4cc101c7353fb55f6ac8f728d",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A13_pillow_west",
+              "position": [
+                36,
+                9
+              ],
+              "source_frame_index": 6,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_west\\frame_06.png",
+              "source_sha256": "1e40eece86af9020983bc619b7365c400e7601f0c53e73fb09bdd18c8b90cf0d",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 10,
+          "duration_ms": 130,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_10.png",
+          "output_sha256": "50767a9ac27cb75e79736d11d191e4cbdd73f7df65147c39901dd2603702064b",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A13_pillow_east",
+              "position": [
+                4,
+                9
+              ],
+              "source_frame_index": 3,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_east\\frame_03.png",
+              "source_sha256": "4c6e006b15ad743f67296f37cc4048f14094da54ba7747aec553f7a0a748b1f3",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A13_pillow_west",
+              "position": [
+                36,
+                9
+              ],
+              "source_frame_index": 0,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_west\\frame_00.png",
+              "source_sha256": "97b30cee8cefa5698c1843921e7655804daebac52d2c623207ca320a602ccd7e",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 11,
+          "duration_ms": 130,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_11.png",
+          "output_sha256": "a4bd05a7737202a3401c1d646d54876e7a0217e4c50ed3a760ca401a6f78fe24",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A13_pillow_east",
+              "position": [
+                4,
+                9
+              ],
+              "source_frame_index": 4,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_east\\frame_04.png",
+              "source_sha256": "dc086ef47264138a83bc90c72859789dda72a4ed0369009f1cf303553dd4f7f3",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A13_pillow_west",
+              "position": [
+                36,
+                9
+              ],
+              "source_frame_index": 1,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_west\\frame_01.png",
+              "source_sha256": "42cc0535a4744d9f1af6b3ac8ec96e69e376997060aa397fa32eb16dac15b662",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 12,
+          "duration_ms": 130,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_12.png",
+          "output_sha256": "304cb8a7574cf24b90d100a8d05c00a51fddf94d7e863d74936c6eaed6e112ad",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A13_pillow_east",
+              "position": [
+                4,
+                9
+              ],
+              "source_frame_index": 5,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_east\\frame_05.png",
+              "source_sha256": "4959ccda1958140bc36a322f74fd9676aad7e32b3c9c1d9db535564bc6fd0751",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A13_pillow_west",
+              "position": [
+                36,
+                9
+              ],
+              "source_frame_index": 2,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_west\\frame_02.png",
+              "source_sha256": "8c1bf72f48e51206134f2169a0db93176863f719d01dd9fd6c699a9a720ee5af",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 13,
+          "duration_ms": 130,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_13.png",
+          "output_sha256": "6c88c48e86ba1dccc234c3444fca2b4e41ec86d6f301e2aa40fe320f8828a843",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "A13_pillow_east",
+              "position": [
+                4,
+                9
+              ],
+              "source_frame_index": 6,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_east\\frame_06.png",
+              "source_sha256": "6843040d88099e8d22ead1329ec6dc645eb30bd250ad7f35f5245bde6b52a937",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "A13_pillow_west",
+              "position": [
+                36,
+                9
+              ],
+              "source_frame_index": 3,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A13_pillow_west\\frame_03.png",
+              "source_sha256": "0a3856fb04a6a9ecce3be80682073b3186ad19752ef20a89b453d045591af509",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pair_give_receive",
+      "label": "递接手势·书本尚未交接",
+      "review_status": "paired_contact_pending",
+      "canvas": [
+        128,
+        64
+      ],
+      "background_color": "#dedace",
+      "static_rectangles": [],
+      "actors": [
+        {
+          "clip_id": "B01_give_north",
+          "position": [
+            3,
+            8
+          ],
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "clip_id": "B01_receive_left_north",
+          "position": [
+            42,
+            8
+          ],
+          "frame_indices": [
+            0,
+            0,
+            0,
+            1,
+            2,
+            3,
+            4,
+            4
+          ]
+        }
+      ],
+      "pixel_operations": [
+        "declared_background",
+        "declared_static_rectangles",
+        "ordered_rgba_alpha_composite"
+      ],
+      "source_pixels_resampled": false,
+      "source_frames_interpolated": false,
+      "frames": [
+        {
+          "output_frame_index": 0,
+          "duration_ms": 120,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_give_receive\\frame_00.png",
+          "output_sha256": "4ea916ee9c3cc5d9d90adf79938855eb13613b9a1ab83440fbdb1b153040e6af",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "B01_give_north",
+              "position": [
+                3,
+                8
+              ],
+              "source_frame_index": 0,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\B01_give_north\\frame_00.png",
+              "source_sha256": "08b73712788e4c257eebb5949ebf220c8e41d39e24d363432faa5b713cae5541",
+              "source_duration_ms": 130,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "B01_receive_left_north",
+              "position": [
+                42,
+                8
+              ],
+              "source_frame_index": 0,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\B01_receive_left_north\\frame_00.png",
+              "source_sha256": "cf32c3be5c636f386d561e123f7d9cfa74d6408ca0a3fb0eb47802d15b1303a8",
+              "source_duration_ms": 160,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 1,
+          "duration_ms": 120,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_give_receive\\frame_01.png",
+          "output_sha256": "a02316b81f06a06c30483265d60fa4540b57f2fa47dafbca918754eb29763c73",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "B01_give_north",
+              "position": [
+                3,
+                8
+              ],
+              "source_frame_index": 1,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\B01_give_north\\frame_01.png",
+              "source_sha256": "e5c644e73de5829bf27e120b03277659dd76ab9f38e1d2ac4d51e58df5e5dd3a",
+              "source_duration_ms": 100,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "B01_receive_left_north",
+              "position": [
+                42,
+                8
+              ],
+              "source_frame_index": 0,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\B01_receive_left_north\\frame_00.png",
+              "source_sha256": "cf32c3be5c636f386d561e123f7d9cfa74d6408ca0a3fb0eb47802d15b1303a8",
+              "source_duration_ms": 160,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 2,
+          "duration_ms": 120,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_give_receive\\frame_02.png",
+          "output_sha256": "821ec6863c842af7e972d765814e4a435fd6cf8a921450c7ed7af4a5be3226ee",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "B01_give_north",
+              "position": [
+                3,
+                8
+              ],
+              "source_frame_index": 2,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\B01_give_north\\frame_02.png",
+              "source_sha256": "afd9c871beae321d2094bb5fd7ba1f9a3cc7fd176e823b4b8276feb4c1be5d7c",
+              "source_duration_ms": 100,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "B01_receive_left_north",
+              "position": [
+                42,
+                8
+              ],
+              "source_frame_index": 0,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\B01_receive_left_north\\frame_00.png",
+              "source_sha256": "cf32c3be5c636f386d561e123f7d9cfa74d6408ca0a3fb0eb47802d15b1303a8",
+              "source_duration_ms": 160,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 3,
+          "duration_ms": 120,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_give_receive\\frame_03.png",
+          "output_sha256": "1b366b18579079e78803aa99245a79b4e1fd69175e03dadac1ed47bc32fcac50",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "B01_give_north",
+              "position": [
+                3,
+                8
+              ],
+              "source_frame_index": 3,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\B01_give_north\\frame_03.png",
+              "source_sha256": "3591ab8c2d696007ac1979fdc4b53d4f346ae5def7ed1d98c3e3350287ea8fb8",
+              "source_duration_ms": 120,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "B01_receive_left_north",
+              "position": [
+                42,
+                8
+              ],
+              "source_frame_index": 1,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\B01_receive_left_north\\frame_01.png",
+              "source_sha256": "18a870c076152ac10d2165ddfb6cfcde770c4dfae420a668a7ff222a7f31200d",
+              "source_duration_ms": 120,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 4,
+          "duration_ms": 120,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_give_receive\\frame_04.png",
+          "output_sha256": "0b836453b61ec178bda0e2e6c5e05517abcb9565aded4ff4448e02440c99ebe8",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "B01_give_north",
+              "position": [
+                3,
+                8
+              ],
+              "source_frame_index": 4,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\B01_give_north\\frame_04.png",
+              "source_sha256": "10f3758522cd70e642d743db3323b24325f9b1ae85ffc06d263e2f10530b3721",
+              "source_duration_ms": 180,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "B01_receive_left_north",
+              "position": [
+                42,
+                8
+              ],
+              "source_frame_index": 2,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\B01_receive_left_north\\frame_02.png",
+              "source_sha256": "95137ff30ca081949845af86440c59d7d4eb7e81f765a62c888d134a224d5c19",
+              "source_duration_ms": 120,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 5,
+          "duration_ms": 120,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_give_receive\\frame_05.png",
+          "output_sha256": "28993d2006a5c4fc4501114bde7ac43e4ad1e693c2e95518728b5ae933aad119",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "B01_give_north",
+              "position": [
+                3,
+                8
+              ],
+              "source_frame_index": 5,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\B01_give_north\\frame_05.png",
+              "source_sha256": "aac2167a0519839fc9c0b4cfaf2f036f62e36e36a4b57bbbf57a3919a294d141",
+              "source_duration_ms": 250,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "B01_receive_left_north",
+              "position": [
+                42,
+                8
+              ],
+              "source_frame_index": 3,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\B01_receive_left_north\\frame_03.png",
+              "source_sha256": "5b8182b88cd54f18bc35557131d899ddadaddbf3582ed6b1d56bbbffbdb61d72",
+              "source_duration_ms": 120,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 6,
+          "duration_ms": 120,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_give_receive\\frame_06.png",
+          "output_sha256": "67ae67c43b072ee6a258aaaef711d1961924fc5c6425231aedc38b06353a47c3",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "B01_give_north",
+              "position": [
+                3,
+                8
+              ],
+              "source_frame_index": 5,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\B01_give_north\\frame_05.png",
+              "source_sha256": "aac2167a0519839fc9c0b4cfaf2f036f62e36e36a4b57bbbf57a3919a294d141",
+              "source_duration_ms": 250,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "B01_receive_left_north",
+              "position": [
+                42,
+                8
+              ],
+              "source_frame_index": 4,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\B01_receive_left_north\\frame_04.png",
+              "source_sha256": "ee138a6a910c2125d34467d540cee0ddece336437cbe396994e619a1e0be2eba",
+              "source_duration_ms": 260,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "output_frame_index": 7,
+          "duration_ms": 120,
+          "output_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_give_receive\\frame_07.png",
+          "output_sha256": "67ae67c43b072ee6a258aaaef711d1961924fc5c6425231aedc38b06353a47c3",
+          "actors": [
+            {
+              "actor_index": 0,
+              "clip_id": "B01_give_north",
+              "position": [
+                3,
+                8
+              ],
+              "source_frame_index": 5,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\B01_give_north\\frame_05.png",
+              "source_sha256": "aac2167a0519839fc9c0b4cfaf2f036f62e36e36a4b57bbbf57a3919a294d141",
+              "source_duration_ms": 250,
+              "source_canvas": [
+                64,
+                48
+              ]
+            },
+            {
+              "actor_index": 1,
+              "clip_id": "B01_receive_left_north",
+              "position": [
+                42,
+                8
+              ],
+              "source_frame_index": 4,
+              "source_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\B01_receive_left_north\\frame_04.png",
+              "source_sha256": "ee138a6a910c2125d34467d540cee0ddece336437cbe396994e619a1e0be2eba",
+              "source_duration_ms": 260,
+              "source_canvas": [
+                64,
+                48
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

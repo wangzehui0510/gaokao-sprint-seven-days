@@ -1,0 +1,1803 @@
+{
+  "schema_version": 1,
+  "clips": [
+    {
+      "id": "A01_write_north",
+      "label": "写字·自然衣背",
+      "source_clip_id": "A01_write_north_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "north",
+      "duration_ms": 180,
+      "loop": true,
+      "review_status": "衣背与领口修订样片通过",
+      "notes": "根据用户反馈由PixelLab edit_animation整段修订6帧：斜肩、侧腰收窄、白色布料褶皱取代方形白背板。保留32×48与[16,44]脚锚点；原版保留在raw/A01_write_north，前后对比见writing_back_comparison.gif。其他背面动作未批量套用本次衣背设计。首帧原稿缺斜褶，显式复制源第1号帧[14,32,20,35]到输出第0帧，仅改8个衣褶像素以避免循环闪褶；AI整段重绘包含配色和局部轮廓变化，不宣称其余原像素完全不变。再次逐帧定位到输出首帧缺蓝色领口下沿，从源第1号帧复制[12,25,21,27]到输出第0帧；相对上一版仅修改18个领口像素，alpha、衣褶、手脚与其余177帧均不变。",
+      "copy_regions": [
+        {
+          "source_index": 1,
+          "target_frames": [
+            0
+          ],
+          "region": [
+            14,
+            32,
+            20,
+            35
+          ]
+        },
+        {
+          "source_index": 1,
+          "target_frames": [
+            0
+          ],
+          "region": [
+            12,
+            25,
+            21,
+            27
+          ]
+        }
+      ],
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A01_write_north_v2/frame_00.png",
+          "source_sha256": "0e365b1278ae033adeac40e0f4874a647eec1c590335b2f15655f7b800720ebe",
+          "output_sha256": "8e3d7d71cf93cdd5100a917c3192e2da6258d27fd4ded537104c60999d5f9279"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A01_write_north_v2/frame_01.png",
+          "source_sha256": "09ed74f887f283f1887c5ff9db427dd4562e3c817a6d4ac6f5c4c2c544cc2939",
+          "output_sha256": "09ed74f887f283f1887c5ff9db427dd4562e3c817a6d4ac6f5c4c2c544cc2939"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A01_write_north_v2/frame_02.png",
+          "source_sha256": "9a29d44a132880a1cd6d50ccb13c0ab7388611e067e934c6a4097c7f3d131af2",
+          "output_sha256": "9a29d44a132880a1cd6d50ccb13c0ab7388611e067e934c6a4097c7f3d131af2"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A01_write_north_v2/frame_03.png",
+          "source_sha256": "b951f14dbfac93bb40a9ccccea9dd01ead12a90835774ef252ed9507b2845e6f",
+          "output_sha256": "b951f14dbfac93bb40a9ccccea9dd01ead12a90835774ef252ed9507b2845e6f"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/A01_write_north_v2/frame_04.png",
+          "source_sha256": "a5a37e2c710c2182c61c238e8e3a538be1d3d86c534a72a102d83015d12e3478",
+          "output_sha256": "a5a37e2c710c2182c61c238e8e3a538be1d3d86c534a72a102d83015d12e3478"
+        },
+        {
+          "source_index": 5,
+          "source_path": "raw/A01_write_north_v2/frame_05.png",
+          "source_sha256": "278081f94095d03ccb2cdd45fd95917b5acd39a8394c49e245548634d4b9aa2c",
+          "output_sha256": "278081f94095d03ccb2cdd45fd95917b5acd39a8394c49e245548634d4b9aa2c"
+        }
+      ]
+    },
+    {
+      "id": "A02_read_north",
+      "label": "阅读翻页",
+      "source_clip_id": "A02_read_north",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "north",
+      "duration_ms": 220,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "notes": "当前单角色阅读样片通过；保持旧外观，需结合桌面显示，未同步应用A01的新衣背设计。",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A02_read_north/frame_00.png",
+          "source_sha256": "06c6d2cb814394edc11d20c933cf2204c599a91264ef3010ff15dd51dcf11ea8",
+          "output_sha256": "06c6d2cb814394edc11d20c933cf2204c599a91264ef3010ff15dd51dcf11ea8"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A02_read_north/frame_01.png",
+          "source_sha256": "abf9d5ee2788cca63469752900b7eaf73a647e10d17199c1a38c3147e4be3b3b",
+          "output_sha256": "abf9d5ee2788cca63469752900b7eaf73a647e10d17199c1a38c3147e4be3b3b"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A02_read_north/frame_02.png",
+          "source_sha256": "a8ff76a47f0d9a370738f5b22df73d57f7f9a64aa057d3207245e6ec0e876346",
+          "output_sha256": "a8ff76a47f0d9a370738f5b22df73d57f7f9a64aa057d3207245e6ec0e876346"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A02_read_north/frame_03.png",
+          "source_sha256": "0fb952886c150c4c96f1a4dba3329a06b49e1b99d6360d755cc328c675cf6b48",
+          "output_sha256": "0fb952886c150c4c96f1a4dba3329a06b49e1b99d6360d755cc328c675cf6b48"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/A02_read_north/frame_04.png",
+          "source_sha256": "71a2cc560b0a5d4a20a4fe346f378f069c8c5792c7b41ceb9366d83884e083ee",
+          "output_sha256": "71a2cc560b0a5d4a20a4fe346f378f069c8c5792c7b41ceb9366d83884e083ee"
+        },
+        {
+          "source_index": 5,
+          "source_path": "raw/A02_read_north/frame_05.png",
+          "source_sha256": "e2970a6aacecc281ef5a91a445084be6c886a227cb4a01c26aa11109e459ca28",
+          "output_sha256": "e2970a6aacecc281ef5a91a445084be6c886a227cb4a01c26aa11109e459ca28"
+        }
+      ]
+    },
+    {
+      "id": "A03_daydream_north",
+      "label": "发呆转笔",
+      "source_clip_id": "A03_idle_seated_north",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "north",
+      "duration_ms": 300,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "notes": "持笔变体，适用于发呆转笔。",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A03_idle_seated_north/frame_00.png",
+          "source_sha256": "6e4d7762e0a4d93d08f68903cc1e1e925f112e87d36dc1c7e1daade73d698080",
+          "output_sha256": "b029a6a611f900f78d4ad2c8f1b119a6e469b273c385b5ca76509bc05700ed5e"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A03_idle_seated_north/frame_01.png",
+          "source_sha256": "2b50eba5898bffeab0d1740c7dcf888bd2199fdff4281242c3f9fb94b8e72ad0",
+          "output_sha256": "b2e86ddbb8f0409c50d6a20ced46db8f28616a26b6717eba68aea24d33da1847"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A03_idle_seated_north/frame_02.png",
+          "source_sha256": "2c8ed2b0d1e125ad54d4a8a8d145437e1ac35cfde478c99f7d33d8a46c164505",
+          "output_sha256": "9f561a57fcf8b4e343e00afcd537ba86fb6749ed3584a7cb338294de34598453"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A03_idle_seated_north/frame_03.png",
+          "source_sha256": "5ce6638de0b988c780fa23901cfc3e4a789d6e669957bb2097352a9f7c6310d7",
+          "output_sha256": "66ce879321e4c798740260c175ab9050c901afe68c7da1e38ac792c81a3e979e"
+        }
+      ]
+    },
+    {
+      "id": "A03_relax_north",
+      "label": "坐姿放松",
+      "source_clip_id": "A03_relax_seated_north_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "north",
+      "duration_ms": 350,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "notes": "空手轻晃呼吸；保留原始坐姿变化。",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A03_relax_seated_north_v2/frame_00.png",
+          "source_sha256": "51aa64eefe99ac77c4c0aeb4ce14f83acebc0a6f724abe6f4381af2ea5bd01fb",
+          "output_sha256": "51aa64eefe99ac77c4c0aeb4ce14f83acebc0a6f724abe6f4381af2ea5bd01fb"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A03_relax_seated_north_v2/frame_01.png",
+          "source_sha256": "32956d75f17c9f69e77a3eee5555ceda3bf79fb7ebdd18c65d7c87350d54a9a3",
+          "output_sha256": "32956d75f17c9f69e77a3eee5555ceda3bf79fb7ebdd18c65d7c87350d54a9a3"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A03_relax_seated_north_v2/frame_02.png",
+          "source_sha256": "fb05b0d208624928a2af0042028449c1e57f7cf1938fdac68b62fc6094dfcb78",
+          "output_sha256": "fb05b0d208624928a2af0042028449c1e57f7cf1938fdac68b62fc6094dfcb78"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A03_relax_seated_north_v2/frame_03.png",
+          "source_sha256": "2e35f632d4db01d44e72e7d597743d5bba50a6da282a59f8da6225cdd7388fbc",
+          "output_sha256": "2e35f632d4db01d44e72e7d597743d5bba50a6da282a59f8da6225cdd7388fbc"
+        }
+      ]
+    },
+    {
+      "id": "A03_idle_south",
+      "label": "站姿待机",
+      "source_clip_id": "A03_idle_standing_south",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "south",
+      "duration_ms": 300,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A03_idle_standing_south/frame_00.png",
+          "source_sha256": "d1c77fdbbcff96a8a0e8427da65f4e6dc3c209b9d76517f8fd3b2cdf42b91536",
+          "output_sha256": "d1c77fdbbcff96a8a0e8427da65f4e6dc3c209b9d76517f8fd3b2cdf42b91536"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A03_idle_standing_south/frame_01.png",
+          "source_sha256": "6b807edab85c218b8b8f5d0156856998e9199e39722bf233c884a49c5481247e",
+          "output_sha256": "6b807edab85c218b8b8f5d0156856998e9199e39722bf233c884a49c5481247e"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A03_idle_standing_south/frame_02.png",
+          "source_sha256": "3cb0cdf48c84968fe6b0fd3425305a7bd1be52e78b25cd64b688e94b09a9a3d9",
+          "output_sha256": "3cb0cdf48c84968fe6b0fd3425305a7bd1be52e78b25cd64b688e94b09a9a3d9"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A03_idle_standing_south/frame_03.png",
+          "source_sha256": "5fc2e04c905cfb5ed22f0953dda4b90e62b411d12ee571e2e1c6dd1d31fd3eb1",
+          "output_sha256": "5fc2e04c905cfb5ed22f0953dda4b90e62b411d12ee571e2e1c6dd1d31fd3eb1"
+        }
+      ]
+    },
+    {
+      "id": "A04_sleep_desk_north",
+      "label": "趴桌慢呼吸",
+      "source_clip_id": "A04_sleep_desk_north_v3",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "north",
+      "duration_ms": 650,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "notes": "头始终贴合前臂，1像素起伏按呼吸验收。",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A04_sleep_desk_north_v3/frame_00.png",
+          "source_sha256": "d98b56ef7dd205b3e9ef59f634b51de54f0dd28d10afbff920ff8a90025e0573",
+          "output_sha256": "d98b56ef7dd205b3e9ef59f634b51de54f0dd28d10afbff920ff8a90025e0573"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A04_sleep_desk_north_v3/frame_01.png",
+          "source_sha256": "a20bf60ccccfbe3df0403c4a63f8beabc87e7659255eafa7177b790cdc0a64c4",
+          "output_sha256": "a20bf60ccccfbe3df0403c4a63f8beabc87e7659255eafa7177b790cdc0a64c4"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A04_sleep_desk_north_v3/frame_02.png",
+          "source_sha256": "b2673217b22c44e32cedee1b310db9fc51095d2ddfc016512d7859dbab906ab5",
+          "output_sha256": "b2673217b22c44e32cedee1b310db9fc51095d2ddfc016512d7859dbab906ab5"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A04_sleep_desk_north_v3/frame_03.png",
+          "source_sha256": "32e32d281185c15ec0e7fdf5e42ababc5022dd86565316bdb10b0edb28c3bbc6",
+          "output_sha256": "32e32d281185c15ec0e7fdf5e42ababc5022dd86565316bdb10b0edb28c3bbc6"
+        }
+      ]
+    },
+    {
+      "id": "A05_sleep_bed",
+      "label": "盖被卧床休息",
+      "source_clip_id": "A05_sleep_bed",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "direction": "south",
+      "duration_ms": 650,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "anchor": [
+        32,
+        48
+      ],
+      "notes": "床框异常末帧不采用。此新床需要后续适配工位；暂定家具锚点32,48。",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A05_sleep_bed/frame_00.png",
+          "source_sha256": "6358ec25bf4be2a8480f9cfe0cd0d089dbbf3a6fd3c11a8805ed1521522284de",
+          "output_sha256": "6358ec25bf4be2a8480f9cfe0cd0d089dbbf3a6fd3c11a8805ed1521522284de"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A05_sleep_bed/frame_01.png",
+          "source_sha256": "d4e34ddbf708321255b3fb2bb3314a95aef34852a84183d8dd4a9a5628149d45",
+          "output_sha256": "d4e34ddbf708321255b3fb2bb3314a95aef34852a84183d8dd4a9a5628149d45"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A05_sleep_bed/frame_02.png",
+          "source_sha256": "2c1d19343a6dbfa9fe379a59195a0dc28b035340e059e95f97a0d7673c7d079f",
+          "output_sha256": "2c1d19343a6dbfa9fe379a59195a0dc28b035340e059e95f97a0d7673c7d079f"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A05_sleep_bed/frame_03.png",
+          "source_sha256": "d2f1e659228f036d8ba02d177cdecf061875024991247ed78790efc40065a23d",
+          "output_sha256": "d2f1e659228f036d8ba02d177cdecf061875024991247ed78790efc40065a23d"
+        }
+      ]
+    },
+    {
+      "id": "A06_meal_north",
+      "label": "持碗用餐",
+      "source_clip_id": "A06_meal_north_v3",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "north",
+      "duration_ms": 200,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "notes": "背向持碗筷进食；餐桌在后续场景接入时适配。",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A06_meal_north_v3/frame_00.png",
+          "source_sha256": "55d7db58c61fcdd4808eae311034c99663bc2c4e3c0dddcb0184351108c7bd5a",
+          "output_sha256": "55d7db58c61fcdd4808eae311034c99663bc2c4e3c0dddcb0184351108c7bd5a"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A06_meal_north_v3/frame_01.png",
+          "source_sha256": "4e4df486f50f65380486f826c725f3ac748c6fca26713dddbff10c91288d0bf2",
+          "output_sha256": "4e4df486f50f65380486f826c725f3ac748c6fca26713dddbff10c91288d0bf2"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A06_meal_north_v3/frame_02.png",
+          "source_sha256": "93ce767dcb3036cd5d01581384ab4869f2c41cf2d0722f6d2b3fa5668292db82",
+          "output_sha256": "93ce767dcb3036cd5d01581384ab4869f2c41cf2d0722f6d2b3fa5668292db82"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A06_meal_north_v3/frame_03.png",
+          "source_sha256": "480f8f4a0196a9df028f457d22a129100ef3956511b4a9a2e21f53ae7a6bfeb8",
+          "output_sha256": "480f8f4a0196a9df028f457d22a129100ef3956511b4a9a2e21f53ae7a6bfeb8"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/A06_meal_north_v3/frame_04.png",
+          "source_sha256": "07f72ddb390367dc61ddffeaf775be7775dcb1007593282999a51d2665ed60f0",
+          "output_sha256": "07f72ddb390367dc61ddffeaf775be7775dcb1007593282999a51d2665ed60f0"
+        },
+        {
+          "source_index": 5,
+          "source_path": "raw/A06_meal_north_v3/frame_05.png",
+          "source_sha256": "f3e0cffec9ad1dd16ab90be28bb4c42246608fbba5ffe1ef245200f287991230",
+          "output_sha256": "f3e0cffec9ad1dd16ab90be28bb4c42246608fbba5ffe1ef245200f287991230"
+        }
+      ]
+    },
+    {
+      "id": "A06_snack_south",
+      "label": "吃零食",
+      "source_clip_id": "A06_snack_south",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "south",
+      "duration_ms": 180,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A06_snack_south/frame_00.png",
+          "source_sha256": "1a3c59bad1e91df1c922d2957154ae3081929fc1cb34a757d8cd28ee19f79308",
+          "output_sha256": "1a3c59bad1e91df1c922d2957154ae3081929fc1cb34a757d8cd28ee19f79308"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A06_snack_south/frame_01.png",
+          "source_sha256": "52b17cbddc92e72464b33794880414ad3f04ba338c4fccc4c935f558ba2ebc15",
+          "output_sha256": "52b17cbddc92e72464b33794880414ad3f04ba338c4fccc4c935f558ba2ebc15"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A06_snack_south/frame_02.png",
+          "source_sha256": "d5a6dd0f8eb9a8ff3a18a42ceb058242c1021750325bfd6c7d71782e44855ad7",
+          "output_sha256": "d5a6dd0f8eb9a8ff3a18a42ceb058242c1021750325bfd6c7d71782e44855ad7"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A06_snack_south/frame_03.png",
+          "source_sha256": "8722cecc21226b1174c47d1a8d27f7294ef6173303bdd257331a360d75b27a26",
+          "output_sha256": "8722cecc21226b1174c47d1a8d27f7294ef6173303bdd257331a360d75b27a26"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/A06_snack_south/frame_04.png",
+          "source_sha256": "6b07cd0481919e40b6f814a83cda52481d5cb4ecc22427718938deb9f77df000",
+          "output_sha256": "6b07cd0481919e40b6f814a83cda52481d5cb4ecc22427718938deb9f77df000"
+        },
+        {
+          "source_index": 5,
+          "source_path": "raw/A06_snack_south/frame_05.png",
+          "source_sha256": "8199d89e57be05f8a658a6c5a552089624839df79bcab1fd33641d4f658b855a",
+          "output_sha256": "8199d89e57be05f8a658a6c5a552089624839df79bcab1fd33641d4f658b855a"
+        }
+      ]
+    },
+    {
+      "id": "A06_candy_south",
+      "label": "吃清凉糖",
+      "source_clip_id": "A06_candy_south",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "south",
+      "duration_ms": 180,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A06_candy_south/frame_00.png",
+          "source_sha256": "0b0e253b5fcb54ba0cbef8890bff4e42d35874cbbbca4b4a8caf93d00623612d",
+          "output_sha256": "0b0e253b5fcb54ba0cbef8890bff4e42d35874cbbbca4b4a8caf93d00623612d"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A06_candy_south/frame_01.png",
+          "source_sha256": "00c049335f3c5ee35da8537ad802797824bd3a507785ba78164b79970a47fc3b",
+          "output_sha256": "00c049335f3c5ee35da8537ad802797824bd3a507785ba78164b79970a47fc3b"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A06_candy_south/frame_02.png",
+          "source_sha256": "81b8969d93b77900bdcd2281f04cd9673c6ec65fe84c288ef83a19ef1d845e3f",
+          "output_sha256": "81b8969d93b77900bdcd2281f04cd9673c6ec65fe84c288ef83a19ef1d845e3f"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A06_candy_south/frame_03.png",
+          "source_sha256": "78a7bd1e5407d3dde41061224e5beda9aa78e22d965ce395a2d384b2348acf45",
+          "output_sha256": "78a7bd1e5407d3dde41061224e5beda9aa78e22d965ce395a2d384b2348acf45"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/A06_candy_south/frame_04.png",
+          "source_sha256": "fc36665b8b15c65b22dc6b83271bc8c9fe7e42612101f2f8e62b338447b23529",
+          "output_sha256": "fc36665b8b15c65b22dc6b83271bc8c9fe7e42612101f2f8e62b338447b23529"
+        },
+        {
+          "source_index": 5,
+          "source_path": "raw/A06_candy_south/frame_05.png",
+          "source_sha256": "7f7b67472c491bc17431e18197971d6d67b17b1066ecd37674bbd9a3effc099c",
+          "output_sha256": "7f7b67472c491bc17431e18197971d6d67b17b1066ecd37674bbd9a3effc099c"
+        }
+      ]
+    },
+    {
+      "id": "A07_computer_west",
+      "label": "电脑键鼠·向左",
+      "source_clip_id": "A07_computer_west",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "west",
+      "duration_ms": 160,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A07_computer_west/frame_00.png",
+          "source_sha256": "e295d8f2e4a6d4d3799f101eb874f04106e2884bb1cccbcc3bc185ffbf1e0167",
+          "output_sha256": "e295d8f2e4a6d4d3799f101eb874f04106e2884bb1cccbcc3bc185ffbf1e0167"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A07_computer_west/frame_01.png",
+          "source_sha256": "0d8aae31fb5bf5e664277792640e7148f2e3b6b85d737b4c2eb088b9d916750d",
+          "output_sha256": "0d8aae31fb5bf5e664277792640e7148f2e3b6b85d737b4c2eb088b9d916750d"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A07_computer_west/frame_02.png",
+          "source_sha256": "f78312af4bac63b5300b2ba9ccd39ef6ba612962b3eba6c9eb42fcb46c40d9da",
+          "output_sha256": "f78312af4bac63b5300b2ba9ccd39ef6ba612962b3eba6c9eb42fcb46c40d9da"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A07_computer_west/frame_03.png",
+          "source_sha256": "8b945588000240899432142bdc61f4ce9fa30a80050f919566ec2295dc27c929",
+          "output_sha256": "8b945588000240899432142bdc61f4ce9fa30a80050f919566ec2295dc27c929"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/A07_computer_west/frame_04.png",
+          "source_sha256": "1d01f26ba1e409a35711d9ab3cf697346a5176dfa26369161467a231a783b339",
+          "output_sha256": "1d01f26ba1e409a35711d9ab3cf697346a5176dfa26369161467a231a783b339"
+        },
+        {
+          "source_index": 5,
+          "source_path": "raw/A07_computer_west/frame_05.png",
+          "source_sha256": "ad636f45614a1fef7fc7c5d691b71ca3c402e0ea878c7f56df4637647f673728",
+          "output_sha256": "ad636f45614a1fef7fc7c5d691b71ca3c402e0ea878c7f56df4637647f673728"
+        }
+      ]
+    },
+    {
+      "id": "A07_computer_east",
+      "label": "电脑键鼠·向右",
+      "source_clip_id": "A07_computer_east",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "east",
+      "duration_ms": 160,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A07_computer_east/frame_00.png",
+          "source_sha256": "02f67fe3a3c33c7da7f43b179b656d2b3e915891d7fe509dd556cf0dc04d1c30",
+          "output_sha256": "02f67fe3a3c33c7da7f43b179b656d2b3e915891d7fe509dd556cf0dc04d1c30"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A07_computer_east/frame_01.png",
+          "source_sha256": "503ebd6acb1de09481cfd971c1114d7695ef9dfbda95162d4b3cf6d747850bf9",
+          "output_sha256": "503ebd6acb1de09481cfd971c1114d7695ef9dfbda95162d4b3cf6d747850bf9"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A07_computer_east/frame_02.png",
+          "source_sha256": "3b2ecc1c8d65bce67953ffd6104aea387ae87634676a9fbe57dc03599ad1ac77",
+          "output_sha256": "3b2ecc1c8d65bce67953ffd6104aea387ae87634676a9fbe57dc03599ad1ac77"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A07_computer_east/frame_03.png",
+          "source_sha256": "84e43d96d3097c578f05d61309902fc3aa01f671d57eac6ac5b6cb7b969871e0",
+          "output_sha256": "84e43d96d3097c578f05d61309902fc3aa01f671d57eac6ac5b6cb7b969871e0"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/A07_computer_east/frame_04.png",
+          "source_sha256": "bf0a3749835b4268e4f22a2d4fba25c7b08279d114fc9ed17c4d2d9dc1db45c6",
+          "output_sha256": "bf0a3749835b4268e4f22a2d4fba25c7b08279d114fc9ed17c4d2d9dc1db45c6"
+        },
+        {
+          "source_index": 5,
+          "source_path": "raw/A07_computer_east/frame_05.png",
+          "source_sha256": "bdbff3703b09de90ae63a83e61c3ccd08775b777777b74e7522596710809140e",
+          "output_sha256": "bdbff3703b09de90ae63a83e61c3ccd08775b777777b74e7522596710809140e"
+        }
+      ]
+    },
+    {
+      "id": "A08_stretch_south",
+      "label": "徒手伸展",
+      "source_clip_id": "A08_exercise_south",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "direction": "south",
+      "duration_ms": 160,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "notes": "正面展臂，不含脚部踏步。",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A08_exercise_south/frame_00.png",
+          "source_sha256": "d1c77fdbbcff96a8a0e8427da65f4e6dc3c209b9d76517f8fd3b2cdf42b91536",
+          "output_sha256": "d1c77fdbbcff96a8a0e8427da65f4e6dc3c209b9d76517f8fd3b2cdf42b91536"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A08_exercise_south/frame_01.png",
+          "source_sha256": "92103da33b524f5b263d0d2b533307658c5212ef2278689fbab8be835a2c5506",
+          "output_sha256": "92103da33b524f5b263d0d2b533307658c5212ef2278689fbab8be835a2c5506"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A08_exercise_south/frame_02.png",
+          "source_sha256": "68f7f939edd30fe3536744c37e42114ee5fdc7de19a3606aeeae7caa9d179224",
+          "output_sha256": "68f7f939edd30fe3536744c37e42114ee5fdc7de19a3606aeeae7caa9d179224"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A08_exercise_south/frame_03.png",
+          "source_sha256": "9b1fd32d8ee48f9a965ce2ee198a42e5bc1bf3b6f8f061f3b6f213f4377c58dc",
+          "output_sha256": "9b1fd32d8ee48f9a965ce2ee198a42e5bc1bf3b6f8f061f3b6f213f4377c58dc"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/A08_exercise_south/frame_04.png",
+          "source_sha256": "8df8ad302d7aa41263b0689c55859880e07fb91dfdd6c78a3930c4b7b5eebe7f",
+          "output_sha256": "8df8ad302d7aa41263b0689c55859880e07fb91dfdd6c78a3930c4b7b5eebe7f"
+        },
+        {
+          "source_index": 5,
+          "source_path": "raw/A08_exercise_south/frame_05.png",
+          "source_sha256": "1332ade08006424876288b1cfbfa1b6cbe7a4ea6aff69f2b0f1ccc9243556ec1",
+          "output_sha256": "1332ade08006424876288b1cfbfa1b6cbe7a4ea6aff69f2b0f1ccc9243556ec1"
+        },
+        {
+          "source_index": 6,
+          "source_path": "raw/A08_exercise_south/frame_06.png",
+          "source_sha256": "7b20e7d72751b112c68c2c72987ddf27ce8a8dcb1975119611fcc9e6b3ec429a",
+          "output_sha256": "7b20e7d72751b112c68c2c72987ddf27ce8a8dcb1975119611fcc9e6b3ec429a"
+        },
+        {
+          "source_index": 7,
+          "source_path": "raw/A08_exercise_south/frame_07.png",
+          "source_sha256": "aa26cdb06eddd315a6ffce5c6228ef51ab857bc92e06c9ab5188aba2fe75a580",
+          "output_sha256": "aa26cdb06eddd315a6ffce5c6228ef51ab857bc92e06c9ab5188aba2fe75a580"
+        }
+      ]
+    },
+    {
+      "id": "A08_step_east",
+      "label": "徒手踏步",
+      "source_clip_id": "A08_exercise_east",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "direction": "east",
+      "duration_ms": 140,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "notes": "侧向腿脚活动；不宣称完整左右交替行走。",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A08_exercise_east/frame_00.png",
+          "source_sha256": "d6277ceb942f96c4c30d95f920b0b83e8d064033a3a3621bfe9a99208fe67876",
+          "output_sha256": "d6277ceb942f96c4c30d95f920b0b83e8d064033a3a3621bfe9a99208fe67876"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A08_exercise_east/frame_01.png",
+          "source_sha256": "53425479ef64806b9b269c8f89af4c863a9d1248dee1d9e1a78b90103b680b63",
+          "output_sha256": "53425479ef64806b9b269c8f89af4c863a9d1248dee1d9e1a78b90103b680b63"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A08_exercise_east/frame_02.png",
+          "source_sha256": "edc46f6cccb8be073eaea0b501c4859a74c7b4af303c85ef725f8a930486a198",
+          "output_sha256": "edc46f6cccb8be073eaea0b501c4859a74c7b4af303c85ef725f8a930486a198"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A08_exercise_east/frame_03.png",
+          "source_sha256": "c88b4ed1fc0ef12a8ad75f5c1397113360d3c07ee54cb3d2cac3e87a0306dcf4",
+          "output_sha256": "c88b4ed1fc0ef12a8ad75f5c1397113360d3c07ee54cb3d2cac3e87a0306dcf4"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/A08_exercise_east/frame_04.png",
+          "source_sha256": "9cda44ae56ab3d80453a08874faeccb4f767c3683f8487cb8d38a9dc43bf8972",
+          "output_sha256": "9cda44ae56ab3d80453a08874faeccb4f767c3683f8487cb8d38a9dc43bf8972"
+        },
+        {
+          "source_index": 5,
+          "source_path": "raw/A08_exercise_east/frame_05.png",
+          "source_sha256": "db0afc4c8ed2fbc149e4aa506d22cbbf22e1e2d72be5225fa3fcb079a1dbf190",
+          "output_sha256": "db0afc4c8ed2fbc149e4aa506d22cbbf22e1e2d72be5225fa3fcb079a1dbf190"
+        },
+        {
+          "source_index": 6,
+          "source_path": "raw/A08_exercise_east/frame_06.png",
+          "source_sha256": "bf5a40da3c84e9f79726d577e3bc178832dc38ee0e2e64d0ef3ab5e6e69d1144",
+          "output_sha256": "bf5a40da3c84e9f79726d577e3bc178832dc38ee0e2e64d0ef3ab5e6e69d1144"
+        },
+        {
+          "source_index": 7,
+          "source_path": "raw/A08_exercise_east/frame_07.png",
+          "source_sha256": "3ef1206c5f027dab7c125922d717400b61006e7f60f2e9ac0553c0e4f841160c",
+          "output_sha256": "3ef1206c5f027dab7c125922d717400b61006e7f60f2e9ac0553c0e4f841160c"
+        }
+      ]
+    },
+    {
+      "id": "A09_sweep_south",
+      "label": "扫地",
+      "source_clip_id": "A09_sweep_south",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "south",
+      "duration_ms": 180,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A09_sweep_south/frame_00.png",
+          "source_sha256": "595eb1cfdcf315af1878422bff111e2c2885e3f61035751003a797aa24a4b919",
+          "output_sha256": "595eb1cfdcf315af1878422bff111e2c2885e3f61035751003a797aa24a4b919"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A09_sweep_south/frame_01.png",
+          "source_sha256": "543b76c2e9fe82b43648e7e66de7612b2a780c817284a5988578d86391b3aff7",
+          "output_sha256": "543b76c2e9fe82b43648e7e66de7612b2a780c817284a5988578d86391b3aff7"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A09_sweep_south/frame_02.png",
+          "source_sha256": "5a1e1134974bc02673e8484a7bbfe55777a0fe2ea859e2bde936903f7192d05a",
+          "output_sha256": "5a1e1134974bc02673e8484a7bbfe55777a0fe2ea859e2bde936903f7192d05a"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A09_sweep_south/frame_03.png",
+          "source_sha256": "abdb95dd58eae973c4a03f453cd0c768722f691dbb0190b892a7d0558b076464",
+          "output_sha256": "abdb95dd58eae973c4a03f453cd0c768722f691dbb0190b892a7d0558b076464"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/A09_sweep_south/frame_04.png",
+          "source_sha256": "7ff45f5ac66ba56b1dadf310efcc9a15e7cc4412f1dfdc93e82d42c447b1e074",
+          "output_sha256": "7ff45f5ac66ba56b1dadf310efcc9a15e7cc4412f1dfdc93e82d42c447b1e074"
+        },
+        {
+          "source_index": 5,
+          "source_path": "raw/A09_sweep_south/frame_05.png",
+          "source_sha256": "485fe27bc1e1dca721ef28050699f42cab947f27491aecbbf27119ff530b7887",
+          "output_sha256": "485fe27bc1e1dca721ef28050699f42cab947f27491aecbbf27119ff530b7887"
+        }
+      ]
+    },
+    {
+      "id": "A10_wash_face_east",
+      "label": "洗手台洗脸",
+      "source_clip_id": "A10_wash_face_east",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "east",
+      "duration_ms": 180,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A10_wash_face_east/frame_00.png",
+          "source_sha256": "7734f6dbfe6e6f77d5ecc228e471edbca4dc7bd9ff4c9fc8fe0a354fb2cb2957",
+          "output_sha256": "7734f6dbfe6e6f77d5ecc228e471edbca4dc7bd9ff4c9fc8fe0a354fb2cb2957"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A10_wash_face_east/frame_01.png",
+          "source_sha256": "356a2533c12c3724e0d29caded2fbe2c2d4d3c2da6f1355c9031ae050ad09d00",
+          "output_sha256": "356a2533c12c3724e0d29caded2fbe2c2d4d3c2da6f1355c9031ae050ad09d00"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A10_wash_face_east/frame_02.png",
+          "source_sha256": "51d3ede9eaebde9f8c59e4bda26570c87d50cc6d34b2c956f948b6c85660eedc",
+          "output_sha256": "51d3ede9eaebde9f8c59e4bda26570c87d50cc6d34b2c956f948b6c85660eedc"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A10_wash_face_east/frame_03.png",
+          "source_sha256": "f1a044c8837b019eff8e52d05a0a52cbc3c3cc48ee71aa93b7304a4891d4c2b5",
+          "output_sha256": "f1a044c8837b019eff8e52d05a0a52cbc3c3cc48ee71aa93b7304a4891d4c2b5"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/A10_wash_face_east/frame_04.png",
+          "source_sha256": "87d0b30111a048cb93dd97c08bb3b2c72c77f5b993737f16cdab7d5bd5254a40",
+          "output_sha256": "87d0b30111a048cb93dd97c08bb3b2c72c77f5b993737f16cdab7d5bd5254a40"
+        },
+        {
+          "source_index": 5,
+          "source_path": "raw/A10_wash_face_east/frame_05.png",
+          "source_sha256": "82fb074d2d460add16a9b073f0233421c7577d3f77a33e5f1066c33426d65575",
+          "output_sha256": "82fb074d2d460add16a9b073f0233421c7577d3f77a33e5f1066c33426d65575"
+        }
+      ]
+    },
+    {
+      "id": "A11_eye_exercise_north",
+      "label": "眼保健操",
+      "source_clip_id": "A11_eye_exercise_north",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "north",
+      "duration_ms": 220,
+      "loop": true,
+      "review_status": "单角色样片通过",
+      "translate": [
+        -3,
+        2
+      ],
+      "anchor": [
+        32,
+        44
+      ],
+      "notes": "按脚底实测整数归位：左3、下2像素，未缩放。",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A11_eye_exercise_north/frame_00.png",
+          "source_sha256": "bb19d5d8b635215e23254dc41526af853fe395494e3892e9cdb449520fc1094e",
+          "output_sha256": "efd1c4d4460a251ad33a8583f093f9f2c4119fac42c0a0a255250e92ce6ab8f5"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A11_eye_exercise_north/frame_01.png",
+          "source_sha256": "45566bd7f4320da1ed0fe9c336d6c4b5b2b12a7e445f9040ffdcbd19586caa16",
+          "output_sha256": "6bf9ea78406e541d3e428ef7c6206c11c097bbc9e65437fad08d5f49e3b68985"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A11_eye_exercise_north/frame_02.png",
+          "source_sha256": "d14a45967e6bea6c8b75cc200c7bf7ffe8d9aba11d5767fafe2f75a3b39df873",
+          "output_sha256": "99728571937589f5eea3942a0fce284ea0cc9a8f98f8b9e6d79f2062fce73f1c"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A11_eye_exercise_north/frame_03.png",
+          "source_sha256": "fa0914535de5fcffd045fe84f165baf8e24d120c3379b91b546513a7823e1ceb",
+          "output_sha256": "250dd16d755430b7c278a2d89fa52075f85964ac4a81c19db90b7b5730653f81"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/A11_eye_exercise_north/frame_04.png",
+          "source_sha256": "fc18f3e413d8fb98d5acbedea1edc4afce54e7e40df34bdaab3c9cb2bbf0dfe8",
+          "output_sha256": "325e1b38dc7f8a7aa2b93f04fc6057e777ff3087f465b369502d124fc6970bc9"
+        },
+        {
+          "source_index": 5,
+          "source_path": "raw/A11_eye_exercise_north/frame_05.png",
+          "source_sha256": "cd01aa8f7fbf29b930953f373327feb380ff1640d143fdfbb2f7973149224101",
+          "output_sha256": "1c9552079dddf204ef0de81aecfcded80bd3db422c0527f156a1486520382562"
+        }
+      ]
+    },
+    {
+      "id": "A12_wrestle_west",
+      "label": "掰手腕·向左候选",
+      "source_clip_id": "A12_wrestle_west_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "west",
+      "duration_ms": 170,
+      "loop": true,
+      "review_status": "僵持样片通过·正式工位另验",
+      "notes": "采用v2竖直前臂僵持姿态。已按脚点距8像素的双人站位检查握合；矩形桌面仅作示意，正式家具与胜负演出另验。",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A12_wrestle_west_v2/frame_00.png",
+          "source_sha256": "3f84408b2b3d14fdebf6536f3770888344c4c4a45974f7e64cb69ef38d98e3b9",
+          "output_sha256": "3f84408b2b3d14fdebf6536f3770888344c4c4a45974f7e64cb69ef38d98e3b9"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A12_wrestle_west_v2/frame_01.png",
+          "source_sha256": "3b6989696abb191d49bc92e5d46940cb2882c0bbc07e7bbe9a4db0a00e2d0482",
+          "output_sha256": "3b6989696abb191d49bc92e5d46940cb2882c0bbc07e7bbe9a4db0a00e2d0482"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A12_wrestle_west_v2/frame_02.png",
+          "source_sha256": "33f4bf23c0a7fa7ddf7434594498ea5b25e1778db40ac0d6a01660e91ed651ac",
+          "output_sha256": "33f4bf23c0a7fa7ddf7434594498ea5b25e1778db40ac0d6a01660e91ed651ac"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A12_wrestle_west_v2/frame_03.png",
+          "source_sha256": "effa6ae8d2bf815a1753a3c0149648c7ba6648d3b860ad61d43b73761badd93c",
+          "output_sha256": "effa6ae8d2bf815a1753a3c0149648c7ba6648d3b860ad61d43b73761badd93c"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/A12_wrestle_west_v2/frame_04.png",
+          "source_sha256": "4216734b57af74617d6419e0736a9f93d8fbb2b242c5b5f361a4b33c99b38438",
+          "output_sha256": "4216734b57af74617d6419e0736a9f93d8fbb2b242c5b5f361a4b33c99b38438"
+        },
+        {
+          "source_index": 5,
+          "source_path": "raw/A12_wrestle_west_v2/frame_05.png",
+          "source_sha256": "7190bfbbd19310bf7d8ae4ad17d62cd05e87a8fe1cc31009039f574edba8890f",
+          "output_sha256": "7190bfbbd19310bf7d8ae4ad17d62cd05e87a8fe1cc31009039f574edba8890f"
+        }
+      ]
+    },
+    {
+      "id": "A12_wrestle_east",
+      "label": "掰手腕·向右候选",
+      "source_clip_id": "A12_wrestle_west_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "east",
+      "duration_ms": 170,
+      "loop": true,
+      "review_status": "僵持样片通过·正式工位另验",
+      "mirror_horizontal": true,
+      "notes": "西向原稿围绕64宽画布中线镜像；边界坐标锚点为32,44。已按脚点距8像素的双人站位检查握合；矩形桌面仅作示意，正式家具与胜负演出另验。",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A12_wrestle_west_v2/frame_00.png",
+          "source_sha256": "3f84408b2b3d14fdebf6536f3770888344c4c4a45974f7e64cb69ef38d98e3b9",
+          "output_sha256": "d14dcf08be7424f20a19ae14da7e7fab8971ac4ec32d6852361cc970b9cc4275"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A12_wrestle_west_v2/frame_01.png",
+          "source_sha256": "3b6989696abb191d49bc92e5d46940cb2882c0bbc07e7bbe9a4db0a00e2d0482",
+          "output_sha256": "43e5f9de82f919bdebe978593f9440b99533689fb78cc01406828cee30436611"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A12_wrestle_west_v2/frame_02.png",
+          "source_sha256": "33f4bf23c0a7fa7ddf7434594498ea5b25e1778db40ac0d6a01660e91ed651ac",
+          "output_sha256": "e23c5555ad664c610e76170a3448f121582fd1c6d1d79cf9bccdc03c5d545b17"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A12_wrestle_west_v2/frame_03.png",
+          "source_sha256": "effa6ae8d2bf815a1753a3c0149648c7ba6648d3b860ad61d43b73761badd93c",
+          "output_sha256": "d63d76745aafa58c29418d21bff1338a1414473700a719ec0da383b038bff33f"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/A12_wrestle_west_v2/frame_04.png",
+          "source_sha256": "4216734b57af74617d6419e0736a9f93d8fbb2b242c5b5f361a4b33c99b38438",
+          "output_sha256": "016cc09321db6059ddce3f9b0abf45ba044266bf22dc432eb4e22e13f78f177a"
+        },
+        {
+          "source_index": 5,
+          "source_path": "raw/A12_wrestle_west_v2/frame_05.png",
+          "source_sha256": "7190bfbbd19310bf7d8ae4ad17d62cd05e87a8fe1cc31009039f574edba8890f",
+          "output_sha256": "89cf23b3dbf9be2459d9d8791bb56775bdbd6a27f7f43fc8578223504c1a64e4"
+        }
+      ]
+    },
+    {
+      "id": "A13_pillow_east",
+      "label": "挥枕头·向右",
+      "source_clip_id": "A13_pillow_east_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "direction": "east",
+      "duration_ms": 130,
+      "loop": true,
+      "review_status": "单人挥动通过·双人接触待完善",
+      "notes": "保留弯肘横过胸前的握枕动作。单人挥动通过；脚点距40像素打空，32像素仅轻触/擦边参考，明确互击演出待完善。",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A13_pillow_east_v2/frame_00.png",
+          "source_sha256": "bdb39bb1a80629cf91a653c15838ef68886d9ee33960e4b99bdc8046a9a12700",
+          "output_sha256": "bdb39bb1a80629cf91a653c15838ef68886d9ee33960e4b99bdc8046a9a12700"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A13_pillow_east_v2/frame_01.png",
+          "source_sha256": "80513f0fc8acc01fef7966a8fd498ec1a67258c535e81d477ae092a236f40429",
+          "output_sha256": "80513f0fc8acc01fef7966a8fd498ec1a67258c535e81d477ae092a236f40429"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A13_pillow_east_v2/frame_02.png",
+          "source_sha256": "ae381a999c73ea7c364845a3115afe923c60d7e4cc101c7353fb55f6ac8f728d",
+          "output_sha256": "ae381a999c73ea7c364845a3115afe923c60d7e4cc101c7353fb55f6ac8f728d"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A13_pillow_east_v2/frame_03.png",
+          "source_sha256": "4c6e006b15ad743f67296f37cc4048f14094da54ba7747aec553f7a0a748b1f3",
+          "output_sha256": "4c6e006b15ad743f67296f37cc4048f14094da54ba7747aec553f7a0a748b1f3"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/A13_pillow_east_v2/frame_04.png",
+          "source_sha256": "dc086ef47264138a83bc90c72859789dda72a4ed0369009f1cf303553dd4f7f3",
+          "output_sha256": "dc086ef47264138a83bc90c72859789dda72a4ed0369009f1cf303553dd4f7f3"
+        },
+        {
+          "source_index": 5,
+          "source_path": "raw/A13_pillow_east_v2/frame_05.png",
+          "source_sha256": "4959ccda1958140bc36a322f74fd9676aad7e32b3c9c1d9db535564bc6fd0751",
+          "output_sha256": "4959ccda1958140bc36a322f74fd9676aad7e32b3c9c1d9db535564bc6fd0751"
+        },
+        {
+          "source_index": 6,
+          "source_path": "raw/A13_pillow_east_v2/frame_06.png",
+          "source_sha256": "6843040d88099e8d22ead1329ec6dc645eb30bd250ad7f35f5245bde6b52a937",
+          "output_sha256": "6843040d88099e8d22ead1329ec6dc645eb30bd250ad7f35f5245bde6b52a937"
+        }
+      ]
+    },
+    {
+      "id": "A13_pillow_west",
+      "label": "挥枕头·向左",
+      "source_clip_id": "A13_pillow_east_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "direction": "west",
+      "duration_ms": 130,
+      "loop": true,
+      "review_status": "单人挥动通过·双人接触待完善",
+      "mirror_horizontal": true,
+      "notes": "东向围绕画布中线镜像。单人挥动通过；脚点距40像素打空，32像素仅轻触/擦边参考，明确互击演出待完善。",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/A13_pillow_east_v2/frame_00.png",
+          "source_sha256": "bdb39bb1a80629cf91a653c15838ef68886d9ee33960e4b99bdc8046a9a12700",
+          "output_sha256": "97b30cee8cefa5698c1843921e7655804daebac52d2c623207ca320a602ccd7e"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/A13_pillow_east_v2/frame_01.png",
+          "source_sha256": "80513f0fc8acc01fef7966a8fd498ec1a67258c535e81d477ae092a236f40429",
+          "output_sha256": "42cc0535a4744d9f1af6b3ac8ec96e69e376997060aa397fa32eb16dac15b662"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/A13_pillow_east_v2/frame_02.png",
+          "source_sha256": "ae381a999c73ea7c364845a3115afe923c60d7e4cc101c7353fb55f6ac8f728d",
+          "output_sha256": "8c1bf72f48e51206134f2169a0db93176863f719d01dd9fd6c699a9a720ee5af"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/A13_pillow_east_v2/frame_03.png",
+          "source_sha256": "4c6e006b15ad743f67296f37cc4048f14094da54ba7747aec553f7a0a748b1f3",
+          "output_sha256": "0a3856fb04a6a9ecce3be80682073b3186ad19752ef20a89b453d045591af509"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/A13_pillow_east_v2/frame_04.png",
+          "source_sha256": "dc086ef47264138a83bc90c72859789dda72a4ed0369009f1cf303553dd4f7f3",
+          "output_sha256": "7e03fb399d9d4217f40e06f296d5e896bb898807f5e97c61a93fa7ae79230bd5"
+        },
+        {
+          "source_index": 5,
+          "source_path": "raw/A13_pillow_east_v2/frame_05.png",
+          "source_sha256": "4959ccda1958140bc36a322f74fd9676aad7e32b3c9c1d9db535564bc6fd0751",
+          "output_sha256": "d0c3b414627450437b839d870dae410282e42b999837e23e7878b7843403a704"
+        },
+        {
+          "source_index": 6,
+          "source_path": "raw/A13_pillow_east_v2/frame_06.png",
+          "source_sha256": "6843040d88099e8d22ead1329ec6dc645eb30bd250ad7f35f5245bde6b52a937",
+          "output_sha256": "1e40eece86af9020983bc619b7365c400e7601f0c53e73fb09bdd18c8b90cf0d"
+        }
+      ]
+    },
+    {
+      "id": "B01_give_north",
+      "label": "递出书本",
+      "source_clip_id": "B01_give_north",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6
+      ],
+      "direction": "north",
+      "duration_ms": [
+        130,
+        100,
+        100,
+        120,
+        180,
+        250
+      ],
+      "loop": false,
+      "review_status": "手势通过·交接道具待补",
+      "notes": "只含递出者与书；不代表已完成双方交接。",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/B01_give_north/frame_00.png",
+          "source_sha256": "08b73712788e4c257eebb5949ebf220c8e41d39e24d363432faa5b713cae5541",
+          "output_sha256": "08b73712788e4c257eebb5949ebf220c8e41d39e24d363432faa5b713cae5541"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/B01_give_north/frame_01.png",
+          "source_sha256": "e5c644e73de5829bf27e120b03277659dd76ab9f38e1d2ac4d51e58df5e5dd3a",
+          "output_sha256": "e5c644e73de5829bf27e120b03277659dd76ab9f38e1d2ac4d51e58df5e5dd3a"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/B01_give_north/frame_02.png",
+          "source_sha256": "afd9c871beae321d2094bb5fd7ba1f9a3cc7fd176e823b4b8276feb4c1be5d7c",
+          "output_sha256": "afd9c871beae321d2094bb5fd7ba1f9a3cc7fd176e823b4b8276feb4c1be5d7c"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/B01_give_north/frame_03.png",
+          "source_sha256": "3591ab8c2d696007ac1979fdc4b53d4f346ae5def7ed1d98c3e3350287ea8fb8",
+          "output_sha256": "3591ab8c2d696007ac1979fdc4b53d4f346ae5def7ed1d98c3e3350287ea8fb8"
+        },
+        {
+          "source_index": 5,
+          "source_path": "raw/B01_give_north/frame_05.png",
+          "source_sha256": "10f3758522cd70e642d743db3323b24325f9b1ae85ffc06d263e2f10530b3721",
+          "output_sha256": "10f3758522cd70e642d743db3323b24325f9b1ae85ffc06d263e2f10530b3721"
+        },
+        {
+          "source_index": 6,
+          "source_path": "raw/B01_give_north/frame_06.png",
+          "source_sha256": "aac2167a0519839fc9c0b4cfaf2f036f62e36e36a4b57bbbf57a3919a294d141",
+          "output_sha256": "aac2167a0519839fc9c0b4cfaf2f036f62e36e36a4b57bbbf57a3919a294d141"
+        }
+      ]
+    },
+    {
+      "id": "B01_receive_right_north",
+      "label": "右手接取",
+      "source_clip_id": "B01_receive_north_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "north",
+      "duration_ms": [
+        160,
+        120,
+        120,
+        120,
+        260
+      ],
+      "loop": false,
+      "review_status": "手势通过·交接道具待补",
+      "notes": "空手接取手势，道具交接层后续适配。",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/B01_receive_north_v2/frame_00.png",
+          "source_sha256": "aea0541d98ff481879e4d42285c90faf61244c6925fb21e78278643629d015ed",
+          "output_sha256": "aea0541d98ff481879e4d42285c90faf61244c6925fb21e78278643629d015ed"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/B01_receive_north_v2/frame_01.png",
+          "source_sha256": "b71ec815976a7a1df24dfe67cd536ebfd6fed5f9523b1dd96e7b564ab8577823",
+          "output_sha256": "b71ec815976a7a1df24dfe67cd536ebfd6fed5f9523b1dd96e7b564ab8577823"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/B01_receive_north_v2/frame_02.png",
+          "source_sha256": "46d42141aefbed5ec703e4d7f9fb363a266949b3bdda7261a0d817ad8c1aae68",
+          "output_sha256": "46d42141aefbed5ec703e4d7f9fb363a266949b3bdda7261a0d817ad8c1aae68"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/B01_receive_north_v2/frame_03.png",
+          "source_sha256": "f3354bcaa5d4923e95159a9c6cb3992c0efa4f8e3e3a45d5b241576532b20326",
+          "output_sha256": "f3354bcaa5d4923e95159a9c6cb3992c0efa4f8e3e3a45d5b241576532b20326"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/B01_receive_north_v2/frame_04.png",
+          "source_sha256": "9a87fcc769bda0653c6711e078f07f6b663e3eb9487c97cd3b0262b6ba0e6d69",
+          "output_sha256": "9a87fcc769bda0653c6711e078f07f6b663e3eb9487c97cd3b0262b6ba0e6d69"
+        }
+      ]
+    },
+    {
+      "id": "B01_receive_left_north",
+      "label": "左手接取",
+      "source_clip_id": "B01_receive_north_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "north",
+      "duration_ms": [
+        160,
+        120,
+        120,
+        120,
+        260
+      ],
+      "loop": false,
+      "review_status": "手势通过·交接道具待补",
+      "mirror_horizontal": true,
+      "notes": "右手接取围绕画布中线镜像，用于右侧接物者；道具另层。",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/B01_receive_north_v2/frame_00.png",
+          "source_sha256": "aea0541d98ff481879e4d42285c90faf61244c6925fb21e78278643629d015ed",
+          "output_sha256": "cf32c3be5c636f386d561e123f7d9cfa74d6408ca0a3fb0eb47802d15b1303a8"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/B01_receive_north_v2/frame_01.png",
+          "source_sha256": "b71ec815976a7a1df24dfe67cd536ebfd6fed5f9523b1dd96e7b564ab8577823",
+          "output_sha256": "18a870c076152ac10d2165ddfb6cfcde770c4dfae420a668a7ff222a7f31200d"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/B01_receive_north_v2/frame_02.png",
+          "source_sha256": "46d42141aefbed5ec703e4d7f9fb363a266949b3bdda7261a0d817ad8c1aae68",
+          "output_sha256": "95137ff30ca081949845af86440c59d7d4eb7e81f765a62c888d134a224d5c19"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/B01_receive_north_v2/frame_03.png",
+          "source_sha256": "f3354bcaa5d4923e95159a9c6cb3992c0efa4f8e3e3a45d5b241576532b20326",
+          "output_sha256": "5b8182b88cd54f18bc35557131d899ddadaddbf3582ed6b1d56bbbffbdb61d72"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/B01_receive_north_v2/frame_04.png",
+          "source_sha256": "9a87fcc769bda0653c6711e078f07f6b663e3eb9487c97cd3b0262b6ba0e6d69",
+          "output_sha256": "ee138a6a910c2125d34467d540cee0ddece336437cbe396994e619a1e0be2eba"
+        }
+      ]
+    },
+    {
+      "id": "B02_point_north",
+      "label": "伸手示意",
+      "source_clip_id": "B02_point_north",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "direction": "north",
+      "duration_ms": [
+        100,
+        90,
+        90,
+        100,
+        180,
+        400
+      ],
+      "loop": false,
+      "review_status": "单角色样片通过",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/B02_point_north/frame_00.png",
+          "source_sha256": "9f6bd7768b153dc24cddafb9304d008a3b448f439ebc03c7bac350c284caecde",
+          "output_sha256": "9f6bd7768b153dc24cddafb9304d008a3b448f439ebc03c7bac350c284caecde"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/B02_point_north/frame_01.png",
+          "source_sha256": "19f8b4afee7c95d32a02a9ddb19e2a1c7bde5f0b09d694f503e0dfb3633ae9ff",
+          "output_sha256": "19f8b4afee7c95d32a02a9ddb19e2a1c7bde5f0b09d694f503e0dfb3633ae9ff"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/B02_point_north/frame_02.png",
+          "source_sha256": "ac07c93f454bf79db3da5e2a9d245f5f423022bb325650474efe670bda898289",
+          "output_sha256": "ac07c93f454bf79db3da5e2a9d245f5f423022bb325650474efe670bda898289"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/B02_point_north/frame_03.png",
+          "source_sha256": "07cc9ffe4b6a048d4650db5666e1ef2fb504114c48c1760fbac5af9086ef49ef",
+          "output_sha256": "07cc9ffe4b6a048d4650db5666e1ef2fb504114c48c1760fbac5af9086ef49ef"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/B02_point_north/frame_04.png",
+          "source_sha256": "83e398b881e16c4b5de33e7984f16fcfc9e029e48800f2147a9393000a3f4bf5",
+          "output_sha256": "83e398b881e16c4b5de33e7984f16fcfc9e029e48800f2147a9393000a3f4bf5"
+        },
+        {
+          "source_index": 6,
+          "source_path": "raw/B02_point_north/frame_06.png",
+          "source_sha256": "ecb2d14521da042bedaebd909cfd652bf946ba6f8f3d9fe112425fef8224af25",
+          "output_sha256": "ecb2d14521da042bedaebd909cfd652bf946ba6f8f3d9fe112425fef8224af25"
+        }
+      ]
+    },
+    {
+      "id": "B02_raise_north",
+      "label": "举手抢答",
+      "source_clip_id": "B02_raise_north_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6
+      ],
+      "direction": "north",
+      "duration_ms": [
+        130,
+        90,
+        100,
+        140,
+        180,
+        400
+      ],
+      "loop": false,
+      "review_status": "单角色样片通过",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/B02_raise_north_v2/frame_00.png",
+          "source_sha256": "9da4a9724cb534db79c0bdc93d3e8cf0e773c55a5e9e7d74522f24a23d1af6fc",
+          "output_sha256": "9da4a9724cb534db79c0bdc93d3e8cf0e773c55a5e9e7d74522f24a23d1af6fc"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/B02_raise_north_v2/frame_01.png",
+          "source_sha256": "d34dbdb6bf0b9c5845f3f5ad033ee4db469358fb7923477d732a2bd87ce0f699",
+          "output_sha256": "d34dbdb6bf0b9c5845f3f5ad033ee4db469358fb7923477d732a2bd87ce0f699"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/B02_raise_north_v2/frame_02.png",
+          "source_sha256": "ae0d53ec4bfae1f5018df0611044a7c15b2d92a814efcccba80dc7395acee850",
+          "output_sha256": "ae0d53ec4bfae1f5018df0611044a7c15b2d92a814efcccba80dc7395acee850"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/B02_raise_north_v2/frame_03.png",
+          "source_sha256": "c11d6dcc5d9165849d743dde3df782a4a05ef7fa1fb2c744c7ac3f935b660e17",
+          "output_sha256": "c11d6dcc5d9165849d743dde3df782a4a05ef7fa1fb2c744c7ac3f935b660e17"
+        },
+        {
+          "source_index": 5,
+          "source_path": "raw/B02_raise_north_v2/frame_05.png",
+          "source_sha256": "8ce4d7659553214f6b71658abf9d1d161736f9fe16105ae5f36331f5c294d79f",
+          "output_sha256": "8ce4d7659553214f6b71658abf9d1d161736f9fe16105ae5f36331f5c294d79f"
+        },
+        {
+          "source_index": 6,
+          "source_path": "raw/B02_raise_north_v2/frame_06.png",
+          "source_sha256": "e4c034b3de463fbe88021e8a5c72e7aba7cc6ecb2d8e18fc927ce7000ac0c731",
+          "output_sha256": "e4c034b3de463fbe88021e8a5c72e7aba7cc6ecb2d8e18fc927ce7000ac0c731"
+        }
+      ]
+    },
+    {
+      "id": "B03_throw_paper_north",
+      "label": "抛纸条",
+      "source_clip_id": "B03_throw_paper_north",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "direction": "north",
+      "duration_ms": [
+        160,
+        80,
+        80,
+        80,
+        100,
+        220
+      ],
+      "loop": false,
+      "review_status": "单角色样片通过",
+      "notes": "包含局部纸条飞出示意；跨工位飞行与送达事件后续由真实流程驱动。",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/B03_throw_paper_north/frame_00.png",
+          "source_sha256": "4edad447fc6b2cf01034af03c788f59e7a6f39e1bd277c88084aa58b7164d62d",
+          "output_sha256": "4edad447fc6b2cf01034af03c788f59e7a6f39e1bd277c88084aa58b7164d62d"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/B03_throw_paper_north/frame_01.png",
+          "source_sha256": "748b6bafc0129fd206ca24953463a848a96b8be82d2ad61db6420d3f4cbcac3f",
+          "output_sha256": "748b6bafc0129fd206ca24953463a848a96b8be82d2ad61db6420d3f4cbcac3f"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/B03_throw_paper_north/frame_02.png",
+          "source_sha256": "ef57c80a28d74bdf9f4bb79a2aadb27d834fce403a299f1cdcbef63d62175b78",
+          "output_sha256": "ef57c80a28d74bdf9f4bb79a2aadb27d834fce403a299f1cdcbef63d62175b78"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/B03_throw_paper_north/frame_03.png",
+          "source_sha256": "f47a8f111408e26e4f0ad219ab7477e718a9142222c68ed1330a124c892e48e8",
+          "output_sha256": "f47a8f111408e26e4f0ad219ab7477e718a9142222c68ed1330a124c892e48e8"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/B03_throw_paper_north/frame_04.png",
+          "source_sha256": "cc439a72e56a92a6c6cc712858c695ad01d656340aff884a7644cc9adfad4910",
+          "output_sha256": "cc439a72e56a92a6c6cc712858c695ad01d656340aff884a7644cc9adfad4910"
+        },
+        {
+          "source_index": 6,
+          "source_path": "raw/B03_throw_paper_north/frame_06.png",
+          "source_sha256": "2e9637d745fb50ac23b54efe4cc3043d20008c9fa6af8be78ce118a823a25aca",
+          "output_sha256": "2e9637d745fb50ac23b54efe4cc3043d20008c9fa6af8be78ce118a823a25aca"
+        }
+      ]
+    },
+    {
+      "id": "B03_flick_eraser_north",
+      "label": "桌边弹指",
+      "source_clip_id": "B03_flick_eraser_north_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "north",
+      "duration_ms": [
+        180,
+        90,
+        70,
+        100,
+        220
+      ],
+      "loop": false,
+      "review_status": "桌边弹指手势通过·橡皮飞行物另层",
+      "notes": "人工清除头顶y<11的附加魔法气泡，保留全部角色像素；橡皮飞行物独立。",
+      "clear_regions": [
+        [
+          0,
+          0,
+          64,
+          11
+        ]
+      ],
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/B03_flick_eraser_north_v2/frame_00.png",
+          "source_sha256": "95e660ab2c75b0ae8741138ed4fb2ced2011350e40c5d4bd08bf71d76d518af2",
+          "output_sha256": "95e660ab2c75b0ae8741138ed4fb2ced2011350e40c5d4bd08bf71d76d518af2"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/B03_flick_eraser_north_v2/frame_01.png",
+          "source_sha256": "930a9db11aaab04f7fae13e607231655fa28b3035ed0ec0d380d4e77f02db65e",
+          "output_sha256": "28d37131d9e1b21751344c9770fcd002b3913bd1957f6f24f37bd603c9ece1ad"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/B03_flick_eraser_north_v2/frame_02.png",
+          "source_sha256": "fe864d9ead5e035f4dbfec406ad092eceb545106ff93be5f23409ab6821ab144",
+          "output_sha256": "92cab62178f67a5c1ac53765588e16b44913d72dbd1cfc2dabc245139c3dfd52"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/B03_flick_eraser_north_v2/frame_03.png",
+          "source_sha256": "deccf948c8ff707a62c10f6b81deb6782da21d6a5a725ec337b96c4f0f5f1fb5",
+          "output_sha256": "deccf948c8ff707a62c10f6b81deb6782da21d6a5a725ec337b96c4f0f5f1fb5"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/B03_flick_eraser_north_v2/frame_04.png",
+          "source_sha256": "649a569a4d92c8c344ca86ce9119bd3608442a4a1bd90ca170f0177d3a4963b4",
+          "output_sha256": "649a569a4d92c8c344ca86ce9119bd3608442a4a1bd90ca170f0177d3a4963b4"
+        }
+      ]
+    },
+    {
+      "id": "B04_react_south",
+      "label": "回神与轻微反应",
+      "source_clip_id": "B04_react_south",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "south",
+      "duration_ms": [
+        130,
+        140,
+        200,
+        280
+      ],
+      "loop": false,
+      "review_status": "单角色样片通过",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/B04_react_south/frame_00.png",
+          "source_sha256": "d1c77fdbbcff96a8a0e8427da65f4e6dc3c209b9d76517f8fd3b2cdf42b91536",
+          "output_sha256": "d1c77fdbbcff96a8a0e8427da65f4e6dc3c209b9d76517f8fd3b2cdf42b91536"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/B04_react_south/frame_01.png",
+          "source_sha256": "7c30250965dc0e2d8eb021adb63dea0654761f130b5673115e59e91f9974eb55",
+          "output_sha256": "7c30250965dc0e2d8eb021adb63dea0654761f130b5673115e59e91f9974eb55"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/B04_react_south/frame_02.png",
+          "source_sha256": "51404b7e8f081c9ec8cb5a80e00b757a4a53477ca2bdc3f0b430fa98a421c61b",
+          "output_sha256": "51404b7e8f081c9ec8cb5a80e00b757a4a53477ca2bdc3f0b430fa98a421c61b"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/B04_react_south/frame_04.png",
+          "source_sha256": "59184e4273443ffca5c0225edc26bfa499e783cbf77ca355a3c39ff93da3d286",
+          "output_sha256": "59184e4273443ffca5c0225edc26bfa499e783cbf77ca355a3c39ff93da3d286"
+        }
+      ]
+    },
+    {
+      "id": "B04_happy_south",
+      "label": "振作高兴",
+      "source_clip_id": "B04_happy_south",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "south",
+      "duration_ms": [
+        130,
+        140,
+        200,
+        280
+      ],
+      "loop": false,
+      "review_status": "单角色样片通过",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/B04_happy_south/frame_00.png",
+          "source_sha256": "d1c77fdbbcff96a8a0e8427da65f4e6dc3c209b9d76517f8fd3b2cdf42b91536",
+          "output_sha256": "d1c77fdbbcff96a8a0e8427da65f4e6dc3c209b9d76517f8fd3b2cdf42b91536"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/B04_happy_south/frame_01.png",
+          "source_sha256": "5007c1798d064d31dfe61927333e425d8a417359a064a94b14c823690a65acc1",
+          "output_sha256": "5007c1798d064d31dfe61927333e425d8a417359a064a94b14c823690a65acc1"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/B04_happy_south/frame_02.png",
+          "source_sha256": "a49f882a6a3890c3285cbfe7cc1454708288b7c2d58ae2b4eaad84631dbb17c8",
+          "output_sha256": "a49f882a6a3890c3285cbfe7cc1454708288b7c2d58ae2b4eaad84631dbb17c8"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/B04_happy_south/frame_04.png",
+          "source_sha256": "a85322475a2f5cb696cf591781d675a6f4b363eb89bf60e3ce280be244d1644e",
+          "output_sha256": "a85322475a2f5cb696cf591781d675a6f4b363eb89bf60e3ce280be244d1644e"
+        }
+      ]
+    },
+    {
+      "id": "B04_sad_south",
+      "label": "失落反应",
+      "source_clip_id": "B04_sad_south",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "direction": "south",
+      "duration_ms": [
+        130,
+        140,
+        200,
+        280
+      ],
+      "loop": false,
+      "review_status": "单角色样片通过",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/B04_sad_south/frame_00.png",
+          "source_sha256": "d1c77fdbbcff96a8a0e8427da65f4e6dc3c209b9d76517f8fd3b2cdf42b91536",
+          "output_sha256": "d1c77fdbbcff96a8a0e8427da65f4e6dc3c209b9d76517f8fd3b2cdf42b91536"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/B04_sad_south/frame_01.png",
+          "source_sha256": "c3805186201ad914b6641f0ffc9cfc22111d54d5c699c446a6d5215bb71ea3b1",
+          "output_sha256": "c3805186201ad914b6641f0ffc9cfc22111d54d5c699c446a6d5215bb71ea3b1"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/B04_sad_south/frame_02.png",
+          "source_sha256": "beacd62f666c9c318c946ec6bc1bd45760a4f2b933e3ee2cf4719dba8378ca3d",
+          "output_sha256": "beacd62f666c9c318c946ec6bc1bd45760a4f2b933e3ee2cf4719dba8378ca3d"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/B04_sad_south/frame_04.png",
+          "source_sha256": "676ad4488ab14b720f832b886fd00c5eb565424c7b6894523411291598a9016f",
+          "output_sha256": "676ad4488ab14b720f832b886fd00c5eb565424c7b6894523411291598a9016f"
+        }
+      ]
+    },
+    {
+      "id": "B04_wake_north",
+      "label": "趴睡醒来",
+      "source_clip_id": "B04_wake_north_v2",
+      "selected_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "direction": "north",
+      "duration_ms": [
+        250,
+        150,
+        150,
+        150,
+        350
+      ],
+      "loop": false,
+      "review_status": "单角色样片通过",
+      "notes": "全程背向；与趴睡主循环进入点仍需后续接入时对齐。",
+      "frames": [
+        {
+          "source_index": 0,
+          "source_path": "raw/B04_wake_north_v2/frame_00.png",
+          "source_sha256": "7856f026512383d7302151d5b1b0d8fed70407d226f783c0834acda6d6294b8e",
+          "output_sha256": "7856f026512383d7302151d5b1b0d8fed70407d226f783c0834acda6d6294b8e"
+        },
+        {
+          "source_index": 1,
+          "source_path": "raw/B04_wake_north_v2/frame_01.png",
+          "source_sha256": "0f227eb64e9eaf887a09a76c8ae2107dae5ad2d588a02d0dd9e035865e93cf55",
+          "output_sha256": "0f227eb64e9eaf887a09a76c8ae2107dae5ad2d588a02d0dd9e035865e93cf55"
+        },
+        {
+          "source_index": 2,
+          "source_path": "raw/B04_wake_north_v2/frame_02.png",
+          "source_sha256": "66ef00629b6b650942d6fdf4315a5271fa61bf1e022a9e15fa2d96cbb621ab9d",
+          "output_sha256": "66ef00629b6b650942d6fdf4315a5271fa61bf1e022a9e15fa2d96cbb621ab9d"
+        },
+        {
+          "source_index": 3,
+          "source_path": "raw/B04_wake_north_v2/frame_03.png",
+          "source_sha256": "5feb80a07531eabc4193ff06be3c040ac0045e01b423bfd013fb43d7bcce51cb",
+          "output_sha256": "5feb80a07531eabc4193ff06be3c040ac0045e01b423bfd013fb43d7bcce51cb"
+        },
+        {
+          "source_index": 4,
+          "source_path": "raw/B04_wake_north_v2/frame_04.png",
+          "source_sha256": "c6a86ea62912ce7d0a79dfba6bc0c654a77d36eee3acdedbe6b5362e2c0f2ce4",
+          "output_sha256": "c6a86ea62912ce7d0a79dfba6bc0c654a77d36eee3acdedbe6b5362e2c0f2ce4"
+        }
+      ]
+    }
+  ]
+}

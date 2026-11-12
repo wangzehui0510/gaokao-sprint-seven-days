@@ -21,7 +21,8 @@ func _run() -> void:
 	if not _result(configuration.load_file(), "加载正式配置", configuration.error_message):
 		_finish()
 		return
-	fixture_root = OS.get_cache_dir().path_join("ClassroomAttribute_%d_%d" % [OS.get_process_id(), Time.get_ticks_usec()])
+	# 本组验证玩家手动分配入口，不含每日发点；把起始日推到局外隔离每日属性点影响。
+	configuration.globals["first_daily_attribute_day"] = 99
 	if not _result(DirAccess.make_dir_recursive_absolute(fixture_root), "建立属性验证独占目录"):
 		_finish()
 		return

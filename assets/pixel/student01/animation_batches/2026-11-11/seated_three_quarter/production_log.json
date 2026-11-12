@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-11",
+  "purpose": "用户已采用3/4关键帧，完成桌椅分层、写字循环和四工位新教室素材",
+  "decisions": {
+    "scope": "固定坐姿分层、六帧写字、新背景与四工位隔离预览",
+    "facing": "north-east",
+    "canvas": [
+      64,
+      64
+    ],
+    "production_integration": false,
+    "keyframe_approved": true,
+    "classroom_four_stations_requested": true
+  },
+  "jobs": [
+    {
+      "id": "seated_write_northeast_v1",
+      "tool": "edit_image",
+      "job_id": "5bcc1698-030d-48b5-bc4a-da127538c3fe",
+      "seed": 2026111134,
+      "reference": "reference_station_north.png",
+      "description": "Rebuild this exact Chinese high-school student, wooden school desk and chair as a coherent NORTH-EAST facing THREE-QUARTER REAR VIEW station, viewed from a slightly elevated camera behind the student's left shoulder. This is a new camera angle for the whole desk, chair and student together, not a flat rotation of pixels. The desk's top and right side are diagonal in the image; the student sits at its near lower-left edge facing toward the upper-right. Retain the student's short dark navy hair, white tracksuit shirt with royal-blue collar/side panels and sleeves, blue trousers, dark shoes; same compact chibi proportions and native pixel density as the reference. Clearly SITTING: pelvis rests on the wooden chair seat, thighs point toward the desk under the desktop, knees bent, lower legs descend to the floor, two shoes close and naturally apart rather than a wide standing stance. Show back of head and only a narrow side of cheek. Chair has a low wooden backrest in the foreground occluding ONLY lower back/hips, a visible seat edge, and straight legs aligned on the ground; not a huge slab covering shoulders. Upper body leans slightly forward; both elbows low, left hand holds a cream notebook flat on the desktop and right hand holds a pencil with its tip touching the page. Correct contact and occlusion everywhere, desk/chair/student at same perspective and scale, no intersecting furniture, no floating hips or feet. Keep full station centered inside a 64x64 transparent canvas with 3 pixels padding, character roughly 30-34 pixels tall in seated pose, hard pixel edges, compact dark outlines, muted tan wood and existing blue-white palette. Single complete station, no room, no floor tile, no text, no labels, no extra people, no duplicate hands, no full side view, no pure back view.",
+      "status": "completed",
+      "receipt": {
+        "content": [
+          {
+            "type": "text",
+            "text": "id: 5bcc1698-030d-48b5-bc4a-da127538c3fe\njob_id: 5bcc1698-030d-48b5-bc4a-da127538c3fe\nmode: text\nframes: 1\nsize: 64x64px\ntransparent: True\nedit: Rebuild this exact Chinese high-school student, wooden school desk and chair as a coherent NORTH-EAST facing THREE-QUARTER REAR VIEW station, viewed from a slightly elevated camera behind the student's left shoulder. This is a new camera angle for the whole desk, chair and student together, not a flat rotation of pixels. The desk's top and right side are diagonal in the image; the student sits at its near lower-left edge facing toward the upper-right. Retain the student's short dark navy hair, white tracksuit shirt with royal-blue collar/side panels and sleeves, blue trousers, dark shoes; same compact chibi proportions and native pixel density as the reference. Clearly SITTING: pelvis rests on the wooden chair seat, thighs point toward the desk under the desktop, knees bent, lower legs descend to the floor, two shoes close and naturally apart rather than a wide standing stance. Show back of head and only a narrow side of cheek. Chair has a low wooden backrest in the foreground occluding ONLY lower back/hips, a visible seat edge, and straight legs aligned on the ground; not a huge slab covering shoulders. Upper body leans slightly forward; both elbows low, left hand holds a cream notebook flat on the desktop and right hand holds a pencil with its tip touching the page. Correct contact and occlusion everywhere, desk/chair/student at same perspective and scale, no intersecting furniture, no floating hips or feet. Keep full station centered inside a 64x64 transparent canvas with 3 pixels padding, character roughly 30-34 pixels tall in seated pose, hard pixel edges, compact dark outlines, muted tan wood and existing blue-white palette. Single complete station, no room, no floor tile, no text, no labels, no extra people, no duplicate hands, no full side view, no pure back view.\nseed: 2026111134\nasset_id: 0b3ea65f-638e-564f-a021-53c7ab32394f\nasset_status: pending (saved when generation completes)\ncost: ~10 generations\nstatus: processing (~30-90s)\n\nhint: get_image(job_id=\"5bcc1698-030d-48b5-bc4a-da127538c3fe\")\nwithout get_image: GET https://api.pixellab.ai/mcp/images/5bcc1698-030d-48b5-bc4a-da127538c3fe/download (423 + Retry-After until ready; ?index=N for the Nth of several images)"
+          }
+        ],
+        "isError": false
+      },
+      "output_count": 1,
+      "download_url": "https://api.pixellab.ai/mcp/images/5bcc1698-030d-48b5-bc4a-da127538c3fe/download",
+      "output": "seated_write_northeast_v1.png",
+      "charged_generations": 10,
+      "completion_receipt": "status: completed\nid: 5bcc1698-030d-48b5-bc4a-da127538c3fe\njob_id: 5bcc1698-030d-48b5-bc4a-da127538c3fe\nframes: 1\ntransparent: yes\nasset_id: 0b3ea65f-638e-564f-a021-53c7ab32394f\nasset_type: image\nasset_status: saved\ngallery: saved to your PixelLab gallery (pixellab.ai/create)\ncharged: 10 generations\ndownload: https://api.pixellab.ai/mcp/images/5bcc1698-030d-48b5-bc4a-da127538c3fe/download"
+    }
+  ],
+  "review_status": "approved_assets_gpu_and_visual_review_passed",
+  "review": {
+    "exact_seed_reconstruction": true,
+    "empty_furniture_reconstruction": true,
+    "frames": 6,
+    "source_order": [
+      0,
+      6,
+      4,
+      2,
+      4,
+      6
+    ],
+    "duration_ms": [
+      280,
+      150,
+      160,
+      200,
+      160,
+      150
+    ],
+    "scene_canvas": [
+      384,
+      256
+    ],
+    "station_canvas": [
+      64,
+      64
+    ],
+    "stations": 4,
+    "layer_draw_order": [
+      "desk_back",
+      "chair_base",
+      "student",
+      "chair_front"
+    ],
+    "gpu_status": "passed",
+    "production_integration": false,
+    "remaining": [
+      "教师、其他行为、双人布局和命中区域尚未统一新视角。",
+      "人物被家具挡住的身体未补全，当前只适用固定坐姿写字。"
+    ],
+    "gpu_captures": 132,
+    "visual_review": "passed_fixed_seated_writing_and_four_stations",
+    "report": "FINAL_QA.md",
+    "source_manifest_sha256": "4c3aaf7b2ed763abcfce2c43053a79873ebe9258e7d648904681b095e3dfc703"
+  },
+  "user_approval": {
+    "date": "2026-11-11",
+    "answer": "采用：继续做写字动画与桌椅分层（推荐）",
+    "followup": "帮我把桌椅分层，然后根据这个桌椅的角度，重新生成教室，把四个桌椅放上"
+  },
+  "keyframe_review_history": {
+    "canvas_verified": true,
+    "transparent_verified": true,
+    "nearest_scales": [
+      1,
+      2,
+      4
+    ],
+    "visual_findings": [
+      "斜后方视角，能同时看到后脑、侧脸、桌面和桌腿",
+      "臀部在椅面，近侧膝盖弯曲，小腿落向地面；远侧鞋被椅子部分遮挡",
+      "椅背遮住下背，未遮住肩部与书写手",
+      "右手执笔接触纸面，左手在纸面附近；尚未检查动态接触稳定性"
+    ],
+    "remaining": [
+      "单帧合成稿，桌椅和人物尚未拆层",
+      "尚未制作此视角的写字动画",
+      "新视角教室、教师、其他动作和双人站位尚未适配"
+    ],
+    "production_integration": false
+  },
+  "subtask_records": {
+    "layers": "layers_v1/layer_manifest.json",
+    "animation_generation": "animation_v1/production_log.json",
+    "animation_curation": "animation_v1/curation.json",
+    "classroom_generation": "classroom_v1/production_log.json",
+    "scene": "classroom_v1/scene_manifest.json"
+  }
+}

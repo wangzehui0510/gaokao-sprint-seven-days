@@ -69,8 +69,9 @@ func _empty_simulation() -> ClassroomSimulation:
 	var simulation := ClassroomSimulation.new()
 	if not _result(simulation.setup(configuration, 261107), "创建四人独立局", simulation.error_message):
 		return null
-	# 全天算例专门核对课表、费率与状态，自主竞争另由四人AI集成验收覆盖。
+	# 全天算例专门核对课表、费率与状态，自主竞争与宿舍结伴另由专项组验收。
 	simulation.phase_scope.social_auto_actions = []
+	simulation.phase_scope.dorm_auto_actions = ["dorm_study", "dorm_practice", "dorm_game", "dorm_workout", "dorm_wash", "dorm_rest"]
 	var controller := ClassroomBehaviorController.new()
 	root.add_child(controller)
 	controller.setup(simulation)

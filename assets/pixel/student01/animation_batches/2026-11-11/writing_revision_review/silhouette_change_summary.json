@@ -1,0 +1,224 @@
+[
+  {
+    "frame": 0,
+    "alpha_changes": 51,
+    "alpha_change_bounds": [
+      4,
+      15,
+      29,
+      44
+    ],
+    "legs_alpha_below_y39_identical": false,
+    "old_bounds": [
+      4,
+      10,
+      29,
+      44
+    ],
+    "new_bounds": [
+      4,
+      10,
+      29,
+      44
+    ],
+    "new_foot_pixels_x": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ]
+  },
+  {
+    "frame": 1,
+    "alpha_changes": 54,
+    "alpha_change_bounds": [
+      4,
+      15,
+      29,
+      44
+    ],
+    "legs_alpha_below_y39_identical": false,
+    "old_bounds": [
+      4,
+      10,
+      29,
+      44
+    ],
+    "new_bounds": [
+      4,
+      10,
+      29,
+      44
+    ],
+    "new_foot_pixels_x": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ]
+  },
+  {
+    "frame": 2,
+    "alpha_changes": 42,
+    "alpha_change_bounds": [
+      5,
+      15,
+      29,
+      44
+    ],
+    "legs_alpha_below_y39_identical": false,
+    "old_bounds": [
+      5,
+      10,
+      29,
+      44
+    ],
+    "new_bounds": [
+      5,
+      10,
+      29,
+      44
+    ],
+    "new_foot_pixels_x": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ]
+  },
+  {
+    "frame": 3,
+    "alpha_changes": 36,
+    "alpha_change_bounds": [
+      5,
+      15,
+      29,
+      44
+    ],
+    "legs_alpha_below_y39_identical": false,
+    "old_bounds": [
+      5,
+      10,
+      29,
+      44
+    ],
+    "new_bounds": [
+      5,
+      10,
+      29,
+      44
+    ],
+    "new_foot_pixels_x": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ]
+  },
+  {
+    "frame": 4,
+    "alpha_changes": 33,
+    "alpha_change_bounds": [
+      5,
+      15,
+      29,
+      44
+    ],
+    "legs_alpha_below_y39_identical": false,
+    "old_bounds": [
+      5,
+      10,
+      29,
+      44
+    ],
+    "new_bounds": [
+      5,
+      10,
+      29,
+      44
+    ],
+    "new_foot_pixels_x": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ]
+  },
+  {
+    "frame": 5,
+    "alpha_changes": 35,
+    "alpha_change_bounds": [
+      5,
+      15,
+      29,
+      44
+    ],
+    "legs_alpha_below_y39_identical": false,
+    "old_bounds": [
+      5,
+      10,
+      29,
+      44
+    ],
+    "new_bounds": [
+      5,
+      10,
+      29,
+      44
+    ],
+    "new_foot_pixels_x": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ]
+  }
+]

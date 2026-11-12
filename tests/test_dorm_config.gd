@@ -65,7 +65,7 @@ func _test_knowledge() -> void:
 		["knowledge_mode", "none"], ["knowledge_mode", "course"],
 		["knowledge_multiplier", -0.1], ["knowledge_multiplier", 0.0],
 		["knowledge_subject_id", "math"], ["eligible_period", "any"],
-		["scene", "classroom"], ["target", "pair"], ["kind", "instant"],
+		["scene", "classroom"], ["target", "group"], ["kind", "instant"],
 	]
 	for change: Array in cases:
 		var changed: Dictionary = baseline.duplicate(true)
@@ -79,10 +79,17 @@ func _test_knowledge() -> void:
 
 ## 课堂池不能混进宿舍候选，六项等权和资格在读表时统一保证。
 func _test_pool() -> void:
-	for change: Array in [["weight", 0], ["weight", -1], ["weight", 2], ["enabled", false], ["requires_same_scene_target", true], ["requires_affordable_start", false], ["eligible_period", "knowledge_course"], ["action_id", "study"]]:
+	for change: Array in [["weight", 0], ["weight", -1], ["weight", 2], ["enabled", false], ["requires_affordable_start", false], ["eligible_period", "knowledge_course"], ["action_id", "study"]]:
 		var changed: Dictionary = baseline.duplicate(true)
 		_pool(changed, "dorm_study")[change[0]] = change[1]
 		_load_fixture(changed, "宿舍候选%s=%s" % [change[0], change[1]], false)
+	# 结伴候选关闭同伴要求与个人候选开启同伴要求都是身份破坏，两侧都要拒绝。
+	var solo_pair: Dictionary = baseline.duplicate(true)
+	_pool(solo_pair, "study_together").requires_same_scene_target = false
+	_load_fixture(solo_pair, "宿舍候选requires_same_scene_target=false（结伴侧）", false)
+	var paired_solo: Dictionary = baseline.duplicate(true)
+	_pool(paired_solo, "dorm_study").requires_same_scene_target = true
+	_load_fixture(paired_solo, "宿舍候选requires_same_scene_target=true（个人侧）", false)
 	var duplicate: Dictionary = baseline.duplicate(true)
 	var row: Dictionary = _pool(duplicate, "dorm_study").duplicate(true)
 	row.id = "duplicate_dorm_study"
@@ -157,6 +164,8 @@ func _finish() -> void:
 	if DirAccess.dir_exists_absolute(fixture_root):
 		DirAccess.remove_absolute(fixture_root)
 	print("宿舍配置检查：%d项，失败%d项" % [checks, failures.size()])
+	for failure: String in failures:
+		print("CONFIG_FAIL ", failure)
 	if failures.is_empty():
 		print("PASS test_dorm_config")
 	quit(0 if failures.is_empty() else 1)

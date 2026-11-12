@@ -1,4 +1,4 @@
-extends SceneTree
+﻿extends SceneTree
 ## 在独立工程内验证真实七天榜单、考试公布与结束局界面，不以预填成绩代替业务结果。
 
 # 所有临时文件均属于隔离应用，检查只统计真实断言。
@@ -151,7 +151,7 @@ func _test_pending_and_read_only(ui: Control) -> void:
 	ui._on_note_text_changed(ui.note_input.text)
 	var drafts: Dictionary = ui.note_drafts.duplicate(true)
 	var before: Dictionary = _authoritative_snapshot(ui)
-	ui._on_menu(4)
+	ui._on_menu(5)
 	_check(ui.inspector_panel.visible and ui.inspector_tabs.current_tab == 5, "设置菜单打开第六页榜单")
 	_check(ui.round_board_text.text.contains("尚未发布"), "未到16:40明确显示知识榜尚未发布")
 	for view_type in 3:
@@ -339,8 +339,14 @@ func _test_legacy_interface(ui: Control) -> bool:
 	var legacy: Dictionary = parsed
 	legacy.save_version = 3
 	legacy.erase("round_progression")
-	# v5才引入抽查状态与每日纪律分，降级夹具显式剔除。
+	# v5才引入抽查状态与每日纪律分，v6才引入每日属性点状态，降级夹具显式剔除。
 	legacy.erase("inspection")
+	legacy.erase("daily_points")
+	legacy.erase("npc_growth")
+	# v6抢答检查点状态同样不属于旧档。
+	legacy.erase("challenge_auto")
+	# 课间磨蹭状态同属v6，旧档夹具一并剔除。
+	legacy.erase("linger_auto")
 	for legacy_student: Dictionary in legacy.students:
 		legacy_student.erase("daily_discipline")
 		legacy_student.erase("daily_discipline_day")

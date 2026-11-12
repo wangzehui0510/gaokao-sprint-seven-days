@@ -1,0 +1,34 @@
+{
+  "canvas": [
+    384,
+    256
+  ],
+  "source_room": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\seated_three_quarter\\classroom_v3_podium_wall\\classroom_with_wall_connected_podium.png",
+  "source_room_sha256": "55805694ddf82a339af496416dc6c69019bf571d30398456a7904a4d0889634d",
+  "crop": [
+    172,
+    32,
+    160,
+    128
+  ],
+  "lectern_clear_rect": [
+    209,
+    88,
+    58,
+    52
+  ],
+  "lectern_layer_scope": "仅讲桌本体，透明区域不含平台和墙面",
+  "teacher_reserve_rect": [
+    236,
+    78,
+    40,
+    56
+  ],
+  "teacher_foot_anchor": [
+    260,
+    126
+  ],
+  "teacher_position": "behind_lectern",
+  "production_integration": false,
+  "note": "本轮将讲桌拆为独立透明层，背景仅保留贴墙平台。"
+}

@@ -1,0 +1,402 @@
+{
+  "id": "A06_meal_north",
+  "label": "持碗用餐",
+  "direction": "north",
+  "declared_canvas": [
+    64,
+    48
+  ],
+  "anchor": [
+    32,
+    44
+  ],
+  "loop": true,
+  "review_status": "单角色样片通过",
+  "visual_approval": "not_assessed_by_script",
+  "input_frame_count": 6,
+  "input_total_duration_ms": 1200,
+  "bbox_convention": "left_top_inclusive_right_bottom_exclusive",
+  "review_flags": [],
+  "frames": [
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A06_meal_north\\frame_00.png",
+      "sha256": "55d7db58c61fcdd4808eae311034c99663bc2c4e3c0dddcb0184351108c7bd5a",
+      "dimensions": [
+        64,
+        48
+      ],
+      "matches_declared_canvas": true,
+      "visible_bbox": [
+        18,
+        12,
+        48,
+        44
+      ],
+      "visible_bbox_relative_to_anchor": [
+        -14,
+        -32,
+        16,
+        0
+      ],
+      "alpha_weighted_centroid": [
+        31.6017,
+        27.9934
+      ],
+      "empty": false,
+      "transparent_pixels": 2467,
+      "partial_alpha_pixels": 0,
+      "opaque_pixels": 605,
+      "visible_pixels": 605,
+      "unique_rgba_colors": 67,
+      "visible_rgba_colors": 66,
+      "edge_contacts": [],
+      "possible_edge_clipping": false
+    },
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A06_meal_north\\frame_01.png",
+      "sha256": "4e4df486f50f65380486f826c725f3ac748c6fca26713dddbff10c91288d0bf2",
+      "dimensions": [
+        64,
+        48
+      ],
+      "matches_declared_canvas": true,
+      "visible_bbox": [
+        18,
+        11,
+        50,
+        44
+      ],
+      "visible_bbox_relative_to_anchor": [
+        -14,
+        -33,
+        18,
+        0
+      ],
+      "alpha_weighted_centroid": [
+        31.7182,
+        27.8241
+      ],
+      "empty": false,
+      "transparent_pixels": 2458,
+      "partial_alpha_pixels": 0,
+      "opaque_pixels": 614,
+      "visible_pixels": 614,
+      "unique_rgba_colors": 68,
+      "visible_rgba_colors": 67,
+      "edge_contacts": [],
+      "possible_edge_clipping": false
+    },
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A06_meal_north\\frame_02.png",
+      "sha256": "93ce767dcb3036cd5d01581384ab4869f2c41cf2d0722f6d2b3fa5668292db82",
+      "dimensions": [
+        64,
+        48
+      ],
+      "matches_declared_canvas": true,
+      "visible_bbox": [
+        17,
+        11,
+        48,
+        44
+      ],
+      "visible_bbox_relative_to_anchor": [
+        -15,
+        -33,
+        16,
+        0
+      ],
+      "alpha_weighted_centroid": [
+        31.6033,
+        27.5935
+      ],
+      "empty": false,
+      "transparent_pixels": 2457,
+      "partial_alpha_pixels": 0,
+      "opaque_pixels": 615,
+      "visible_pixels": 615,
+      "unique_rgba_colors": 66,
+      "visible_rgba_colors": 65,
+      "edge_contacts": [],
+      "possible_edge_clipping": false
+    },
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A06_meal_north\\frame_03.png",
+      "sha256": "480f8f4a0196a9df028f457d22a129100ef3956511b4a9a2e21f53ae7a6bfeb8",
+      "dimensions": [
+        64,
+        48
+      ],
+      "matches_declared_canvas": true,
+      "visible_bbox": [
+        17,
+        12,
+        47,
+        44
+      ],
+      "visible_bbox_relative_to_anchor": [
+        -15,
+        -32,
+        15,
+        0
+      ],
+      "alpha_weighted_centroid": [
+        31.5137,
+        27.9725
+      ],
+      "empty": false,
+      "transparent_pixels": 2453,
+      "partial_alpha_pixels": 0,
+      "opaque_pixels": 619,
+      "visible_pixels": 619,
+      "unique_rgba_colors": 68,
+      "visible_rgba_colors": 67,
+      "edge_contacts": [],
+      "possible_edge_clipping": false
+    },
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A06_meal_north\\frame_04.png",
+      "sha256": "07f72ddb390367dc61ddffeaf775be7775dcb1007593282999a51d2665ed60f0",
+      "dimensions": [
+        64,
+        48
+      ],
+      "matches_declared_canvas": true,
+      "visible_bbox": [
+        17,
+        11,
+        46,
+        44
+      ],
+      "visible_bbox_relative_to_anchor": [
+        -15,
+        -33,
+        14,
+        0
+      ],
+      "alpha_weighted_centroid": [
+        31.3897,
+        27.6441
+      ],
+      "empty": false,
+      "transparent_pixels": 2451,
+      "partial_alpha_pixels": 0,
+      "opaque_pixels": 621,
+      "visible_pixels": 621,
+      "unique_rgba_colors": 71,
+      "visible_rgba_colors": 70,
+      "edge_contacts": [],
+      "possible_edge_clipping": false
+    },
+    {
+      "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\curated\\A06_meal_north\\frame_05.png",
+      "sha256": "f3e0cffec9ad1dd16ab90be28bb4c42246608fbba5ffe1ef245200f287991230",
+      "dimensions": [
+        64,
+        48
+      ],
+      "matches_declared_canvas": true,
+      "visible_bbox": [
+        17,
+        12,
+        48,
+        44
+      ],
+      "visible_bbox_relative_to_anchor": [
+        -15,
+        -32,
+        16,
+        0
+      ],
+      "alpha_weighted_centroid": [
+        31.5411,
+        27.773
+      ],
+      "empty": false,
+      "transparent_pixels": 2464,
+      "partial_alpha_pixels": 0,
+      "opaque_pixels": 608,
+      "visible_pixels": 608,
+      "unique_rgba_colors": 71,
+      "visible_rgba_colors": 70,
+      "edge_contacts": [],
+      "possible_edge_clipping": false
+    }
+  ],
+  "adjacent_differences": [
+    {
+      "from_frame": 0,
+      "to_frame": 1,
+      "comparable": true,
+      "visible_changed_pixels": 364,
+      "visible_changed_fraction": 0.11849,
+      "exact_rgba_changed_pixels": 364,
+      "changed_bbox": [
+        18,
+        11,
+        50,
+        44
+      ],
+      "visually_identical": false,
+      "mean_absolute_rgba_difference": 4.392741
+    },
+    {
+      "from_frame": 1,
+      "to_frame": 2,
+      "comparable": true,
+      "visible_changed_pixels": 279,
+      "visible_changed_fraction": 0.09082,
+      "exact_rgba_changed_pixels": 279,
+      "changed_bbox": [
+        17,
+        11,
+        50,
+        44
+      ],
+      "visually_identical": false,
+      "mean_absolute_rgba_difference": 4.098307
+    },
+    {
+      "from_frame": 2,
+      "to_frame": 3,
+      "comparable": true,
+      "visible_changed_pixels": 354,
+      "visible_changed_fraction": 0.115234,
+      "exact_rgba_changed_pixels": 354,
+      "changed_bbox": [
+        17,
+        11,
+        48,
+        44
+      ],
+      "visually_identical": false,
+      "mean_absolute_rgba_difference": 3.150798
+    },
+    {
+      "from_frame": 3,
+      "to_frame": 4,
+      "comparable": true,
+      "visible_changed_pixels": 323,
+      "visible_changed_fraction": 0.105143,
+      "exact_rgba_changed_pixels": 323,
+      "changed_bbox": [
+        17,
+        11,
+        47,
+        44
+      ],
+      "visually_identical": false,
+      "mean_absolute_rgba_difference": 2.384521
+    },
+    {
+      "from_frame": 4,
+      "to_frame": 5,
+      "comparable": true,
+      "visible_changed_pixels": 320,
+      "visible_changed_fraction": 0.104167,
+      "exact_rgba_changed_pixels": 320,
+      "changed_bbox": [
+        18,
+        11,
+        48,
+        44
+      ],
+      "visually_identical": false,
+      "mean_absolute_rgba_difference": 3.320719
+    }
+  ],
+  "first_last_difference": {
+    "from_frame": 0,
+    "to_frame": 5,
+    "comparable": true,
+    "visible_changed_pixels": 321,
+    "visible_changed_fraction": 0.104492,
+    "exact_rgba_changed_pixels": 321,
+    "changed_bbox": [
+      17,
+      12,
+      48,
+      44
+    ],
+    "visually_identical": false,
+    "mean_absolute_rgba_difference": 3.301514
+  },
+  "reference": null,
+  "artifacts": {
+    "strip": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\review_curated\\A06_meal_north\\strip.png",
+    "contact_sheet": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\review_curated\\A06_meal_north\\contact_sheet.png",
+    "gif": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\review_curated\\A06_meal_north\\preview.gif",
+    "strip_cell_canvas": [
+      64,
+      48
+    ],
+    "strip_frame_rects": [
+      [
+        0,
+        0,
+        64,
+        48
+      ],
+      [
+        64,
+        0,
+        64,
+        48
+      ],
+      [
+        128,
+        0,
+        64,
+        48
+      ],
+      [
+        192,
+        0,
+        64,
+        48
+      ],
+      [
+        256,
+        0,
+        64,
+        48
+      ],
+      [
+        320,
+        0,
+        64,
+        48
+      ]
+    ],
+    "source_pixels_resampled": false,
+    "preview_scale": 8,
+    "preview_resampling": "nearest_neighbor",
+    "gif_background": "opaque_checkerboard",
+    "gif_encoded_frame_count": 6,
+    "gif_requested_durations_ms": [
+      200,
+      200,
+      200,
+      200,
+      200,
+      200
+    ],
+    "gif_encoded_durations_ms": [
+      200,
+      200,
+      200,
+      200,
+      200,
+      200
+    ],
+    "gif_requested_total_duration_ms": 1200,
+    "gif_encoded_total_duration_ms": 1200,
+    "gif_encoded_loop": 0,
+    "gif_encoding_note": "GIF使用10毫秒时间单位，编码器可能合并连续相同帧；逐帧表和原始横条始终保留全部输入帧。"
+  },
+  "limitations": [
+    "指标不能判断人体结构、服装一致性、道具语义或动作是否自然。",
+    "边缘接触仅提示可能裁切；透明像素中不可见的RGB不计入可见变化。",
+    "不同尺寸只在预览中以左上角放入最大画布，不修改或修复源帧。"
+  ]
+}

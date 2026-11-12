@@ -1,0 +1,1788 @@
+{
+  "schema_version": 1,
+  "manifest_path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pairs_manifest.json",
+  "manifest_sha256": "8659f388809e1d4dedba5285f00a67642ba28e5efd54fd7bb3c6a8a295a93e8a",
+  "visual_approval": "not_assessed_by_script",
+  "review_status": "paired_contact_pending",
+  "clip_count": 3,
+  "clips": [
+    {
+      "id": "pair_wrestle",
+      "label": "掰手腕·僵持接触检查",
+      "direction": "paired",
+      "declared_canvas": [
+        96,
+        64
+      ],
+      "anchor": null,
+      "loop": true,
+      "review_status": "paired_contact_pending",
+      "visual_approval": "not_assessed_by_script",
+      "input_frame_count": 6,
+      "input_total_duration_ms": 1020,
+      "bbox_convention": "left_top_inclusive_right_bottom_exclusive",
+      "review_flags": [
+        "edge_contact_requires_visual_review"
+      ],
+      "frames": [
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_wrestle\\frame_00.png",
+          "sha256": "c0e9f9c6b0eb4c37a73d79a088af0520c81306b8d1e3e5e4c80bfdb387859c24",
+          "dimensions": [
+            96,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            96,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            47.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 6144,
+          "visible_pixels": 6144,
+          "unique_rgba_colors": 87,
+          "visible_rgba_colors": 87,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_wrestle\\frame_01.png",
+          "sha256": "acfd1d785b283a834d02e1f88d52b0ca2dd36d2634b17526dd00ef174ca7ad8b",
+          "dimensions": [
+            96,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            96,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            47.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 6144,
+          "visible_pixels": 6144,
+          "unique_rgba_colors": 90,
+          "visible_rgba_colors": 90,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_wrestle\\frame_02.png",
+          "sha256": "b22f93c523ae1369159bcf8052d793ed7c3e637de5a01b295589d9f3d87c9fac",
+          "dimensions": [
+            96,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            96,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            47.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 6144,
+          "visible_pixels": 6144,
+          "unique_rgba_colors": 91,
+          "visible_rgba_colors": 91,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_wrestle\\frame_03.png",
+          "sha256": "8f9449cd972b7467c8d1f087fc79d1bfec76cd5a9bb6b1325516d0c05fa297ae",
+          "dimensions": [
+            96,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            96,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            47.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 6144,
+          "visible_pixels": 6144,
+          "unique_rgba_colors": 87,
+          "visible_rgba_colors": 87,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_wrestle\\frame_04.png",
+          "sha256": "4a03db2cd5b339c67d46d675161e752be4cd79718df24273ec431ba7a0108b47",
+          "dimensions": [
+            96,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            96,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            47.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 6144,
+          "visible_pixels": 6144,
+          "unique_rgba_colors": 89,
+          "visible_rgba_colors": 89,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_wrestle\\frame_05.png",
+          "sha256": "0065bd79bbd560a657f0ea7bbcc543697a5dca56c8528931955728c47d7feb3d",
+          "dimensions": [
+            96,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            96,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            47.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 6144,
+          "visible_pixels": 6144,
+          "unique_rgba_colors": 90,
+          "visible_rgba_colors": 90,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        }
+      ],
+      "adjacent_differences": [
+        {
+          "from_frame": 0,
+          "to_frame": 1,
+          "comparable": true,
+          "visible_changed_pixels": 486,
+          "visible_changed_fraction": 0.079102,
+          "exact_rgba_changed_pixels": 486,
+          "changed_bbox": [
+            24,
+            13,
+            68,
+            52
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 1.217082
+        },
+        {
+          "from_frame": 1,
+          "to_frame": 2,
+          "comparable": true,
+          "visible_changed_pixels": 353,
+          "visible_changed_fraction": 0.057454,
+          "exact_rgba_changed_pixels": 353,
+          "changed_bbox": [
+            24,
+            13,
+            68,
+            52
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 0.180176
+        },
+        {
+          "from_frame": 2,
+          "to_frame": 3,
+          "comparable": true,
+          "visible_changed_pixels": 463,
+          "visible_changed_fraction": 0.075358,
+          "exact_rgba_changed_pixels": 463,
+          "changed_bbox": [
+            24,
+            13,
+            68,
+            52
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 0.612101
+        },
+        {
+          "from_frame": 3,
+          "to_frame": 4,
+          "comparable": true,
+          "visible_changed_pixels": 504,
+          "visible_changed_fraction": 0.082031,
+          "exact_rgba_changed_pixels": 504,
+          "changed_bbox": [
+            24,
+            13,
+            68,
+            52
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 1.05249
+        },
+        {
+          "from_frame": 4,
+          "to_frame": 5,
+          "comparable": true,
+          "visible_changed_pixels": 387,
+          "visible_changed_fraction": 0.062988,
+          "exact_rgba_changed_pixels": 387,
+          "changed_bbox": [
+            24,
+            13,
+            68,
+            52
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 0.21167
+        }
+      ],
+      "first_last_difference": {
+        "from_frame": 0,
+        "to_frame": 5,
+        "comparable": true,
+        "visible_changed_pixels": 518,
+        "visible_changed_fraction": 0.08431,
+        "exact_rgba_changed_pixels": 518,
+        "changed_bbox": [
+          24,
+          13,
+          68,
+          52
+        ],
+        "visually_identical": false,
+        "mean_absolute_rgba_difference": 1.072917
+      },
+      "reference": null,
+      "artifacts": {
+        "strip": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\review\\pair_wrestle\\strip.png",
+        "contact_sheet": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\review\\pair_wrestle\\contact_sheet.png",
+        "gif": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\review\\pair_wrestle\\preview.gif",
+        "strip_cell_canvas": [
+          96,
+          64
+        ],
+        "strip_frame_rects": [
+          [
+            0,
+            0,
+            96,
+            64
+          ],
+          [
+            96,
+            0,
+            96,
+            64
+          ],
+          [
+            192,
+            0,
+            96,
+            64
+          ],
+          [
+            288,
+            0,
+            96,
+            64
+          ],
+          [
+            384,
+            0,
+            96,
+            64
+          ],
+          [
+            480,
+            0,
+            96,
+            64
+          ]
+        ],
+        "source_pixels_resampled": false,
+        "preview_scale": 4,
+        "preview_resampling": "nearest_neighbor",
+        "gif_background": "opaque_checkerboard",
+        "gif_encoded_frame_count": 6,
+        "gif_requested_durations_ms": [
+          170,
+          170,
+          170,
+          170,
+          170,
+          170
+        ],
+        "gif_encoded_durations_ms": [
+          170,
+          170,
+          170,
+          170,
+          170,
+          170
+        ],
+        "gif_requested_total_duration_ms": 1020,
+        "gif_encoded_total_duration_ms": 1020,
+        "gif_encoded_loop": 0,
+        "gif_encoding_note": "GIF使用10毫秒时间单位，编码器可能合并连续相同帧；逐帧表和原始横条始终保留全部输入帧。"
+      },
+      "limitations": [
+        "指标不能判断人体结构、服装一致性、道具语义或动作是否自然。",
+        "边缘接触仅提示可能裁切；透明像素中不可见的RGB不计入可见变化。",
+        "不同尺寸只在预览中以左上角放入最大画布，不修改或修复源帧。"
+      ]
+    },
+    {
+      "id": "pair_pillow",
+      "label": "挥枕头·32px轻触参考，互击待完善",
+      "direction": "paired",
+      "declared_canvas": [
+        128,
+        64
+      ],
+      "anchor": null,
+      "loop": true,
+      "review_status": "paired_contact_pending",
+      "visual_approval": "not_assessed_by_script",
+      "input_frame_count": 14,
+      "input_total_duration_ms": 1820,
+      "bbox_convention": "left_top_inclusive_right_bottom_exclusive",
+      "review_flags": [
+        "edge_contact_requires_visual_review"
+      ],
+      "frames": [
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_00.png",
+          "sha256": "b7fdf80a9e76210f6c9bf41a9888d2cfdf80608be1810b1d83d74ecfab862248",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 83,
+          "visible_rgba_colors": 83,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_01.png",
+          "sha256": "509e26f02006e2ae18ccaac0f65ca35e498f238d90937675ef1993cacdbc0c68",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 83,
+          "visible_rgba_colors": 83,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_02.png",
+          "sha256": "16926a41ca5ff7adf0d0b7bce893896491ca09bd7094da2ff6575fd40056737b",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 80,
+          "visible_rgba_colors": 80,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_03.png",
+          "sha256": "50767a9ac27cb75e79736d11d191e4cbdd73f7df65147c39901dd2603702064b",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 83,
+          "visible_rgba_colors": 83,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_04.png",
+          "sha256": "a4bd05a7737202a3401c1d646d54876e7a0217e4c50ed3a760ca401a6f78fe24",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 85,
+          "visible_rgba_colors": 85,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_05.png",
+          "sha256": "304cb8a7574cf24b90d100a8d05c00a51fddf94d7e863d74936c6eaed6e112ad",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 77,
+          "visible_rgba_colors": 77,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_06.png",
+          "sha256": "6c88c48e86ba1dccc234c3444fca2b4e41ec86d6f301e2aa40fe320f8828a843",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 81,
+          "visible_rgba_colors": 81,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_07.png",
+          "sha256": "b7fdf80a9e76210f6c9bf41a9888d2cfdf80608be1810b1d83d74ecfab862248",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 83,
+          "visible_rgba_colors": 83,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_08.png",
+          "sha256": "509e26f02006e2ae18ccaac0f65ca35e498f238d90937675ef1993cacdbc0c68",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 83,
+          "visible_rgba_colors": 83,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_09.png",
+          "sha256": "16926a41ca5ff7adf0d0b7bce893896491ca09bd7094da2ff6575fd40056737b",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 80,
+          "visible_rgba_colors": 80,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_10.png",
+          "sha256": "50767a9ac27cb75e79736d11d191e4cbdd73f7df65147c39901dd2603702064b",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 83,
+          "visible_rgba_colors": 83,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_11.png",
+          "sha256": "a4bd05a7737202a3401c1d646d54876e7a0217e4c50ed3a760ca401a6f78fe24",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 85,
+          "visible_rgba_colors": 85,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_12.png",
+          "sha256": "304cb8a7574cf24b90d100a8d05c00a51fddf94d7e863d74936c6eaed6e112ad",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 77,
+          "visible_rgba_colors": 77,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_pillow\\frame_13.png",
+          "sha256": "6c88c48e86ba1dccc234c3444fca2b4e41ec86d6f301e2aa40fe320f8828a843",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 81,
+          "visible_rgba_colors": 81,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        }
+      ],
+      "adjacent_differences": [
+        {
+          "from_frame": 0,
+          "to_frame": 1,
+          "comparable": true,
+          "visible_changed_pixels": 1048,
+          "visible_changed_fraction": 0.12793,
+          "exact_rgba_changed_pixels": 1048,
+          "changed_bbox": [
+            27,
+            10,
+            93,
+            53
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 7.218262
+        },
+        {
+          "from_frame": 1,
+          "to_frame": 2,
+          "comparable": true,
+          "visible_changed_pixels": 1611,
+          "visible_changed_fraction": 0.196655,
+          "exact_rgba_changed_pixels": 1611,
+          "changed_bbox": [
+            13,
+            10,
+            91,
+            53
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 12.261261
+        },
+        {
+          "from_frame": 2,
+          "to_frame": 3,
+          "comparable": true,
+          "visible_changed_pixels": 1248,
+          "visible_changed_fraction": 0.152344,
+          "exact_rgba_changed_pixels": 1248,
+          "changed_bbox": [
+            13,
+            14,
+            77,
+            53
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 9.70462
+        },
+        {
+          "from_frame": 3,
+          "to_frame": 4,
+          "comparable": true,
+          "visible_changed_pixels": 1143,
+          "visible_changed_fraction": 0.139526,
+          "exact_rgba_changed_pixels": 1143,
+          "changed_bbox": [
+            11,
+            14,
+            77,
+            53
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 8.593323
+        },
+        {
+          "from_frame": 4,
+          "to_frame": 5,
+          "comparable": true,
+          "visible_changed_pixels": 1512,
+          "visible_changed_fraction": 0.18457,
+          "exact_rgba_changed_pixels": 1512,
+          "changed_bbox": [
+            11,
+            10,
+            91,
+            53
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 10.776154
+        },
+        {
+          "from_frame": 5,
+          "to_frame": 6,
+          "comparable": true,
+          "visible_changed_pixels": 1566,
+          "visible_changed_fraction": 0.191162,
+          "exact_rgba_changed_pixels": 1566,
+          "changed_bbox": [
+            13,
+            10,
+            91,
+            53
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 11.459381
+        },
+        {
+          "from_frame": 6,
+          "to_frame": 7,
+          "comparable": true,
+          "visible_changed_pixels": 1319,
+          "visible_changed_fraction": 0.161011,
+          "exact_rgba_changed_pixels": 1319,
+          "changed_bbox": [
+            27,
+            14,
+            93,
+            53
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 10.812317
+        },
+        {
+          "from_frame": 7,
+          "to_frame": 8,
+          "comparable": true,
+          "visible_changed_pixels": 1048,
+          "visible_changed_fraction": 0.12793,
+          "exact_rgba_changed_pixels": 1048,
+          "changed_bbox": [
+            27,
+            10,
+            93,
+            53
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 7.218262
+        },
+        {
+          "from_frame": 8,
+          "to_frame": 9,
+          "comparable": true,
+          "visible_changed_pixels": 1611,
+          "visible_changed_fraction": 0.196655,
+          "exact_rgba_changed_pixels": 1611,
+          "changed_bbox": [
+            13,
+            10,
+            91,
+            53
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 12.261261
+        },
+        {
+          "from_frame": 9,
+          "to_frame": 10,
+          "comparable": true,
+          "visible_changed_pixels": 1248,
+          "visible_changed_fraction": 0.152344,
+          "exact_rgba_changed_pixels": 1248,
+          "changed_bbox": [
+            13,
+            14,
+            77,
+            53
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 9.70462
+        },
+        {
+          "from_frame": 10,
+          "to_frame": 11,
+          "comparable": true,
+          "visible_changed_pixels": 1143,
+          "visible_changed_fraction": 0.139526,
+          "exact_rgba_changed_pixels": 1143,
+          "changed_bbox": [
+            11,
+            14,
+            77,
+            53
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 8.593323
+        },
+        {
+          "from_frame": 11,
+          "to_frame": 12,
+          "comparable": true,
+          "visible_changed_pixels": 1512,
+          "visible_changed_fraction": 0.18457,
+          "exact_rgba_changed_pixels": 1512,
+          "changed_bbox": [
+            11,
+            10,
+            91,
+            53
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 10.776154
+        },
+        {
+          "from_frame": 12,
+          "to_frame": 13,
+          "comparable": true,
+          "visible_changed_pixels": 1566,
+          "visible_changed_fraction": 0.191162,
+          "exact_rgba_changed_pixels": 1566,
+          "changed_bbox": [
+            13,
+            10,
+            91,
+            53
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 11.459381
+        }
+      ],
+      "first_last_difference": {
+        "from_frame": 0,
+        "to_frame": 13,
+        "comparable": true,
+        "visible_changed_pixels": 1319,
+        "visible_changed_fraction": 0.161011,
+        "exact_rgba_changed_pixels": 1319,
+        "changed_bbox": [
+          27,
+          14,
+          93,
+          53
+        ],
+        "visually_identical": false,
+        "mean_absolute_rgba_difference": 10.812317
+      },
+      "reference": null,
+      "artifacts": {
+        "strip": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\review\\pair_pillow\\strip.png",
+        "contact_sheet": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\review\\pair_pillow\\contact_sheet.png",
+        "gif": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\review\\pair_pillow\\preview.gif",
+        "strip_cell_canvas": [
+          128,
+          64
+        ],
+        "strip_frame_rects": [
+          [
+            0,
+            0,
+            128,
+            64
+          ],
+          [
+            128,
+            0,
+            128,
+            64
+          ],
+          [
+            256,
+            0,
+            128,
+            64
+          ],
+          [
+            384,
+            0,
+            128,
+            64
+          ],
+          [
+            512,
+            0,
+            128,
+            64
+          ],
+          [
+            640,
+            0,
+            128,
+            64
+          ],
+          [
+            768,
+            0,
+            128,
+            64
+          ],
+          [
+            896,
+            0,
+            128,
+            64
+          ],
+          [
+            1024,
+            0,
+            128,
+            64
+          ],
+          [
+            1152,
+            0,
+            128,
+            64
+          ],
+          [
+            1280,
+            0,
+            128,
+            64
+          ],
+          [
+            1408,
+            0,
+            128,
+            64
+          ],
+          [
+            1536,
+            0,
+            128,
+            64
+          ],
+          [
+            1664,
+            0,
+            128,
+            64
+          ]
+        ],
+        "source_pixels_resampled": false,
+        "preview_scale": 4,
+        "preview_resampling": "nearest_neighbor",
+        "gif_background": "opaque_checkerboard",
+        "gif_encoded_frame_count": 14,
+        "gif_requested_durations_ms": [
+          130,
+          130,
+          130,
+          130,
+          130,
+          130,
+          130,
+          130,
+          130,
+          130,
+          130,
+          130,
+          130,
+          130
+        ],
+        "gif_encoded_durations_ms": [
+          130,
+          130,
+          130,
+          130,
+          130,
+          130,
+          130,
+          130,
+          130,
+          130,
+          130,
+          130,
+          130,
+          130
+        ],
+        "gif_requested_total_duration_ms": 1820,
+        "gif_encoded_total_duration_ms": 1820,
+        "gif_encoded_loop": 0,
+        "gif_encoding_note": "GIF使用10毫秒时间单位，编码器可能合并连续相同帧；逐帧表和原始横条始终保留全部输入帧。"
+      },
+      "limitations": [
+        "指标不能判断人体结构、服装一致性、道具语义或动作是否自然。",
+        "边缘接触仅提示可能裁切；透明像素中不可见的RGB不计入可见变化。",
+        "不同尺寸只在预览中以左上角放入最大画布，不修改或修复源帧。"
+      ]
+    },
+    {
+      "id": "pair_give_receive",
+      "label": "递接手势·书本尚未交接",
+      "direction": "paired",
+      "declared_canvas": [
+        128,
+        64
+      ],
+      "anchor": null,
+      "loop": false,
+      "review_status": "paired_contact_pending",
+      "visual_approval": "not_assessed_by_script",
+      "input_frame_count": 8,
+      "input_total_duration_ms": 960,
+      "bbox_convention": "left_top_inclusive_right_bottom_exclusive",
+      "review_flags": [
+        "edge_contact_requires_visual_review",
+        "adjacent_identical_frames"
+      ],
+      "frames": [
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_give_receive\\frame_00.png",
+          "sha256": "4ea916ee9c3cc5d9d90adf79938855eb13613b9a1ab83440fbdb1b153040e6af",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 53,
+          "visible_rgba_colors": 53,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_give_receive\\frame_01.png",
+          "sha256": "a02316b81f06a06c30483265d60fa4540b57f2fa47dafbca918754eb29763c73",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 75,
+          "visible_rgba_colors": 75,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_give_receive\\frame_02.png",
+          "sha256": "821ec6863c842af7e972d765814e4a435fd6cf8a921450c7ed7af4a5be3226ee",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 73,
+          "visible_rgba_colors": 73,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_give_receive\\frame_03.png",
+          "sha256": "1b366b18579079e78803aa99245a79b4e1fd69175e03dadac1ed47bc32fcac50",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 79,
+          "visible_rgba_colors": 79,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_give_receive\\frame_04.png",
+          "sha256": "0b836453b61ec178bda0e2e6c5e05517abcb9565aded4ff4448e02440c99ebe8",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 76,
+          "visible_rgba_colors": 76,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_give_receive\\frame_05.png",
+          "sha256": "28993d2006a5c4fc4501114bde7ac43e4ad1e693c2e95518728b5ae933aad119",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 77,
+          "visible_rgba_colors": 77,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_give_receive\\frame_06.png",
+          "sha256": "67ae67c43b072ee6a258aaaef711d1961924fc5c6425231aedc38b06353a47c3",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 76,
+          "visible_rgba_colors": 76,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        },
+        {
+          "path": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\pair_give_receive\\frame_07.png",
+          "sha256": "67ae67c43b072ee6a258aaaef711d1961924fc5c6425231aedc38b06353a47c3",
+          "dimensions": [
+            128,
+            64
+          ],
+          "matches_declared_canvas": true,
+          "visible_bbox": [
+            0,
+            0,
+            128,
+            64
+          ],
+          "visible_bbox_relative_to_anchor": null,
+          "alpha_weighted_centroid": [
+            63.5,
+            31.5
+          ],
+          "empty": false,
+          "transparent_pixels": 0,
+          "partial_alpha_pixels": 0,
+          "opaque_pixels": 8192,
+          "visible_pixels": 8192,
+          "unique_rgba_colors": 76,
+          "visible_rgba_colors": 76,
+          "edge_contacts": [
+            "left",
+            "top",
+            "right",
+            "bottom"
+          ],
+          "possible_edge_clipping": true
+        }
+      ],
+      "adjacent_differences": [
+        {
+          "from_frame": 0,
+          "to_frame": 1,
+          "comparable": true,
+          "visible_changed_pixels": 252,
+          "visible_changed_fraction": 0.030762,
+          "exact_rgba_changed_pixels": 252,
+          "changed_bbox": [
+            22,
+            14,
+            48,
+            50
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 1.56073
+        },
+        {
+          "from_frame": 1,
+          "to_frame": 2,
+          "comparable": true,
+          "visible_changed_pixels": 206,
+          "visible_changed_fraction": 0.025146,
+          "exact_rgba_changed_pixels": 206,
+          "changed_bbox": [
+            20,
+            14,
+            50,
+            51
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 1.572205
+        },
+        {
+          "from_frame": 2,
+          "to_frame": 3,
+          "comparable": true,
+          "visible_changed_pixels": 501,
+          "visible_changed_fraction": 0.061157,
+          "exact_rgba_changed_pixels": 501,
+          "changed_bbox": [
+            19,
+            16,
+            88,
+            52
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 3.060425
+        },
+        {
+          "from_frame": 3,
+          "to_frame": 4,
+          "comparable": true,
+          "visible_changed_pixels": 545,
+          "visible_changed_fraction": 0.066528,
+          "exact_rgba_changed_pixels": 545,
+          "changed_bbox": [
+            19,
+            20,
+            89,
+            52
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 4.051514
+        },
+        {
+          "from_frame": 4,
+          "to_frame": 5,
+          "comparable": true,
+          "visible_changed_pixels": 440,
+          "visible_changed_fraction": 0.053711,
+          "exact_rgba_changed_pixels": 440,
+          "changed_bbox": [
+            25,
+            20,
+            89,
+            52
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 2.66571
+        },
+        {
+          "from_frame": 5,
+          "to_frame": 6,
+          "comparable": true,
+          "visible_changed_pixels": 351,
+          "visible_changed_fraction": 0.042847,
+          "exact_rgba_changed_pixels": 351,
+          "changed_bbox": [
+            58,
+            20,
+            89,
+            52
+          ],
+          "visually_identical": false,
+          "mean_absolute_rgba_difference": 1.973328
+        },
+        {
+          "from_frame": 6,
+          "to_frame": 7,
+          "comparable": true,
+          "visible_changed_pixels": 0,
+          "visible_changed_fraction": 0.0,
+          "exact_rgba_changed_pixels": 0,
+          "changed_bbox": null,
+          "visually_identical": true,
+          "mean_absolute_rgba_difference": 0.0
+        }
+      ],
+      "first_last_difference": {
+        "from_frame": 0,
+        "to_frame": 7,
+        "comparable": true,
+        "visible_changed_pixels": 776,
+        "visible_changed_fraction": 0.094727,
+        "exact_rgba_changed_pixels": 776,
+        "changed_bbox": [
+          23,
+          18,
+          85,
+          52
+        ],
+        "visually_identical": false,
+        "mean_absolute_rgba_difference": 5.365112
+      },
+      "reference": null,
+      "artifacts": {
+        "strip": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\review\\pair_give_receive\\strip.png",
+        "contact_sheet": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\review\\pair_give_receive\\contact_sheet.png",
+        "gif": "D:\\挂机上课\\assets\\pixel\\student01\\animation_batches\\2026-11-11\\paired_review\\review\\pair_give_receive\\preview.gif",
+        "strip_cell_canvas": [
+          128,
+          64
+        ],
+        "strip_frame_rects": [
+          [
+            0,
+            0,
+            128,
+            64
+          ],
+          [
+            128,
+            0,
+            128,
+            64
+          ],
+          [
+            256,
+            0,
+            128,
+            64
+          ],
+          [
+            384,
+            0,
+            128,
+            64
+          ],
+          [
+            512,
+            0,
+            128,
+            64
+          ],
+          [
+            640,
+            0,
+            128,
+            64
+          ],
+          [
+            768,
+            0,
+            128,
+            64
+          ],
+          [
+            896,
+            0,
+            128,
+            64
+          ]
+        ],
+        "source_pixels_resampled": false,
+        "preview_scale": 4,
+        "preview_resampling": "nearest_neighbor",
+        "gif_background": "opaque_checkerboard",
+        "gif_encoded_frame_count": 7,
+        "gif_requested_durations_ms": [
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120
+        ],
+        "gif_encoded_durations_ms": [
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          240
+        ],
+        "gif_requested_total_duration_ms": 960,
+        "gif_encoded_total_duration_ms": 960,
+        "gif_encoded_loop": null,
+        "gif_encoding_note": "GIF使用10毫秒时间单位，编码器可能合并连续相同帧；逐帧表和原始横条始终保留全部输入帧。"
+      },
+      "limitations": [
+        "指标不能判断人体结构、服装一致性、道具语义或动作是否自然。",
+        "边缘接触仅提示可能裁切；透明像素中不可见的RGB不计入可见变化。",
+        "不同尺寸只在预览中以左上角放入最大画布，不修改或修复源帧。"
+      ]
+    }
+  ]
+}

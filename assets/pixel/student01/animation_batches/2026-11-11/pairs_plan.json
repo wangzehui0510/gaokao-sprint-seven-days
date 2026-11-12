@@ -1,0 +1,196 @@
+{
+  "manifest_path": "curated_manifest.json",
+  "scenes": [
+    {
+      "id": "pair_wrestle",
+      "label": "掰手腕·僵持接触检查",
+      "canvas": [
+        96,
+        64
+      ],
+      "duration_ms": 170,
+      "loop": true,
+      "background_color": "#dedace",
+      "static_rectangles": [
+        {
+          "rect": [
+            28,
+            36,
+            61,
+            39
+          ],
+          "fill": "#b58a58",
+          "outline": "#493624"
+        },
+        {
+          "rect": [
+            31,
+            39,
+            34,
+            59
+          ],
+          "fill": "#89623f"
+        },
+        {
+          "rect": [
+            55,
+            39,
+            58,
+            59
+          ],
+          "fill": "#89623f"
+        }
+      ],
+      "actors": [
+        {
+          "clip_id": "A12_wrestle_east",
+          "position": [
+            10,
+            8
+          ],
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "clip_id": "A12_wrestle_west",
+          "position": [
+            18,
+            8
+          ],
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pair_pillow",
+      "label": "挥枕头·32px轻触参考，互击待完善",
+      "canvas": [
+        128,
+        64
+      ],
+      "duration_ms": 130,
+      "loop": true,
+      "background_color": "#dedace",
+      "static_rectangles": [
+        {
+          "rect": [
+            0,
+            53,
+            128,
+            64
+          ],
+          "fill": "#bcb49c"
+        }
+      ],
+      "actors": [
+        {
+          "clip_id": "A13_pillow_east",
+          "position": [
+            4,
+            9
+          ],
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "clip_id": "A13_pillow_west",
+          "position": [
+            36,
+            9
+          ],
+          "frame_indices": [
+            4,
+            5,
+            6,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            0,
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pair_give_receive",
+      "label": "递接手势·书本尚未交接",
+      "canvas": [
+        128,
+        64
+      ],
+      "duration_ms": 120,
+      "loop": false,
+      "background_color": "#dedace",
+      "actors": [
+        {
+          "clip_id": "B01_give_north",
+          "position": [
+            3,
+            8
+          ],
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "clip_id": "B01_receive_left_north",
+          "position": [
+            42,
+            8
+          ],
+          "frame_indices": [
+            0,
+            0,
+            0,
+            1,
+            2,
+            3,
+            4,
+            4
+          ]
+        }
+      ],
+      "static_rectangles": []
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "job_id": "ea20a7a0-7147-46d7-83e2-13ffeab80f3c",
+  "operation": "inpaint_image",
+  "source": "clean_crop_raw.png",
+  "mask": {"x": 36, "y": 55, "width": 60, "height": 54},
+  "output_method": "Modify current layer",
+  "description": "Erase remaining lectern fragments completely and continue the existing warm beige platform, dark grey edge and wall/chalkboard trim."
+}

@@ -1,0 +1,98 @@
+[
+  {
+    "frame": 0,
+    "changed_pixels": 636,
+    "change_bounds": [
+      4,
+      10,
+      29,
+      44
+    ],
+    "legs_below_y39_identical": false,
+    "partial_alpha": 0,
+    "canvas": [
+      32,
+      48
+    ]
+  },
+  {
+    "frame": 1,
+    "changed_pixels": 641,
+    "change_bounds": [
+      4,
+      10,
+      29,
+      44
+    ],
+    "legs_below_y39_identical": false,
+    "partial_alpha": 0,
+    "canvas": [
+      32,
+      48
+    ]
+  },
+  {
+    "frame": 2,
+    "changed_pixels": 623,
+    "change_bounds": [
+      5,
+      10,
+      29,
+      44
+    ],
+    "legs_below_y39_identical": false,
+    "partial_alpha": 0,
+    "canvas": [
+      32,
+      48
+    ]
+  },
+  {
+    "frame": 3,
+    "changed_pixels": 607,
+    "change_bounds": [
+      5,
+      10,
+      29,
+      44
+    ],
+    "legs_below_y39_identical": false,
+    "partial_alpha": 0,
+    "canvas": [
+      32,
+      48
+    ]
+  },
+  {
+    "frame": 4,
+    "changed_pixels": 606,
+    "change_bounds": [
+      5,
+      10,
+      29,
+      44
+    ],
+    "legs_below_y39_identical": false,
+    "partial_alpha": 0,
+    "canvas": [
+      32,
+      48
+    ]
+  },
+  {
+    "frame": 5,
+    "changed_pixels": 621,
+    "change_bounds": [
+      5,
+      10,
+      29,
+      44
+    ],
+    "legs_below_y39_identical": false,
+    "partial_alpha": 0,
+    "canvas": [
+      32,
+      48
+    ]
+  }
+]

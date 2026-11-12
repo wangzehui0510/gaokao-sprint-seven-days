@@ -41,6 +41,12 @@ func _fixture(seconds: float, seed_value: int = 261107) -> Dictionary:
 		return {}
 	# 本组独立核对镜头与主动动作表现；自主竞争由AI集成组验收，避免随机邀请改变预设场景。
 	simulation.phase_scope.social_auto_actions = []
+	# 宿舍结伴候选同样隔离：夹具只验收既有单人活动与镜头表现，双人由专项组覆盖。
+	var personal_dorm: Array[String] = []
+	for action_id: String in simulation.phase_scope.dorm_auto_actions:
+		if action_id not in ["study_together", "roommate_game"]:
+			personal_dorm.append(action_id)
+	simulation.phase_scope.dorm_auto_actions = personal_dorm
 	var behavior := ClassroomBehaviorController.new()
 	root.add_child(behavior)
 	behavior.setup(simulation)
@@ -85,7 +91,9 @@ func _test_timetable_locations() -> void:
 				_check(room.visual_students[index].visible == here, "只呈现真实位于当前场景的角色")
 				_check(room.name_labels[index].visible == here and room.status_labels[index].visible == here, "姓名和状态与人物一同显示或隐藏")
 				var anchor: Vector2 = CampusSceneRenderer.student_anchor(location, index)
-				_check(room._student_at(anchor) == (index if here else -1), "脚点命中与真实可见性一致")
+				# 结伴同桌会把角色画离原座位：只有仍在原位（脚点等于锚点）的角色才要求锚点命中。
+				var expected_hit: int = index if here and room._together_foot(index) == anchor else -1
+				_check(room._student_at(anchor) == expected_hit, "脚点命中与真实可见性一致")
 				if here:
 					var action: Dictionary = simulation.students[index].current_action
 					var expected_status: String = String(configuration.actions[action.action_id].name)
@@ -99,8 +107,9 @@ func _test_timetable_locations() -> void:
 				room._update_geometry()
 				_check(room.pixel_scale == scale_value and room.room_origin == Vector2.ZERO, "四场景都采用原画整数缩放")
 				for index in 4:
-					var expected: int = index if simulation.student_location(index) == location else -1
-					_check(room._student_at(CampusSceneRenderer.student_anchor(location, index) * scale_value) == expected, "1x/2x命中使用相同原画脚点")
+					var anchor: Vector2 = CampusSceneRenderer.student_anchor(location, index)
+					var expected: int = index if simulation.student_location(index) == location and room._together_foot(index) == anchor else -1
+					_check(room._student_at(anchor * scale_value) == expected, "1x/2x命中使用相同原画脚点")
 			room.size = Vector2(384, 256)
 		room._process(200.0)
 		_check(_snapshot(simulation) == before, "观察四场景和播放画面不能改时间、资源、随机流、日志或榜单")
@@ -189,11 +198,13 @@ func _test_new_personal_actions() -> void:
 		_check(room.get_view_location() == simulation.student_location(0), "新增动作镜头跟随真实地点：" + scenario.id)
 		_check(room.visual_students[0].visible and room.visual_students[0].status == configuration.actions[scenario.id].name, "场景显示实际动作名称：" + scenario.id)
 		if scenario.id in ["standing_study", "chores"]:
-			_check(room.visual_students[0].pose == "standing" and room.rendered_frames[0] == 0, "站立类动作使用已有静态站姿：" + scenario.id)
+			var expected_clip: String = "A09_sweep_south" if scenario.id == "chores" else "A03_idle_south"
+			_check(room.visual_students[0].pose == "standing" and room.rendered_clips[0] == expected_clip, "站立类动作读取对应正式动画：" + scenario.id)
+			var first_frame: int = room.rendered_frames[0]
 			room._process(0.7)
-			_check(room.rendered_frames[0] == 0, "静态站姿不冒充清扫或走动动画：" + scenario.id)
+			_check(room.rendered_frames[0] != first_frame and room.rendered_clips[0] == expected_clip, "扫地和站立待机按自身帧时长播放：" + scenario.id)
 		elif scenario.id == "lunch_rest":
-			_check(room.visual_students[0].pose == "sleep", "午间休息复用已有休息坐姿")
+			_check(room.rendered_clips[0] == "A03_relax_north", "教室午间休息使用放松坐姿，不画成趴睡")
 		for location: String in ClassroomView.LOCATION_NAMES:
 			room.set_view_location(location)
 			room._update_geometry()

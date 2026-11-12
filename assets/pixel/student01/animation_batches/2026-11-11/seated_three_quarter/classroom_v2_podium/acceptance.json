@@ -1,0 +1,36 @@
+{
+  "status": "isolated_gpu_and_visual_review_passed",
+  "date": "2026-11-11",
+  "source_manifest_sha256": "6fb82c5bbe8ffb28a34d0c37394e106b31664dc0a14c0a2ca8b9a1a4f6b81d7b",
+  "source_count": 17,
+  "checks": 880,
+  "failures": [],
+  "capture_count": 158,
+  "normal_capture_count": 156,
+  "geometry_guide_capture_count": 2,
+  "normal_gpu_cpu_different_rgba_pixels": 0,
+  "gpu_environment": {
+    "application": "PodiumClassroomGpuQa_20261111",
+    "isolated_user_dir": "C:/Users/admin/AppData/Roaming/PodiumClassroomGpuQa_20261111",
+    "display_server": "Windows",
+    "gpu_adapter": "Intel(R) UHD Graphics 770",
+    "rendering_method": "gl_compatibility"
+  },
+  "podium_adoption": {
+    "raw_edit_outside_mask_changed_pixels": 15471,
+    "adopted_outside_mask_changed_pixels": 0,
+    "adopted_inside_vs_raw_changed_pixels": 0,
+    "changed_scene_pixels": 5009,
+    "teacher_foot_anchor": [
+      292,
+      132
+    ],
+    "teacher_foot_inside_platform_top": true
+  },
+  "visual_review": {
+    "main_agent": "已查看实际GPU完整场景、空桌椅、六帧工位、平台局部与几何引导，未发现新增问题。",
+    "independent_qa": "已完成六帧原生全景、工位、手笔、空家具、平台覆盖层与老师预留区目检，报告无未解决问题。"
+  },
+  "production_integration": false,
+  "teacher_asset_generated": false
+}
